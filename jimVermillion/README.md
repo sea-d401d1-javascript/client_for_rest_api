@@ -1,4 +1,17 @@
 ##Client for your REST API
+###Getting Started
+Install dependencies, make a db directory for mongo, and startup the backend server
+```
+npm install
+mkdir jimVermillion/db
+mongod --dbpath=./jimVermillion/db --smallfiles
+node jimVermillion/server.js
+```
+Then start the front-end server 
+```
+node jimVermillionFE/server.js
+```
+and visit the client in your browser: `localhost:5000`
 
 ###To Submit this Assignment
 
