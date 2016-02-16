@@ -10,7 +10,7 @@ const request = chai.request;
 
 describe('the user/gardener POST to a gardener api', () => {
   before( done => {
-    //this.testUser = { email: 'testUser', password: 'password' };
+    this.testUser = { email: 'testUser', password: 'password' };
     // signup user and collect the token
     request('localhost:3000')
       .post('/api/signup')
