@@ -10,6 +10,13 @@ const gardenerRouter = require(__dirname + '/routes/gardenerRouter');
 const nonCrudRouter = require(__dirname + '/routes/nonCrudRouter');
 const userRouter = require(__dirname + '/routes/userRoutes');
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+}); 
+
 app.use('/api', flowerRouter);
 app.use('/api', gardenerRouter);
 app.use('/api', userRouter);

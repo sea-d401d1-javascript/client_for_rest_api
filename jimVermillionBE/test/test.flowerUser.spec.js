@@ -34,6 +34,7 @@ describe('the user/flower POST to a flower api', () => {
       .set('token', this.token)
       .send({ name: 'testerFlower' })
       .end((err, res) => {
+        this.flower = res.body;
         expect(err).to.eql(null);
         expect(res.body).to.have.property('name');
         expect(res.body.name).to.eql('testerFlower');
@@ -49,6 +50,18 @@ describe('the user/flower POST to a flower api', () => {
         expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.eql(true);
         expect(res.body.length).to.eql(1);
+        done();
+    });
+  });
+
+  it('should delete the data from flower created by user -- DELETE', done => {
+    request('localhost:3000')
+      .delete('/api/flowers/' + this.flower._id)
+      .set('token', this.token)
+      .end((err, res) => {
+        expect(err).to.eql(null);
+        expect(res.body).to.have.property('msg');
+        expect(res.body.msg).to.eql('success');
         done();
     });
   });
