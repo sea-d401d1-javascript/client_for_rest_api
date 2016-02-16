@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sharks</title>
+  </head>
+  <body data-ng-app="sharksApp">
+
+  </body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super Shark</title>
+</head>
+<body data-ng-app="sharksApp">
+  <div data-ng-controller="sharksController">
+    <h1>Sharks!!!!:</h1>
+    <ul>
+      <li data-ng-repeat="shark in sharks">{{shark.name}}, {{shark.size}}
+        <button data-ng-click="deleteShark(shark)">Delete Shark</button>
+        <button data-ng-click="shark.editting = !shark.editting">Update Shark</button>
+        <form data-ng-if="shark.editting" data-ng-submit="updateShark(shark)">
+          <input data-ng-model="shark.name" type="text"/>
+          <input data-ng-model="shark.size" type="text"/>
+          <button type="submit">Update</button>
+        </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createShark(newShark)">
+      <input data-ng-model="newShark.name" type="text" placeholder="Name"/>
+      <input data-ng-model="newShark.size" type="text" placeholder="Size"/>
+      <button type="submit">New Shark</button>
+    </form>
+  </div>
+
+  <div data-ng-controller="peoplesController">
+    <h1>People!!!!:</h1>
+    <ul>
+      <li data-ng-repeat="people in peoples">{{people.name}}, {{people.weapon}}
+        <button data-ng-click="deletePeople(people)">Delete People</button>
+        <button data-ng-click="people.editting = !people.editting">Update People</button>
+        <form data-ng-if="people.editting" data-ng-submit="updatePeople(people)">
+          <input data-ng-model="people.name" type="text"/>
+          <input data-ng-model="people.weapon" type="text"/>
+          <button type="submit">Update</button>
+        </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createPeople(newPeople)">
+      <input data-ng-model="newPeople.name" type="text" placeholder="Name"/>
+      <input data-ng-model="newPeople.weapon" type="text" placeholder="Weapon choice"/>
+      <button type="submit">New Person</button>
+    </form>
+  </div>
+
+  <script src="bundle.js"></script>
+</body>
+</html>
