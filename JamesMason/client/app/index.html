@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="An application to determine the tendency of the Force.">
+		<meta name="author" content="James Mason">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>Force Balancer</title>
+		<link rel="stylesheet" href="css/style.css" media="all" type="text/css" title="Client Application Stylesheet">
+	</head>
+	<body data-ng-app="forceApp">
+		<script src="js/bundle.min.js" type="text/javascript" title="Webpack Javascript Bundle"></script>
+	  <main data-ng-controller="forceController">
+	    <h1>Light Jedi:</h1>
+	    <ul>
+	      <li data-ng-repeat="Jedi in jedi">{{Jedi.name}}, {{Jedi.flavor}}
+	        <button data-ng-click="deleteJedi(Jedi)">Delete Jedi</button>
+	        <button data-ng-click="Jedi.editting = !Jedi.editting">Update Jedi</button>
+	        <form data-ng-if="Jedi.editting" data-ng-submit="updateJedi(Jedi)">
+	          <input data-ng-model="Jedi.name" type="text"/>
+	          <input data-ng-model="Jedi.flavor" type="text"/>
+	          <button type="submit">Update</button>
+	        </form>
+	      </li>
+	    </ul>
+	    <form data-ng-submit="createJedi(newJedi)">
+	      <input data-ng-model="newJedi.name" type="text"/>
+	      <input data-ng-model="newJedi.flavor" type="text"/>
+	      <button type="submit">Create Jedi</button>
+	    </form>
+	    <p>{{jedi}}</p>
+	  </main>
+	</body>
+</html>
