@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/**/test*.js"
+    "test": "./node_modules/mocha/bin/mocha test/**/*.spec.js"
   },
   "keywords": [],
-  "author": "Yueyue Qin, Gene Troy, Aaron Filson, Cameron Forras, James Vermillion",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
