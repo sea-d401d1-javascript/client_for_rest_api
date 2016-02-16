@@ -1,0 +1,26 @@
+{
+  "name": "angular_client_side",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yueyue07/angular_client_side.git"
+  },
+  "author": "Yueyue Qin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yueyue07/angular_client_side/issues"
+  },
+  "homepage": "https://github.com/Yueyue07/angular_client_side#readme",
+  "devDependencies": {
+    "angular": "^1.5.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "webpack-stream": "^3.1.0"
+  }
+}
