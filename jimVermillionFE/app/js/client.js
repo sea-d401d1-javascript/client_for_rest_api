@@ -5,24 +5,28 @@ const angular = require('angular');
 
 var flowerApp = angular.module('flower', []);
 
-flowerApp.controller('flowerController',
-  ['$scope', '$http', function($scope, $http) {
+flowerApp.controller('FlowerController',
+  ['$scope', '$http', ($scope, $http) => {
+  $scope.flowers = [];
+  $scope.getAll = function() {
+    $http.get('http://localhost:3000/api/flowers')
+      .then((res) => {
+        console.log('flower success!');
+        $scope.flowers = res.data;
+      }, (err) => {
+        console.log(err);
+      });
 
-  $http.get('http://localhost:3000/api/flowers')
-    .then((res) => {
-      console.log('flower success!');
-      $scope.flowers = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+    $http.get('http://localhost:3000/api/gardeners')
+      .then((res) => {
+        console.log('gardener success!');
+        $scope.gardeners = res.data;
+      }, (err) => {
+        console.log(err);
+      });
 
-  $http.get('http://localhost:3000/api/gardeners')
-    .then((res) => {
-      console.log('gardener success!');
-      $scope.gardeners = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+    $scope.nC();
+  };
 
   $scope.nC = function() {
     $http.get('http://localhost:3000/nonCrud/howManyFlowers')
@@ -33,7 +37,6 @@ flowerApp.controller('flowerController',
         console.log(err);
       });
   };
-  $scope.nC();
 
   $scope.postFlower = function(flower) {
     $http.post('http://localhost:3000/api/flowers', flower)
@@ -49,7 +52,7 @@ flowerApp.controller('flowerController',
   $scope.updateFlower = function(flower) {
     $http.put('http://localhost:3000/api/flowers/' + flower._id, flower)
       .then((res) => {
-        console.log(res.message);
+        console.log(res.data);
         flower.editting = false;
       }, (err) => {
         console.log(err);
@@ -58,7 +61,6 @@ flowerApp.controller('flowerController',
   };
 
   $scope.deleteFlower = function(flower) {
-    console.log(flower._id);
     $http.delete('http://localhost:3000/api/flowers/' + flower._id)
       .then((res) => {
         console.log(res.message);
@@ -81,7 +83,6 @@ flowerApp.controller('flowerController',
   };
 
   $scope.deleteGardener = function(gardener) {
-    console.log(gardener._id);
     $http.delete('http://localhost:3000/api/gardeners/' + gardener._id)
       .then((res) => {
         console.log(res.message);
@@ -95,7 +96,7 @@ flowerApp.controller('flowerController',
   $scope.updateGardener = function(gardener) {
     $http.put('http://localhost:3000/api/gardeners/' + gardener._id, gardener)
       .then((res) => {
-        console.log(res.message);
+        console.log(res.data);
         gardener.editting = false;
       }, (err) => {
         console.log(err);
