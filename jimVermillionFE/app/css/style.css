@@ -1,0 +1,12 @@
+section{
+  border: 1px solid brown;
+  max-width: 450px;
+  margin: 10px auto;
+}
+h1, h2, h3, p {
+  border: 1px solid red;
+  max-width: 200px;
+  text-align: center;
+  margin: auto;
+  padding: 5px;
+}
