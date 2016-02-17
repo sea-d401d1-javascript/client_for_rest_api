@@ -103,8 +103,7 @@
 	      expect($scope.sharks.length).toBe(1);
 	      expect($scope.newShark).toBe(null);
 	      expect($scope.sharks[0].name).toBe('the response shark');
-	    });
-	    
+	    });    
 	  });
 	});//End of testing SharksController
 
