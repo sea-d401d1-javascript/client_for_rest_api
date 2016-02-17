@@ -3,6 +3,7 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const gutil = require('gulp-util');
 const webpack = require('webpack-stream');
+//const babel = require('babel-loader');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -20,6 +21,16 @@ gulp.task('webpack:dev', () => {
 });
 
 gulp.task('build:dev', ['webpack:dev', 'html:dev']);
+
+gulp.task('webpack:test', () => {
+  gulp.src(__dirname + '/test/test_entry.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test/'));
+});
 
 gulp.task('mocha', function() {
   return gulp.src(['test/**/*test.js'], { read: false })

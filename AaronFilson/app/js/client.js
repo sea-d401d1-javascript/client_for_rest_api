@@ -2,7 +2,7 @@ const angular = require('angular');
 //now for great fun!
 const activityApp = angular.module('activityApp', []);
 
-activityApp.controller('activityController', ['$scope', '$http', ($scope, $http) => {
+activityApp.controller('ActivityController', ['$scope', '$http', ($scope, $http) => {
   $scope.activity = [];
 
   $http.get('http://localhost:3050/api/activity')
