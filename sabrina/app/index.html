@@ -56,9 +56,8 @@
 		<h2>Sign Up!</h2>
 		<form data-ng-submit='createDonor(donor)'>
 			<input data-ng-model='donor.username' type='text' placeholder='Username'/>
-			<input data-ng-model='donor.organisation' type='text' placeholder='Organisation'/>
-			<input data-ng-model='donor.authentication.email' type='text' placeholder='Email'/>
-			<input data-ng-model='donor.authentication.password' type='text' placeholder='Password'/>
+			<input data-ng-model='donor.email' type='text' placeholder='Email'/>
+			<input data-ng-model='donor.password' type='text' placeholder='Password'/>
 			<button type='submit'>Sign Up!</button>
 		</form>
 	</section>
