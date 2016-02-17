@@ -2,24 +2,28 @@ const angular = require('angular');
 
 const hogcApp = angular.module('hogcApp', []);
 
-hogcApp.controller('requestsController', ['$scope', '$http', ($scope, $http) => {
+hogcApp.controller('RequestsController', ['$scope', '$http', function($scope, $http) {
   $scope.requests = [];
 
-  $http.get('http://localhost:3000/api/requestsAll')
-    .then((res) => {
-      console.log('success getting all requests!');
-      $scope.requests = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAllRequests = function() {
+    $http.get('http://localhost:3000/api/requestsAll')
+      .then((res) => {
+        console.log('success getting all requests!');
+        $scope.requests = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
-  $http.get('http://localhost:3000/api/requestsUnclaimed')
-    .then((res) => {
-      console.log('success getting unclaimed requests!');
-      $scope.requestsUnclaimed = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getUnclaimed = function() {
+    $http.get('http://localhost:3000/api/requestsUnclaimed')
+      .then((res) => {
+        console.log('success getting unclaimed requests!');
+        $scope.requestsUnclaimed = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
   $scope.createRequest = (request) => {
     $http.post('http://localhost:3000/api/requests', request)
@@ -66,16 +70,18 @@ hogcApp.controller('requestsController', ['$scope', '$http', ($scope, $http) => 
   };
 }]);
 
-hogcApp.controller('donorsController', ['$scope', '$http', ($scope, $http) => {
+hogcApp.controller('DonorsController', ['$scope', '$http', function($scope, $http) {
   $scope.donors = [];
 
-  $http.get('http://localhost:3000/api/donors')
-    .then((res) => {
-      console.log('success getting all donors!');
-      $scope.donors = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAllDonors = function() {
+    $http.get('http://localhost:3000/api/donors')
+      .then((res) => {
+        console.log('success getting all donors!');
+        $scope.donors = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
   $scope.createDonor = (donor) => {
     $http.post('http://localhost:3000/signup', donor)

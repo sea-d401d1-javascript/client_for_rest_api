@@ -5,7 +5,7 @@
 	<title>House of Gift Cards</title>
 </head>
 <body data-ng-app="hogcApp">
-  <section data-ng-controller="requestsController">
+  <section data-ng-controller="RequestsController" data-ng-init='getAllRequests()'>
     <h1>All Requests</h1>
 		<ul>
 			<li data-ng-repeat='request in requests'> {{request.firstName}} {{request.lastName}} - {{request.giftCard}}
@@ -20,7 +20,7 @@
 				</form>
 			</li>
 		</ul>
-		<h2>Add A Request!</h2>
+		<h2 data-ng-init='getUnclaimed()'>Add A Request!</h2>
 		<p>Currently, only accepting gift cards from: QFC, Amazon, Petco, Best Buy</p>
 		<form data-ng-submit='createRequest(newRequest)'>
 			<input data-ng-model='newRequest.firstName' type='text' placeholder='First Name'/>
@@ -39,7 +39,7 @@
 			</form>
 		</li>
   </section>
-	<section data-ng-controller="donorsController">
+	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
 		<h1>All Donors</h1>
 		<ul>
 			<li data-ng-repeat='donor in donors'> {{donor.username}} at {{donor.organisation}} - Donor ID: {{donor._id}}, Email: {{donor.authentication.email}}
