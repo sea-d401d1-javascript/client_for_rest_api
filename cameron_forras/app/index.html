@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body data-ng-app="studentsApp">
+  <main data-ng-controller="studentsController">
+    <h1>STUDENTS!!!!:</h1>
+    <ul>
+      <li data-ng-repeat="student in students">{{student.name}}, {{student.major}}
+        <button data-ng-click="deleteStudent(student)">Delete Student</button>
+        <button data-ng-click="student.editing = !student.editing">Update Student</button>
+        <form data-ng-if="student.editing" data-ng-submit="updateStudent(student)">
+          <input data-ng-model="student.name" type="text"/>
+          <input data-ng-model="student.major" type="text"/>
+          <button type="submit"/>Update</button>
+        </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createStudent(newStudent)">
+        <input data-ng-model="newStudent.name" type="text"/>
+        <input data-ng-model="newStudent.major" type="text"/>
+        <button type="submit"/>New Student</button>
+      </form>
+    <p>{{students}}</p>
+
+  </main>
+<!-- data is talking to HTML to not wory about it. ng signifys angular
+specif its part of the angular core. Do not use angular and jquery 
+at the same time. Jquery is not scope aware -->
+  <script src="bundle.js"></script>
+</body>
+</html>
