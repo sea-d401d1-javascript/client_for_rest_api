@@ -42,7 +42,7 @@ describe('People controller', () => {
       expect($scope.peoples[0].name).toBe('test person');
     });
 
-    it('should create a new bear', () => {
+    it('should create a new person', () => {
       $httpBackend.expectPOST('http://localhost:3000/api/people', {name: 'the sent person'}).respond(200, {name: 'the response person'});
       $scope.newPeople = {name: 'the new person'};
       $scope.createPeople({name: 'the sent person'});
