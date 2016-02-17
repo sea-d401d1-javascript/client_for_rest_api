@@ -1,7 +1,7 @@
 {
-  "name": "restapi",
+  "name": "restapi with angular features",
   "version": "0.1.0",
-  "description": "a simple restful api backed by mongo db",
+  "description": "a simple restful api backed by mongo db and client side features created with angular",
   "main": "server.js",
   "directories": {
     "test": "test"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jacethelefty/rest_api.git"
+    "url": "git+https://github.com/jacethelefty/client_for_rest_api"
   },
   "keywords": [
     "rest",
@@ -22,9 +22,9 @@
   "author": "Jason Montoya",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jacethelefty/rest_api/issues"
+    "url": "https://github.com/jacethelefty/client_for_rest_api/issues"
   },
-  "homepage": "https://github.com/jacethelefty/rest_api#readme",
+  "homepage": "https://github.com/jacethelefty/client_for_rest_api#readme",
   "dependencies": {
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
