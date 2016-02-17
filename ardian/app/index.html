@@ -17,7 +17,7 @@
 	<title>Super Shark</title>
 </head>
 <body data-ng-app="sharksApp">
-  <div data-ng-controller="sharksController">
+  <div data-ng-controller="SharksController" data-ng-init="getAll()">
     <h1>Sharks!!!!:</h1>
     <ul>
       <li data-ng-repeat="shark in sharks">{{shark.name}}, {{shark.size}}
@@ -37,7 +37,7 @@
     </form>
   </div>
 
-  <div data-ng-controller="peoplesController">
+  <div data-ng-controller="PeoplesController">
     <h1>People!!!!:</h1>
     <ul>
       <li data-ng-repeat="people in peoples">{{people.name}}, {{people.weapon}}

@@ -1,17 +1,19 @@
 const angular = require('angular');
 
-const myApp = angular.module('sharksApp', []);
+const myApp = angular.module('myApp', []);
 
-myApp.controller('sharksController', ['$scope', '$http', ($scope, $http) => {
+myApp.controller('SharksController', ['$scope', '$http', function($scope, $http) {
   $scope.sharks = [];
 
-  $http.get('http://localhost:3000/api/sharks')
-    .then((res) => {
-      console.log('success!');
-      $scope.sharks = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAllSharks = function() {
+    $http.get('http://localhost:3000/api/sharks')
+      .then((res) => {
+        console.log('success!');
+        $scope.sharks = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  }
 
   $scope.createShark = function(shark) {
     $http.post('http://localhost:3000/api/sharks', shark)
@@ -44,9 +46,10 @@ myApp.controller('sharksController', ['$scope', '$http', ($scope, $http) => {
   }
 }]);
 
-myApp.controller('peoplesController', ['$scope', '$http', ($scope, $http) => {
+myApp.controller('PeoplesController', ['$scope', '$http', function($scope, $http) {
   $scope.peoples = [];
 
+$scope.getAllPeople = function() {
   $http.get('http://localhost:3000/api/people')
     .then((res) => {
       console.log('success!');
@@ -54,7 +57,7 @@ myApp.controller('peoplesController', ['$scope', '$http', ($scope, $http) => {
     }, (err) => {
       console.log(err);
     });
-
+}
   $scope.createPeople = function(people) {
     $http.post('http://localhost:3000/api/people', people)
       .then((res) => {
