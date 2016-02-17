@@ -1,17 +1,35 @@
-#Add Authentication to your Two Resource App for Codefellows 401 js
+##Client for your REST API
+###Getting Started
+Install dependencies, make a db directory for mongo, and startup the backend server
+```
+npm install
+mkdir jimVermillion/db
+mongod --dbpath=./jimVermillion/db --smallfiles
+node jimVermillion/server.js
+```
+Then start the front-end server 
+```
+node jimVermillionFE/server.js
+```
+and visit the client in your browser: `localhost:5000`
 
-##Description
-Authentication has been added using BasicHTTP and Tokens to the double resource. Validation has been added to make sure all incoming usernames are unique. Thanks for viewing.
+###To Submit this Assignment
 
-##Rubric
-###Use of Express: 3pts
-☑ complete!
+- fork this repository
+- write all of your code in a folder containing your name
+- push to your repository
+- submit a pull request to this repository
+- submit a link to your PR in canvas
 
-###Use of Mongo: 3pts 
-☑ complete!
+###Description
+Write an Angular client for the two-resource REST API that you built with Node and Express.
 
-###Tests: 2pts
-☑ complete!
+###Rubric
 
-###Project Organization: 2pts
-☑ complete!
+Proper use of $scope: 2 pts
+
+Proper use of $http: 2 pts
+
+Proper REST requests: 2 pts
+
+CRUD methods: 4 pts
