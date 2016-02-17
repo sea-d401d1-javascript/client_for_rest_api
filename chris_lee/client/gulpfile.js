@@ -6,24 +6,15 @@ gulp.task('html:dev', () => {
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
-gulp.task('webpack_ct:dev', () => {
-  gulp.src(__dirname + '/app/js/ct_client.js')
+gulp.task('webpack:dev', () => {
+  gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
       output: {
-          filename: 'bundle_ct.js'
-      }
-    }))
-    .pipe(gulp.dest('build/js/'));
-});
-gulp.task('webpack_t:dev', () => {
-  gulp.src(__dirname + '/app/js/t_client.js')
-    .pipe(webpack({
-      output: {
-          filename: 'bundle_t.js'
+          filename: 'bundle.js'
       }
     }))
     .pipe(gulp.dest('build/js/'));
 });
 
-gulp.task('build:dev', ['webpack_ct:dev', 'webpack_t:dev', 'html:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev']);
 gulp.task('default', ['build:dev']);
