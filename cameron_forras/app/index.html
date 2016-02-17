@@ -24,7 +24,26 @@
         <button type="submit"/>New Student</button>
       </form>
     <p>{{students}}</p>
-
+  </main>
+  <main data-ng-controller="studentsController">
+  <h1>CLASSES!!!!</h1>
+  <ul>
+    <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
+      <button data-ng-click="delete_Class(_class)">Delete Class</button>
+        <button data-ng-click="_class.editing = !_class.editing">Update Class</button>
+        <form data-ng-if="_class.editing" data-ng-submit="update_Class(_class)">
+          <input data-ng-model="_class.name" type="text"/>
+          <input data-ng-model="_class.level" type="text"/>
+          <button type="submit"/>Update</button>
+        </form>
+      </li>
+    </ul>
+    <form data-ng-submit="create_Class(new_Class)">
+        <input data-ng-model="new_Class.name" type="text"/>
+        <input data-ng-model="new_Class.level" type="text"/>
+        <button type="submit"/>New Class</button>
+      </form>
+    <p>{{_classes}}</p>
   </main>
 <!-- data is talking to HTML to not wory about it. ng signifys angular
 specif its part of the angular core. Do not use angular and jquery 

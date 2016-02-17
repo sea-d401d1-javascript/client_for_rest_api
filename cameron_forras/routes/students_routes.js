@@ -3,7 +3,7 @@ const express = require('express');
 const jsonParser = require('body-parser').json();
 const Student = require(__dirname + '/../models/student');
 const handleDBError = require(__dirname + '/../lib/handle_db_error');
-const basicHTTP = require(__dirname + '/../lib/basic_http');
+
 
 var studentRouter = module.exports = exports = express.Router();
 
