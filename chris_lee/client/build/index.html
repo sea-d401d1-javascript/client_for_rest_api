@@ -4,71 +4,68 @@
     <meta charset="utf-8">
     <title>Counter-Strike Stream Adventure</title>
   </head>
-  <body data-ng-app="app">
+  <body data-ng-app="CSApp">
     <main>
       <h1>Super Awesome Counter-Strike App</h1>
-      <section data-ng-controller="ctController" data-ng-init="getCT()">
-      <h1>Counter-Terrorist Team:</h1>
+      <section data-ng-controller="CTController" data-ng-init="getCT()">
+        <h1>Counter-Terrorist Team:</h1>
 
-      <ul>
-        <li data-ng-repeat="ct in cts">{{ct.name}}
-          <button data-ng-click="deleteCT(ct)">Delete CT</button>
-          <button data-ng-click="ct.editting = !ct.editting">Update CT</button>
-          <form data-ng-submit="updateCT(ct)" data-ng-if="ct.editting">
-            <input data-ng-model="ct.name" placeholder="Name" type="text"/>
-            <input data-ng-model="ct.rifle" placeholder="Rifle" type="text"/>
-            <input data-ng-model="ct.pistol" placeholder="Pistol" type="text"/>
-            <input data-ng-model="ct.grenade" placeholder="Grenade" type="text"/>
-            <input data-ng-model="ct.organization" placeholder="Organization" type="text"/>
-            <button type="submit">Update</button>
-          </form>
-        </li>
-      </ul>
+        <ul>
+          <li data-ng-repeat="ct in cts">{{ct.name}}
+            <button data-ng-click="deleteCT(ct)">Delete CT</button>
+            <button data-ng-click="ct.editting = !ct.editting">Update CT</button>
+            <form data-ng-submit="updateCT(ct)" data-ng-if="ct.editting">
+              <input data-ng-model="ct.name" placeholder="Name" type="text"/>
+              <input data-ng-model="ct.rifle" placeholder="Rifle" type="text"/>
+              <input data-ng-model="ct.pistol" placeholder="Pistol" type="text"/>
+              <input data-ng-model="ct.grenade" placeholder="Grenade" type="text"/>
+              <input data-ng-model="ct.organization" placeholder="Organization" type="text"/>
+              <button type="submit">Update</button>
+            </form>
+          </li>
+        </ul>
 
-      <form data-ng-submit="createCT(newCT)">
-        <input data-ng-model="newCT.name" placeholder="Name" type="text"/>
-        <input data-ng-model="newCT.rifle" placeholder="Rifle" type="text"/>
-        <input data-ng-model="newCT.pistol" placeholder="Pistol" type="text"/>
-        <input data-ng-model="newCT.grenade" placeholder="Grenade" type="text"/>
-        <input data-ng-model="newCT.organization" placeholder="Organization" type="text"/>
-        <button type="submit">New CT</button>
-      </form>
-
-      <p>{{cts}}</p>
-    </section>
-
-    <section data-ng-controller="tController" data-ng-init="getT()">
-    <h1>Terrorist Team:</h1>
-
-    <ul>
-      <li data-ng-repeat="t in ts">{{t.name}}
-        <button data-ng-click="deleteT(t)">Delete T</button>
-        <button data-ng-click="t.editting = !t.editting">Update T</button>
-        <form data-ng-submit="updateT(t)" data-ng-if="t.editting">
-          <input data-ng-model="t.name" placeholder="Name" type="text"/>
-          <input data-ng-model="t.rifle" placeholder="Rifle" type="text"/>
-          <input data-ng-model="t.pistol" placeholder="Pistol" type="text"/>
-          <input data-ng-model="t.grenade" placeholder="Grenade" type="text"/>
-          <input data-ng-model="t.organization" placeholder="Organization" type="text"/>
-          <button type="submit">Update</button>
+        <form data-ng-submit="createCT(newCT)">
+          <input data-ng-model="newCT.name" placeholder="Name" type="text"/>
+          <input data-ng-model="newCT.rifle" placeholder="Rifle" type="text"/>
+          <input data-ng-model="newCT.pistol" placeholder="Pistol" type="text"/>
+          <input data-ng-model="newCT.grenade" placeholder="Grenade" type="text"/>
+          <input data-ng-model="newCT.organization" placeholder="Organization" type="text"/>
+          <button type="submit">New CT</button>
         </form>
-      </li>
-    </ul>
 
-    <form data-ng-submit="createT(newT)">
-      <input data-ng-model="newT.name" placeholder="Name" type="text"/>
-      <input data-ng-model="newT.rifle" placeholder="Rifle" type="text"/>
-      <input data-ng-model="newT.pistol" placeholder="Pistol" type="text"/>
-      <input data-ng-model="newT.grenade" placeholder="Grenade" type="text"/>
-      <input data-ng-model="newT.organization" placeholder="Organization" type="text"/>
-      <button type="submit">New T</button>
-    </form>
+        <p>{{cts}}</p>
+      </section>
 
-    <p>{{ts}}</p>
-  </section>
+      <section data-ng-controller="TController" data-ng-init="getT()">
+        <h1>Terrorist Team:</h1>
 
+        <ul>
+          <li data-ng-repeat="t in ts">{{t.name}}
+            <button data-ng-click="deleteT(t)">Delete T</button>
+            <button data-ng-click="t.editting = !t.editting">Update T</button>
+            <form data-ng-submit="updateT(t)" data-ng-if="t.editting">
+              <input data-ng-model="t.name" placeholder="Name" type="text"/>
+              <input data-ng-model="t.rifle" placeholder="Rifle" type="text"/>
+              <input data-ng-model="t.pistol" placeholder="Pistol" type="text"/>
+              <input data-ng-model="t.grenade" placeholder="Grenade" type="text"/>
+              <input data-ng-model="t.organization" placeholder="Organization" type="text"/>
+              <button type="submit">Update</button>
+            </form>
+          </li>
+        </ul>
 
+        <form data-ng-submit="createT(newT)">
+          <input data-ng-model="newT.name" placeholder="Name" type="text"/>
+          <input data-ng-model="newT.rifle" placeholder="Rifle" type="text"/>
+          <input data-ng-model="newT.pistol" placeholder="Pistol" type="text"/>
+          <input data-ng-model="newT.grenade" placeholder="Grenade" type="text"/>
+          <input data-ng-model="newT.organization" placeholder="Organization" type="text"/>
+          <button type="submit">New T</button>
+        </form>
 
+        <p>{{ts}}</p>
+      </section>
     </main>
     <script src="js/bundle.js"></script>
   </body>

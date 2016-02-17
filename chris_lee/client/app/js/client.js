@@ -1,10 +1,10 @@
 const angular = require('angular');
 
-const app = angular.module('app', []);
+const app = angular.module('CSApp', []);
 const ctBaseUri = 'http://localhost:3000/api/ct';
 const tBaseUri = 'http://localhost:3000/api/t';
 
-app.controller('ctController', ['$scope', '$http', ($scope, $http) => {
+app.controller('CTController', ['$scope', '$http', function($scope, $http) {
   $scope.cts = [];
 
   $scope.getCT = function() {
@@ -49,7 +49,7 @@ app.controller('ctController', ['$scope', '$http', ($scope, $http) => {
 
 }])
 
-.controller('tController', ['$scope', '$http', ($scope, $http) => {
+.controller('TController', ['$scope', '$http', function($scope, $http) {
   $scope.ts = [];
 
   $scope.getT = function() {
