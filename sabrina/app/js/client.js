@@ -63,7 +63,7 @@ hogcApp.controller('RequestsController', ['$scope', '$http', function($scope, $h
     $http.delete('http://localhost:3000/api/requests/' + request._id)
       .then((res) => {
         console.log('success deleting request!');
-        $scope.requests = $scope.requests.filter((i) => i !== request);
+        $scope.requests = $scope.requests.filter((i) => i._id !== request._id);
       }, (err) => {
         console.log(err);
       });
@@ -110,7 +110,7 @@ hogcApp.controller('DonorsController', ['$scope', '$http', function($scope, $htt
     $http.delete('http://localhost:3000/api/donors/' + donor._id)
       .then((res) => {
         console.log('success deleting donor!');
-        $scope.donors = $scope.donors.filter((i) => i !== donor);
+        $scope.donors = $scope.donors.filter((i) => i._id !== donor._id);
       }, (err) => {
         console.log(err);
       });

@@ -75,13 +75,12 @@ describe('requests controller', () => {
       expect(claimedRequest.editing).toBe(false);
     });
 
-    // it('should DELETE a request', () => {
-    //   $httpBackend.expectDELETE('http://localhost:3000/api/requests/1').respond(200);
-    //   $scope.requests = [{_id: 1}, {_id: 2}];
-    //   $scope.deleteRequest({_id: 1});
-    //   $httpBackend.flush();
-    //   expect($scope.requests.length).toBe(1);
-    //   expect($scope.requests[0]._id).toBe(2);
-    // });
+    it('should DELETE a request at /api/requests/[req._id]', () => {
+      $scope.requests = [{_id: 1}];
+      $httpBackend.expectDELETE('http://localhost:3000/api/requests/1').respond(200);
+      $scope.deleteRequest({_id: 1});
+      $httpBackend.flush();
+      expect($scope.requests.length).toBe(0);
+    });
   });
 });

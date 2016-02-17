@@ -57,5 +57,13 @@ describe('donors controller', () => {
       $httpBackend.flush();
       expect(updatedDonor.editing).toBe(false);
     });
+
+    it('should DELETE a request at /api/donors/[donor._id]', () => {
+      $scope.donors = [{_id: 1}];
+      $httpBackend.expectDELETE('http://localhost:3000/api/donors/1').respond(200);
+      $scope.deleteDonor({_id: 1});
+      $httpBackend.flush();
+      expect($scope.donors.length).toBe(0);
+    });
   });
 });
