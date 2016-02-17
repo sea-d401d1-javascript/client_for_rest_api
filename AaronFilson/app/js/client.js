@@ -1,5 +1,5 @@
 const angular = require('angular');
-
+//now for great fun!
 const activityApp = angular.module('activityApp', []);
 
 activityApp.controller('activityController', ['$scope', '$http', ($scope, $http) => {

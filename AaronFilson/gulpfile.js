@@ -23,8 +23,7 @@ gulp.task('build:dev', ['webpack:dev', 'html:dev']);
 
 gulp.task('mocha', function() {
   return gulp.src(['test/**/*test.js'], { read: false })
-    .pipe(mocha())
-    .on('error', gutil.log);
+    .pipe(mocha());
 });
 
 gulp.task('watch-mocha', function() {
