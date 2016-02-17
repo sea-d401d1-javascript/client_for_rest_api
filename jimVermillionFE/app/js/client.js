@@ -11,7 +11,6 @@ flowerApp.controller('FlowerController',
   $scope.getAll = function() {
     $http.get('http://localhost:3000/api/flowers')
       .then((res) => {
-        console.log('flower success!');
         $scope.flowers = res.data;
       }, (err) => {
         console.log(err);
@@ -19,7 +18,6 @@ flowerApp.controller('FlowerController',
 
     $http.get('http://localhost:3000/api/gardeners')
       .then((res) => {
-        console.log('gardener success!');
         $scope.gardeners = res.data;
       }, (err) => {
         console.log(err);
@@ -31,7 +29,6 @@ flowerApp.controller('FlowerController',
   $scope.nC = function() {
     $http.get('http://localhost:3000/nonCrud/howManyFlowers')
       .then((res) => {
-        console.log('gardener success!');
         $scope.nonCrud = res.data;
       }, (err) => {
         console.log(err);
@@ -52,7 +49,7 @@ flowerApp.controller('FlowerController',
   $scope.updateFlower = function(flower) {
     $http.put('http://localhost:3000/api/flowers/' + flower._id, flower)
       .then((res) => {
-        console.log(res.data);
+        console.log('update: ' + res.data.msg);
         flower.editting = false;
       }, (err) => {
         console.log(err);
@@ -63,7 +60,7 @@ flowerApp.controller('FlowerController',
   $scope.deleteFlower = function(flower) {
     $http.delete('http://localhost:3000/api/flowers/' + flower._id)
       .then((res) => {
-        console.log(res.message);
+        console.log('delete: ' + res.data.msg);
         $scope.flowers = $scope.flowers.filter((i) => i !== flower);
         $scope.nC();
       }, (err) => {
@@ -85,7 +82,7 @@ flowerApp.controller('FlowerController',
   $scope.deleteGardener = function(gardener) {
     $http.delete('http://localhost:3000/api/gardeners/' + gardener._id)
       .then((res) => {
-        console.log(res.message);
+        console.log(res.msg);
         $scope.gardeners = $scope.gardeners.filter((i) => i !== gardener);
         $scope.nC();
       }, (err) => {

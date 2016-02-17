@@ -54,14 +54,14 @@ describe('flower controller', () => {
 
     it('should make a PUT request to /api/flowers/:ID', () => {
       var updatedFlower  = {name: 'updated flower' , editting:true, _id: 123456};
-      $httpBackend.expectPUT('http://localhost:3000/api/flowers/' + updatedFlower._id, updatedFlower).respond(200, updatedFlower);
+      $httpBackend.expectPUT('http://localhost:3000/api/flowers/' + updatedFlower._id, updatedFlower).respond(200, {msg: 'success'});
       $scope.updateFlower(updatedFlower);
       $httpBackend.flush();
       expect(updatedFlower.editting).toBe(false);
     });
 
     it('should make a DELETE request to /api/flowers/:ID', () => {
-      var deadFlower  = {name: 'updated flower' , editting:true, _id: 123456};
+      var deadFlower  = {name: 'dead flower' , editting:true, _id: 123456};
       $scope.flowers.push(deadFlower);
       $httpBackend.expectDELETE('http://localhost:3000/api/flowers/' + deadFlower._id).respond(200, {msg: 'success'} );
       $httpBackend.expectGET('http://localhost:3000/nonCrud/howManyFlowers').respond(200, 'nonCrud'); 

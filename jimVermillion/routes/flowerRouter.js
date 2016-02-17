@@ -47,6 +47,7 @@ flowerRouter.delete('/flowers/:id', (req, res) => {
 });
 //put to update an entry in the whole db
 flowerRouter.put('/flowers/:id', jsonParser, (req, res) => {
+  console.log(req.body._id + '\n' + req.params.id);
   var updateFlowerData = req.body;
   delete updateFlowerData._id;
   Flower.update({_id: req.params.id}, updateFlowerData, (err) => {
