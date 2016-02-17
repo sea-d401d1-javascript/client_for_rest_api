@@ -40,7 +40,7 @@ describe('donors controller', () => {
       expect($scope.donors[0].username).toBe('test username');
     });
 
-    it('should POST/CREATE a new donor', () => {
+    it('should POST/CREATE a new donor at /signup', () => {
       $httpBackend.expectPOST('http://localhost:3000/signup', {username: 'the sent username'}).respond(200, {username: 'the response username'});
       $scope.newDonor = {username: 'the new username'};
       $scope.createDonor({username: 'the sent username'});
@@ -48,6 +48,14 @@ describe('donors controller', () => {
       expect($scope.donors.length).toBe(1);
       expect($scope.newDonor).toBe(null);
       expect($scope.donors[0].username).toBe('the response username');
+    });
+
+    it('should PUT/UPDATE a donor at /api/donors/[donor._id]', () => {
+      var updatedDonor = {_id: '1', editing: true};
+      $httpBackend.expectPUT('http://localhost:3000/api/donors/1', updatedDonor).respond(200);
+      $scope.updateDonor(updatedDonor);
+      $httpBackend.flush();
+      expect(updatedDonor.editing).toBe(false);
     });
   });
 });

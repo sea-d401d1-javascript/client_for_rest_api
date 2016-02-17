@@ -48,7 +48,7 @@ describe('requests controller', () => {
       expect($scope.requestsUnclaimed[0].firstName).toBe('test request unclaimed');
     });
 
-    it('should POST/CREATE a new request', () => {
+    it('should POST/CREATE a new request at /api/requests', () => {
       $httpBackend.expectPOST('http://localhost:3000/api/requests', {firstName: 'the sent request'}).respond(200, {firstName: 'the response request'});
       $scope.newRequest = {firstName: 'the new request'};
       $scope.createRequest({firstName: 'the sent request'});
@@ -57,5 +57,31 @@ describe('requests controller', () => {
       expect($scope.newRequest).toBe(null);
       expect($scope.requests[0].firstName).toBe('the response request');
     });
+
+    it('should PUT/UPDATE a request at /api/requests/[req._id]', () => {
+      var updatedRequest = {_id: '1', editing: true};
+      $httpBackend.expectPUT('http://localhost:3000/api/requests/1', updatedRequest).respond(200);
+      $scope.updateRequest(updatedRequest);
+      $httpBackend.flush();
+      expect(updatedRequest.editing).toBe(false);
+    });
+
+    it('should CLAIM/PUT a request at /api/requests/[req._id]/[donor._id]', () => {
+      var claimedRequest = {_id: 'req1', editing: true};
+      var donorID = 'donor1';
+      $httpBackend.expectPUT('http://localhost:3000/api/requests/req1/donor1').respond(200);
+      $scope.claimRequest(claimedRequest, donorID);
+      $httpBackend.flush();
+      expect(claimedRequest.editing).toBe(false);
+    });
+
+    // it('should DELETE a request', () => {
+    //   $httpBackend.expectDELETE('http://localhost:3000/api/requests/1').respond(200);
+    //   $scope.requests = [{_id: 1}, {_id: 2}];
+    //   $scope.deleteRequest({_id: 1});
+    //   $httpBackend.flush();
+    //   expect($scope.requests.length).toBe(1);
+    //   expect($scope.requests[0]._id).toBe(2);
+    // });
   });
 });
