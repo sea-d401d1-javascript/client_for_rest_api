@@ -62,6 +62,7 @@ flowerApp.controller('FlowerController',
       .then((res) => {
         console.log('delete: ' + res.data.msg);
         $scope.flowers = $scope.flowers.filter((i) => i !== flower);
+        // $scope.flowers.splice($scope.flowers.indexOf(flower), 1);
         $scope.nC();
       }, (err) => {
         console.log(err);
