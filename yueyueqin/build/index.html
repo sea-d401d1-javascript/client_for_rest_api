@@ -12,7 +12,7 @@
   <body data-ng-app="twoResourcesApp">
     <div class="row" style="margin: 1.5rem auto;">
       <div class="col-md-6">
-        <section data-ng-controller="moviesController">
+        <section data-ng-controller="MoviesController" data-ng-init="getAllMovies()">
           <h1>Movies</h1>
           <ul>
             <ol data-ng-repeat="movie in movies">
@@ -61,21 +61,21 @@
           </ul>
           <hr>
           <h2>Create New Movie</h2>
-          <form data-ng-submit="createMovie(movie)" style="margin-top: 2rem">
+          <form data-ng-submit="createMovie(newMovie)" style="margin-top: 2rem">
             <div class="col-md-2">
-              <input type="text" data-ng-model="movie.name" class="form-control" placeholder="name">
+              <input type="text" data-ng-model="newMovie.name" class="form-control" placeholder="name">
             </div>
             <div class="col-md-2">
-              <input type="text" data-ng-model="movie.type" class="form-control" placeholder="type">
+              <input type="text" data-ng-model="newMovie.type" class="form-control" placeholder="type">
             </div>
             <div class="col-md-2">
-              <input type="text" data-ng-model="movie.actors" class="form-control" placeholder="actors">
+              <input type="text" data-ng-model="newMovie.actors" class="form-control" placeholder="actors">
             </div>
             <div class="col-md-2">
-              <input type="text" data-ng-model="movie.publish"  class="form-control" placeholder="publish">
+              <input type="text" data-ng-model="newMovie.publish"  class="form-control" placeholder="publish">
             </div>
             <div class="col-md-4">
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-default">New Movie</button>
             </div>
           </form>
           <hr>
@@ -113,7 +113,7 @@
       </div>
 
       <div class="col-md-6">
-        <section data-ng-controller="actorsController">
+        <section data-ng-controller="ActorsController" data-ng-init="getAllActors()">
           <h1>Actors</h1>
           <ul>
             <ol data-ng-repeat="actor in actors">
@@ -156,18 +156,18 @@
           </ul>
           <hr>
           <h2>Create New Actor</h2>
-          <form data-ng-submit="createActor(actor)" style="margin-top: 2rem">
+          <form data-ng-submit="createActor(newActor)" style="margin-top: 2rem">
             <div class="col-md-3">
-              <input type="text" data-ng-model="actor.name" class="form-control" placeholder="name">
+              <input type="text" data-ng-model="newActor.name" class="form-control" placeholder="name">
             </div>
             <div class="col-md-3">
-              <input type="text" data-ng-model="actor.country" class="form-control" placeholder="country">
+              <input type="text" data-ng-model="newActor.country" class="form-control" placeholder="country">
             </div>
             <div class="col-md-3">
-              <input type="text" data-ng-model="actor.age" class="form-control" placeholder="age">
+              <input type="text" data-ng-model="newActor.age" class="form-control" placeholder="age">
             </div>
             <div class="col-md-3">
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-default">New Actor</button>
             </div>
           </form>
           <hr>
