@@ -2,7 +2,7 @@
   "name": "rest_api_two_resources",
   "version": "0.0.0",
   "description": "A basic REST API with Express and MongoDB that has three resources, two with full CRUD implementation.",
-  "main": "app.js",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },

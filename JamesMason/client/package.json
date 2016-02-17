@@ -1,12 +1,16 @@
 {
   "name": "force_balancer",
   "version": "1.0.0",
-  "description": "An application to determine the tendency of the Force.",
+  "description": "An application to determine the balance of the Force.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JHM90/rest_api.git"
+  },
   "author": "James Mason",
   "license": "MIT",
   "devDependencies": {
