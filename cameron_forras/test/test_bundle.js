@@ -68,16 +68,16 @@
 	  }));
 
 	  it('should be able to make a controller', () => {
-	    var StudentsController = $ControllerConstructor('StudentsController', {$scope});
-	    expect(typeof StudentsController).toBe('object');
+	    var studentsController = $ControllerConstructor('studentsController', {$scope});
+	    expect(typeof studentsController).toBe('object');
 	    expect(Array.isArray($scope.students)).toBe(true);
-	    expect(typeof $scope.getAll).toBe('function');
+	    expect(typeof $scope.getAllStudents).toBe('function');
 	  });
 
 	  describe('REST requests', () => {
 	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
 	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('StudentsController', {$scope});
+	      $ControllerConstructor('studentsController', {$scope});
 	    }));
 
 	    afterEach(() => {
@@ -87,7 +87,7 @@
 
 	    it('should make a get request to /api/students', () => {
 	      $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
-	      $scope.getAll();
+	      $scope.getAllStudents();
 	      $httpBackend.flush();
 	      expect($scope.students.length).toBe(1);
 	      expect($scope.students[0].name).toBe('test student');
@@ -133,11 +133,11 @@
 	const angular = __webpack_require__(3);
 	const studentsApp = angular.module('studentsApp', []);
 
-	studentsApp.controller('StudentsController', ['$scope', '$http', function($scope, $http) {
+	studentsApp.controller('studentsController', ['$scope', '$http', function($scope, $http) {
 	  $scope.students = [];
 	  $scope._classes = [];
 
-	$scope.getAll = function() {
+	$scope.getAllStudents = function() {
 	  $http.get('http://localhost:3000/api/students')
 	    .then((res) => {
 	      console.log('success!');
@@ -177,43 +177,45 @@
 	      });
 	  };
 
-	  //   $http.get('http://localhost:3000/api/classes')
-	  //     .then((res) => {
-	  //       console.log('success!');
-	  //       $scope._classes = res.data;
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
+	  $scope.getAllClasses = function() {
+	    $http.get('http://localhost:3000/api/classes')
+	      .then((res) => {
+	        console.log('success!');
+	        $scope._classes = res.data;
+	    }, (err) => {
+	        console.log(err);
+	    });
+	  };
+	  
+	  $scope.create_Class = function(_class) {
+	    $http.post('http://localhost:3000/api/classes/', _class)
+	      .then((res) => {
+	        $scope._classes.push(res.data);
+	        $scope.new_Class= null;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	    };
 
-	  // $scope.create_Class = function(_class) {
-	  //   $http.post('http://localhost:3000/api/classes/', _class)
-	  //     .then((res) => {
-	  //       $scope._classes.push(res.data);
-	  //       $scope.new_Class= null;
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
-	  //   };
+	  $scope.delete_Class = function(_class) {
+	    $http.delete('http://localhost:3000/api/classes/' + _class._id)
+	      .then((res) => {
+	        $scope._classes = $scope._classes.filter((i) => i !== _class);
+	      }, (err) => {
+	        console.log(err);
+	      });
+	  };
 
-	  // $scope.delete_Class = function(_class) {
-	  //   $http.delete('http://localhost:3000/api/classes/' + _class._id)
-	  //     .then((res) => {
-	  //       $scope._classes = $scope._classes.filter((i) => i !== _class);
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
-	  // };
-
-	  // $scope.update_Class = function(_class) {
-	  //   $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
-	  //     .then((res) => {
-	  //       $scope._classes[$scope._classes.indexOf(_class)] = _class;
-	  //       _class.editing = false;
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //       _class.editing = false;
-	  //     });
-	  // };
+	  $scope.update_Class = function(_class) {
+	    $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
+	      .then((res) => {
+	        $scope._classes[$scope._classes.indexOf(_class)] = _class;
+	        _class.editing = false;
+	      }, (err) => {
+	        console.log(err);
+	        _class.editing = false;
+	      });
+	  };
 	}]);
 
 	  
