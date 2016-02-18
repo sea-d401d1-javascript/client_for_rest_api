@@ -4,6 +4,7 @@ const myApp = angular.module('myApp', []);
 
 require('./services/resource')(myApp);
 
+// For the Sharks
 myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
   $scope.sharks = [];
   var sharksService = Resource('/sharks');
@@ -37,8 +38,10 @@ myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($s
     });
   };
 
-}]);
+}]); // end of Sharks
 
+
+// For the People
 myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
   $scope.peoples = [];
   var peopleService = Resource('/people');
@@ -72,4 +75,4 @@ myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($
     });
   };
 
-}]);
+}]); // end of People

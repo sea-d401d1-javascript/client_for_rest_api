@@ -138,6 +138,7 @@
 
 	__webpack_require__(5)(myApp);
 
+	// For the Sharks
 	myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
 	  $scope.sharks = [];
 	  var sharksService = Resource('/sharks');
@@ -171,8 +172,10 @@
 	    });
 	  };
 
-	}]);
+	}]); // end of Sharks
 
+
+	// For the People
 	myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
 	  $scope.peoples = [];
 	  var peopleService = Resource('/people');
@@ -206,7 +209,7 @@
 	    });
 	  };
 
-	}]);
+	}]); // end of People
 
 
 /***/ },
@@ -30691,6 +30694,7 @@
 	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
 	      .then(handleSuccess(callback), handleFailure(callback));
 	    };
+	//end of sharks
 
 	// For the People
 	    Resource.prototype.getAllPeople = function(callback) {
@@ -30712,7 +30716,8 @@
 	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
 	      .then(handleSuccess(callback), handleFailure(callback));
 	    };
-	    
+	//end of people
+
 
 	    return function(resourceName) {
 	      return new Resource(resourceName);

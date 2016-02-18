@@ -35,6 +35,7 @@ module.exports = exports = function(app) {
       $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
       .then(handleSuccess(callback), handleFailure(callback));
     };
+//end of sharks
 
 // For the People
     Resource.prototype.getAllPeople = function(callback) {
@@ -56,7 +57,8 @@ module.exports = exports = function(app) {
       $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
       .then(handleSuccess(callback), handleFailure(callback));
     };
-    
+//end of people
+
 
     return function(resourceName) {
       return new Resource(resourceName);
