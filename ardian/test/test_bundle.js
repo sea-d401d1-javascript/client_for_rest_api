@@ -103,7 +103,27 @@
 	      expect($scope.sharks.length).toBe(1);
 	      expect($scope.newShark).toBe(null);
 	      expect($scope.sharks[0].name).toBe('the response shark');
-	    });    
+	    });
+
+	    it('should update a shark', () => {
+	      var testShark = {name: 'inside scope', editing: true, _id: 5};
+	      $scope.sharks.push(testShark);
+	      $httpBackend.expectPUT('http://localhost:3000/api/sharks/5', testShark).respond(200);
+	      $scope.updateShark(testShark);
+	      $httpBackend.flush();
+	      expect(testShark.editing).toBe(false);
+	      expect($scope.sharks[0].editing).toBe(false);
+	    });
+
+	    it('should delete a shark', () => {
+	      var testShark = {name: 'delete shark', _id: 1};
+	      $scope.sharks.push(testShark);
+	      expect($scope.sharks.indexOf(testShark)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/sharks/1').respond(200);
+	      $scope.deleteShark(testShark);
+	      $httpBackend.flush();
+	      expect($scope.sharks.indexOf(testShark)).toBe(-1);
+	    });
 	  });
 	});//End of testing SharksController
 
@@ -143,10 +163,10 @@
 	    $http.put('http://localhost:3000/api/sharks/' + shark._id, shark)
 	      .then((res) => {
 	        $scope.sharks[$scope.sharks.indexOf(shark)] = shark;
-	        shark.editting = false;
+	        shark.editing = false;
 	      }, (err) => {
 	        console.log(err);
-	        shark.editting = false;
+	        shark.editing = false;
 	      })
 	  }
 
@@ -186,10 +206,10 @@
 	    $http.put('http://localhost:3000/api/people/' + people._id, people)
 	      .then((res) => {
 	        $scope.peoples[$scope.peoples.indexOf(people)] = people;
-	        people.editting = false;
+	        people.editing = false;
 	      }, (err) => {
 	        console.log(err);
-	        people.editting = false;
+	        people.editing = false;
 	      })
 	  }
 
@@ -33549,6 +33569,26 @@
 	      expect($scope.peoples.length).toBe(1);
 	      expect($scope.newPeople).toBe(null);
 	      expect($scope.peoples[0].name).toBe('the response person');
+	    });
+
+	    it('should update a person', () => {
+	      var testPerson = {name: 'inside scope', editing: true, _id: 5};
+	      $scope.peoples.push(testPerson);
+	      $httpBackend.expectPUT('http://localhost:3000/api/people/5', testPerson).respond(200);
+	      $scope.updatePeople(testPerson);
+	      $httpBackend.flush();
+	      expect(testPerson.editing).toBe(false);
+	      expect($scope.peoples[0].editing).toBe(false);
+	    });
+
+	    it('should delete a person', () => {
+	      var testPerson = {name: 'delete person', _id: 1};
+	      $scope.peoples.push(testPerson);
+	      expect($scope.peoples.indexOf(testPerson)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/people/1').respond(200);
+	      $scope.deletePeople(testPerson);
+	      $httpBackend.flush();
+	      expect($scope.peoples.indexOf(testPerson)).toBe(-1);
 	    });
 	  });
 	});// end of testing PeoplesController

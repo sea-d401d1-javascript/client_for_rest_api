@@ -29,10 +29,10 @@ myApp.controller('SharksController', ['$scope', '$http', function($scope, $http)
     $http.put('http://localhost:3000/api/sharks/' + shark._id, shark)
       .then((res) => {
         $scope.sharks[$scope.sharks.indexOf(shark)] = shark;
-        shark.editting = false;
+        shark.editing = false;
       }, (err) => {
         console.log(err);
-        shark.editting = false;
+        shark.editing = false;
       })
   }
 
@@ -72,10 +72,10 @@ $scope.getAllPeople = function() {
     $http.put('http://localhost:3000/api/people/' + people._id, people)
       .then((res) => {
         $scope.peoples[$scope.peoples.indexOf(people)] = people;
-        people.editting = false;
+        people.editing = false;
       }, (err) => {
         console.log(err);
-        people.editting = false;
+        people.editing = false;
       })
   }
 

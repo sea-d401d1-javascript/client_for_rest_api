@@ -22,8 +22,8 @@
     <ul>
       <li data-ng-repeat="shark in sharks">{{shark.name}}, {{shark.size}}
         <button data-ng-click="deleteShark(shark)">Delete Shark</button>
-        <button data-ng-click="shark.editting = !shark.editting">Update Shark</button>
-        <form data-ng-if="shark.editting" data-ng-submit="updateShark(shark)">
+        <button data-ng-click="shark.editing = !shark.editing">Update Shark</button>
+        <form data-ng-if="shark.editing" data-ng-submit="updateShark(shark)">
           <input data-ng-model="shark.name" type="text"/>
           <input data-ng-model="shark.size" type="text"/>
           <button type="submit">Update</button>
@@ -42,8 +42,8 @@
     <ul>
       <li data-ng-repeat="people in peoples">{{people.name}}, {{people.weapon}}
         <button data-ng-click="deletePeople(people)">Delete People</button>
-        <button data-ng-click="people.editting = !people.editting">Update People</button>
-        <form data-ng-if="people.editting" data-ng-submit="updatePeople(people)">
+        <button data-ng-click="people.editing = !people.editing">Update People</button>
+        <form data-ng-if="people.editing" data-ng-submit="updatePeople(people)">
           <input data-ng-model="people.name" type="text"/>
           <input data-ng-model="people.weapon" type="text"/>
           <button type="submit">Update</button>

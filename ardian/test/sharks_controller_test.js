@@ -49,6 +49,26 @@ describe('sharks controller', () => {
       expect($scope.sharks.length).toBe(1);
       expect($scope.newShark).toBe(null);
       expect($scope.sharks[0].name).toBe('the response shark');
-    });    
+    });
+
+    it('should update a shark', () => {
+      var testShark = {name: 'inside scope', editing: true, _id: 5};
+      $scope.sharks.push(testShark);
+      $httpBackend.expectPUT('http://localhost:3000/api/sharks/5', testShark).respond(200);
+      $scope.updateShark(testShark);
+      $httpBackend.flush();
+      expect(testShark.editing).toBe(false);
+      expect($scope.sharks[0].editing).toBe(false);
+    });
+
+    it('should delete a shark', () => {
+      var testShark = {name: 'delete shark', _id: 1};
+      $scope.sharks.push(testShark);
+      expect($scope.sharks.indexOf(testShark)).not.toBe(-1);
+      $httpBackend.expectDELETE('http://localhost:3000/api/sharks/1').respond(200);
+      $scope.deleteShark(testShark);
+      $httpBackend.flush();
+      expect($scope.sharks.indexOf(testShark)).toBe(-1);
+    });
   });
 });//End of testing SharksController

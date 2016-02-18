@@ -51,5 +51,25 @@ describe('People controller', () => {
       expect($scope.newPeople).toBe(null);
       expect($scope.peoples[0].name).toBe('the response person');
     });
+
+    it('should update a person', () => {
+      var testPerson = {name: 'inside scope', editing: true, _id: 5};
+      $scope.peoples.push(testPerson);
+      $httpBackend.expectPUT('http://localhost:3000/api/people/5', testPerson).respond(200);
+      $scope.updatePeople(testPerson);
+      $httpBackend.flush();
+      expect(testPerson.editing).toBe(false);
+      expect($scope.peoples[0].editing).toBe(false);
+    });
+
+    it('should delete a person', () => {
+      var testPerson = {name: 'delete person', _id: 1};
+      $scope.peoples.push(testPerson);
+      expect($scope.peoples.indexOf(testPerson)).not.toBe(-1);
+      $httpBackend.expectDELETE('http://localhost:3000/api/people/1').respond(200);
+      $scope.deletePeople(testPerson);
+      $httpBackend.flush();
+      expect($scope.peoples.indexOf(testPerson)).toBe(-1);
+    });
   });
 });// end of testing PeoplesController
