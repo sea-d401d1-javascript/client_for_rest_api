@@ -1,23 +1,23 @@
-var handleSuccess = (callback) => {
+var handleSuccess = function(callback) {
   return function(res) {
     callback(null, res.data);
   }
 };
 
-var handleFailure = (callback) => {
+var handleFailure = function(callback) {
   return function(res) {
     callback(res);
   }
 };
 
-module.exports = exports = (app) => {
+module.exports = exports = function(app) {
 
-  app.factory('Resource', ['$http', ($http) => {
+  app.factory('Resource', ['$http', function($http) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
     }
 
-    Resource.prototype.getAll = (callback) => {
+    Resource.prototype.getAll = function(callback) {
       $http.get('http://localhost:3000/api' + this.resourceName)
         .then(handleSuccess(callback), handleFailure(callback));
     };
@@ -37,7 +37,7 @@ module.exports = exports = (app) => {
         .then(handleSuccess(callback), handleFailure(callback));
     };
 
-    return (resourceName) => {
+    return function(resourceName) {
       return new Resource(resourceName);
     }
   }])

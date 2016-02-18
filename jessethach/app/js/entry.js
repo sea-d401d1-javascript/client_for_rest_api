@@ -2,70 +2,71 @@ const angular = require('angular');
 const jedisApp = angular.module('jedisApp', []);
 require('./services/resource_service')(jedisApp);
 
-jedisApp.controller('JedisController', ['$scope', '$http','Resource', ($scope, $http, Resource) => {
+jedisApp.controller('JedisController', ['$scope', '$http','Resource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.jedis = [];
   var jediService = Resource('/jedis');
 
-  $scope.getAllJedi = () => {
-    jediService.getAll((err, res) => {
+  $scope.getAllJedi = function() {
+    jediService.getAll(function(err, res) {
       if (err) return console.log(err);
       $scope.jedis = res;
     });
   };
 
-  $scope.createJedi = (jedi) => {
-    jediService.create(jedi, (err, res) => {
+  $scope.createJedi = function(jedi) {
+    jediService.create(jedi, function(err, res) {
       if (err) return console.log(err);
       $scope.jedis.push(res);
       $scope.newJedi = null;
     });
   };
 
-  $scope.deleteJedi = (jedi) => {
-    jediService.delete(jedi, (err, res) => {
+  $scope.deleteJedi = function(jedi) {
+    jediService.delete(jedi, function(err, res) {
       if (err) return console.log(err);
       $scope.jedis = $scope.jedis.filter((i) => i !== jedi);
     });
   };
 
-  $scope.updateJedi = (jedi) => {
-    jediService.update(jedi, (err, res) => {
-      jedi.editing = false;
+  $scope.updateJedi = function(jedi) {
+    jediService.update(jedi, function(err, res) {
+      jedi.editting = false;
       if (err) return console.log(err);
     });
   };
 }]);
 
-jedisApp.controller('SithlordsController', ['$scope', '$http', ($scope, $http) => {
+jedisApp.controller('SithlordsController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.sithlords = [];
+  var sithService = Resource('/sith-lords');
 
-  $scope.getAllSith = () => {
-    sithService.getAll((err, res) => {
+  $scope.getAllSith = function() {
+    sithService.getAll(function(err, res) {
       if (err) return console.log(err);
       $scope.sithlords = res;
     });
   };
 
-  $scope.createSith = (sith) => {
-    sithService.create(sith, (err, res) => {
+  $scope.createSith = function(sith) {
+    sithService.create(sith, function(err, res) {
       if (err) return console.log(err);
       $scope.sithlords.push(res);
       $scope.newSith = null;
     });
   };
 
-  $scope.deleteSith = (sith) => {
-    sithService.delete(sith, (err, res) => {
+  $scope.deleteSith = function(sith) {
+    sithService.delete(sith, function(err, res) {
       if (err) return console.log(err);
       $scope.sithlords = $scope.sithlords.filter((i) => i !== sith);
     });
   };
 
-  $scope.updateSith = (sith) => {
-    sithService.update(sith, (err, res) => {
-      sith.editing = false;
+  $scope.updateSith = function(sith) {
+    sithService.update(sith, function(err, res) {
+      sith.editting = false;
       if (err) return console.log(err);
     });
   };

@@ -47,7 +47,7 @@
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(6);
+	__webpack_require__(7);
 
 /***/ },
 /* 1 */
@@ -59,7 +59,7 @@
 
 	__webpack_require__(2);
 	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 	describe('it should do some stuff', function () {
 	  it('should work after a build', function () {
@@ -143,90 +143,79 @@
 	'use strict';
 
 	var angular = __webpack_require__(3);
-
 	var jedisApp = angular.module('jedisApp', []);
+	__webpack_require__(5)(jedisApp);
 
-	jedisApp.controller('JedisController', ['$scope', '$http', function ($scope, $http) {
+	jedisApp.controller('JedisController', ['$scope', '$http', 'Resource', function ($scope, $http, Resource) {
 	  $scope.greeting = 'hello world';
 	  $scope.jedis = [];
+	  var jediService = Resource('/jedis');
 
 	  $scope.getAllJedi = function () {
-	    $http.get('http://localhost:3000/api/jedis').then(function (res) {
-	      console.log('success!');
-	      $scope.jedis = res.data;
-	    }, function (err) {
-	      console.log(err);
+	    jediService.getAll(function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.jedis = res;
 	    });
 	  };
 
 	  $scope.createJedi = function (jedi) {
-	    $http.post('http://localhost:3000/api/jedis', jedi).then(function (res) {
-	      $scope.jedis.push(res.data);
+	    jediService.create(jedi, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.jedis.push(res);
 	      $scope.newJedi = null;
-	    }, function (err) {
-	      console.log(err);
 	    });
 	  };
 
 	  $scope.deleteJedi = function (jedi) {
-	    $http.delete('http://localhost:3000/api/jedis/' + jedi._id).then(function (res) {
+	    jediService.delete(jedi, function (err, res) {
+	      if (err) return console.log(err);
 	      $scope.jedis = $scope.jedis.filter(function (i) {
 	        return i !== jedi;
 	      });
-	    }, function (err) {
-	      console.log(err);
 	    });
 	  };
 
 	  $scope.updateJedi = function (jedi) {
-	    $http.put('http://localhost:3000/api/jedis/' + jedi._id, jedi).then(function (res) {
-	      // $scope.jedis[$scope.jedis.indexof(jedi)] = jedi;
+	    jediService.update(jedi, function (err, res) {
 	      jedi.editting = false;
-	    }, function (err) {
-	      console.log(err);
-	      jedi.editting = false;
+	      if (err) return console.log(err);
 	    });
 	  };
 	}]);
 
-	jedisApp.controller('SithlordsController', ['$scope', '$http', function ($scope, $http) {
+	jedisApp.controller('SithlordsController', ['$scope', '$http', 'Resource', function ($scope, $http, Resource) {
 	  $scope.greeting = 'hello world';
 	  $scope.sithlords = [];
+	  var sithService = Resource('/sith-lords');
 
 	  $scope.getAllSith = function () {
-	    $http.get('http://localhost:3000/api/sith-lords').then(function (res) {
-	      console.log('success!');
-	      $scope.sithlords = res.data;
-	    }, function (err) {
-	      console.log(err);
+	    sithService.getAll(function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.sithlords = res;
 	    });
 	  };
 
 	  $scope.createSith = function (sith) {
-	    $http.post('http://localhost:3000/api/sith-lords', sith).then(function (res) {
-	      $scope.sithlords.push(res.data);
+	    sithService.create(sith, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.sithlords.push(res);
 	      $scope.newSith = null;
-	    }, function (err) {
-	      console.log(err);
 	    });
 	  };
 
 	  $scope.deleteSith = function (sith) {
-	    $http.delete('http://localhost:3000/api/sith-lords/' + sith._id).then(function (res) {
+	    sithService.delete(sith, function (err, res) {
+	      if (err) return console.log(err);
 	      $scope.sithlords = $scope.sithlords.filter(function (i) {
 	        return i !== sith;
 	      });
-	    }, function (err) {
-	      console.log(err);
 	    });
 	  };
 
 	  $scope.updateSith = function (sith) {
-	    $http.put('http://localhost:3000/api/sith-lords/' + sith._id, sith).then(function (res) {
+	    sithService.update(sith, function (err, res) {
 	      sith.editting = false;
-	    }, function (err) {
-	      console.log(err);
-	      $scope.editting = false;
+	      if (err) return console.log(err);
 	    });
 	  };
 	}]);
@@ -16054,6 +16043,53 @@
 
 	'use strict';
 
+	var handleSuccess = function handleSuccess(callback) {
+	  return function (res) {
+	    callback(null, res.data);
+	  };
+	};
+
+	var handleFailure = function handleFailure(callback) {
+	  return function (res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function exports(app) {
+
+	  app.factory('Resource', ['$http', function ($http) {
+	    var Resource = function Resource(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+
+	    Resource.prototype.getAll = function (callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function (data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function (data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function (data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    return function (resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	/**
@@ -18842,7 +18878,7 @@
 	})(window, window.angular);
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18851,7 +18887,7 @@
 
 	__webpack_require__(2);
 	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 	describe('it should do some stuff', function () {
 	  it('should work after a build', function () {
