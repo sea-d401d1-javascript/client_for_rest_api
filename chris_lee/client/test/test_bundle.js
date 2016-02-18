@@ -108,22 +108,24 @@
 	      expect($scope.newCT).toBe(null);
 	      expect($scope.cts[0].name).toBe('response CT');
 	    });
-	    describe('REST requests that require existing CTs', () => {
-	      beforeEach(() => {
-	        $scope.createCT({name: 'existing CT', _id: '123'});
-	      });
-	      // afterEach(() => {
-	      //   $httpBackend.verifyNoOutstandingExpectation();
-	      //   $httpBackend.verifyNoOutstandingRequest();
-	      // });
-	      it('should make a PUT request to /api/ct/:id', () => {
-	        $httpBackend.expectPUT('http://localhost:3000/api/ct/123', {name: 'updated CT'}).respond(200, {name: 'response CT'});
-	        $scope.updateCT({name: 'updated CT'});
-	        $httpBackend.flush();
-	      });
+	    it('should make a PUT request to /api/ct/:id', () => {
+	      var testCT = {name: 'inside scope', editting: true, _id: 5};
+	      $scope.cts.push(testCT);
+	      $httpBackend.expectPUT('http://localhost:3000/api/ct/5', testCT).respond(200);
+	      $scope.updateCT(testCT);
+	      $httpBackend.flush();
+	      expect(testCT.editting).toBe(false);
+	      expect($scope.cts[0].editting).toBe(false);
 	    });
-
-
+	    it('should make a DELETE request to /api/ct/:id', () => {
+	      var testCT = {name: 'condemned ct', _id: 1};
+	      $scope.cts.push(testCT);
+	      expect($scope.cts.indexOf(testCT)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/ct/1').respond(200);
+	      $scope.deleteCT(testCT);
+	      $httpBackend.flush();
+	      expect($scope.cts.indexOf(testCT)).toBe(-1);
+	    });
 	  });
 	  describe('REST requests using T Controller', () => {
 	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
@@ -149,6 +151,24 @@
 	      expect($scope.ts.length).toBe(1);
 	      expect($scope.newT).toBe(null);
 	      expect($scope.ts[0].name).toBe('response T');
+	    });
+	    it('should make a PUT request to /api/t/:id', () => {
+	      var testT = {name: 'inside scope', editting: true, _id: 5};
+	      $scope.ts.push(testT);
+	      $httpBackend.expectPUT('http://localhost:3000/api/t/5', testT).respond(200);
+	      $scope.updateT(testT);
+	      $httpBackend.flush();
+	      expect(testT.editting).toBe(false);
+	      expect($scope.ts[0].editting).toBe(false);
+	    });
+	    it('should make a DELETE request to /api/t/:id', () => {
+	      var testT = {name: 'condemned T', _id: 1};
+	      $scope.ts.push(testT);
+	      expect($scope.ts.indexOf(testT)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/t/1').respond(200);
+	      $scope.deleteT(testT);
+	      $httpBackend.flush();
+	      expect($scope.ts.indexOf(testT)).toBe(-1);
 	    });
 	  })
 	});
