@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
-const files = ['test/*.js', '!node_modules//**'];
+const babel = require('babel-loader');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -16,6 +16,17 @@ gulp.task('webpack:dev', () => {
     }))
     .pipe(gulp.dest('build/'));
 });
+
+gulp.task('webpack:test', () => {
+  gulp.src(__dirname + '/test/test_entry.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test/'));
+});
+
 
 gulp.task('build:dev', ['webpack:dev', 'html:dev']);
 gulp.task('default', ['build:dev']);
