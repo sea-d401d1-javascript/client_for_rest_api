@@ -46,90 +46,73 @@
 
 	const angular = __webpack_require__(1);
 	const politiciansApp = angular.module('politiciansApp', []);
+	__webpack_require__(3)(politiciansApp);
 
-	politiciansApp.controller('politiciansController', ['$scope', '$http', function($scope, $http) {
+	politiciansApp.controller('PoliticiansController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
 	  $scope.demGreeting = 'Hello Democrat Voters';
 	  $scope.demPoliticians = [];
+	  var demService = Resource('/demPoliticians');
 
 	  $scope.repGreeting = 'Hello Republican Voters';
 	  $scope.repPoliticians = [];
+	  var repService = Resource('/repPoliticians');
 
-	  $scope.getAll = function() {
-	    $http.get('http://localhost:5000/api/demPoliticians')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.demPoliticians = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
+	  $scope.getDem = function() {
+	    demService.getDem(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.demPoliticians = res;
+	    });
 	  };
 
-	  $http.get('http://localhost:5000/api/repPoliticians')
-	    .then((res) => {
-	      console.log('success!');
-	      $scope.repPoliticians = res.data;
-	    }, (err) => {
-	      console.log(err);
+	  $scope.getRep = function() {
+	    repService.getRep(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.repPoliticians = res;
 	    });
+	  };
 
 	  $scope.createDemPolitician = function(demPolitician) {
-	    $http.post('http://localhost:5000/api/demPoliticians', demPolitician)
-	      .then((res) => {
-	        $scope.demPoliticians.push(res.data);
-	        $scope.demPolitician = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
+	    demService.create(demPolitician, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.demPoliticians.push(res);
+	      $scope.demPolitician = null;
+	    });
 	  };
 
 	  $scope.createRepPolitician = function(repPolitician) {
-	    $http.post('http://localhost:5000/api/repPoliticians', repPolitician)
-	      .then((res) => {
-	        $scope.repPoliticians.push(res.data);
-	        $scope.repPolitician = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
+	    repService.create(repPolitician, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.repPoliticians.push(res);
+	      $scope.repPolitician = null;
+	    });
 	  };
 
 	  $scope.deleteDemPolitician = function(demPolitician) {
-	    $http.delete('http://localhost:5000/api/demPoliticians/' + demPolitician._id)
-	      .then((res) => {
-	        $scope.demPoliticians = $scope.demPoliticians.filter((i) => i !== demPolitician);
-	      }, (err) => {
-	        console.log(err);
-	      });
+	    demService.delete(demPolitician, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1);
+	    });
 	  };
 
 	  $scope.deleteRepPolitician = function(repPolitician) {
-	    $http.delete('http://localhost:5000/api/repPoliticians/' + repPolitician._id)
-	      .then((res) => {
-	        $scope.repPoliticians = $scope.repPoliticians.filter((i) => i !== repPolitician);
-	      }, (err) => {
-	        console.log(err);
-	      });
+	    repService.delete(repPolitician, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1);
+	    });
 	  };
 
 	  $scope.updateDemPolitician = function(demPolitician) {
-	    $http.put('http://localhost:5000/api/demPoliticians/' + demPolitician._id, demPolitician)
-	      .then((res) => {
-	        $scope.demPoliticians[$scope.demPoliticians.indexOf(demPolitician)] = demPolitician;
-	        demPolitician.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        demPolitician.editing = false;
-	      });
+	    demService.update(demPolitician, function(err, res) {
+	      demPolitician.editing = false;
+	      if (err) return console.log(err);
+	    });
 	  };
 
 	  $scope.updateRepPolitician = function(repPolitician) {
-	    $http.put('http://localhost:5000/api/repPoliticians/' + repPolitician._id, repPolitician)
-	      .then((res) => {
-	        $scope.repPoliticians[$scope.repPoliticians.indexOf(repPolitician)] = repPolitician;
-	        repPolitician.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        repPolitician.editing = false;
-	      });
+	    repService.update(repPolitician, function(err, res) {
+	      repPolitician.editing = false;
+	      if (err) return console.log(err);
+	    });
 	  };
 
 	}]);
@@ -30575,6 +30558,59 @@
 	})(window, document);
 
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null, res.data);
+	  };
+	};
+
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function(app) {
+	  app.factory('Resource', ['$http', function($http) {
+	    var Resource = function(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+
+	    Resource.prototype.getDem = function(callback) {
+	      $http.get('http://localhost:5000/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	    Resource.prototype.getRep = function(callback) {
+	      $http.get('http://localhost:5000/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:5000/api' + this.resourceName, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:5000/api' + this.resourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:5000/api' + this.resourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
 
 /***/ }
 /******/ ]);
