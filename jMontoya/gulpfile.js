@@ -2,7 +2,8 @@ const gulp = require('gulp'),
       eslint = require('gulp-eslint'),
       mocha = require('gulp-mocha'),
       files = ['test/*.js', '!node_modules//**'],
-      webpack = require('webpack-stream');
+      webpack = require('webpack-stream'),
+      babel = require('babel-loader');
 
 // gulp.task('lint', function() {
 //   return gulp.src(files)
@@ -43,6 +44,16 @@ gulp.task('webpack:dev', () => {
       }
     }))
     .pipe(gulp.dest('build/'));
+});
+
+gulp.task('webpack:test', () => {
+  gulp.src(__dirname + '/test/test_entry.js')
+   .pipe(webpack({
+     output: {
+       filename: 'test_bundle.js'
+     }
+   }))
+   .pipe(gulp.dest('test/'));
 });
 
 // gulp.task('mocha', function() {
