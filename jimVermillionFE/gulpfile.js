@@ -52,4 +52,4 @@ gulp.task('watch', function() {
     // gulp.watch(['app/js/client.js', 'app/index.html'], ['develop']);
 });
 
-gulp.task('default', ['build:dev', 'lint', 'webpack:test', 'watch']);
+gulp.task('default', ['build:dev', 'lint', 'webpack:test']);
