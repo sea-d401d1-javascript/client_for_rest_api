@@ -19,7 +19,7 @@ describe('sharks controller', () => {
     var sharksController = $ControllerConstructor('SharksController', {$scope});
     expect(typeof sharksController).toBe('object');
     expect(Array.isArray($scope.sharks)).toBe(true);
-    expect(typeof $scope.getAllSharks).toBe('function');
+    expect(typeof $scope.getAll).toBe('function');
   });
 
   describe('REST request', () => {
@@ -35,7 +35,7 @@ describe('sharks controller', () => {
 
     it('should make a get request to /api/sharks', () => {
       $httpBackend.expectGET('http://localhost:3000/api/sharks').respond(200, [{name: 'test shark'}]);
-      $scope.getAllSharks();
+      $scope.getAll();
       $httpBackend.flush();
       expect($scope.sharks.length).toBe(1);
       expect($scope.sharks[0].name).toBe('test shark');

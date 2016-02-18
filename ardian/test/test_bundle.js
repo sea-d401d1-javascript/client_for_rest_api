@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(6);
+	__webpack_require__(7);
 
 
 /***/ },
@@ -54,7 +54,7 @@
 
 	__webpack_require__(2);
 	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 	//Testing the SharksController
 	describe('sharks controller', () => {
@@ -73,7 +73,7 @@
 	    var sharksController = $ControllerConstructor('SharksController', {$scope});
 	    expect(typeof sharksController).toBe('object');
 	    expect(Array.isArray($scope.sharks)).toBe(true);
-	    expect(typeof $scope.getAllSharks).toBe('function');
+	    expect(typeof $scope.getAll).toBe('function');
 	  });
 
 	  describe('REST request', () => {
@@ -89,7 +89,7 @@
 
 	    it('should make a get request to /api/sharks', () => {
 	      $httpBackend.expectGET('http://localhost:3000/api/sharks').respond(200, [{name: 'test shark'}]);
-	      $scope.getAllSharks();
+	      $scope.getAll();
 	      $httpBackend.flush();
 	      expect($scope.sharks.length).toBe(1);
 	      expect($scope.sharks[0].name).toBe('test shark');
@@ -136,91 +136,76 @@
 
 	const myApp = angular.module('myApp', []);
 
-	myApp.controller('SharksController', ['$scope', '$http', function($scope, $http) {
-	  $scope.sharks = [];
+	__webpack_require__(5)(myApp);
 
-	  $scope.getAllSharks = function() {
-	    $http.get('http://localhost:3000/api/sharks')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.sharks = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  }
+	myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+	  $scope.sharks = [];
+	  var sharksService = Resource('/sharks');
+
+	  $scope.getAll = function() {
+	    sharksService.getAll(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.sharks = res;
+	    });
+	  };
 
 	  $scope.createShark = function(shark) {
-	    $http.post('http://localhost:3000/api/sharks', shark)
-	      .then((res) => {
-	        $scope.sharks.push(res.data);
-	        $scope.newShark = null;
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+	    sharksService.create(shark, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.sharks.push(res);
+	      $scope.newShark = null;
+	    });
+	  };
 
 	  $scope.updateShark = function(shark) {
-	    $http.put('http://localhost:3000/api/sharks/' + shark._id, shark)
-	      .then((res) => {
-	        $scope.sharks[$scope.sharks.indexOf(shark)] = shark;
-	        shark.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        shark.editing = false;
-	      })
-	  }
+	    sharksService.update(shark, function(err, res) {
+	      shark.editing = false;
+	      if (err) return console.log(err);
+	    });
+	  };
 
 	  $scope.deleteShark = function(shark) {
-	    $http.delete('http://localhost:3000/api/sharks/' + shark._id)
-	      .then((res) => {
-	        $scope.sharks = $scope.sharks.filter((i) => i !== shark);
-	      }, (err) => {
-	        console.log(err)
-	      })
-	  }
+	    sharksService.delete(shark, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.sharks.splice($scope.sharks.indexOf(shark), 1);
+	    });
+	  };
+
 	}]);
 
-	myApp.controller('PeoplesController', ['$scope', '$http', function($scope, $http) {
+	myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
 	  $scope.peoples = [];
+	  var peopleService = Resource('/people');
 
-	$scope.getAllPeople = function() {
-	  $http.get('http://localhost:3000/api/people')
-	    .then((res) => {
-	      console.log('success!');
-	      $scope.peoples = res.data;
-	    }, (err) => {
-	      console.log(err);
+	  $scope.getAllPeople = function() {
+	    peopleService.getAllPeople(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.peoples = res;
 	    });
-	}
+	  };
+
 	  $scope.createPeople = function(people) {
-	    $http.post('http://localhost:3000/api/people', people)
-	      .then((res) => {
-	        $scope.peoples.push(res.data);
-	        $scope.newPeople = null;
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+	    peopleService.create(people, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.peoples.push(res);
+	      $scope.newPeople = null;
+	    });
+	  };
 
 	  $scope.updatePeople = function(people) {
-	    $http.put('http://localhost:3000/api/people/' + people._id, people)
-	      .then((res) => {
-	        $scope.peoples[$scope.peoples.indexOf(people)] = people;
-	        people.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        people.editing = false;
-	      })
-	  }
+	    peopleService.update(people, function(err, res) {
+	      people.editing = false;
+	      if (err) return console.log(err);
+	    });
+	  };
 
 	  $scope.deletePeople = function(people) {
-	    $http.delete('http://localhost:3000/api/people/' + people._id)
-	      .then((res) => {
-	        $scope.peoples = $scope.peoples.filter((i) => i !== people);
-	      }, (err) => {
-	        console.log(err)
-	      })
-	  }
+	    peopleService.delete(people, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.peoples.splice($scope.peoples.indexOf(people), 1);
+	    });
+	  };
+
 	}]);
 
 
@@ -30669,6 +30654,77 @@
 /* 5 */
 /***/ function(module, exports) {
 
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null, res.data);
+	  }
+	};
+
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  }
+	};
+
+	module.exports = exports = function(app) {
+	  app.factory('Resource', ['$http', function($http) {
+	    var Resource = function(resourceName) {
+	      this.resourceName = resourceName;
+	    }
+	// For the Sharks
+	    Resource.prototype.getAll = function(callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	// For the People
+	    Resource.prototype.getAllPeople = function(callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
+	      .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	    
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    }
+	  }])
+	}
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	/**
 	 * @license AngularJS v1.5.0
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33514,12 +33570,12 @@
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(2);
 	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	__webpack_require__(6);
 
 
 	//Testing the PeoplesController

@@ -2,89 +2,74 @@ const angular = require('angular');
 
 const myApp = angular.module('myApp', []);
 
-myApp.controller('SharksController', ['$scope', '$http', function($scope, $http) {
-  $scope.sharks = [];
+require('./services/resource')(myApp);
 
-  $scope.getAllSharks = function() {
-    $http.get('http://localhost:3000/api/sharks')
-      .then((res) => {
-        console.log('success!');
-        $scope.sharks = res.data;
-      }, (err) => {
-        console.log(err);
-      });
-  }
+myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+  $scope.sharks = [];
+  var sharksService = Resource('/sharks');
+
+  $scope.getAll = function() {
+    sharksService.getAll(function(err, res) {
+      if (err) return console.log(err);
+      $scope.sharks = res;
+    });
+  };
 
   $scope.createShark = function(shark) {
-    $http.post('http://localhost:3000/api/sharks', shark)
-      .then((res) => {
-        $scope.sharks.push(res.data);
-        $scope.newShark = null;
-      }, (err) => {
-        console.log(err);
-      })
-  }
+    sharksService.create(shark, function(err, res) {
+      if (err) return console.log(err);
+      $scope.sharks.push(res);
+      $scope.newShark = null;
+    });
+  };
 
   $scope.updateShark = function(shark) {
-    $http.put('http://localhost:3000/api/sharks/' + shark._id, shark)
-      .then((res) => {
-        $scope.sharks[$scope.sharks.indexOf(shark)] = shark;
-        shark.editing = false;
-      }, (err) => {
-        console.log(err);
-        shark.editing = false;
-      })
-  }
+    sharksService.update(shark, function(err, res) {
+      shark.editing = false;
+      if (err) return console.log(err);
+    });
+  };
 
   $scope.deleteShark = function(shark) {
-    $http.delete('http://localhost:3000/api/sharks/' + shark._id)
-      .then((res) => {
-        $scope.sharks = $scope.sharks.filter((i) => i !== shark);
-      }, (err) => {
-        console.log(err)
-      })
-  }
+    sharksService.delete(shark, function(err, res) {
+      if (err) return console.log(err);
+      $scope.sharks.splice($scope.sharks.indexOf(shark), 1);
+    });
+  };
+
 }]);
 
-myApp.controller('PeoplesController', ['$scope', '$http', function($scope, $http) {
+myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
   $scope.peoples = [];
+  var peopleService = Resource('/people');
 
-$scope.getAllPeople = function() {
-  $http.get('http://localhost:3000/api/people')
-    .then((res) => {
-      console.log('success!');
-      $scope.peoples = res.data;
-    }, (err) => {
-      console.log(err);
+  $scope.getAllPeople = function() {
+    peopleService.getAllPeople(function(err, res) {
+      if (err) return console.log(err);
+      $scope.peoples = res;
     });
-}
+  };
+
   $scope.createPeople = function(people) {
-    $http.post('http://localhost:3000/api/people', people)
-      .then((res) => {
-        $scope.peoples.push(res.data);
-        $scope.newPeople = null;
-      }, (err) => {
-        console.log(err);
-      })
-  }
+    peopleService.create(people, function(err, res) {
+      if (err) return console.log(err);
+      $scope.peoples.push(res);
+      $scope.newPeople = null;
+    });
+  };
 
   $scope.updatePeople = function(people) {
-    $http.put('http://localhost:3000/api/people/' + people._id, people)
-      .then((res) => {
-        $scope.peoples[$scope.peoples.indexOf(people)] = people;
-        people.editing = false;
-      }, (err) => {
-        console.log(err);
-        people.editing = false;
-      })
-  }
+    peopleService.update(people, function(err, res) {
+      people.editing = false;
+      if (err) return console.log(err);
+    });
+  };
 
   $scope.deletePeople = function(people) {
-    $http.delete('http://localhost:3000/api/people/' + people._id)
-      .then((res) => {
-        $scope.peoples = $scope.peoples.filter((i) => i !== people);
-      }, (err) => {
-        console.log(err)
-      })
-  }
+    peopleService.delete(people, function(err, res) {
+      if (err) return console.log(err);
+      $scope.peoples.splice($scope.peoples.indexOf(people), 1);
+    });
+  };
+
 }]);
