@@ -2,7 +2,7 @@ const angular = require('angular');
 const jedisApp = angular.module('jedisApp', []);
 require('./services/resource_service')(jedisApp);
 
-jedisApp.controller('JedisController', ['$scope', '$http','Resource', function($scope, $http, Resource) {
+jedisApp.controller('JedisController', ['$scope', '$http','cfResource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.jedis = [];
   var jediService = Resource('/jedis');
@@ -37,7 +37,7 @@ jedisApp.controller('JedisController', ['$scope', '$http','Resource', function($
   };
 }]);
 
-jedisApp.controller('SithlordsController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+jedisApp.controller('SithlordsController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.sithlords = [];
   var sithService = Resource('/sith-lords');

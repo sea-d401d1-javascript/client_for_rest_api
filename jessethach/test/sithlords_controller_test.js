@@ -1,6 +1,5 @@
-require(__dirname + '/../app/js/entry');
 var angular = require('angular');
-require('angular-mocks');
+
 
 describe('it should do some stuff', () => {
   it('should work after a build', () => {
