@@ -51,7 +51,28 @@ describe('resource service', () => {
     var jedi = {name: 'created jedi'};
     $httpBackend.expectPOST('http://localhost:3000/api/test', jedi).respond(200, jedi);
     testService.create(jedi, (err, res) => {
+      expect(err).toBe(null);
       expect(res.name).toBe(jedi.name);
+    });
+    $httpBackend.flush();
+  });
+
+  it('should service the update function', () => {
+    var jedi = {name: 'updatejedi', _id: 1};
+    $httpBackend.expectPUT('http://localhost:3000/api/test/1', jedi).respond(200, jedi);
+    testService.update(jedi, (err, res) => {
+      expect(err).toBe(null);
+      expect(res._id).toBe(1);
+    });
+    $httpBackend.flush();
+  });
+
+  it('should service the delete function', () => {
+    var jedi = {name: 'deletejedi', _id: 1};
+    $httpBackend.expectDELETE('http://localhost:3000/api/test/1').respond(200, jedi);
+    testService.delete(jedi, (err, res) => {
+      expect(err).toBe(null);
+      expect(res.name).toBe('deletejedi');
     });
     $httpBackend.flush();
   });
