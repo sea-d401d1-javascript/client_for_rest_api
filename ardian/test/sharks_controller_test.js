@@ -1,6 +1,4 @@
-require('../app/js/myApp');
 var angular = require('angular');
-require('angular-mocks');
 
 //Testing the SharksController
 describe('sharks controller', () => {

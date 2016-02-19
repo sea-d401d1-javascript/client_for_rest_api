@@ -45,101 +45,26 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(5);
+
+	__webpack_require__(6);
 	__webpack_require__(7);
+	__webpack_require__(8);
+	__webpack_require__(9);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(6);
-
-	//Testing the SharksController
-	describe('sharks controller', () => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
-
-	  beforeEach(angular.mock.module('myApp'));
-
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
-
-	  it('should be able to make a sharks controller', () => {
-	    var sharksController = $ControllerConstructor('SharksController', {$scope});
-	    expect(typeof sharksController).toBe('object');
-	    expect(Array.isArray($scope.sharks)).toBe(true);
-	    expect(typeof $scope.getAll).toBe('function');
-	  });
-
-	  describe('REST request', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('SharksController', {$scope});
-	    }));
-
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-
-	    it('should make a get request to /api/sharks', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/sharks').respond(200, [{name: 'test shark'}]);
-	      $scope.getAll();
-	      $httpBackend.flush();
-	      expect($scope.sharks.length).toBe(1);
-	      expect($scope.sharks[0].name).toBe('test shark');
-	    });
-
-	    it('should create a new shark', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/sharks', {name: 'the sent shark'}).respond(200, {name: 'the response shark'});
-	      $scope.newShark = {name: 'the new shark'};
-	      $scope.createShark({name: 'the sent shark'});
-	      $httpBackend.flush();
-	      expect($scope.sharks.length).toBe(1);
-	      expect($scope.newShark).toBe(null);
-	      expect($scope.sharks[0].name).toBe('the response shark');
-	    });
-
-	    it('should update a shark', () => {
-	      var testShark = {name: 'inside scope', editing: true, _id: 5};
-	      $scope.sharks.push(testShark);
-	      $httpBackend.expectPUT('http://localhost:3000/api/sharks/5', testShark).respond(200);
-	      $scope.updateShark(testShark);
-	      $httpBackend.flush();
-	      expect(testShark.editing).toBe(false);
-	      expect($scope.sharks[0].editing).toBe(false);
-	    });
-
-	    it('should delete a shark', () => {
-	      var testShark = {name: 'delete shark', _id: 1};
-	      $scope.sharks.push(testShark);
-	      expect($scope.sharks.indexOf(testShark)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:3000/api/sharks/1').respond(200);
-	      $scope.deleteShark(testShark);
-	      $httpBackend.flush();
-	      expect($scope.sharks.indexOf(testShark)).toBe(-1);
-	    });
-	  });
-	});//End of testing SharksController
-
-
-/***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
-
-	const angular = __webpack_require__(3);
+	const angular = __webpack_require__(2);
 
 	const myApp = angular.module('myApp', []);
 
-	__webpack_require__(5)(myApp);
+	__webpack_require__(4)(myApp);
 
 	// For the Sharks
-	myApp.controller('SharksController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+	myApp.controller('SharksController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
 	  $scope.sharks = [];
 	  var sharksService = Resource('/sharks');
 
@@ -176,7 +101,7 @@
 
 
 	// For the People
-	myApp.controller('PeoplesController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+	myApp.controller('PeoplesController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
 	  $scope.peoples = [];
 	  var peopleService = Resource('/people');
 
@@ -213,15 +138,15 @@
 
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -30654,7 +30579,7 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30670,10 +30595,11 @@
 	};
 
 	module.exports = exports = function(app) {
-	  app.factory('Resource', ['$http', function($http) {
+	  app.factory('myResource', ['$http', function($http) {
 	    var Resource = function(resourceName) {
 	      this.resourceName = resourceName;
 	    }
+
 	// For the Sharks
 	    Resource.prototype.getAll = function(callback) {
 	      $http.get('http://localhost:3000/api' + this.resourceName)
@@ -30727,7 +30653,7 @@
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	/**
@@ -33575,13 +33501,88 @@
 
 
 /***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	//Testing the SharksController
+	describe('sharks controller', () => {
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
+
+	  beforeEach(angular.mock.module('myApp'));
+
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
+
+	  it('should be able to make a sharks controller', () => {
+	    var sharksController = $ControllerConstructor('SharksController', {$scope});
+	    expect(typeof sharksController).toBe('object');
+	    expect(Array.isArray($scope.sharks)).toBe(true);
+	    expect(typeof $scope.getAll).toBe('function');
+	  });
+
+	  describe('REST request', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('SharksController', {$scope});
+	    }));
+
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('should make a get request to /api/sharks', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/sharks').respond(200, [{name: 'test shark'}]);
+	      $scope.getAll();
+	      $httpBackend.flush();
+	      expect($scope.sharks.length).toBe(1);
+	      expect($scope.sharks[0].name).toBe('test shark');
+	    });
+
+	    it('should create a new shark', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/sharks', {name: 'the sent shark'}).respond(200, {name: 'the response shark'});
+	      $scope.newShark = {name: 'the new shark'};
+	      $scope.createShark({name: 'the sent shark'});
+	      $httpBackend.flush();
+	      expect($scope.sharks.length).toBe(1);
+	      expect($scope.newShark).toBe(null);
+	      expect($scope.sharks[0].name).toBe('the response shark');
+	    });
+
+	    it('should update a shark', () => {
+	      var testShark = {name: 'inside scope', editing: true, _id: 5};
+	      $scope.sharks.push(testShark);
+	      $httpBackend.expectPUT('http://localhost:3000/api/sharks/5', testShark).respond(200);
+	      $scope.updateShark(testShark);
+	      $httpBackend.flush();
+	      expect(testShark.editing).toBe(false);
+	      expect($scope.sharks[0].editing).toBe(false);
+	    });
+
+	    it('should delete a shark', () => {
+	      var testShark = {name: 'delete shark', _id: 1};
+	      $scope.sharks.push(testShark);
+	      expect($scope.sharks.indexOf(testShark)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/sharks/1').respond(200);
+	      $scope.deleteShark(testShark);
+	      $httpBackend.flush();
+	      expect($scope.sharks.indexOf(testShark)).toBe(-1);
+	    });
+	  });
+	});//End of testing SharksController
+
+
+/***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(6);
-
+	var angular = __webpack_require__(2);
 
 	//Testing the PeoplesController
 	describe('People controller', () => {
@@ -33653,6 +33654,150 @@
 	    });
 	  });
 	});// end of testing PeoplesController
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('resource service', () => {
+	  beforeEach(angular.mock.module('myApp'));
+
+	  var $httpBackend;
+	  var Resource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, myResource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = myResource('/people');
+	  }));
+
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('object');
+	  });
+
+	  it('should getAll people', () => {
+	    $httpBackend.expectGET('http://localhost:3000/api/people').respond(200, [{name: 'test people'}]);
+	    Resource.getAllPeople(function(err, data) {
+	      expect(err).toBe(null);
+	      expect(data.length).toBe(1);
+	      expect(data[0].name).toBe('test people')
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should create a person', () => {
+	    $httpBackend.expectPOST('http://localhost:3000/api/people', {name: 'the sent person'}).respond(200, {name: 'the response person'});
+	    var cbCalled = false;
+	    Resource.create({name: 'the sent person'}, function(err, data) {
+	      cbCalled = true;
+	      expect(err).toBe(null);
+	      expect(data.name).toBe('the response person');
+	    });
+	    $httpBackend.flush();
+	    expect(cbCalled).toBe(true);
+	  });
+
+	  it('should edit a shark', () => {
+	    var testPerson = {name: 'inside scope', _id: 5};
+	    $httpBackend.expectPUT('http://localhost:3000/api/people/5', testPerson).respond(200);
+	    var cbCalled = false;
+	    Resource.update(testPerson, function(err, res) {
+	      cbCalled = true;
+	      expect(err).toBe(null);
+	      expect(res).not.toBe(null);
+	    });
+	    $httpBackend.flush();
+	    expect(cbCalled).toBe(true);
+	  });
+
+	  it('should delete a shark', () => {
+	    var testPerson = {name: 'condemned shark', _id: 1};
+	    $httpBackend.expectDELETE('http://localhost:3000/api/people/1').respond(200);
+	    Resource.delete(testPerson, function(err, res) {
+	      expect(err).toBe(null);
+	      expect(res).not.toBe(null);
+	    });
+	    $httpBackend.flush();
+	  });
+	});
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('resource service', () => {
+	  beforeEach(angular.mock.module('myApp'));
+
+	  var $httpBackend;
+	  var Resource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, myResource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = myResource('/sharks');
+	  }));
+
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('object');
+	  });
+
+	  it('should getAll sharks', () => {
+	    $httpBackend.expectGET('http://localhost:3000/api/sharks').respond(200, [{name: 'test shark'}]);
+	    Resource.getAll(function(err, data) {
+	      expect(err).toBe(null);
+	      expect(data.length).toBe(1);
+	      expect(data[0].name).toBe('test shark')
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should create a shark', () => {
+	    $httpBackend.expectPOST('http://localhost:3000/api/sharks', {name: 'the sent shark'}).respond(200, {name: 'the response shark'});
+	    var cbCalled = false;
+	    Resource.create({name: 'the sent shark'}, function(err, data) {
+	      cbCalled = true;
+	      expect(err).toBe(null);
+	      expect(data.name).toBe('the response shark');
+	    });
+	    $httpBackend.flush();
+	    expect(cbCalled).toBe(true);
+	  });
+
+	  it('should edit a shark', () => {
+	    var testShark = {name: 'inside scope', _id: 5};
+	    $httpBackend.expectPUT('http://localhost:3000/api/sharks/5', testShark).respond(200);
+	    var cbCalled = false;
+	    Resource.update(testShark, function(err, res) {
+	      cbCalled = true;
+	      expect(err).toBe(null);
+	      expect(res).not.toBe(null);
+	    });
+	    $httpBackend.flush();
+	    expect(cbCalled).toBe(true);
+	  });
+
+	  it('should delete a shark', () => {
+	    var testShark = {name: 'condemned shark', _id: 1};
+	    $httpBackend.expectDELETE('http://localhost:3000/api/sharks/1').respond(200);
+	    Resource.delete(testShark, function(err, res) {
+	      expect(err).toBe(null);
+	      expect(res).not.toBe(null);
+	    });
+	    $httpBackend.flush();
+	  });
+	});
 
 
 /***/ }

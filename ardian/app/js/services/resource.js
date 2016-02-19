@@ -11,10 +11,11 @@ var handleFailure = function(callback) {
 };
 
 module.exports = exports = function(app) {
-  app.factory('Resource', ['$http', function($http) {
+  app.factory('myResource', ['$http', function($http) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
     }
+
 // For the Sharks
     Resource.prototype.getAll = function(callback) {
       $http.get('http://localhost:3000/api' + this.resourceName)

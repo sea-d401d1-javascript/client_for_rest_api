@@ -1,7 +1,4 @@
-require('../app/js/myApp');
 var angular = require('angular');
-require('angular-mocks');
-
 
 //Testing the PeoplesController
 describe('People controller', () => {
