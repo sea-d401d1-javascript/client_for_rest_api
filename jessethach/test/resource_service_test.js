@@ -49,10 +49,11 @@ describe('resource service', () => {
 
   it('should service the create function', () => {
     var jedi = {name: 'created jedi'};
-    $httpBackend.expectPOST('http://localhost:3000/api/test', jedi).respond(200);
-    testService.create((err, res) => {
-      expect(err).toBe(null);
+    $httpBackend.expectPOST('http://localhost:3000/api/test', jedi).respond(200, jedi);
+    testService.create(jedi, (err, res) => {
+      expect(res.name).toBe(jedi.name);
     });
+    $httpBackend.flush();
   });
 
 });
