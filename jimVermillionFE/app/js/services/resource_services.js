@@ -11,7 +11,7 @@ var handleFailure = function(callback) {
 };
 
 module.exports = exports = function(app) {
-  app.factory('Resource', ['$http', function($http){ // singleton -- object that can only be made once -- gets pointed to
+  app.factory('Resource', ['$http', function($http){
     var Resource = function(resourceName){
       this.resourceName = resourceName;
     };

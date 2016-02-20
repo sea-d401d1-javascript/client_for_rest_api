@@ -22,7 +22,7 @@
           <button type="submit">update</button>
         </form>
         <!-- delete button -->
-        <button data-ng-click="deleteFlower(flower)">DELETE {{flower.name}} </button>
+        <button data-ng-click="deleteFlower(flower, $index)">DELETE {{flower.name}} </button>
       </section>
       
       <!-- post a new flower -->
@@ -53,7 +53,7 @@
           <button type="submit">update</button>
         </form>
         <!-- delete button -->
-        <button data-ng-click="deleteGardener(gardener)">DELETE {{gardener.name}} </button>
+        <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
       </section>
       
       <!-- post a new gardener -->
