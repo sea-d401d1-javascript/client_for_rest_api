@@ -17,8 +17,8 @@
         <ul>
           <li data-ng-repeat="myAct in activity">{{myAct.name}}, {{myAct.shoes}}
             <button data-ng-click="deleteActivity(myAct)">Delete This Activity</button>
-            <button data-ng-click="myAct.editting = !myAct.editting">Update This Activity</button>
-            <form data-ng-if="myAct.editting" data-ng-submit="updateActivity(myAct)">
+            <button data-ng-click="myAct.editing = !myAct.editing">Update This Activity</button>
+            <form data-ng-if="myAct.editing" data-ng-submit="updateActivity(myAct)">
               <input data-ng-model="myAct.name" type="text"/>
               <input data-ng-model="myAct.shoes" type="text"/>
               <button type="submit">Update</button>

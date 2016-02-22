@@ -1,9 +1,9 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
-const gutil = require('gulp-util');
+require('gulp-util');
 const webpack = require('webpack-stream');
-//const babel = require('babel-loader');
+var babel = require("gulp-babel");
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -24,7 +24,9 @@ gulp.task('build:dev', ['webpack:dev', 'html:dev']);
 
 gulp.task('webpack:test', () => {
   gulp.src(__dirname + '/test/test_entry.js')
+    .pipe(babel())
     .pipe(webpack({
+      devtool: 'source-map',
       output: {
         filename: 'test_bundle.js'
       }
@@ -42,7 +44,7 @@ gulp.task('watch-mocha', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['**/*.js', '!**/node_modules/*'])
+  return gulp.src(['**/*.js', '!**/node_modules/*', '!**/*bundle*', '!*.map'])
     .pipe(eslint({
       'rules': {
         'indent': [2, 2],
@@ -54,11 +56,12 @@ gulp.task('lint', function() {
         'es6': true,
         'node': true,
         'browser': true,
-        'mocha': true
+        'mocha': true,
+        'expect': true
       },
       'extends': 'eslint:recommended'
     }))
     .pipe(eslint.format());
 });
 
-gulp.task('default', ['lint', 'mocha']);
+gulp.task('default', ['lint']);
