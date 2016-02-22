@@ -45,313 +45,159 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(5);
+	__webpack_require__(6);
+	__webpack_require__(7);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	const angular = __webpack_require__(2);
+	const twoResourcesApp = angular.module('twoResourcesApp', []);
+	__webpack_require__(4)(twoResourcesApp);
 
-	describe('movies controller',() => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
+	twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
+	  $scope.movies = [];
 
-	  beforeEach(angular.mock.module('twoResourcesApp'));
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
-	  it('should be able to make a controller', function() {
-	    var moviesController = $ControllerConstructor('MoviesController',{
-	      $scope
-	    });
+	  var movieService = Resource('/movies');
 
-	    expect(typeof moviesController).toBe('object');
-	    expect(angular.isArray($scope.movies)).toBe(true);
-	    expect($scope.movies.length).toBe(0);
-	    expect(typeof $scope.getAllMovies).toBe('function');
+	$scope.getAllMovies = function() {
+	  movieService.getAll(function(err, res){
+	    if(err) return console.log(err);
+	    $scope.movies = res;
 	  });
+	};
 
-	  describe('REST request', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_){
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('MoviesController',{
-	        $scope
+
+	$scope.createMovie = function(movie) {
+	  movieService.create(movie,function(err, res) {
+	    if(err) return console.log(err);
+	    $scope.movies.push(res);
+	    $scope.newMovie = null;
+	  });
+	};
+
+
+	  $scope.updateMovie = function(movie) {
+	    movieService.update(movie, function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.movies = $scope.movies.map(function(item) {
+	        if(item._id === movie._id){
+	          item = movie;
+	          return item;
+	        }
+	        return item;
 	      });
-	    }));
-
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
+	      movie.editing = false;
 	    });
+	  };
 
-	    it('should make a get request to /api/movies', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/movies').respond(200,[{
-	        name:'test'
-	      }]);
+	  $scope.deleteMovie = function(movie) {
+	    movieService.delete(movie,function(err, res) {
+	      if(err) return console.log(err);
 
-	      $scope.getAllMovies();
-	      $httpBackend.flush();
-
-	      expect($scope.movies.length).toBe(1);
-	      expect($scope.movies[0].name).toBe('test');
-	    });
-
-	    it('should create a new movie', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/movies',{name:'postmovie'})
-	        .respond(200,{name:'responsenewmovie'});
-	      $scope.newMovie={name: 'newMovie'};
-	      $scope.createMovie({name:'postmovie'});
-	      $httpBackend.flush();
-	      expect($scope.movies.length).toBe(1);
-	      expect($scope.movies[0].name).toBe('responsenewmovie');
-	      expect($scope.newMovie).toBe(null);
+	      $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
 
 	    });
+	  };
 
-	    it('should update a movie', () => {
-	      var putmovie = {_id:1,name:'putmovie',editing:true};
-	      $scope.movies.push({_id:1, name:'movie'});
-	      $httpBackend.expectPUT('http://localhost:3000/api/movies/1',{_id:1,name:'putmovie',editing:true})
-	        .respond(200,{name:'responseputmovie'});
+	}]);
 
-	      $scope.updateMovie(putmovie);
-	      $httpBackend.flush();
-	      expect(putmovie.editing).toBe(false);
-	      expect($scope.movies[0].name).toBe('putmovie');
-	      expect($scope.movies[0].editing).toBe(false);
+	twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
+	  $scope.actors = [];
+	  var actorResource = Resource('/actors');
+
+	  $scope.getAllActors = function() {
+	    actorResource.getAll(function(err,res){
+	      if(err) return console.log(err);
+	      $scope.actors = res;
 	    });
+	  };
+	  // $scope.getAllActors = function() {
+	  //   $http.get('http://localhost:3000/api/actors')
+	  //   .then((res) => {
+	  //     $scope.actors = res.data;
+	  //   }, (err) => {
+	  //     console.log(err);
+	  //   });
+	  // };
 
-	    it('should delete a movie', () => {
-	      $httpBackend.expectDELETE('http://localhost:3000/api/movies/1')
-	        .respond(200, {name:'responsedeletemovie'});
-	      var movie = {_id:1, name:'deletemovie'};
-	      $scope.movies = [{_id:1, name:'deletemovie'},{_id:2, name:'secondmovie'}];
-	      $scope.deleteMovie(movie);
-	      $httpBackend.flush();
-	      expect($scope.movies.length).toBe(1);
-	      expect($scope.movies[0]._id).toBe(2);
-	      expect($scope.movies[0].name).toBe('secondmovie');
+	  $scope.createActor = function(actor) {
+	    actorResource.create(actor,function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.actors.push(res);
+	      $scope.newActor = null;
 	    });
+	  };
 
-	  });
+	  // $scope.createActor = function(actor) {
+	  //   $http.post('http://localhost:3000/api/actors', actor)
+	  //     .then((res) => {
+	  //       $scope.actors.push(res.data);
+	  //       $scope.newActor = null;
+	  //     }, (err) => {
+	  //       console.log(err);
+	  //     });
+	  // };
 
-
-	});
-
-	describe('actors controller', () => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
-
-	  beforeEach(angular.mock.module('twoResourcesApp'));
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $scope = $rootScope.$new();
-	    $ControllerConstructor = $controller;
-	  }));
-
-	  it('should be able to make a controller', function() {
-	    var ActorsController = $ControllerConstructor('ActorsController',{
-	      $scope
-	    });
-	    expect(typeof ActorsController).toBe('object');
-	    expect(angular.isArray($scope.actors)).toBe(true);
-	    expect($scope.actors.length).toBe(0);
-	    expect(typeof $scope.getAllActors).toBe('function');
-	  });
-
-	  describe('REST request', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_){
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('ActorsController',{
-	        $scope
+	  $scope.updateActor = function(actor) {
+	    actorResource.update(actor,function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.actors = $scope.actors.map(function(item) {
+	        if(item._id === actor._id){
+	          item = actor;
+	          return item;
+	        }
+	        return item;
 	      });
-	    }));
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
+	      actor.editing = false;
 	    });
-
-	    it('should  make a get request', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/actors').respond(200,[{
-	        name:'testactor'
-	      }]);
-	      $scope.getAllActors();
-	      $httpBackend.flush();
-	      expect($scope.actors.length).toBe(1);
-	      expect($scope.actors[0].name).toBe('testactor');
+	  };
+	  // $scope.updateActor = function (actor){
+	  //   $http.put('http://localhost:3000/api/actors/' + actor._id, actor)
+	  //     .then((res) => {
+	  //       console.log('update');
+	  //       $scope.actors = $scope.actors.map(function(item) {
+	  //         if(item._id === actor._id){
+	  //           item = actor;
+	  //           return item;
+	  //         }
+	  //         return item;
+	  //       });
+	  //       actor.editing = false;
+	  //     }, (err) => {
+	  //       console.log(err);
+	  //     });
+	  // };
+	  $scope.deleteActor =  function(actor) {
+	    actorResource.delete(actor,function(err,data) {
+	      if(err) return console.log(err);
+	      $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
 	    });
-
-	    it('should create a new actor', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/actors',{name:'postactor'})
-	        .respond(200,{name: 'responsenewactor'});
-	      $scope.newActor = {name: 'newactor'};
-	      $scope.createActor({name: 'postactor'});
-	      $httpBackend.flush();
-	      expect($scope.actors.length).toBe(1);
-	      expect($scope.newActor).toBe(null);
-	      expect($scope.actors[0].name).toBe('responsenewactor');
-	    });
-
-	    it('should update a new actor', () => {
-	      var putactor = {_id:1,name:'putactor',editing:true};
-	      $scope.actors.push({_id:1, name:'actor'});
-	      $httpBackend.expectPUT('http://localhost:3000/api/actors/1',{_id:1,name:'putactor',editing:true})
-	        .respond(200,{name:'responseputmovie'});
-
-	      $scope.updateActor(putactor);
-	      $httpBackend.flush();
-	      expect(putactor.editing).toBe(false);
-	      expect($scope.actors[0].name).toBe('putactor');
-	      expect($scope.actors[0].editing).toBe(false);
-	    });
-
-	    it('should delete a actor', () => {
-	      var actor = {_id:1, name:'deleteactor'};
-	      $scope.actors = [{_id:1, name:'deleteactor'},{_id:2, name:'secondactor'}];
-	      $httpBackend.expectDELETE('http://localhost:3000/api/actors/1')
-	        .respond(200, {name:'responsedeletemovie'});
-	      $scope.deleteActor(actor);
-	      $httpBackend.flush();
-	      expect($scope.actors.length).toBe(1);
-	      expect($scope.actors[0]._id).toBe(2);
-	      expect($scope.actors[0].name).toBe('secondactor');
-
-	    });
-	  });
-	});
+	  };
+	  // $scope.deleteActor = function (actor) {
+	  //   $http.delete('http://localhost:3000/api/actors/' + actor._id)
+	  //     .then((res) => {
+	  //       $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
+	  //     }, (err) => {
+	  //       console.log(err);
+	  //     });
+	  // };
+	}]);
 
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(3);
-	const twoResourcesApp = angular.module('twoResourcesApp', []);
-
-	twoResourcesApp.controller('MoviesController',['$scope', '$http', function($scope, $http) {
-	  $scope.movies = [];
-
-	  $scope.getAllMovies = function() {
-	    $http.get('http://localhost:3000/api/movies')
-	    .then((res) => {
-	      $scope.movies = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.createMovie = function(movie) {
-	    $http.post('http://localhost:3000/api/movies', movie)
-	      .then((res) => {
-	        $scope.movies.push(res.data);
-	        $scope.newMovie = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.updateMovie = function (movie){
-	    $http.put('http://localhost:3000/api/movies/' + movie._id, movie)
-	      .then((res) => {
-	        console.log('line30');
-	        console.log($scope.movies);
-	        // $scope.movies[$scope.movies.indexOf(movie)] = movie;
-	        $scope.movies = $scope.movies.map(function(item) {
-	          if(item._id === movie._id){
-	            item = movie;
-	            return item;
-	          }
-	          return item;
-	        });
-	        console.log('line39');
-	        console.log($scope.movies);
-	        movie.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.deleteMovie = function (movie) {
-	    $http.delete('http://localhost:3000/api/movies/' + movie._id)
-	      .then((res) => {
-	        console.log('line41');
-	        console.log($scope.movies);
-	        $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
-	        //$scope.movies.splice($scope.bears.indexOf(bear),1);
-	        console.log('line 44');
-	        console.log($scope.movies);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	}]);
-
-	twoResourcesApp.controller('ActorsController', ['$scope', '$http', function($scope, $http) {
-	  $scope.actors = [];
-
-	  $scope.getAllActors = function() {
-	    $http.get('http://localhost:3000/api/actors')
-	    .then((res) => {
-	      $scope.actors = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.createActor = function(actor) {
-	    $http.post('http://localhost:3000/api/actors', actor)
-	      .then((res) => {
-	        $scope.actors.push(res.data);
-	        $scope.newActor = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.updateActor = function (actor){
-	    $http.put('http://localhost:3000/api/actors/' + actor._id, actor)
-	      .then((res) => {
-	        console.log('update');
-	        $scope.actors = $scope.actors.map(function(item) {
-	          if(item._id === actor._id){
-	            item = actor;
-	            return item;
-	          }
-	          return item;
-	        });
-	        actor.editing = false;
-
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.deleteActor= function (actor) {
-	    $http.delete('http://localhost:3000/api/actors/' + actor._id)
-	      .then((res) => {
-	        $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	}]);
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -30784,6 +30630,54 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null,res.data);
+	  };
+	};
+
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function(app) {
+	  app.factory('twoResource',['$http', function($http) {
+	    var Resource = function(ResourceName){
+	      this.ResourceName = ResourceName;
+	    };
+
+	    Resource.prototype.getAll = function(callback){
+	      $http.get('http://localhost:3000/api' + this.ResourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data,callback) {
+	      $http.post('http://localhost:3000/api' + this.ResourceName, data)
+	       .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3000/api' + this.ResourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.ResourceName + '/' + data._id)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	    return function(ResourceName) {
+	      return new Resource(ResourceName);
+	    };
+	  }]);
+	}
+
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
@@ -33629,6 +33523,300 @@
 
 
 	})(window, window.angular);
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(1);
+	var angular = __webpack_require__(2);
+	__webpack_require__(5);
+
+	describe('movies controller',() => {
+	  beforeEach(angular.mock.module('twoResourcesApp'));
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
+
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
+	  it('should be able to make a controller', function() {
+	    var moviesController = $ControllerConstructor('MoviesController',{
+	      $scope
+	    });
+
+	    expect(typeof moviesController).toBe('object');
+	    expect(angular.isArray($scope.movies)).toBe(true);
+	    expect($scope.movies.length).toBe(0);
+	    expect(typeof $scope.getAllMovies).toBe('function');
+	  });
+
+	  describe('REST request', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_){
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('MoviesController',{
+	        $scope
+	      });
+	    }));
+
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('should make a get request to /api/movies', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/movies').respond(200,[{
+	        name:'test'
+	      }]);
+
+	      $scope.getAllMovies();
+	      $httpBackend.flush();
+
+	      expect($scope.movies.length).toBe(1);
+	      expect($scope.movies[0].name).toBe('test');
+	    });
+
+	    it('should create a new movie', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/movies',{name:'postmovie'})
+	        .respond(200,{name:'responsenewmovie'});
+	      $scope.newMovie={name: 'newMovie'};
+	      $scope.createMovie({name:'postmovie'});
+	      $httpBackend.flush();
+	      expect($scope.movies.length).toBe(1);
+	      expect($scope.movies[0].name).toBe('responsenewmovie');
+	      expect($scope.newMovie).toBe(null);
+
+	    });
+
+	    it('should update a movie', () => {
+	      var putmovie = {_id:1,name:'putmovie',editing:true};
+	      $scope.movies.push({_id:1, name:'movie'});
+	      $httpBackend.expectPUT('http://localhost:3000/api/movies/1',{_id:1,name:'putmovie',editing:true})
+	        .respond(200);
+
+	      $scope.updateMovie(putmovie);
+	      $httpBackend.flush();
+	      expect(putmovie.editing).toBe(false);
+	      expect($scope.movies[0].name).toBe('putmovie');
+	      expect($scope.movies[0].editing).toBe(false);
+	    });
+
+	    it('should delete a movie', () => {
+	      $httpBackend.expectDELETE('http://localhost:3000/api/movies/1')
+	        .respond(200);
+	      var movie = {_id:1, name:'deletemovie'};
+	      $scope.movies = [{_id:1, name:'deletemovie'},{_id:2, name:'secondmovie'}];
+	      $scope.deleteMovie(movie);
+	      $httpBackend.flush();
+	      expect($scope.movies.length).toBe(1);
+	      expect($scope.movies[0]._id).toBe(2);
+	      expect($scope.movies[0].name).toBe('secondmovie');
+	    });
+
+	  });
+
+
+	});
+
+	describe('actors controller', () => {
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
+
+	  beforeEach(angular.mock.module('twoResourcesApp'));
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $scope = $rootScope.$new();
+	    $ControllerConstructor = $controller;
+	  }));
+
+	  it('should be able to make a controller', function() {
+	    var ActorsController = $ControllerConstructor('ActorsController',{
+	      $scope
+	    });
+	    expect(typeof ActorsController).toBe('object');
+	    expect(angular.isArray($scope.actors)).toBe(true);
+	    expect($scope.actors.length).toBe(0);
+	    expect(typeof $scope.getAllActors).toBe('function');
+	  });
+
+	  describe('REST request', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_){
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('ActorsController',{
+	        $scope
+	      });
+	    }));
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('should  make a get request', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/actors').respond(200,[{
+	        name:'testactor'
+	      }]);
+	      $scope.getAllActors();
+	      $httpBackend.flush();
+	      expect($scope.actors.length).toBe(1);
+	      expect($scope.actors[0].name).toBe('testactor');
+	    });
+
+	    it('should create a new actor', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/actors',{name:'postactor'})
+	        .respond(200,{name: 'responsenewactor'});
+	      $scope.newActor = {name: 'newactor'};
+	      $scope.createActor({name: 'postactor'});
+	      $httpBackend.flush();
+	      expect($scope.actors.length).toBe(1);
+	      expect($scope.newActor).toBe(null);
+	      expect($scope.actors[0].name).toBe('responsenewactor');
+	    });
+
+	    it('should update a new actor', () => {
+	      var putactor = {_id:1,name:'putactor',editing:true};
+	      $scope.actors.push({_id:1, name:'actor'});
+	      $httpBackend.expectPUT('http://localhost:3000/api/actors/1',{_id:1,name:'putactor',editing:true})
+	        .respond(200,{name:'responseputmovie'});
+
+	      $scope.updateActor(putactor);
+	      $httpBackend.flush();
+	      expect(putactor.editing).toBe(false);
+	      expect($scope.actors[0].name).toBe('putactor');
+	      expect($scope.actors[0].editing).toBe(false);
+	    });
+
+	    it('should delete a actor', () => {
+	      var actor = {_id:1, name:'deleteactor'};
+	      $scope.actors = [{_id:1, name:'deleteactor'},{_id:2, name:'secondactor'}];
+	      $httpBackend.expectDELETE('http://localhost:3000/api/actors/1')
+	        .respond(200, {name:'responsedeletemovie'});
+	      $scope.deleteActor(actor);
+	      $httpBackend.flush();
+	      expect($scope.actors.length).toBe(1);
+	      expect($scope.actors[0]._id).toBe(2);
+	      expect($scope.actors[0].name).toBe('secondactor');
+
+	    });
+	  });
+	});
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(1);
+	var angular = __webpack_require__(2);
+	__webpack_require__(5);
+
+	describe('resource service', () => {
+	  beforeEach(angular.mock.module('twoResourcesApp'));
+	  var $httpBackend;
+	  var testResource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, twoResource){
+	    $httpBackend = _$httpBackend_;
+	    Resource = twoResource;
+	  }));
+
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('function');
+	    var testResource = Resource('/test');
+	    expect(testResource.ResourceName).toBe('/test');
+	  });
+
+	  describe('Test Service Resource Prototypes', () => {
+	    var $httpBackend;
+	    var Resource;
+	    var testResource;
+	    beforeEach(angular.mock.inject(function(_$httpBackend_, twoResource){
+	      $httpBackend = _$httpBackend_;
+	      Resource = twoResource;
+	      testResource = Resource('/test');
+	    }));
+
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('GET All Data', () => {
+	      var getTest = {name: 'gettest'};
+	      var plugin = false;
+	      expect(typeof testResource).toBe('object');
+	      $httpBackend.expectGET('http://localhost:3000/api/test')
+	        .respond(200, getTest);
+	      testResource.getAll(function(err, res){
+	        expect(err).toBe(null);
+	        expect(res.name).toBe(getTest.name);
+	        plugin = true;
+	      });
+	      $httpBackend.flush();
+	      expect(plugin).toBe(true);
+	    });
+
+	    it('POST Data', () => {
+	      var postTest = {name: 'posttest'};
+	      var plugin = false;
+	      $httpBackend.expectPOST('http://localhost:3000/api/test',postTest)
+	        .respond(200, postTest);
+	      testResource.create(postTest,function(err,res){
+	        expect(err).toBe(null);
+	        expect(res.name).toBe(postTest.name);
+	        plugin  = true;
+	      });
+	      $httpBackend.flush();
+	      expect(plugin).toBe(true);
+	    });
+
+	    it('UPDATE Data', () => {
+	      var putTest = {_id:3,name: 'putTest'};
+	      var plugin = false;
+	      $httpBackend.expectPUT('http://localhost:3000/api/test/' + putTest._id, putTest)
+	        .respond(200);
+	      testResource.update(putTest,function(err, res) {
+	        expect(err).toBe(null);
+	        expect(res).toBe(undefined);
+	        plugin = true;
+	      });
+	      $httpBackend.flush();
+	      expect(plugin).toBe(true);
+	    });
+	    it('DELETE Data', () => {
+	      var deleteTest = {_id:3, name: 'deleteTest'};
+	      var plugin = false;
+	      $httpBackend.expectDELETE('http://localhost:3000/api/test/' + deleteTest._id)
+	        .respond(200);
+	      testResource.delete(deleteTest,function(err, res) {
+	        expect(err).toBe(null);
+	        plugin = true;
+	      });
+	      $httpBackend.flush();
+	      expect(plugin).toBe(true);
+	    });
+
+	    it('Handle Error',() => {
+	      var plugin = false;
+	      $httpBackend.expectGET('http://localhost:3000/api/test')
+	        .respond(404);
+	      testResource.getAll(function(err,res){
+	        expect(err.status).toBe(404);
+	        expect(res).toBe(undefined);
+	        plugin = true;
+	      });
+	      $httpBackend.flush();
+	      expect(plugin).toBe(true);
+	    });
+	  });
+
+	});
 
 
 /***/ }

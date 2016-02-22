@@ -3,11 +3,11 @@ var angular = require('angular');
 require('angular-mocks');
 
 describe('movies controller',() => {
+  beforeEach(angular.mock.module('twoResourcesApp'));
   var $httpBackend;
   var $scope;
   var $ControllerConstructor;
 
-  beforeEach(angular.mock.module('twoResourcesApp'));
   beforeEach(angular.mock.inject(function($rootScope, $controller) {
     $ControllerConstructor = $controller;
     $scope = $rootScope.$new();
@@ -64,7 +64,7 @@ describe('movies controller',() => {
       var putmovie = {_id:1,name:'putmovie',editing:true};
       $scope.movies.push({_id:1, name:'movie'});
       $httpBackend.expectPUT('http://localhost:3000/api/movies/1',{_id:1,name:'putmovie',editing:true})
-        .respond(200,{name:'responseputmovie'});
+        .respond(200);
 
       $scope.updateMovie(putmovie);
       $httpBackend.flush();
@@ -75,7 +75,7 @@ describe('movies controller',() => {
 
     it('should delete a movie', () => {
       $httpBackend.expectDELETE('http://localhost:3000/api/movies/1')
-        .respond(200, {name:'responsedeletemovie'});
+        .respond(200);
       var movie = {_id:1, name:'deletemovie'};
       $scope.movies = [{_id:1, name:'deletemovie'},{_id:2, name:'secondmovie'}];
       $scope.deleteMovie(movie);
