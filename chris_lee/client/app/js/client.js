@@ -1,10 +1,8 @@
 const angular = require('angular');
-const app = angular.module('CSApp', []);
-const ctBaseUri = 'http://localhost:3000/api/ct';
-const tBaseUri = 'http://localhost:3000/api/t';
-require('./services/resource_service')(app);
+const CSApp = angular.module('CSApp', []);
+require('./services/resource_service')(CSApp);
 
-app.controller('CTController', ['$scope', '$http', function($scope, $http) {
+CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
   $scope.cts = [];
   var ctService = Resource('/ct');
 
@@ -37,9 +35,9 @@ app.controller('CTController', ['$scope', '$http', function($scope, $http) {
     });
   };
 
-}]);
+}])
 
-.controller('TController', ['$scope', '$http', function($scope, $http) {
+.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
   $scope.ts = [];
   var tService = Resource('/t');
 

@@ -1,8 +1,5 @@
 var angular = require('angular');
 
-require('angular-mocks');
-require('../app/js/client');
-
 describe('counter-terrorist controller', () => {
 
   var $httpBackend;

@@ -45,133 +45,89 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(5);
+
+	__webpack_require__(6);
+	__webpack_require__(7);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var angular = __webpack_require__(2);
+	const angular = __webpack_require__(2);
+	const CSApp = angular.module('CSApp', []);
+	__webpack_require__(4)(CSApp);
 
-	__webpack_require__(4);
-	__webpack_require__(5);
+	CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
+	  $scope.cts = [];
+	  var ctService = Resource('/ct');
 
-	describe('counter-terrorist controller', () => {
+	  $scope.getCT = function() {
+	    ctService.get(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.cts = res;
+	    })
+	  };
 
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
+	  $scope.createCT = function(ct) {
+	    ctService.create(ct, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.cts.push(res);
+	      $scope.newCT = null;
+	    });
+	  };
 
-	  beforeEach(angular.mock.module('CSApp'));
+	  $scope.updateCT = function(ct) {
+	    ctService.update(ct, function(err, res) {
+	      ct.editting = false;
+	      if (err) return console.log(err);
+	    });
+	  };
 
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
+	  $scope.deleteCT = function(ct) {
+	    ctService.delete(ct, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.cts.splice($scope.cts.indexOf(ct), 1);
+	    });
+	  };
 
-	  it('should be able to create a CT controller', () => {
-	    var ctController = $ControllerConstructor('CTController', {$scope});
-	    expect(typeof ctController).toBe('object');
-	    expect(Array.isArray($scope.cts)).toBe(true);
-	    expect(typeof $scope.getCT).toBe('function');
-	  });
+	}])
 
-	  it('should be able to create a T controller', () => {
-	    var tController = $ControllerConstructor('TController', {$scope: $scope});
-	    expect(typeof tController).toBe('object');
-	    expect(Array.isArray($scope.ts)).toBe(true);
-	    expect(typeof $scope.getT).toBe('function');
-	  });
+	.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
+	  $scope.ts = [];
+	  var tService = Resource('/t');
 
-	  describe('REST requests using CT Controller', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('CTController', {$scope});
-	    }));
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
+	  $scope.getT = function() {
+	    tService.get(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.ts = res;
+	    })
+	  };
+
+	  $scope.createT = function(t) {
+	    tService.create(t, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.ts.push(res);
+	      $scope.newT = null;
 	    });
-	    it('should make a GET request to /api/ct', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/ct').respond(200, [{name: 'test CT'}]);
-	      $scope.getCT();
-	      $httpBackend.flush();
-	      expect($scope.cts.length).toBe(1);
-	      expect($scope.cts[0].name).toBe('test CT');
+	  };
+
+	  $scope.updateT = function(t) {
+	    tService.update(t, function(err, res) {
+	      t.editting = false;
+	      if (err) return console.log(err);
 	    });
-	    it('should make a POST request to /api/ct', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/ct', {name: 'sent CT'}).respond(200, {name: 'response CT'});
-	      $scope.newCT = {name: 'new CT'};
-	      $scope.createCT({name: 'sent CT'});
-	      $httpBackend.flush();
-	      expect($scope.cts.length).toBe(1);
-	      expect($scope.newCT).toBe(null);
-	      expect($scope.cts[0].name).toBe('response CT');
+	  };
+
+	  $scope.deleteT = function(t) {
+	    tService.delete(t, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.ts.splice($scope.ts.indexOf(t), 1);
 	    });
-	    it('should make a PUT request to /api/ct/:id', () => {
-	      var testCT = {name: 'inside scope', editting: true, _id: 5};
-	      $scope.cts.push(testCT);
-	      $httpBackend.expectPUT('http://localhost:3000/api/ct/5', testCT).respond(200);
-	      $scope.updateCT(testCT);
-	      $httpBackend.flush();
-	      expect(testCT.editting).toBe(false);
-	      expect($scope.cts[0].editting).toBe(false);
-	    });
-	    it('should make a DELETE request to /api/ct/:id', () => {
-	      var testCT = {name: 'condemned ct', _id: 1};
-	      $scope.cts.push(testCT);
-	      expect($scope.cts.indexOf(testCT)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:3000/api/ct/1').respond(200);
-	      $scope.deleteCT(testCT);
-	      $httpBackend.flush();
-	      expect($scope.cts.indexOf(testCT)).toBe(-1);
-	    });
-	  });
-	  describe('REST requests using T Controller', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('TController', {$scope});
-	    }));
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-	    it('should make a GET request to /api/t', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/t').respond(200, [{name: 'test T'}]);
-	      $scope.getT();
-	      $httpBackend.flush();
-	      expect($scope.ts.length).toBe(1);
-	      expect($scope.ts[0].name).toBe('test T');
-	    });
-	    it('should make a POST request to /api/t', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/t', {name: 'sent T'}).respond(200, {name: 'response T'});
-	      $scope.newT = {name: 'new T'};
-	      $scope.createT({name: 'sent T'});
-	      $httpBackend.flush();
-	      expect($scope.ts.length).toBe(1);
-	      expect($scope.newT).toBe(null);
-	      expect($scope.ts[0].name).toBe('response T');
-	    });
-	    it('should make a PUT request to /api/t/:id', () => {
-	      var testT = {name: 'inside scope', editting: true, _id: 5};
-	      $scope.ts.push(testT);
-	      $httpBackend.expectPUT('http://localhost:3000/api/t/5', testT).respond(200);
-	      $scope.updateT(testT);
-	      $httpBackend.flush();
-	      expect(testT.editting).toBe(false);
-	      expect($scope.ts[0].editting).toBe(false);
-	    });
-	    it('should make a DELETE request to /api/t/:id', () => {
-	      var testT = {name: 'condemned T', _id: 1};
-	      $scope.ts.push(testT);
-	      expect($scope.ts.indexOf(testT)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:3000/api/t/1').respond(200);
-	      $scope.deleteT(testT);
-	      $httpBackend.flush();
-	      expect($scope.ts.indexOf(testT)).toBe(-1);
-	    });
-	  })
-	});
+	  };
+
+	}]);
 
 
 /***/ },
@@ -30619,6 +30575,55 @@
 /* 4 */
 /***/ function(module, exports) {
 
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null, res.data);
+	  };
+	};
+
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function(CSApp) {
+	  CSApp.factory('csResource', ['$http', function($http) {
+	    var Resource = function(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+
+	    Resource.prototype.get = function(callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
 	/**
 	 * @license AngularJS v1.5.0
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33464,103 +33469,190 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(2);
+	var angular = __webpack_require__(2);
 
-	const app = angular.module('CSApp', []);
-	const ctBaseUri = 'http://localhost:3000/api/ct';
-	const tBaseUri = 'http://localhost:3000/api/t';
+	describe('counter-terrorist controller', () => {
 
-	app.controller('CTController', ['$scope', '$http', function($scope, $http) {
-	  $scope.cts = [];
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
 
-	  $scope.getCT = function() {
-	    $http.get(ctBaseUri)
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.cts = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
+	  beforeEach(angular.mock.module('CSApp'));
 
-	  $scope.createCT = function(ct) {
-	    $http.post(ctBaseUri, ct)
-	      .then((res) => {
-	        $scope.cts.push(res.data);
-	        $scope.newCT = null;  // clears form field
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
 
-	  $scope.deleteCT = function(ct) {
-	    $http.delete(ctBaseUri + '/' + ct._id)
-	      .then((res) => {
-	        $scope.cts = $scope.cts.filter((i) => i !== ct);
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+	  it('should be able to create a CT controller', () => {
+	    var ctController = $ControllerConstructor('CTController', {$scope});
+	    expect(typeof ctController).toBe('object');
+	    expect(Array.isArray($scope.cts)).toBe(true);
+	    expect(typeof $scope.getCT).toBe('function');
+	  });
 
-	  $scope.updateCT = function(ct) {
-	    $http.put(ctBaseUri + '/' + ct._id, ct)
-	      .then((res) => {
-	        $scope.cts[$scope.cts.indexOf(ct)] = ct;
-	        ct.editting = false;
-	      }, (err) => {
-	        console.log(err);
-	        ct.editting = false;
-	      })
-	  }
+	  it('should be able to create a T controller', () => {
+	    var tController = $ControllerConstructor('TController', {$scope: $scope});
+	    expect(typeof tController).toBe('object');
+	    expect(Array.isArray($scope.ts)).toBe(true);
+	    expect(typeof $scope.getT).toBe('function');
+	  });
 
-	}])
+	  describe('REST requests using CT Controller', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('CTController', {$scope});
+	    }));
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	    it('should make a GET request to /api/ct', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/ct').respond(200, [{name: 'test CT'}]);
+	      $scope.getCT();
+	      $httpBackend.flush();
+	      expect($scope.cts.length).toBe(1);
+	      expect($scope.cts[0].name).toBe('test CT');
+	    });
+	    it('should make a POST request to /api/ct', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/ct', {name: 'sent CT'}).respond(200, {name: 'response CT'});
+	      $scope.newCT = {name: 'new CT'};
+	      $scope.createCT({name: 'sent CT'});
+	      $httpBackend.flush();
+	      expect($scope.cts.length).toBe(1);
+	      expect($scope.newCT).toBe(null);
+	      expect($scope.cts[0].name).toBe('response CT');
+	    });
+	    it('should make a PUT request to /api/ct/:id', () => {
+	      var testCT = {name: 'inside scope', editting: true, _id: 5};
+	      $scope.cts.push(testCT);
+	      $httpBackend.expectPUT('http://localhost:3000/api/ct/5', testCT).respond(200);
+	      $scope.updateCT(testCT);
+	      $httpBackend.flush();
+	      expect(testCT.editting).toBe(false);
+	      expect($scope.cts[0].editting).toBe(false);
+	    });
+	    it('should make a DELETE request to /api/ct/:id', () => {
+	      var testCT = {name: 'condemned ct', _id: 1};
+	      $scope.cts.push(testCT);
+	      expect($scope.cts.indexOf(testCT)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/ct/1').respond(200);
+	      $scope.deleteCT(testCT);
+	      $httpBackend.flush();
+	      expect($scope.cts.indexOf(testCT)).toBe(-1);
+	    });
+	  });
+	  describe('REST requests using T Controller', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('TController', {$scope});
+	    }));
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	    it('should make a GET request to /api/t', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/t').respond(200, [{name: 'test T'}]);
+	      $scope.getT();
+	      $httpBackend.flush();
+	      expect($scope.ts.length).toBe(1);
+	      expect($scope.ts[0].name).toBe('test T');
+	    });
+	    it('should make a POST request to /api/t', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/t', {name: 'sent T'}).respond(200, {name: 'response T'});
+	      $scope.newT = {name: 'new T'};
+	      $scope.createT({name: 'sent T'});
+	      $httpBackend.flush();
+	      expect($scope.ts.length).toBe(1);
+	      expect($scope.newT).toBe(null);
+	      expect($scope.ts[0].name).toBe('response T');
+	    });
+	    it('should make a PUT request to /api/t/:id', () => {
+	      var testT = {name: 'inside scope', editting: true, _id: 5};
+	      $scope.ts.push(testT);
+	      $httpBackend.expectPUT('http://localhost:3000/api/t/5', testT).respond(200);
+	      $scope.updateT(testT);
+	      $httpBackend.flush();
+	      expect(testT.editting).toBe(false);
+	      expect($scope.ts[0].editting).toBe(false);
+	    });
+	    it('should make a DELETE request to /api/t/:id', () => {
+	      var testT = {name: 'condemned T', _id: 1};
+	      $scope.ts.push(testT);
+	      expect($scope.ts.indexOf(testT)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/t/1').respond(200);
+	      $scope.deleteT(testT);
+	      $httpBackend.flush();
+	      expect($scope.ts.indexOf(testT)).toBe(-1);
+	    });
+	  })
+	});
 
-	.controller('TController', ['$scope', '$http', function($scope, $http) {
-	  $scope.ts = [];
 
-	  $scope.getT = function() {
-	    $http.get(tBaseUri)
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.ts = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.createT = function(t) {
-	    $http.post(tBaseUri, t)
-	      .then((res) => {
-	        $scope.ts.push(res.data);
-	        $scope.newT = null;  // clears form field
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
 
-	  $scope.deleteT = function(t) {
-	    $http.delete(tBaseUri + '/' + t._id)
-	      .then((res) => {
-	        $scope.ts = $scope.ts.filter((i) => i !== t);
-	      }, (err) => {
-	        console.log(err);
-	      })
-	  }
+	var angular = __webpack_require__(2);
 
-	  $scope.updateT = function(t) {
-	    $http.put(tBaseUri + '/' + t._id, t)
-	      .then((res) => {
-	        $scope.ts[$scope.ts.indexOf(t)] = t;
-	        t.editting = false;
-	      }, (err) => {
-	        console.log(err);
-	        t.editting = false;
-	      })
-	  }
+	describe('resource service', () => {
 
-	}]);
+	  var $httpBackend;
+	  var Resource;
+	  var testService;
+
+	  beforeEach(angular.mock.module('CSApp'));
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, csResource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = csResource;
+	    testService = Resource('/test');
+	  }));
+
+	  afterEach(() => {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('function');
+	  });
+
+	  it('should have a resource name', () => {
+	    expect(testService.resourceName).toBe('/test');
+	  });
+
+	  it('should handle success of the get function', () => {
+	    var testCT = {name: 'test CT'};
+	    var err, res;
+	    $httpBackend.expectGET('http://localhost:3000/api/test').respond(200, testCT);
+	    testService.get((_err_, _res_) => {
+	      err = _err_;
+	      res = _res_;
+	    });
+	    $httpBackend.flush();
+	    expect(err).toBe(null);
+	    expect(res.name).toBe(testCT.name);
+	  });
+
+	  it('should handle failure of the getAll function', () => {
+	    var testCT = {name: 'test CT'};
+	    var err, res;
+	    $httpBackend.expectGET('http://localhost:3000/api/test').respond(404, 'error');
+	    testService.get((_err_, _res_) => {
+	      err = _err_;
+	      res = _res_;
+	    });
+	    $httpBackend.flush();
+	    expect(err).not.toBe(null);
+	    expect(err.status).toBe(404);
+	    expect(err.data).toBe('error');
+	    expect(res).toBe(undefined);
+	  });
+
+	})
 
 
 /***/ }

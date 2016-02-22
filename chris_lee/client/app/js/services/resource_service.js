@@ -10,8 +10,8 @@ var handleFailure = function(callback) {
   };
 };
 
-module.exports = exports = function(app) {
-  app.factory('csResource', ['$http', function($http) {
+module.exports = exports = function(CSApp) {
+  CSApp.factory('csResource', ['$http', function($http) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
     };
