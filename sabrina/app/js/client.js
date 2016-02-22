@@ -2,24 +2,28 @@ const angular = require('angular');
 
 const hogcApp = angular.module('hogcApp', []);
 
-hogcApp.controller('requestsController', ['$scope', '$http', ($scope, $http) => {
+hogcApp.controller('RequestsController', ['$scope', '$http', function($scope, $http) {
   $scope.requests = [];
 
-  $http.get('http://localhost:3000/api/requestsAll')
-    .then((res) => {
-      console.log('success getting all requests!');
-      $scope.requests = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAllRequests = function() {
+    $http.get('http://localhost:3000/api/requestsAll')
+      .then((res) => {
+        console.log('success getting all requests!');
+        $scope.requests = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
-  $http.get('http://localhost:3000/api/requestsUnclaimed')
-    .then((res) => {
-      console.log('success getting unclaimed requests!');
-      $scope.requestsUnclaimed = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getUnclaimed = function() {
+    $http.get('http://localhost:3000/api/requestsUnclaimed')
+      .then((res) => {
+        console.log('success getting unclaimed requests!');
+        $scope.requestsUnclaimed = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
   $scope.createRequest = (request) => {
     $http.post('http://localhost:3000/api/requests', request)
@@ -59,23 +63,25 @@ hogcApp.controller('requestsController', ['$scope', '$http', ($scope, $http) => 
     $http.delete('http://localhost:3000/api/requests/' + request._id)
       .then((res) => {
         console.log('success deleting request!');
-        $scope.requests = $scope.requests.filter((i) => i !== request);
+        $scope.requests = $scope.requests.filter((i) => i._id !== request._id);
       }, (err) => {
         console.log(err);
       });
   };
 }]);
 
-hogcApp.controller('donorsController', ['$scope', '$http', ($scope, $http) => {
+hogcApp.controller('DonorsController', ['$scope', '$http', function($scope, $http) {
   $scope.donors = [];
 
-  $http.get('http://localhost:3000/api/donors')
-    .then((res) => {
-      console.log('success getting all donors!');
-      $scope.donors = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAllDonors = function() {
+    $http.get('http://localhost:3000/api/donors')
+      .then((res) => {
+        console.log('success getting all donors!');
+        $scope.donors = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
   $scope.createDonor = (donor) => {
     $http.post('http://localhost:3000/signup', donor)
@@ -104,7 +110,7 @@ hogcApp.controller('donorsController', ['$scope', '$http', ($scope, $http) => {
     $http.delete('http://localhost:3000/api/donors/' + donor._id)
       .then((res) => {
         console.log('success deleting donor!');
-        $scope.donors = $scope.donors.filter((i) => i !== donor);
+        $scope.donors = $scope.donors.filter((i) => i._id !== donor._id);
       }, (err) => {
         console.log(err);
       });
