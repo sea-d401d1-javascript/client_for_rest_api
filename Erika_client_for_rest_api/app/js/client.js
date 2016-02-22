@@ -3,97 +3,84 @@
 const angular = require('angular');
 
 const wapApp = angular.module('wapApp', []);
+require('./services/resource_service')(wapApp);
 
-wapApp.controller('dogController', ['$scope', '$http', function($scope, $http) {
+wapApp.controller('dogController', ['$scope', function($scope) {
+}]);
+
+wapApp.controller('dogController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.dog = [];
+  var dogService = Resource('/dog');
 
-$scope.alldogs = () => {
-  $http.get('http://localhost:3000/api/alldogs')
-    .then((res) => {
-      console.log('success getting all dogs!');
-      $scope.dog = res.data;
-    }, (err) => {
-      console.log(err);
+
+$scope.alldogs = function() {
+  dogService.alldogs(function(err, res) {
+      if (err) return console.log(err);
+      $scope.dog = res;
     });
   };
 
-  $scope.createDog = (dog) => {
-    $http.post('http://localhost:3000/api/dog', dog)
-      .then((res) => {
-        console.log('success creating dog!');
-        $scope.dog.push(res.data);
-        $scope.newDog = null;
-      }, (err) => {
-        console.log(err);
-      });
+  $scope.createDog = function(dog) {
+    $scope.dog.push(dog);
+    dogService.create(dog, function(err, res) {
+      if (err) return console.log(err);
+      $scope.dog.splice($scope.dog.indexOf(dog), 1, res);
+      $scope.newDog = null;
+    });
   };
 
-  $scope.updateDog = (dog) => {
-    $http.put('http://localhost:3000/api/dog' + dog._id, dog)
-      .then((res) => {
-        console.log('success updating dog!');
-        $scope.dog[$scope.dog.indexOf(dog)] = dog;
-        dog.editing = false;
-      }, (err) => {
-        console.log(err);
-        dog.editing = false;
-      });
+  $scope.updateDog = function(dog) {
+    dogService.update(dog, function(err, res) {
+      dog.editing = false;
+      if (err) return console.log(err);
+    });
   };
 
-  $scope.deleteDog = (dog) => {
-    $http.delete('http://localhost:3000/api/dog' + dog._id)
-      .then((res) => {
-        console.log('success deleting dog!');
-        $scope.dog = $scope.dog.filter((i) => i !== dog);
-      }, (err) => {
-        console.log(err);
-      });
-  };
-}]);
-
-wapApp.controller('humanController', ['$scope', '$http', function($scope, $http) {
-  $scope.human = [];
-
-  $scope.allhumans = () => {
-    $http.get('http://localhost:3000/api/allhumans')
-      .then((res) => {
-        console.log('success getting all humans!');
-        $scope.human = res.data;
-      }, (err) => {
-        console.log(err);
+  $scope.deleteDog = function(dog) {
+      if (!dog._id) return setTimeout(function() {$scope.deleteDog(dog);}, 1000);
+      dogService.delete(dog, function(err, res) {
+        if (err) return console.log(err);
+        $scope.dog.splice($scope.dog.indexOf(dog), 1);
       });
     };
+}]);
 
-  $scope.createHuman = (human) => {
-    $http.post('http://localhost:3000/api/human', human)
-      .then((res) => {
-        console.log('success creating human!');
-        $scope.human.push(res.data);
-        $scope.newHuman = null;
-      }, (err) => {
-        console.log(err);
-      });
+wapApp.controller('humanController', ['$scope', function($scope) {
+}]);
+
+wapApp.controller('humanController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
+  $scope.human = [];
+  var humanService = Resource('/human');
+
+
+$scope.allhumans = function() {
+  humanService.allhumans(function(err, res) {
+      if (err) return console.log(err);
+      $scope.human = res;
+    });
   };
 
-  $scope.updateHuman = (human) => {
-    $http.put('http://localhost:3000/api/human' + human._id, human)
-      .then((res) => {
-        console.log('success updating human!');
-        $scope.human[$scope.human.indexOf(human)] = human;
-        human.editing = false;
-      }, (err) => {
-        console.log(err);
-        human.editing = false;
-      });
+  $scope.createHuman = function(human) {
+    $scope.human.push(human);
+    HumanService.create(human, function(err, res) {
+      if (err) return console.log(err);
+      $scope.human.splice($scope.human.indexOf(human), 1, res);
+      $scope.newHuman = null;
+    });
   };
 
-  $scope.deleteHuman = (human) => {
-    $http.delete('http://localhost:3000/api/human' + human._id)
-      .then((res) => {
-        console.log('success deleting human!');
-        $scope.human = $scope.human.filter((i) => i !== human);
-      }, (err) => {
-        console.log(err);
-      });
+  $scope.updateHuman = function(human) {
+    humanService.update(human, function(err, res) {
+      human.editing = false;
+      if (err) return console.log(err);
+    });
   };
+
+  $scope.deleteHuman = function(human) {
+      if (!human._id) return setTimeout(function() {$scope.deleteHuman(human);}, 1000);
+      humanService.delete(human, function(err, res) {
+        if (err) return console.log(err);
+        $scope.human.splice($scope.human.indexOf(human), 1);
+      });
+    };
 }]);
