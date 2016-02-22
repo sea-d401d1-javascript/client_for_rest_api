@@ -62,7 +62,7 @@ $scope.allhumans = function() {
 
   $scope.createHuman = function(human) {
     $scope.human.push(human);
-    HumanService.create(human, function(err, res) {
+    humanService.create(human, function(err, res) {
       if (err) return console.log(err);
       $scope.human.splice($scope.human.indexOf(human), 1, res);
       $scope.newHuman = null;

@@ -55,7 +55,7 @@ describe('human controller', () => {
     it('should update a human', () => {
       var testHuman = { name: 'inside scope', editing: true, _id: 5};
       $scope.human.push(testHuman);
-      $httpBackend.expectPUT('http://localhost:3000/api/human5', testHuman).respond(200);
+      $httpBackend.expectPUT('http://localhost:3000/api/human/5', testHuman).respond(200);
       $scope.updateHuman(testHuman);
       $httpBackend.flush();
       expect(testHuman.editing).toBe(false);
@@ -66,7 +66,7 @@ describe('human controller', () => {
       var testHuman = { name: 'goodbye human', _id: 1 };
       $scope.human.push(testHuman);
       expect($scope.human.indexOf(testHuman)).not.toBe(-1);
-      $httpBackend.expectDELETE('http://localhost:3000/api/human1').respond(200);
+      $httpBackend.expectDELETE('http://localhost:3000/api/human/1').respond(200);
       $scope.deleteHuman(testHuman);
       $httpBackend.flush();
       expect($scope.human.indexOf(testHuman)).toBe(-1);

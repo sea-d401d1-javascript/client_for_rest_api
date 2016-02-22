@@ -55,7 +55,7 @@ describe('dog controller', () => {
     it('should update a dog', () => {
       var testDog = { name: 'inside scope', editing: true, _id: 5 };
       $scope.dog.push(testDog);
-      $httpBackend.expectPUT('http://localhost:3000/api/dog5', testDog).respond(200);
+      $httpBackend.expectPUT('http://localhost:3000/api/dog/5', testDog).respond(200);
       $scope.updateDog(testDog);
       $httpBackend.flush();
       expect(testDog.editing).toBe(false);
@@ -66,7 +66,7 @@ describe('dog controller', () => {
       var testDog = {name: 'goodbye dog', _id: 1};
       $scope.dog.push(testDog);
       expect($scope.dog.indexOf(testDog)).not.toBe(-1);
-      $httpBackend.expectDELETE('http://localhost:3000/api/dog1').respond(200);
+      $httpBackend.expectDELETE('http://localhost:3000/api/dog/1').respond(200);
       $scope.deleteDog(testDog);
       $httpBackend.flush();
       expect($scope.dog.indexOf(testDog)).toBe(-1);
