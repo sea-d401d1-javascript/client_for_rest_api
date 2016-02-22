@@ -4,3 +4,5 @@
 **/*.log
 **/db/
 **/build/
+**/test/test_bundle.js
+**/test/test.html

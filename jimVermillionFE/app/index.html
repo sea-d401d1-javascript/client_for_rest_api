@@ -6,7 +6,7 @@
 </head>
 <body data-ng-app="flower">
 
-  <main data-ng-controller="flowerController">
+  <main data-ng-controller="FlowerController" data-ng-init="getAll()">
     <article class="flowers">
       <!-- show all the flowers -->
       <h2>FLOWERS!</h2>
@@ -22,7 +22,7 @@
           <button type="submit">update</button>
         </form>
         <!-- delete button -->
-        <button data-ng-click="deleteFlower(flower)">DELETE {{flower.name}} </button>
+        <button data-ng-click="deleteFlower(flower, $index)">DELETE {{flower.name}} </button>
       </section>
       
       <!-- post a new flower -->
@@ -53,7 +53,7 @@
           <button type="submit">update</button>
         </form>
         <!-- delete button -->
-        <button data-ng-click="deleteGardener(gardener)">DELETE {{gardener.name}} </button>
+        <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
       </section>
       
       <!-- post a new gardener -->
