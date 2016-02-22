@@ -19008,7 +19008,7 @@
 	    $httpBackend.flush();
 	  });
 
-	  it('should service the getAll err', function () {
+	  it('should service the handlerror helper function', function () {
 	    var successJedi = { name: 'success jedi!' };
 	    $httpBackend.expectGET('http://localhost:3000/api/test').respond(404, 'what the what?');
 	    testService.getAll(function (err, res) {

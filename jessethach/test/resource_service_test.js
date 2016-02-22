@@ -36,7 +36,7 @@ describe('resource service', () => {
     $httpBackend.flush();
   });
 
-  it('should service the getAll err', () => {
+  it('should service the handlerror helper function', () => {
     var successJedi = {name: 'success jedi!'};
     $httpBackend.expectGET('http://localhost:3000/api/test').respond(404, 'what the what?');
     testService.getAll((err, res) => {
