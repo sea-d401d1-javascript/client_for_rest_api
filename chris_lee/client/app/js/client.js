@@ -1,94 +1,75 @@
 const angular = require('angular');
-
 const app = angular.module('CSApp', []);
 const ctBaseUri = 'http://localhost:3000/api/ct';
 const tBaseUri = 'http://localhost:3000/api/t';
+require('./services/resource_service')(app);
 
 app.controller('CTController', ['$scope', '$http', function($scope, $http) {
   $scope.cts = [];
+  var ctService = Resource('/ct');
 
   $scope.getCT = function() {
-    $http.get(ctBaseUri)
-      .then((res) => {
-        console.log('success!');
-        $scope.cts = res.data;
-      }, (err) => {
-        console.log(err);
-      });
+    ctService.get(function(err, res) {
+      if (err) return console.log(err);
+      $scope.cts = res;
+    })
   };
 
   $scope.createCT = function(ct) {
-    $http.post(ctBaseUri, ct)
-      .then((res) => {
-        $scope.cts.push(res.data);
-        $scope.newCT = null;  // clears form field
-      }, (err) => {
-        console.log(err);
-      })
-  }
-
-  $scope.deleteCT = function(ct) {
-    $http.delete(ctBaseUri + '/' + ct._id)
-      .then((res) => {
-        $scope.cts = $scope.cts.filter((i) => i !== ct);
-      }, (err) => {
-        console.log(err);
-      })
-  }
+    ctService.create(ct, function(err, res) {
+      if (err) return console.log(err);
+      $scope.cts.push(res);
+      $scope.newCT = null;
+    });
+  };
 
   $scope.updateCT = function(ct) {
-    $http.put(ctBaseUri + '/' + ct._id, ct)
-      .then((res) => {
-        $scope.cts[$scope.cts.indexOf(ct)] = ct;
-        ct.editting = false;
-      }, (err) => {
-        console.log(err);
-        ct.editting = false;
-      })
-  }
+    ctService.update(ct, function(err, res) {
+      ct.editting = false;
+      if (err) return console.log(err);
+    });
+  };
 
-}])
+  $scope.deleteCT = function(ct) {
+    ctService.delete(ct, function(err, res) {
+      if (err) return console.log(err);
+      $scope.cts.splice($scope.cts.indexOf(ct), 1);
+    });
+  };
+
+}]);
 
 .controller('TController', ['$scope', '$http', function($scope, $http) {
   $scope.ts = [];
+  var tService = Resource('/t');
 
   $scope.getT = function() {
-    $http.get(tBaseUri)
-      .then((res) => {
-        console.log('success!');
-        $scope.ts = res.data;
-      }, (err) => {
-        console.log(err);
-      });
+    tService.get(function(err, res) {
+      if (err) return console.log(err);
+      $scope.ts = res;
+    })
   };
-  $scope.createT = function(t) {
-    $http.post(tBaseUri, t)
-      .then((res) => {
-        $scope.ts.push(res.data);
-        $scope.newT = null;  // clears form field
-      }, (err) => {
-        console.log(err);
-      })
-  }
 
-  $scope.deleteT = function(t) {
-    $http.delete(tBaseUri + '/' + t._id)
-      .then((res) => {
-        $scope.ts = $scope.ts.filter((i) => i !== t);
-      }, (err) => {
-        console.log(err);
-      })
-  }
+  $scope.createT = function(t) {
+    tService.create(t, function(err, res) {
+      if (err) return console.log(err);
+      $scope.ts.push(res);
+      $scope.newT = null;
+    });
+  };
 
   $scope.updateT = function(t) {
-    $http.put(tBaseUri + '/' + t._id, t)
-      .then((res) => {
-        $scope.ts[$scope.ts.indexOf(t)] = t;
-        t.editting = false;
-      }, (err) => {
-        console.log(err);
-        t.editting = false;
-      })
-  }
+    tService.update(t, function(err, res) {
+      t.editting = false;
+      if (err) return console.log(err);
+    });
+  };
+
+  $scope.deleteT = function(t) {
+    tService.delete(t, function(err, res) {
+      if (err) return console.log(err);
+      $scope.ts.splice($scope.ts.indexOf(t), 1);
+    });
+  };
 
 }]);
