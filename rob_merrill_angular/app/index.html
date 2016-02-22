@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Brewing Adventures</title>
+</head>
+<body data-ng-app="beersApp">
+  <main data-ng-controller="BeersController">
+    <h1>Beers!</h1>
+    <ul>
+      <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
+      <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
+      <button data-ng-click="beer.editing = !beer.editing">Update Beer</button>
+      <form data-ng-if="beer.editing" data-ng-submit="updateBeer(beer)">
+        <input data-ng-model="beer.name" type="text"/>
+        <input data-ng-model="beer.style" type="text"/>
+        <button type="submit">Update</button>
+      </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createBeer(newBeer)">
+      <input data-ng-model="newBeer.name" type="text"/>
+      <input data-ng-model="newBeer.style" type="text"/>
+      <button type="submit">New Beer</button>
+    </form>
+    <p>{{beers}}
+
+  </main>
+
+  <script src="bundle.js"></script>
+
+</body>
+</html>
