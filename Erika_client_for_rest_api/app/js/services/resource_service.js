@@ -16,8 +16,13 @@ module.exports = exports = function(app) {
       this.resourceName = resourceName;
     };
 
-    Resource.prototype.getAll = function(callback) {
-      $http.get('http://localhost:3000/api' + this.resourceName)
+    Resource.prototype.alldogs = function(callback) {
+      $http.get('http://localhost:3000/api/alldogs')
+        .then(handleSuccess(callback), handleFailure(callback));
+    };
+
+    Resource.prototype.allhumans = function(callback) {
+      $http.get('http://localhost:3000/api/allhumans')
         .then(handleSuccess(callback), handleFailure(callback));
     };
 
