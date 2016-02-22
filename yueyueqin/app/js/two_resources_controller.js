@@ -59,14 +59,7 @@ twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource'
       $scope.actors = res;
     });
   };
-  // $scope.getAllActors = function() {
-  //   $http.get('http://localhost:3000/api/actors')
-  //   .then((res) => {
-  //     $scope.actors = res.data;
-  //   }, (err) => {
-  //     console.log(err);
-  //   });
-  // };
+
 
   $scope.createActor = function(actor) {
     actorResource.create(actor,function(err,res) {
@@ -76,15 +69,6 @@ twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource'
     });
   };
 
-  // $scope.createActor = function(actor) {
-  //   $http.post('http://localhost:3000/api/actors', actor)
-  //     .then((res) => {
-  //       $scope.actors.push(res.data);
-  //       $scope.newActor = null;
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   $scope.updateActor = function(actor) {
     actorResource.update(actor,function(err,res) {
@@ -99,34 +83,12 @@ twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource'
       actor.editing = false;
     });
   };
-  // $scope.updateActor = function (actor){
-  //   $http.put('http://localhost:3000/api/actors/' + actor._id, actor)
-  //     .then((res) => {
-  //       console.log('update');
-  //       $scope.actors = $scope.actors.map(function(item) {
-  //         if(item._id === actor._id){
-  //           item = actor;
-  //           return item;
-  //         }
-  //         return item;
-  //       });
-  //       actor.editing = false;
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // };
+
   $scope.deleteActor =  function(actor) {
     actorResource.delete(actor,function(err,data) {
       if(err) return console.log(err);
       $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
     });
   };
-  // $scope.deleteActor = function (actor) {
-  //   $http.delete('http://localhost:3000/api/actors/' + actor._id)
-  //     .then((res) => {
-  //       $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // };
+
 }]);
