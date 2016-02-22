@@ -1,94 +1,74 @@
 const angular = require('angular');
-
 const jedisApp = angular.module('jedisApp', []);
+require('./services/resource_service')(jedisApp);
 
-jedisApp.controller('JedisController', ['$scope', '$http', ($scope, $http) => {
+jedisApp.controller('JedisController', ['$scope', '$http','cfResource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.jedis = [];
+  var jediService = Resource('/jedis');
 
-  $scope.getAllJedi = () => {
-    $http.get('http://localhost:3000/api/jedis')
-      .then((res) => {
-        console.log('success!');
-        $scope.jedis = res.data;
-      }, (err) => {
-        console.log(err);
-      });
+  $scope.getAllJedi = function() {
+    jediService.getAll(function(err, res) {
+      if (err) return console.log(err);
+      $scope.jedis = res;
+    });
   };
 
   $scope.createJedi = function(jedi) {
-    $http.post('http://localhost:3000/api/jedis', jedi)
-      .then((res) => {
-        $scope.jedis.push(res.data);
-        $scope.newJedi = null;
-      }, (err) => {
-        console.log(err);
-      });
+    jediService.create(jedi, function(err, res) {
+      if (err) return console.log(err);
+      $scope.jedis.push(res);
+      $scope.newJedi = null;
+    });
   };
 
   $scope.deleteJedi = function(jedi) {
-    $http.delete('http://localhost:3000/api/jedis/' + jedi._id)
-      .then((res) => {
-        $scope.jedis = $scope.jedis.filter((i) => i !== jedi);
-      }, (err) => {
-        console.log(err)
-      });
+    jediService.delete(jedi, function(err, res) {
+      if (err) return console.log(err);
+      $scope.jedis = $scope.jedis.filter((i) => i !== jedi);
+    });
   };
 
   $scope.updateJedi = function(jedi) {
-    $http.put('http://localhost:3000/api/jedis/' + jedi._id, jedi)
-      .then((res) => {
-        // $scope.jedis[$scope.jedis.indexof(jedi)] = jedi;
-        jedi.editting = false;
-      }, (err) => {
-        console.log(err);
-        jedi.editting = false;
-      });
+    jediService.update(jedi, function(err, res) {
+      jedi.editting = false;
+      if (err) return console.log(err);
+    });
   };
-
 }]);
 
-jedisApp.controller('SithlordsController', ['$scope', '$http', ($scope, $http) => {
+jedisApp.controller('SithlordsController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.greeting = 'hello world';
   $scope.sithlords = [];
+  var sithService = Resource('/sith-lords');
 
-  $scope.getAllSith = () => {
-    $http.get('http://localhost:3000/api/sith-lords')
-      .then((res) => {
-        console.log('success!');
-        $scope.sithlords = res.data;
-      }, (err) => {
-        console.log(err);
-      });
+  $scope.getAllSith = function() {
+    sithService.getAll(function(err, res) {
+      if (err) return console.log(err);
+      $scope.sithlords = res;
+    });
   };
 
   $scope.createSith = function(sith) {
-    $http.post('http://localhost:3000/api/sith-lords', sith)
-      .then((res) => {
-        $scope.sithlords.push(res.data);
-        $scope.newSith = null;
-      }, (err) => {
-        console.log(err);
-      });
+    sithService.create(sith, function(err, res) {
+      if (err) return console.log(err);
+      $scope.sithlords.push(res);
+      $scope.newSith = null;
+    });
   };
 
   $scope.deleteSith = function(sith) {
-    $http.delete('http://localhost:3000/api/sith-lords/' + sith._id)
-      .then((res) => {
-        $scope.sithlords = $scope.sithlords.filter((i) => i !== sith);
-      }, (err) => {
-        console.log(err)
-      });
+    sithService.delete(sith, function(err, res) {
+      if (err) return console.log(err);
+      $scope.sithlords = $scope.sithlords.filter((i) => i !== sith);
+    });
   };
 
   $scope.updateSith = function(sith) {
-    $http.put('http://localhost:3000/api/sith-lords/' + sith._id, sith)
-      .then((res) => {
-        sith.editting = false;
-      }, (err) => {
-        console.log(err);
-        $scope.editting = false;
-      });
+    sithService.update(sith, function(err, res) {
+      sith.editting = false;
+      if (err) return console.log(err);
+    });
   };
 
 }]);

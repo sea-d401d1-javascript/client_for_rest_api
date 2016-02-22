@@ -47,7 +47,10 @@
 	'use strict';
 
 	__webpack_require__(1);
+	__webpack_require__(5);
 	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(8);
 
 /***/ },
 /* 1 */
@@ -55,86 +58,83 @@
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var angular = __webpack_require__(2);
+	var jedisApp = angular.module('jedisApp', []);
+	__webpack_require__(4)(jedisApp);
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	jedisApp.controller('JedisController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
+	  $scope.greeting = 'hello world';
+	  $scope.jedis = [];
+	  var jediService = Resource('/jedis');
 
-	describe('it should do some stuff', function () {
-	  it('should work after a build', function () {
-	    expect(true).toBe(true);
-	  });
-	});
-
-	describe('jedis controller', function () {
-	  var $httpBackend; //takes parameters from user such a GET request and returns a promise
-	  var $scope;
-	  var $ControllerConstructor;
-	  var jedi;
-
-	  beforeEach(angular.mock.module('jedisApp'));
-
-	  beforeEach(angular.mock.inject(function ($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
-
-	  it('should be able to make a controller', function () {
-	    var jedisController = $ControllerConstructor('JedisController', { $scope: $scope });
-	    expect(typeof jedisController === 'undefined' ? 'undefined' : _typeof(jedisController)).toBe('object');
-	    expect(Array.isArray($scope.jedis)).toBe(true);
-	    expect(_typeof($scope.getAllJedi)).toBe('function');
-	  });
-
-	  describe('REST requests', function () {
-	    beforeEach(angular.mock.inject(function (_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('JedisController', { $scope: $scope });
-	    }));
-
-	    afterEach(function () {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
+	  $scope.getAllJedi = function () {
+	    jediService.getAll(function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.jedis = res;
 	    });
+	  };
 
-	    it('should make a get request to /api/jedis', function () {
-	      $httpBackend.expectGET('http://localhost:3000/api/jedis').respond(200, [{ name: 'test jedi' }]);
-	      $scope.getAllJedi();
-	      $httpBackend.flush();
-	      expect($scope.jedis.length).toBe(1);
-	      expect(Array.isArray($scope.jedis)).toBe(true);
-	      expect($scope.jedis[0].name).toBe('test jedi');
+	  $scope.createJedi = function (jedi) {
+	    jediService.create(jedi, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.jedis.push(res);
+	      $scope.newJedi = null;
 	    });
+	  };
 
-	    it('should create a new jedi', function () {
-	      $httpBackend.expectPOST('http://localhost:3000/api/jedis', { name: 'the sent jedi' }).respond(200, { name: 'the response jedi' });
-	      $scope.newJedi = { name: 'the new jedi' };
-	      $scope.createJedi({ name: 'the sent jedi' });
-	      $httpBackend.flush();
-	      expect($scope.jedis.length).toBe(1);
-	      expect($scope.newJedi).toBe(null);
-	      expect($scope.jedis[0].name).toBe('the response jedi');
+	  $scope.deleteJedi = function (jedi) {
+	    jediService.delete(jedi, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.jedis = $scope.jedis.filter(function (i) {
+	        return i !== jedi;
+	      });
 	    });
+	  };
 
-	    it('should be able to update a jedi', function () {
-	      var jedi = { _id: 1, editting: true };
-	      $httpBackend.expectPUT('http://localhost:3000/api/jedis' + '/1').respond(200);
-	      $scope.updateJedi(jedi);
-	      $httpBackend.flush();
-	      expect(jedi.editting).toBe(false);
+	  $scope.updateJedi = function (jedi) {
+	    jediService.update(jedi, function (err, res) {
+	      jedi.editting = false;
+	      if (err) return console.log(err);
 	    });
+	  };
+	}]);
 
-	    it('should be able to delete a jedi', function () {
-	      var jedi = { _id: 1, name: 'test jedi' };
-	      $scope.jedis = [jedi];
-	      $httpBackend.expectDELETE('http://localhost:3000/api/jedis' + '/1').respond(200);
-	      $scope.deleteJedi(jedi);
-	      $httpBackend.flush();
-	      expect($scope.jedis.length).toBe(0);
+	jedisApp.controller('SithlordsController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
+	  $scope.greeting = 'hello world';
+	  $scope.sithlords = [];
+	  var sithService = Resource('/sith-lords');
+
+	  $scope.getAllSith = function () {
+	    sithService.getAll(function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.sithlords = res;
 	    });
-	  });
-	});
+	  };
+
+	  $scope.createSith = function (sith) {
+	    sithService.create(sith, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.sithlords.push(res);
+	      $scope.newSith = null;
+	    });
+	  };
+
+	  $scope.deleteSith = function (sith) {
+	    sithService.delete(sith, function (err, res) {
+	      if (err) return console.log(err);
+	      $scope.sithlords = $scope.sithlords.filter(function (i) {
+	        return i !== sith;
+	      });
+	    });
+	  };
+
+	  $scope.updateSith = function (sith) {
+	    sithService.update(sith, function (err, res) {
+	      sith.editting = false;
+	      if (err) return console.log(err);
+	    });
+	  };
+	}]);
 
 /***/ },
 /* 2 */
@@ -142,106 +142,11 @@
 
 	'use strict';
 
-	var angular = __webpack_require__(3);
-
-	var jedisApp = angular.module('jedisApp', []);
-
-	jedisApp.controller('JedisController', ['$scope', '$http', function ($scope, $http) {
-	  $scope.greeting = 'hello world';
-	  $scope.jedis = [];
-
-	  $scope.getAllJedi = function () {
-	    $http.get('http://localhost:3000/api/jedis').then(function (res) {
-	      console.log('success!');
-	      $scope.jedis = res.data;
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.createJedi = function (jedi) {
-	    $http.post('http://localhost:3000/api/jedis', jedi).then(function (res) {
-	      $scope.jedis.push(res.data);
-	      $scope.newJedi = null;
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.deleteJedi = function (jedi) {
-	    $http.delete('http://localhost:3000/api/jedis/' + jedi._id).then(function (res) {
-	      $scope.jedis = $scope.jedis.filter(function (i) {
-	        return i !== jedi;
-	      });
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.updateJedi = function (jedi) {
-	    $http.put('http://localhost:3000/api/jedis/' + jedi._id, jedi).then(function (res) {
-	      // $scope.jedis[$scope.jedis.indexof(jedi)] = jedi;
-	      jedi.editting = false;
-	    }, function (err) {
-	      console.log(err);
-	      jedi.editting = false;
-	    });
-	  };
-	}]);
-
-	jedisApp.controller('SithlordsController', ['$scope', '$http', function ($scope, $http) {
-	  $scope.greeting = 'hello world';
-	  $scope.sithlords = [];
-
-	  $scope.getAllSith = function () {
-	    $http.get('http://localhost:3000/api/sith-lords').then(function (res) {
-	      console.log('success!');
-	      $scope.sithlords = res.data;
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.createSith = function (sith) {
-	    $http.post('http://localhost:3000/api/sith-lords', sith).then(function (res) {
-	      $scope.sithlords.push(res.data);
-	      $scope.newSith = null;
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.deleteSith = function (sith) {
-	    $http.delete('http://localhost:3000/api/sith-lords/' + sith._id).then(function (res) {
-	      $scope.sithlords = $scope.sithlords.filter(function (i) {
-	        return i !== sith;
-	      });
-	    }, function (err) {
-	      console.log(err);
-	    });
-	  };
-
-	  $scope.updateSith = function (sith) {
-	    $http.put('http://localhost:3000/api/sith-lords/' + sith._id, sith).then(function (res) {
-	      sith.editting = false;
-	    }, function (err) {
-	      console.log(err);
-	      $scope.editting = false;
-	    });
-	  };
-	}]);
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol?"symbol":typeof obj;}; /**
@@ -16049,6 +15954,53 @@
 	bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return {v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":'-¤',"negSuf":"","posPre":'¤',"posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function pluralCat(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(document).ready(function(){angularInit(document,bootstrap);});})(window,document);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var handleSuccess = function handleSuccess(callback) {
+	  return function (res) {
+	    callback(null, res.data);
+	  };
+	};
+
+	var handleFailure = function handleFailure(callback) {
+	  return function (res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function exports(app) {
+
+	  app.factory('cfResource', ['$http', function ($http) {
+	    var Resource = function Resource(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+
+	    Resource.prototype.getAll = function (callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function (data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function (data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function (data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id).then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    return function (resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
@@ -18849,9 +18801,92 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	var angular = __webpack_require__(2);
+
+	describe('it should do some stuff', function () {
+	  it('should work after a build', function () {
+	    expect(true).toBe(true);
+	  });
+	});
+
+	describe('jedis controller', function () {
+	  var $httpBackend; //takes parameters from user such a GET request and returns a promise
+	  var $scope;
+	  var $ControllerConstructor;
+	  var jedi;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+
+	  beforeEach(angular.mock.inject(function ($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
+
+	  it('should be able to make a controller', function () {
+	    var jedisController = $ControllerConstructor('JedisController', { $scope: $scope });
+	    expect(typeof jedisController === 'undefined' ? 'undefined' : _typeof(jedisController)).toBe('object');
+	    expect(Array.isArray($scope.jedis)).toBe(true);
+	    expect(_typeof($scope.getAllJedi)).toBe('function');
+	  });
+
+	  describe('REST requests', function () {
+	    beforeEach(angular.mock.inject(function (_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('JedisController', { $scope: $scope });
+	    }));
+
+	    afterEach(function () {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('should make a get request to /api/jedis', function () {
+	      $httpBackend.expectGET('http://localhost:3000/api/jedis').respond(200, [{ name: 'test jedi' }]);
+	      $scope.getAllJedi();
+	      $httpBackend.flush();
+	      expect($scope.jedis.length).toBe(1);
+	      expect(Array.isArray($scope.jedis)).toBe(true);
+	      expect($scope.jedis[0].name).toBe('test jedi');
+	    });
+
+	    it('should create a new jedi', function () {
+	      $httpBackend.expectPOST('http://localhost:3000/api/jedis', { name: 'the sent jedi' }).respond(200, { name: 'the response jedi' });
+	      $scope.newJedi = { name: 'the new jedi' };
+	      $scope.createJedi({ name: 'the sent jedi' });
+	      $httpBackend.flush();
+	      expect($scope.jedis.length).toBe(1);
+	      expect($scope.newJedi).toBe(null);
+	      expect($scope.jedis[0].name).toBe('the response jedi');
+	    });
+
+	    it('should be able to update a jedi', function () {
+	      var jedi = { _id: 1, editting: true };
+	      $httpBackend.expectPUT('http://localhost:3000/api/jedis' + '/1').respond(200);
+	      $scope.updateJedi(jedi);
+	      $httpBackend.flush();
+	      expect(jedi.editting).toBe(false);
+	    });
+
+	    it('should be able to delete a jedi', function () {
+	      var jedi = { _id: 1, name: 'test jedi' };
+	      $scope.jedis = [jedi];
+	      $httpBackend.expectDELETE('http://localhost:3000/api/jedis' + '/1').respond(200);
+	      $scope.deleteJedi(jedi);
+	      $httpBackend.flush();
+	      expect($scope.jedis.length).toBe(0);
+	    });
+	  });
+	});
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var angular = __webpack_require__(2);
 
 	describe('it should do some stuff', function () {
 	  it('should work after a build', function () {
@@ -18924,6 +18959,94 @@
 	      $httpBackend.flush();
 	      expect($scope.sithlords.length).toBe(0);
 	    });
+	  });
+	});
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var angular = __webpack_require__(2);
+
+	describe('resource service', function () {
+
+	  var testService;
+	  var $httpBackend;
+	  var Resource;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+	  beforeEach(angular.mock.inject(function (_$httpBackend_, cfResource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = cfResource;
+	    testService = Resource('/test');
+	  }));
+
+	  afterEach(function () {
+	    $httpBackend.verifyNoOutstandingExpectation();
+	    $httpBackend.verifyNoOutstandingRequest();
+	  });
+
+	  it('should be a service', function () {
+	    expect(typeof Resource === 'undefined' ? 'undefined' : _typeof(Resource)).toBe('function');
+	  });
+
+	  it('should let service have prop of resourceName', function () {
+	    expect(testService.resourceName).toBe('/test');
+	  });
+
+	  it('should service the getAll function', function () {
+	    var successJedi = { name: 'success jedi!' };
+	    $httpBackend.expectGET('http://localhost:3000/api/test').respond(200, successJedi);
+	    testService.getAll(function (err, res) {
+	      expect(err).toBe(null);
+	      expect(res.name).toBe(successJedi.name);
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should service the handlerror helper function', function () {
+	    var successJedi = { name: 'success jedi!' };
+	    $httpBackend.expectGET('http://localhost:3000/api/test').respond(404, 'what the what?');
+	    testService.getAll(function (err, res) {
+	      expect(err.data).toBe('what the what?');
+	      expect(err.status).not.toBe(undefined);
+	      expect(res).toBe(undefined);
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should service the create function', function () {
+	    var jedi = { name: 'created jedi' };
+	    $httpBackend.expectPOST('http://localhost:3000/api/test', jedi).respond(200, jedi);
+	    testService.create(jedi, function (err, res) {
+	      expect(err).toBe(null);
+	      expect(res.name).toBe(jedi.name);
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should service the update function', function () {
+	    var jedi = { name: 'updatejedi', _id: 1 };
+	    $httpBackend.expectPUT('http://localhost:3000/api/test/1', jedi).respond(200, jedi);
+	    testService.update(jedi, function (err, res) {
+	      expect(err).toBe(null);
+	      expect(res._id).toBe(1);
+	    });
+	    $httpBackend.flush();
+	  });
+
+	  it('should service the delete function', function () {
+	    var jedi = { name: 'deletejedi', _id: 1 };
+	    $httpBackend.expectDELETE('http://localhost:3000/api/test/1').respond(200, jedi);
+	    testService.delete(jedi, function (err, res) {
+	      expect(err).toBe(null);
+	      expect(res.name).toBe('deletejedi');
+	    });
+	    $httpBackend.flush();
 	  });
 	});
 
