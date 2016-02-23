@@ -1,8 +1,8 @@
 'use strict';
 
-const gulp = require('gulp');
-const eslint = require('gulp-eslint');
-const mocha = require('gulp-mocha');
+var gulp = require('gulp');
+var eslint = require('gulp-eslint');
+var mocha = require('gulp-mocha');
 
 var files = ['index.js', 'gulpfile.js', './lib/*js', './test/*spec.js', '!node_modules/**', '!*.json'];
 

@@ -1,6 +1,4 @@
-'use strict';
-
-const zero = require(__dirname + '/zeroBuf');
+var zero = require(__dirname + '/zeroBuf');
 
 module.exports = exports = function(req, res, next) {
  try {

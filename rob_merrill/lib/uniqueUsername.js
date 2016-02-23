@@ -1,6 +1,4 @@
-'use strict';
-
-const User = require(__dirname + '/../models/user');
+var User = require(__dirname + '/../models/user');
 
 var email = module.exports.email = exports = function(emailAddress) {
   User.findOne({ 'authentication.email': emailAddress }, (err, user) => {

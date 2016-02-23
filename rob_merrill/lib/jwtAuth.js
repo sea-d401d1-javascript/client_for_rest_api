@@ -1,7 +1,5 @@
-'use strict';
-
-const User = require(__dirname + '/../models/user');
-const jwt = require('jsonwebtoken');
+var User = require(__dirname + '/../models/user');
+var jwt = require('jsonwebtoken');
 
 module.exports = exports = function(req, res, next) {
   var decoded;
