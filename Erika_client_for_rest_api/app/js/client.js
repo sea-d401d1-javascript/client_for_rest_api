@@ -1,6 +1,6 @@
 'use strict';
 
-const angular = require('angular');
+var angular = require('angular');
 
 const wapApp = angular.module('wapApp', []);
 require('./services/resource_service')(wapApp);
