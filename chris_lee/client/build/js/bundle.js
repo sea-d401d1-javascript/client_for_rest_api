@@ -47,76 +47,8 @@
 	const angular = __webpack_require__(1);
 	const CSApp = angular.module('CSApp', []);
 	__webpack_require__(3)(CSApp);
-
-	CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
-	  $scope.cts = [];
-	  var ctService = Resource('/ct');
-
-	  $scope.getCT = function() {
-	    ctService.get(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.cts = res;
-	    })
-	  };
-
-	  $scope.createCT = function(ct) {
-	    ctService.create(ct, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.cts.push(res);
-	      $scope.newCT = null;
-	    });
-	  };
-
-	  $scope.updateCT = function(ct) {
-	    ctService.update(ct, function(err, res) {
-	      ct.editting = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	  $scope.deleteCT = function(ct) {
-	    ctService.delete(ct, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.cts.splice($scope.cts.indexOf(ct), 1);
-	    });
-	  };
-
-	}])
-
-	.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
-	  $scope.ts = [];
-	  var tService = Resource('/t');
-
-	  $scope.getT = function() {
-	    tService.get(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.ts = res;
-	    })
-	  };
-
-	  $scope.createT = function(t) {
-	    tService.create(t, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.ts.push(res);
-	      $scope.newT = null;
-	    });
-	  };
-
-	  $scope.updateT = function(t) {
-	    tService.update(t, function(err, res) {
-	      t.editting = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	  $scope.deleteT = function(t) {
-	    tService.delete(t, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.ts.splice($scope.ts.indexOf(t), 1);
-	    });
-	  };
-
-	}]);
+	__webpack_require__(5)(CSApp);
+	__webpack_require__(7)(CSApp);
 
 
 /***/ },
@@ -30562,6 +30494,15 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(4)(app);
+	};
+
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30607,6 +30548,107 @@
 	    };
 	  }]);
 	};
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = function(CSApp) {
+	  CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
+	    $scope.cts = [];
+	    var ctService = Resource('/ct');
+
+	    $scope.getCT = function() {
+	      ctService.get(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.cts = res;
+	      })
+	    };
+
+	    $scope.createCT = function(ct) {
+	      ctService.create(ct, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.cts.push(res);
+	        $scope.newCT = null;
+	      });
+	    };
+
+	    $scope.updateCT = function(ct) {
+	      ctService.update(ct, function(err, res) {
+	        ct.editting = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.deleteCT = function(ct) {
+	      ctService.delete(ct, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.cts.splice($scope.cts.indexOf(ct), 1);
+	      });
+	    };
+	  }]);
+	}
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(CSApp) {
+	  CSApp.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
+	    $scope.ts = [];
+	    var tService = Resource('/t');
+
+	    $scope.getT = function() {
+	      tService.get(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.ts = res;
+	      })
+	    };
+
+	    $scope.createT = function(t) {
+	      tService.create(t, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.ts.push(res);
+	        $scope.newT = null;
+	      });
+	    };
+
+	    $scope.updateT = function(t) {
+	      tService.update(t, function(err, res) {
+	        t.editting = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.deleteT = function(t) {
+	      tService.delete(t, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.ts.splice($scope.ts.indexOf(t), 1);
+	      });
+	    };
+
+	  }]);
+	}
 
 
 /***/ }

@@ -3,12 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title>Counter-Strike Stream Adventure</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   </head>
   <body data-ng-app="CSApp">
     <main>
+      <img src="/img/logo.png" style="width:100%">
       <h1>Super Awesome Counter-Strike App</h1>
       <section data-ng-controller="CTController" data-ng-init="getCT()">
-        <h1>Counter-Terrorist Team:</h1>
+        <h2>Counter-Terrorist Team:</h2>
 
         <ul>
           <li data-ng-repeat="ct in cts">{{ct.name}}
@@ -38,7 +42,7 @@
       </section>
 
       <section data-ng-controller="TController" data-ng-init="getT()">
-        <h1>Terrorist Team:</h1>
+        <h2>Terrorist Team:</h2>
 
         <ul>
           <li data-ng-repeat="t in ts">{{t.name}}
