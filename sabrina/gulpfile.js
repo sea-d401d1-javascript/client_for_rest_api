@@ -11,11 +11,6 @@ gulp.task('css:dev', () => {
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
-gulp.task('img:dev', () => {
-  gulp.src(__dirname + '/app/**/*.png')
-    .pipe(gulp.dest(__dirname + '/build'));
-});
-
 gulp.task('webpack:dev', () => {
   gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
@@ -36,5 +31,5 @@ gulp.task('webpack:test', () => {
     .pipe(gulp.dest('test/'));
 });
 
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev', 'img:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
 gulp.task('default', ['build:dev']);
