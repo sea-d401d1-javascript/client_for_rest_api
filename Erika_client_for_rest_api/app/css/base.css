@@ -1,0 +1,29 @@
+/*************** Main Page Layout **************/
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family: "Open Sans", sans-serif;
+  background-image: url("/img/floralwallpaper.jpg");
+  background-color: white;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+header {
+  color: white;
+  background-color: #BF1717;
+  padding: 0;
+}
+
+a {
+  color: #808080;
+}
+
+img {
+  max-width: 100%;
+  display:block;
+  height: auto;
+}
