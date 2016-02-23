@@ -9,29 +9,16 @@ const server = require(__dirname + '/../server');
 const request = chai.request;
 
 describe('the user POST to a beer api', () => {
-  before (done) => {
-    request('localhost:3000')
-      .post('/api/signup')
-      .send({ email: 'testUser', password: 'password' })
-      .end((err, res) => {
-        if (err) return console.log(err);
-        expect(err).to.eql(null);
-        this.token = JSON.parse(res.text)).token;
+  after((done) => {
+    mongoose.connection.db.dropDatabase(() => {
       done();
-      });
+    });
   });
-});
-
-after((done) => {
-  mongoose.connection.db.dropDatabase(() => {
-    done();
-  });
-});
 
 it('should check the data from beer created by user POST', done => {
   request('localhost:3000')
     .post('/api/mybeers')
-    .set('token, this.token')
+    // .set('token, this.token')
     .send({ name: 'testerBeer' })
     .end((err, res) => {
       expect(err).to.eql(null);
@@ -43,7 +30,7 @@ it('should check the data from beer created by user POST', done => {
 it('should check the data from beer created by user GET', done => {
     request('localhost:3000')
       .get('/api/mybeers')
-      .set('token', this.token)
+      // .set('token', this.token)
       .end((err, res) => {
         expect(err).to.eql(null);
         expect(Array.isArray(res.body)).to.eql(true);
