@@ -45,12 +45,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(5);
-
-	__webpack_require__(6);
-	__webpack_require__(7);
-	__webpack_require__(8);
 	__webpack_require__(9);
+
+	__webpack_require__(10);
+	__webpack_require__(11);
+	__webpack_require__(12);
+	__webpack_require__(13);
 
 
 /***/ },
@@ -63,78 +63,9 @@
 
 	__webpack_require__(4)(myApp);
 
-	// For the Sharks
-	myApp.controller('SharksController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
-	  $scope.sharks = [];
-	  var sharksService = Resource('/sharks');
+	__webpack_require__(5)(myApp);
 
-	  $scope.getAll = function() {
-	    sharksService.getAll(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.sharks = res;
-	    });
-	  };
-
-	  $scope.createShark = function(shark) {
-	    sharksService.create(shark, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.sharks.push(res);
-	      $scope.newShark = null;
-	    });
-	  };
-
-	  $scope.updateShark = function(shark) {
-	    sharksService.update(shark, function(err, res) {
-	      shark.editing = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	  $scope.deleteShark = function(shark) {
-	    sharksService.delete(shark, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.sharks.splice($scope.sharks.indexOf(shark), 1);
-	    });
-	  };
-
-	}]); // end of Sharks
-
-
-	// For the People
-	myApp.controller('PeoplesController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
-	  $scope.peoples = [];
-	  var peopleService = Resource('/people');
-
-	  $scope.getAllPeople = function() {
-	    peopleService.getAllPeople(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.peoples = res;
-	    });
-	  };
-
-	  $scope.createPeople = function(people) {
-	    peopleService.create(people, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.peoples.push(res);
-	      $scope.newPeople = null;
-	    });
-	  };
-
-	  $scope.updatePeople = function(people) {
-	    peopleService.update(people, function(err, res) {
-	      people.editing = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	  $scope.deletePeople = function(people) {
-	    peopleService.delete(people, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.peoples.splice($scope.peoples.indexOf(people), 1);
-	    });
-	  };
-
-	}]); // end of People
+	__webpack_require__(7)(myApp);
 
 
 /***/ },
@@ -30654,6 +30585,110 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	module.exports = function(sharksApp) {
+	  // For the Sharks
+	  sharksApp.controller('SharksController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
+	    $scope.sharks = [];
+	    var sharksService = Resource('/sharks');
+
+	    $scope.getAll = function() {
+	      sharksService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.sharks = res;
+	      });
+	    };
+
+	    $scope.createShark = function(shark) {
+	      sharksService.create(shark, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.sharks.push(res);
+	        $scope.newShark = null;
+	      });
+	    };
+
+	    $scope.updateShark = function(shark) {
+	      sharksService.update(shark, function(err, res) {
+	        shark.editing = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.deleteShark = function(shark) {
+	      sharksService.delete(shark, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.sharks.splice($scope.sharks.indexOf(shark), 1);
+	      });
+	    };
+
+	  }]); // end of Sharks
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(peopleApp) {
+	  // For the People
+	  peopleApp.controller('PeoplesController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
+	    $scope.peoples = [];
+	    var peopleService = Resource('/people');
+
+	    $scope.getAllPeople = function() {
+	      peopleService.getAllPeople(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.peoples = res;
+	      });
+	    };
+
+	    $scope.createPeople = function(people) {
+	      peopleService.create(people, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.peoples.push(res);
+	        $scope.newPeople = null;
+	      });
+	    };
+
+	    $scope.updatePeople = function(people) {
+	      peopleService.update(people, function(err, res) {
+	        people.editing = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.deletePeople = function(people) {
+	      peopleService.delete(people, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.peoples.splice($scope.peoples.indexOf(people), 1);
+	      });
+	    };
+
+	  }]); // end of People
+	}
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -33501,7 +33536,7 @@
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33579,7 +33614,7 @@
 
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33657,7 +33692,7 @@
 
 
 /***/ },
-/* 8 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33729,7 +33764,7 @@
 
 
 /***/ },
-/* 9 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
