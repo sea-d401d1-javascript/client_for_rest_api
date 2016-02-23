@@ -47,7 +47,23 @@ table {
 
 * {
   padding: 0;
-  margin: 0;
-  background-color: brown; }
+  margin: 0; }
+
+h1 {
+  color: blue;
+  font-size: 20px;
+  background-color: #fff; }
+
+body {
+  background-color: #FCBE43;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #E57B0A; }
+
+body {
+  background: url("https://pbs.twimg.com/media/B_UemU8VEAApWT-.jpg") no-repeat center bottom fixed;
+  font: 100% Helvetica, sans-serif;
+  color: #333;
+  background-color: #FCBE43; }
 
 /*# sourceMappingURL=styles.css.map */
