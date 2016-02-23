@@ -67,6 +67,9 @@
 	    $scope = $rootScope.$new();
 	  }));
 
+	  // ======================= test the controllers ==============================
+	  // ===========================================================================
+
 	  it('should be able to make a controller', () => {
 	    var politiciansController = $ControllerConstructor('PoliticiansController', {$scope});
 	    expect(typeof politiciansController).toBe('object');
@@ -81,7 +84,14 @@
 	    expect(typeof $scope.getRep).toBe('function');
 	  });
 
+	  // ======================= test the REST requests ============================
+	  // ===========================================================================
+
 	  describe('REST requests', () => {
+
+	  // ======================= test the REST requests ============================
+	  // ===========================================================================
+
 	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
 	      $httpBackend = _$httpBackend_;
 	      $ControllerConstructor('PoliticiansController', {$scope});
@@ -91,6 +101,9 @@
 	      $httpBackend.verifyNoOutstandingExpectation();
 	      $httpBackend.verifyNoOutstandingRequest();
 	    });
+
+	    // ======================= test the GET requests ===========================
+	    // =========================================================================
 
 	    it('should make a GET request to api/demPoliticians', () => {
 	      $httpBackend.expectGET('http://localhost:5000/api/demPoliticians').respond(200, [{name: 'test politician'}]);
@@ -107,6 +120,9 @@
 	      expect($scope.repPoliticians.length).toBe(1);
 	      expect($scope.repPoliticians[0].name).toBe('test politician');
 	    });
+
+	    // ======================= test the POST requests ==========================
+	    // =========================================================================
 
 	    it('should create a new dem politician', () => {
 	      $httpBackend.expectPOST('http://localhost:5000/api/demPoliticians', {name: 'the sent politician'}).respond(200, {name: 'the response politician'});
@@ -128,6 +144,9 @@
 	      expect($scope.repPoliticians[0].name).toBe('the response politician');
 	    });
 
+	    // ======================= test the PUT requests ===========================
+	    // =========================================================================
+
 	    it('should update a dem politician', () => {
 	      var testPolitician = {name: 'inside scope', editing: true, _id: 5};
 	      $scope.demPoliticians.push(testPolitician);
@@ -147,6 +166,9 @@
 	      expect(testPolitician.editing).toBe(false);
 	      expect($scope.repPoliticians[0].editing).toBe(false);
 	    });
+
+	    // ======================= test the DELETE requests ========================
+	    // =========================================================================
 
 	    it('should delete a dem politician', () => {
 	      var testPolitician = {name: 'condemned politician', _id: 1};

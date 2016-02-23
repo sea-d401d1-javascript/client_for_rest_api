@@ -1,0 +1,51 @@
+@import 'theme';  //Gives me access to my colors
+
+// Font weights
+$light: 100;
+$regular: 400;
+$bold: 600;
+
+// Default text sizes
+$default-font-size: 16;
+$default-font-size-big: 24;
+$default-font-size-xBig: 32;
+$default-font-size-sml: 12;
+
+// Base z-indexes
+$zHeader: 2000;
+$zOverlay: 4000;
+$zMessage: 6000;
+
+// Base Font
+$base-font-family: sans-serif;
+$base-font-weight: $regular;        //sets to font-weight 400
+$base-font-size: $default-font-size * 1px;
+$base-line-height: 1.5;
+
+// Headings and Paragraphs
+h1, h2, h3, h4, h5, p {
+  color: $default-text-color;        //sets to black
+  font-family: $base-font-family;    //sets to sans-serif
+  font-weight: $bold;                //sets to font-weight 600
+}
+
+p {
+  font-weight: $regular;
+}
+
+// Links
+a {
+  color: $bright-red;
+  &:hover {
+    color: $black;
+  }
+  &:visited {
+    color: $yellow;
+  }
+}
+
+// Body Background Color
+body {
+  background-color: $white;
+  font-size: $base-font-size;
+}

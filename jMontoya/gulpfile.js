@@ -32,7 +32,7 @@ gulp.task('html:dev', () => {
 });
 
 gulp.task('css:dev', () => {
-  gulp.src(__dirname + '/app/*.css')
+  gulp.src(__dirname + '/app/css/*.css')
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
@@ -61,10 +61,10 @@ gulp.task('webpack:test', () => {
 //     .pipe(mocha());
 // });
 //
-// gulp.task('watch', function() {
-//   gulp.watch(files, ['lint']);
-// });
+gulp.task('watch', function() {
+  gulp.watch(files, ['/build']);
+});
 
 gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
-gulp.task('default', ['build:dev']);
+gulp.task('default', ['build:dev', 'watch']);
 // gulp.task('default', ['mocha', 'lint', 'watch', 'build:dev']);
