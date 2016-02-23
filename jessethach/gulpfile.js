@@ -10,6 +10,11 @@ gulp.task('html:dev', () => {
     .pipe(gulp.dest('build/'));
 });
 
+gulp.task('css:dev', () => {
+  gulp.src(__dirname + '/app/**/*.css')
+    .pipe(gulp.dest(__dirname + '/build'));
+});
+
 gulp.task('webpack:dev', () => {
   gulp.src(clientScripts)
     .pipe(webpack({
@@ -48,5 +53,5 @@ gulp.task('watch', () => {
   gulp.watch([jsFiles, staticFiles], ['dev']);
 });
 
-gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev']);
+gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'css:dev']);
 gulp.task('default', ['build:dev']);
