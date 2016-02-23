@@ -1,0 +1,16 @@
+body{
+  background-color: #fff;
+}
+body, p, h1, h2, h3, h4, h5, h6, article, section{
+  color: #000;
+  font-family: arial;
+}
+a {
+  color: #339900;
+}
+a:hover{
+  color: #00BD39;
+}
+a:visited{
+  color: #64DE89;
+};

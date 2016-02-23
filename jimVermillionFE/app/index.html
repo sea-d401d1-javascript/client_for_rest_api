@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>ANgulR</title>
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" href="css/base.css">
 </head>
 <body data-ng-app="flower">
-
   <main data-ng-controller="FlowerController" data-ng-init="getAll()">
     <article class="flowers">
       <!-- show all the flowers -->
       <h2>FLOWERS!</h2>
+      <a href="">minimun</a>
       <section data-ng-repeat="flower in flowers">
         <h2>{{flower.name}}</h2>
         <h3>{{flower.difficulty_to_grow}}</h3>
