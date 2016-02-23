@@ -3,47 +3,83 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Super Shark</title>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="/css/base.css">
 </head>
 <body data-ng-app="myApp" >
 
-  <div data-ng-controller="SharksController" data-ng-init="getAll()">
-    <h1>Sharks!!!!:</h1>
-    <ul>
-      <li data-ng-repeat="shark in sharks">{{shark.name}}, {{shark.size}}
-        <button data-ng-click="deleteShark(shark)">Delete Shark</button>
-        <button data-ng-click="shark.editing = !shark.editing">Update Shark</button>
-        <form data-ng-if="shark.editing" data-ng-submit="updateShark(shark)">
-          <input data-ng-model="shark.name" type="text"/>
-          <input data-ng-model="shark.size" type="text"/>
-          <button type="submit">Update</button>
-        </form>
-      </li>
-    </ul>
-    <form data-ng-submit="createShark(newShark)">
-      <input data-ng-model="newShark.name" type="text" placeholder="Name"/>
-      <input data-ng-model="newShark.size" type="text" placeholder="Size"/>
-      <button type="submit">New Shark</button>
-    </form>
-</div>
-  <div data-ng-controller="PeoplesController" data-ng-init="getAllPeople()">
-    <h1>People!!!!:</h1>
-    <ul>
-      <li data-ng-repeat="people in peoples">{{people.name}}, {{people.weapon}}
-        <button data-ng-click="deletePeople(people)">Delete People</button>
-        <button data-ng-click="people.editing = !people.editing">Update People</button>
-        <form data-ng-if="people.editing" data-ng-submit="updatePeople(people)">
-          <input data-ng-model="people.name" type="text"/>
-          <input data-ng-model="people.weapon" type="text"/>
-          <button type="submit">Update</button>
-        </form>
-      </li>
-    </ul>
-    <form data-ng-submit="createPeople(newPeople)">
-      <input data-ng-model="newPeople.name" type="text" placeholder="Name"/>
-      <input data-ng-model="newPeople.weapon" type="text" placeholder="Weapon choice"/>
-      <button type="submit">New Person</button>
-    </form>
+  <div class="center" data-ng-controller="SharksController" data-ng-init="getAll()">
+    <h1>Sharks</h1>
+		<div>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>Name</td><td>Size</td><td>Delete</td><td>Edit</td>
+						</tr>
+					</thead>
+					<tbody data-ng-repeat="shark in sharks">
+						<tr>
+							<td>{{shark.name}}</td>
+							<td>{{shark.size}}</td>
+							<td><button data-ng-click="deleteShark(shark)" class="btn btn-danger glyphicon glyphicon-remove">Delete</button></td>
+							<td><button data-ng-click="shark.editing = !shark.editing" class="btn btn-info glyphicon glyphicon-pencil">Edit</button></td>
+							<td>
+									<form data-ng-if="shark.editing" data-ng-submit="updateShark(shark)">
+										<input data-ng-model="shark.name" type="text"/>
+										<input data-ng-model="shark.size" type="text"/>
+										<button class="btn btn-primary" type="submit">Update</button>
+									</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<div>
+			<h2>Add a Shark</h2>
+			<form class="form-inline" data-ng-submit="createShark(newShark)">
+				<input  class="form-control" data-ng-model="newShark.name" type="text" placeholder="Name"/>
+				<input class="form-control" data-ng-model="newShark.size" type="text" placeholder="Size"/>
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+		</div>
+	</div>
+
+<hr />
+
+  <div class="center" data-ng-controller="PeoplesController" data-ng-init="getAllPeople()">
+    <h1>People</h1>
+		<div>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>Name</td><td>Weapon</td><td>Delete</td><td>Edit</td>
+						</tr>
+					</thead>
+					<tbody data-ng-repeat="people in peoples">
+						<tr>
+							<td>{{people.name}}</td>
+							<td>{{people.weapon}}</td>
+							<td><button data-ng-click="deletePeople(people)" class="btn btn-danger glyphicon glyphicon-remove">Delete</button></td>
+							<td><button data-ng-click="people.editing = !people.editing" class="btn btn-info glyphicon glyphicon-pencil">Edit</button></td>
+							<td>
+									<form data-ng-if="people.editing" data-ng-submit="updatePeople(people)">
+										<input data-ng-model="people.name" type="text"/>
+										<input data-ng-model="people.weapon" type="text"/>
+					          <button class="btn btn-primary" type="submit">Update</button>
+									</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<div>
+			<h2>Add a Person</h2>
+			<form class="form-inline" data-ng-submit="createPeople(newPeople)">
+				<input class="form-control" data-ng-model="newPeople.name" type="text" placeholder="Name"/>
+				<input class="form-control" data-ng-model="newPeople.weapon" type="text" placeholder="Weapon choice"/>
+				<button class="btn btn-success" type="submit">Add</button>
+			</form>
+		</div>
   </div>
 
   <script src="bundle.js"></script>
