@@ -1,22 +1,11 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Sharks</title>
-  </head>
-  <body data-ng-app="sharksApp">
-
-  </body>
-</html>
-
-
-<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Super Shark</title>
 </head>
-<body data-ng-app="sharksApp">
+<body data-ng-app="myApp" >
+
   <div data-ng-controller="SharksController" data-ng-init="getAll()">
     <h1>Sharks!!!!:</h1>
     <ul>
@@ -35,9 +24,8 @@
       <input data-ng-model="newShark.size" type="text" placeholder="Size"/>
       <button type="submit">New Shark</button>
     </form>
-  </div>
-
-  <div data-ng-controller="PeoplesController">
+</div>
+  <div data-ng-controller="PeoplesController" data-ng-init="getAllPeople()">
     <h1>People!!!!:</h1>
     <ul>
       <li data-ng-repeat="people in peoples">{{people.name}}, {{people.weapon}}
