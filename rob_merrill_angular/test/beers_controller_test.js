@@ -33,7 +33,7 @@ describe('beers controller', () => {
   describe('REST requests', () => {
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
       $httpBackend = _$httpBackend_;
-      ControllerConstructor('BeersController', {$scope});
+      $ControllerConstructor('BeersController', {$scope});
     }));
 
     afterEach(() => {
@@ -79,7 +79,7 @@ describe('beers controller', () => {
 
     it('should update a beer', () => {
       var beer = {_id: 1, editting: true};
-      httpBackend.expectPUT('http://localhost:5000/api/beers' + '/1').respond(200);
+      $httpBackend.expectPUT('http://localhost:5000/api/beers' + '/1').respond(200);
       $scope.updateBeer(beer);
       $httpBackend.flush();
       expect(beer.editting).toBe(false);
@@ -96,7 +96,7 @@ describe('beers controller', () => {
     // });
     it('should update a brewer', () => {
           var brewer = {_id: 1, editting: true};
-          httpBackend.expectPUT('http://localhost:5000/api/brewers' + '/1').respond(200);
+          $httpBackend.expectPUT('http://localhost:5000/api/brewers' + '/1').respond(200);
           $scope.updateBrewer(brewer);
           $httpBackend.flush();
           expect(brewer.editting).toBe(false);
@@ -116,7 +116,7 @@ describe('beers controller', () => {
       var beer = {_id: 1, name: 'test beer'};
       $scope.beer = [beer];
       $httpBackend.expectDELETE('http://localhost:5000/api/beers' + '/1').respond(200);
-      $scope.deleteJedi(jedi);
+      $scope.deleteBeer(beer);
       $httpBackend.flush();
       expect($scope.beers.length).toBe(0);
     })  
