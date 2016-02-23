@@ -23,20 +23,23 @@
 							<td>{{shark.size}}</td>
 							<td><button data-ng-click="deleteShark(shark)" class="btn btn-danger glyphicon glyphicon-remove">Delete</button></td>
 							<td><button data-ng-click="shark.editing = !shark.editing" class="btn btn-info glyphicon glyphicon-pencil">Edit</button></td>
-							<td>
-									<form data-ng-if="shark.editing" data-ng-submit="updateShark(shark)">
-										<input data-ng-model="shark.name" type="text"/>
-										<input data-ng-model="shark.size" type="text"/>
-										<button class="btn btn-primary" type="submit">Update</button>
-									</form>
-							</td>
-						</tr>
+							</tr>
+							<tr>
+								<td data-ng-show="shark.editing">
+										<form data-ng-if="shark.editing" data-ng-submit="updateShark(shark)">
+											<input data-ng-model="shark.name" type="text"/>
+											<input data-ng-model="shark.size" type="text"/>
+											<button class="btn btn-primary" type="submit">Update</button>
+										</form>
+								</td>
+							</tr>
+
 					</tbody>
 				</table>
 		</div>
 		<div>
 			<h2>Add a Shark</h2>
-			<form class="form-inline" data-ng-submit="createShark(newShark)">
+			<form id="form" class="form-inline" data-ng-submit="createShark(newShark)">
 				<input  class="form-control" data-ng-model="newShark.name" type="text" placeholder="Name"/>
 				<input class="form-control" data-ng-model="newShark.size" type="text" placeholder="Size"/>
 				<button class="btn btn-success" type="submit">Add</button>
@@ -61,11 +64,13 @@
 							<td>{{people.weapon}}</td>
 							<td><button data-ng-click="deletePeople(people)" class="btn btn-danger glyphicon glyphicon-remove">Delete</button></td>
 							<td><button data-ng-click="people.editing = !people.editing" class="btn btn-info glyphicon glyphicon-pencil">Edit</button></td>
+						</tr>
+						<tr>
 							<td>
 									<form data-ng-if="people.editing" data-ng-submit="updatePeople(people)">
 										<input data-ng-model="people.name" type="text"/>
 										<input data-ng-model="people.weapon" type="text"/>
-					          <button class="btn btn-primary" type="submit">Update</button>
+										<button class="btn btn-primary" type="submit">Update</button>
 									</form>
 							</td>
 						</tr>
@@ -74,7 +79,7 @@
 		</div>
 		<div>
 			<h2>Add a Person</h2>
-			<form class="form-inline" data-ng-submit="createPeople(newPeople)">
+			<form id="form" class="form-inline" data-ng-submit="createPeople(newPeople)">
 				<input class="form-control" data-ng-model="newPeople.name" type="text" placeholder="Name"/>
 				<input class="form-control" data-ng-model="newPeople.weapon" type="text" placeholder="Weapon choice"/>
 				<button class="btn btn-success" type="submit">Add</button>
