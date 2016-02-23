@@ -8,6 +8,11 @@ gulp.task('html:dev', () => {
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
+gulp.task('css:dev', () => {
+  gulp.src(__dirname + '/app/css/*.css')
+    .pipe(gulp.dest(__dirname + '/build/css'));
+});
+
 gulp.task('webpack:dev', () => {
   gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
@@ -44,7 +49,7 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('build:dev', ['webpack:dev', 'html:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
 
 gulp.task('watch', function() {
     gulp.watch(['app/js/client.js', 'app/index.html', 'app/css/style.css'], ['build:dev']);
