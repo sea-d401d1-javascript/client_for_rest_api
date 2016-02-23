@@ -45,9 +45,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(5);
-	__webpack_require__(6);
-	__webpack_require__(7);
+	__webpack_require__(10);
+	__webpack_require__(11);
+	__webpack_require__(13);
+	__webpack_require__(14);
 
 
 /***/ },
@@ -55,137 +56,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(2);
-	const twoResourcesApp = angular.module('twoResourcesApp', []);
+	const twoResourcesApp = angular.module('twoResourcesApp',[]);
+
 	__webpack_require__(4)(twoResourcesApp);
+	__webpack_require__(5)(twoResourcesApp);
 
-	twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
-	  $scope.movies = [];
+	__webpack_require__(6)(twoResourcesApp);
+	__webpack_require__(8)(twoResourcesApp);
 
-	  var movieService = Resource('/movies');
-
-	$scope.getAllMovies = function() {
-	  movieService.getAll(function(err, res){
-	    if(err) return console.log(err);
-	    $scope.movies = res;
-	  });
-	};
-
-
-	$scope.createMovie = function(movie) {
-	  movieService.create(movie,function(err, res) {
-	    if(err) return console.log(err);
-	    $scope.movies.push(res);
-	    $scope.newMovie = null;
-	  });
-	};
-
-
-	  $scope.updateMovie = function(movie) {
-	    movieService.update(movie, function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.movies = $scope.movies.map(function(item) {
-	        if(item._id === movie._id){
-	          item = movie;
-	          return item;
-	        }
-	        return item;
-	      });
-	      movie.editing = false;
-	    });
-	  };
-
-	  $scope.deleteMovie = function(movie) {
-	    movieService.delete(movie,function(err, res) {
-	      if(err) return console.log(err);
-
-	      $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
-
-	    });
-	  };
-
-	}]);
-
-	twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
-	  $scope.actors = [];
-	  var actorResource = Resource('/actors');
-
-	  $scope.getAllActors = function() {
-	    actorResource.getAll(function(err,res){
-	      if(err) return console.log(err);
-	      $scope.actors = res;
-	    });
-	  };
-	  // $scope.getAllActors = function() {
-	  //   $http.get('http://localhost:3000/api/actors')
-	  //   .then((res) => {
-	  //     $scope.actors = res.data;
-	  //   }, (err) => {
-	  //     console.log(err);
-	  //   });
-	  // };
-
-	  $scope.createActor = function(actor) {
-	    actorResource.create(actor,function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.actors.push(res);
-	      $scope.newActor = null;
-	    });
-	  };
-
-	  // $scope.createActor = function(actor) {
-	  //   $http.post('http://localhost:3000/api/actors', actor)
-	  //     .then((res) => {
-	  //       $scope.actors.push(res.data);
-	  //       $scope.newActor = null;
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
-	  // };
-
-	  $scope.updateActor = function(actor) {
-	    actorResource.update(actor,function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.actors = $scope.actors.map(function(item) {
-	        if(item._id === actor._id){
-	          item = actor;
-	          return item;
-	        }
-	        return item;
-	      });
-	      actor.editing = false;
-	    });
-	  };
-	  // $scope.updateActor = function (actor){
-	  //   $http.put('http://localhost:3000/api/actors/' + actor._id, actor)
-	  //     .then((res) => {
-	  //       console.log('update');
-	  //       $scope.actors = $scope.actors.map(function(item) {
-	  //         if(item._id === actor._id){
-	  //           item = actor;
-	  //           return item;
-	  //         }
-	  //         return item;
-	  //       });
-	  //       actor.editing = false;
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
-	  // };
-	  $scope.deleteActor =  function(actor) {
-	    actorResource.delete(actor,function(err,data) {
-	      if(err) return console.log(err);
-	      $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
-	    });
-	  };
-	  // $scope.deleteActor = function (actor) {
-	  //   $http.delete('http://localhost:3000/api/actors/' + actor._id)
-	  //     .then((res) => {
-	  //       $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
-	  //     }, (err) => {
-	  //       console.log(err);
-	  //     });
-	  // };
-	}]);
+	// require('./directives');
 
 
 /***/ },
@@ -30681,6 +30560,150 @@
 /* 5 */
 /***/ function(module, exports) {
 
+	module.exports = function (app) {
+	  app.factory('resourceStore',function() {
+	    var data = {};
+	    return{
+	      get: function(key){
+	        return data[key];
+	      },
+	      set: function(key, value) {
+	        data[key] = value;
+	        return value;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(7)(app);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
+	    $scope.movies = [];
+
+	    var movieService = Resource('/movies');
+
+	  $scope.getAllMovies = function() {
+	    movieService.getAll(function(err, res){
+	      if(err) return console.log(err);
+	      $scope.movies = res;
+	    });
+	  };
+
+
+	  $scope.createMovie = function(movie) {
+	    movieService.create(movie,function(err, res) {
+	      if(err) return console.log(err);
+	      $scope.movies.push(res);
+	      $scope.newMovie = null;
+	    });
+	  };
+
+
+	    $scope.updateMovie = function(movie) {
+	      movieService.update(movie, function(err,res) {
+	        if(err) return console.log(err);
+	        $scope.movies = $scope.movies.map(function(item) {
+	          if(item._id === movie._id){
+	            item = movie;
+	            return item;
+	          }
+	          return item;
+	        });
+	        movie.editing = false;
+	      });
+	    };
+
+	    $scope.deleteMovie = function(movie) {
+	      movieService.delete(movie,function(err, res) {
+	        if(err) return console.log(err);
+
+	        $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
+
+	      });
+	    };
+
+	  }]);
+
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(9)(app);
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
+	    $scope.actors = [];
+	    var actorResource = Resource('/actors');
+
+	    $scope.getAllActors = function() {
+	      actorResource.getAll(function(err,res){
+	        if(err) return console.log(err);
+	        $scope.actors = res;
+	      });
+	    };
+
+
+	    $scope.createActor = function(actor) {
+	      actorResource.create(actor,function(err,res) {
+	        if(err) return console.log(err);
+	        $scope.actors.push(res);
+	        $scope.newActor = null;
+	      });
+	    };
+
+
+	    $scope.updateActor = function(actor) {
+	      actorResource.update(actor,function(err,res) {
+	        if(err) return console.log(err);
+	        $scope.actors = $scope.actors.map(function(item) {
+	          if(item._id === actor._id){
+	            item = actor;
+	            return item;
+	          }
+	          return item;
+	        });
+	        actor.editing = false;
+	      });
+	    };
+
+	    $scope.deleteActor =  function(actor) {
+	      actorResource.delete(actor,function(err,data) {
+	        if(err) return console.log(err);
+	        $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
+	      });
+	    };
+
+	  }]);
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
 	/**
 	 * @license AngularJS v1.5.0
 	 * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -33526,12 +33549,12 @@
 
 
 /***/ },
-/* 6 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	__webpack_require__(12);
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(10);
 
 	describe('movies controller',() => {
 	  beforeEach(angular.mock.module('twoResourcesApp'));
@@ -33705,12 +33728,113 @@
 
 
 /***/ },
-/* 7 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
+	const angular = __webpack_require__(2);
+	const twoResourcesApp = angular.module('twoResourcesApp', []);
+	__webpack_require__(4)(twoResourcesApp);
+	__webpack_require__(5)(twoResourcesApp);
+
+	twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
+	  $scope.movies = [];
+
+	  var movieService = Resource('/movies');
+
+	$scope.getAllMovies = function() {
+	  movieService.getAll(function(err, res){
+	    if(err) return console.log(err);
+	    $scope.movies = res;
+	  });
+	};
+
+
+	$scope.createMovie = function(movie) {
+	  movieService.create(movie,function(err, res) {
+	    if(err) return console.log(err);
+	    $scope.movies.push(res);
+	    $scope.newMovie = null;
+	  });
+	};
+
+
+	  $scope.updateMovie = function(movie) {
+	    movieService.update(movie, function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.movies = $scope.movies.map(function(item) {
+	        if(item._id === movie._id){
+	          item = movie;
+	          return item;
+	        }
+	        return item;
+	      });
+	      movie.editing = false;
+	    });
+	  };
+
+	  $scope.deleteMovie = function(movie) {
+	    movieService.delete(movie,function(err, res) {
+	      if(err) return console.log(err);
+
+	      $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
+
+	    });
+	  };
+
+	}]);
+
+	twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
+	  $scope.actors = [];
+	  var actorResource = Resource('/actors');
+
+	  $scope.getAllActors = function() {
+	    actorResource.getAll(function(err,res){
+	      if(err) return console.log(err);
+	      $scope.actors = res;
+	    });
+	  };
+
+
+	  $scope.createActor = function(actor) {
+	    actorResource.create(actor,function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.actors.push(res);
+	      $scope.newActor = null;
+	    });
+	  };
+
+
+	  $scope.updateActor = function(actor) {
+	    actorResource.update(actor,function(err,res) {
+	      if(err) return console.log(err);
+	      $scope.actors = $scope.actors.map(function(item) {
+	        if(item._id === actor._id){
+	          item = actor;
+	          return item;
+	        }
+	        return item;
+	      });
+	      actor.editing = false;
+	    });
+	  };
+
+	  $scope.deleteActor =  function(actor) {
+	    actorResource.delete(actor,function(err,data) {
+	      if(err) return console.log(err);
+	      $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
+	    });
+	  };
+
+	}]);
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(12);
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(10);
 
 	describe('resource service', () => {
 	  beforeEach(angular.mock.module('twoResourcesApp'));
@@ -33816,6 +33940,36 @@
 	    });
 	  });
 
+	});
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(12);
+	var angular = __webpack_require__(2);
+	__webpack_require__(10);
+
+	describe('data store', () => {
+	  beforeEach(angular.mock.module('twoResourcesApp'));
+	  var Store;
+	  var test;
+	  beforeEach(angular.mock.inject(function(resourceStore){
+	    Store = resourceStore;
+	  }));
+
+	  it('should be a object',() => {
+	    expect(typeof Store).toBe('object');
+	    expect(Store.data).toBe(undefined);
+	  });
+
+	  it('should get and set', () => {
+	    test = Store.get('prop1');
+	    Store.set('prop1','keyvalue');
+	    expect(Store.set('prop1','keyvalue')).toBe('keyvalue');
+	    console.log(Store.data);
+	  })
 	});
 
 

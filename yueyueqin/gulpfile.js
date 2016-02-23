@@ -8,8 +8,13 @@ gulp.task('html:dev', () => {
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
+gulp.task('css:dev', () => {
+  gulp.src(__dirname + '/app/**/*.css')
+    .pipe(gulp.dest(__dirname + '/build'));
+});
+
 gulp.task('webpack:dev', () => {
-  gulp.src(__dirname + '/app/js/*.js')
+  gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
       output: {
         filename: 'bundle.js'
@@ -27,5 +32,5 @@ gulp.task('webpack:test', () => {
     }))
       .pipe(gulp.dest('test/'));
 });
-gulp.task('build:dev', ['webpack:dev', 'html:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
 gulp.task('default', ['build:dev']);
