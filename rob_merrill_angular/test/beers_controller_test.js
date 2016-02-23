@@ -78,34 +78,58 @@ describe('beers controller', () => {
     // });
 
     it('should update a beer', () => {
-      var testBeer = {name: 'inside scope', editing: true, _id: 5};
-      $scope.beers.push(testBeer);
-      $httpBackend.expectPUT('http://localhost:5000/api/beers/5', testBeer).respond(200);
-      $scope.updateBeer(testBeer);
+      var beer = {_id: 1, editting: true};
+      httpBackend.expectPUT('http://localhost:5000/api/beers' + '/1').respond(200);
+      $scope.updateBeer(beer);
       $httpBackend.flush();
-      expect(testBeer.editing).toBe(false);
-      expect($scope.beers[0].editing).toBe(false);
+      expect(beer.editting).toBe(false);
     });
 
-      it('should update a brewer', () => {
-      var testBeer = {name: 'inside scope', editing: true, _id: 5};
-      $scope.brewers.push(testBeer);
-      $httpBackend.expectPUT('http://localhost:5000/api/brewers/5', testBeer).respond(200);
-      $scope.updateBrewer(testBeer);
-      $httpBackend.flush();
-      expect(testBeer.editing).toBe(false);
-      expect($scope.brewers[0].editing).toBe(false);
-    });
+    // it('should update a beer', () => {
+    //   var testBeer = {name: 'inside scope', editing: true, _id: 5};
+    //   $scope.beers.push(testBeer);
+    //   $httpBackend.expectPUT('http://localhost:5000/api/beers/5', testBeer).respond(200);
+    //   $scope.updateBeer(testBeer);
+    //   $httpBackend.flush();
+    //   expect(testBeer.editing).toBe(false);
+    //   expect($scope.beers[0].editing).toBe(false);
+    // });
+    it('should update a brewer', () => {
+          var brewer = {_id: 1, editting: true};
+          httpBackend.expectPUT('http://localhost:5000/api/brewers' + '/1').respond(200);
+          $scope.updateBrewer(brewer);
+          $httpBackend.flush();
+          expect(brewer.editting).toBe(false);
+        });
 
-    it('should remove a beer', () => {
-      var testBeer = {name: 'removed beer', _id:1};
-      $scope.beers.push(testBeer);
-      expect($scope.beers.indexOf(testBeer)).not.toBe(-1);
-      $httpBackend.expectDELETE('http://localhost:5000/api/beers/1').respond(200);
-      $scope.deleteBeer(testBeer);
+    //   it('should update a brewer', () => {
+    //   var testBeer = {name: 'inside scope', editing: true, _id: 5};
+    //   $scope.brewers.push(testBeer);
+    //   $httpBackend.expectPUT('http://localhost:5000/api/brewers/5', testBeer).respond(200);
+    //   $scope.updateBrewer(testBeer);
+    //   $httpBackend.flush();
+    //   expect(testBeer.editing).toBe(false);
+    //   expect($scope.brewers[0].editing).toBe(false);
+    // });
+
+    it('should be able to delete a beer', () => {
+      var beer = {_id: 1, name: 'test beer'};
+      $scope.beer = [beer];
+      $httpBackend.expectDELETE('http://localhost:5000/api/beers' + '/1').respond(200);
+      $scope.deleteJedi(jedi);
       $httpBackend.flush();
-      expect($scope.beers.indexOf(testBeer)).toBe(-1);
-    });
+      expect($scope.beers.length).toBe(0);
+    })  
+
+    // it('should remove a beer', () => {
+    //   var testBeer = {name: 'removed beer', _id:1};
+    //   $scope.beers.push(testBeer);
+    //   expect($scope.beers.indexOf(testBeer)).not.toBe(-1);
+    //   $httpBackend.expectDELETE('http://localhost:5000/api/beers/1').respond(200);
+    //   $scope.deleteBeer(testBeer);
+    //   $httpBackend.flush();
+    //   expect($scope.beers.indexOf(testBeer)).toBe(-1);
+    // });
 
     it('should remove a brewer', () => {
       var testBeer = {name: 'removed beer', _id:1};

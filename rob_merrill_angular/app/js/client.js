@@ -8,7 +8,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   $scope.brewerGreeting = 'hello world...burp';
   $scope.brewers = [];
 
-  $http.get('http://localhost:5000/api/beers')
+  $http.get('http://localhost:3000/api/beers')
     .then((res) => {
       console.log('success!');
       $scope.beers = res.data;
@@ -16,7 +16,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
       console.log(err);
     });
 
-    $http.get('http://localhost:5000/api/brewers')
+    $http.get('http://localhost:3000/api/brewers')
     .then((res) => {
       console.log('success!');
       $scope.brewers = res.data;
@@ -25,7 +25,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
     });
 
     $scope.beersDrank = function() {
-      $http.get('http://localhost:5000/beersDrank/howManyBeers')
+      $http.get('http://localhost:3000/beersDrank/howManyBeers')
         .then((res) => {
           console.log('brews for everyone!');
           $scope.beersDrank = res.data;
@@ -37,7 +37,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
     $scope.beersDrank();
 
   $scope.createBeer = function(beer) {
-    $http.post('http://localhost:5000/api/beers', beer)
+    $http.post('http://localhost:3000/api/beers', beer)
       .then((res) => {
         $scope.beers.push(res.data);
         $scope.newBeer = null;
@@ -47,7 +47,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   }
 
     $scope.createBrewer = function(brewer) {
-    $http.post('http://localhost:5000/api/brewers', brewer)
+    $http.post('http://localhost:3000/api/brewers', brewer)
       .then((res) => {
         $scope.brewers.push(res.data);
         $scope.newBrewer = null;
@@ -57,7 +57,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   }
 
   $scope.deleteBeer = function(beer) {
-    $http.delete('http://localhost:5000/api/beers/' + beer._id)
+    $http.delete('http://localhost:3000/api/beers/' + beer._id)
       .then((res) => {
         $scope.beers = $scope.beers.filter((i) => i !== beer);
       }, (err) => {
@@ -66,7 +66,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   }
   
     $scope.deleteBrewer = function(brewer) {
-    $http.delete('http://localhost:5000/api/brewers/' + brewer._id)
+    $http.delete('http://localhost:3000/api/brewers/' + brewer._id)
       .then((res) => {
         $scope.brewers = $scope.brewers.filter((i) => i !== beer);
       }, (err) => {
@@ -75,7 +75,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   }
 
   $scope.updateBeer = function(beer) {
-    $http.put('http://localhost:5000/api/beers/' + beer._id, beer)
+    $http.put('http://localhost:3000/api/beers/' + beer._id, beer)
       .then((res) => {
         $scope.beers[$scope.beers.indexOf(beer)] = beer;
         beer.editing = false;
@@ -86,7 +86,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   };
 
    $scope.updateBrewer = function(brewer) {
-    $http.put('http://localhost:5000/api/brewer/' + brewer._id, brewer)
+    $http.put('http://localhost:3000/api/brewer/' + brewer._id, brewer)
       .then((res) => {
         $scope.brewers[$scope.brewer.indexOf(brewer)] = brewer;
         brewer.editing = false;
