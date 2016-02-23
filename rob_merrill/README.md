@@ -1,5 +1,14 @@
 #REST API
 
+Beers and Brewers
+
+To Use:
+-clone github file
+-npm install
+-node server.js
+
+#Authentication
+
 How to Use Authentication:
 
 To access end w authentication:
