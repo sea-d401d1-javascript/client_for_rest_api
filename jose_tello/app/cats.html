@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>CATS</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body data-ng-app="catsApp">
   <main data-ng-controller="CatsController" data-ng-init="getAll()">
@@ -12,9 +14,9 @@
         <button data-ng-click="deleteCat(cat)">DELETE</button>
         <button data-ng-click="cat.editing = !cat.editing">UPDATE</button>
         <form data-ng-if="cat.modify" data-ng-submit="updateCat(cat)">
-          <input data-ng-model="cat.name" type="text">
-          <input data-ng-model="cat.color" type="text">
-          <input data-ng-model="cat.lives" type="text">
+          <input class="cat-input" data-ng-model="cat.name" type="text">
+          <input class="cat-input" data-ng-model="cat.color" type="text">
+          <input class="cat-input" data-ng-model="cat.lives" type="text">
           <button type="submit">SUBMIT</button>
         </form>
       </li>
