@@ -1,3 +1,3 @@
 module.exports = function(app) {
-  require('./controller/sharks_controller')(app);
+  require('./controllers/sharks_controller')(app);
 };

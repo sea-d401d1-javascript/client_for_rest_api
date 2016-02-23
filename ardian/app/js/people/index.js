@@ -1,3 +1,3 @@
 module.exports = function(app) {
-  require('./controller/people_controller')(app);
+  require('./controllers/people_controller')(app);
 };
