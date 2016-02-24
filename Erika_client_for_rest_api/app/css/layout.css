@@ -1,27 +1,61 @@
 /**********LAYOUT***********/
 
 .header {
-
+  height: 300px;
+  border: solid black;
+  border-width: 3px;
 }
 
 .nav {
-  border: solid #CCC;
-  border-width: 1px 0 0;
+  height: 50px;
+  border: solid black;
+  border-width: 1px;
+}
 
+h1.title {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .footer {
-
+  background-color: #B9C5CB;
+  border: solid black;
+  border-width: 3px;
+  margin-top: 10px;
 }
 
-.column1 {
-
+.section {
+  display: flex;
 }
 
-.column2 {
-
+.column {
+  flex: 1;
+  background: #B9C5CB;
+  border: 3px solid #5E5858;
+  box-sizing: border-box;
 }
 
-.column3 {
+.column_left {
+  order: 1;
+  float: left;
+  width: 32%;
+  height: 300px;
+  padding: 7px;
+  margin-right: 16px;
+}
 
+.column_center {
+  order: 2;
+  display: inline-block;
+  width: 32%;
+  height: 300px;
+  padding: 7px;
+}
+
+.column_right {
+  order: 3;
+  float: right;
+  width: 33%;
+  height: 300px;
+  padding: 7px;
 }
