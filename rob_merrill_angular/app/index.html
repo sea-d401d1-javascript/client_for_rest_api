@@ -34,6 +34,25 @@
     </form>
     <p>{{beers}}
 
+    <!-- brewers -->
+     <ul>
+      <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
+      <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
+      <button data-ng-click="brewer.editing = !brewer.editing">Update Brewer</button>
+      <form data-ng-if="brewer.editing" data-ng-submit="updateBrewer(brewer)">
+        <input data-ng-model="brewer.name" type="text"/>
+        <input data-ng-model="brewer.age" type="text"/>
+        <button type="submit">Update</button>
+      </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createBrewer(newBrewer)">
+      <input data-ng-model="newBrewer.name" type="text"/>
+      <input data-ng-model="newBrewer.age" type="text"/>
+      <button type="submit">New Brewer</button>
+    </form>
+    <p>{{brewers}}
+    <!-- end brewers -->
   </main>
   
   <aside></aside>
