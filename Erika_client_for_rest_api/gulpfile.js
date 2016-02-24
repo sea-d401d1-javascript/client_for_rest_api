@@ -48,5 +48,5 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('build:dev', ['webpack:dev', 'html:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
 gulp.task('default', ['build:dev', 'lint']);

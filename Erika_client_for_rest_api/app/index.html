@@ -3,11 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="/app/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/app/css/layout.css">
 	<title>Walk a Pup</title>
 </head>
+
+<header>
+	<nav>
+		<ul>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+	</nav>
+</header>
+
+
 <body data-ng-app="wapApp">
   <section data-ng-controller="dogController">
-
     <h1>All Dogs</h1>
 		<ul>
 			<li data-ng-repeat='dog in dogs'> {{dog.dogName}} {{dog.favoriteToy}} - {{dog.kibblePreference}}
