@@ -5,19 +5,21 @@
     <title>Counter-Strike Stream Adventure</title>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   </head>
   <body data-ng-app="CSApp">
-    <main>
-      <img src="/img/logo.png" style="width:100%">
+    <header>
       <h1>Super Awesome Counter-Strike App</h1>
-      <section data-ng-controller="CTController" data-ng-init="getCT()">
-        <h2>Counter-Terrorist Team:</h2>
-
+    </header>
+    <main>
+      <!-- <img src="/img/logo.png" style="width:100%"> -->
+      <section class="column-left" data-ng-controller="CTController" data-ng-init="getCT()">
+        <h2>Assemble the Counter-Terrorist team:</h2>
         <ul>
           <li data-ng-repeat="ct in cts">{{ct.name}}
-            <button data-ng-click="deleteCT(ct)">Delete CT</button>
             <button data-ng-click="ct.editting = !ct.editting">Update CT</button>
+            <button data-ng-click="deleteCT(ct)">Delete CT</button>
             <form data-ng-submit="updateCT(ct)" data-ng-if="ct.editting">
               <input data-ng-model="ct.name" placeholder="Name" type="text"/>
               <input data-ng-model="ct.rifle" placeholder="Rifle" type="text"/>
@@ -28,8 +30,7 @@
             </form>
           </li>
         </ul>
-
-        <form data-ng-submit="createCT(newCT)">
+        <form class="new-player" data-ng-submit="createCT(newCT)">
           <input data-ng-model="newCT.name" placeholder="Name" type="text"/>
           <input data-ng-model="newCT.rifle" placeholder="Rifle" type="text"/>
           <input data-ng-model="newCT.pistol" placeholder="Pistol" type="text"/>
@@ -37,17 +38,33 @@
           <input data-ng-model="newCT.organization" placeholder="Organization" type="text"/>
           <button type="submit">New CT</button>
         </form>
+        <br/>
+        <table style="width:100%">
+          <tr>
+            <th>Name</th>
+            <th>Rifle</th>
+            <th>Pistol</th>
+            <th>Grenade</th>
+            <th>Organization</th>
+          </tr>
+          <tr data-ng-repeat="ct in cts">
+            <td>{{ct.name}}</td>
+            <td>{{ct.rifle}}</td>
+            <td>{{ct.pistol}}</td>
+            <td>{{ct.grenade}}</td>
+            <td>{{ct.organization}}</td>
+          </tr>
+        </table>
 
-        <p>{{cts}}</p>
       </section>
 
-      <section data-ng-controller="TController" data-ng-init="getT()">
-        <h2>Terrorist Team:</h2>
+      <section class="column-right" data-ng-controller="TController" data-ng-init="getT()">
+        <h2>Assemble the Terrorist team:</h2>
 
         <ul>
           <li data-ng-repeat="t in ts">{{t.name}}
-            <button data-ng-click="deleteT(t)">Delete T</button>
             <button data-ng-click="t.editting = !t.editting">Update T</button>
+            <button data-ng-click="deleteT(t)">Delete T</button>
             <form data-ng-submit="updateT(t)" data-ng-if="t.editting">
               <input data-ng-model="t.name" placeholder="Name" type="text"/>
               <input data-ng-model="t.rifle" placeholder="Rifle" type="text"/>
@@ -59,7 +76,7 @@
           </li>
         </ul>
 
-        <form data-ng-submit="createT(newT)">
+        <form class="new-player" data-ng-submit="createT(newT)">
           <input data-ng-model="newT.name" placeholder="Name" type="text"/>
           <input data-ng-model="newT.rifle" placeholder="Rifle" type="text"/>
           <input data-ng-model="newT.pistol" placeholder="Pistol" type="text"/>
@@ -67,10 +84,32 @@
           <input data-ng-model="newT.organization" placeholder="Organization" type="text"/>
           <button type="submit">New T</button>
         </form>
+        <br/>
+        <table style="width:100%">
+          <tr>
+            <th>Name</th>
+            <th>Rifle</th>
+            <th>Pistol</th>
+            <th>Grenade</th>
+            <th>Organization</th>
+          </tr>
+          <tr data-ng-repeat="t in ts">
+            <td>{{t.name}}</td>
+            <td>{{t.rifle}}</td>
+            <td>{{t.pistol}}</td>
+            <td>{{t.grenade}}</td>
+            <td>{{t.organization}}</td>
+          </tr>
+        </table>
 
-        <p>{{ts}}</p>
+      </section>
+      <section class="column-center">
+        <h1>Fight!</h1>
       </section>
     </main>
+    <footer>
+      <p>© Copyright 2016, Chris Lee</p>
+    </footer>
     <script src="js/bundle.js"></script>
   </body>
 </html>
