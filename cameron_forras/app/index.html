@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Students and Classes</title>
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
   <link rel="stylesheet" type="text/css" href="css/base.css">
+  <link rel="stylesheet" type="text/css" href="css/layout.css">
 </head>
 <body data-ng-app="studentsApp">
-  <main data-ng-controller="studentsController" data-ng-init="getAllStudents()">
+  <header><h1>Students and Classes</h1></header>
+  <main class="left" data-ng-controller="studentsController" data-ng-init="getAllStudents()">
     <h1>STUDENTS!!!!</h1>
     <ul>
       <li data-ng-repeat="student in students">{{student.name}}, {{student.major}}
@@ -19,14 +22,14 @@
         </form>
       </li>
     </ul>
-    <form data-ng-submit="createStudent(newStudent)">
+    <form class="center" data-ng-submit="createStudent(newStudent)">
         <input data-ng-model="newStudent.name" type="text"/>
         <input data-ng-model="newStudent.major" type="text"/>
         <button type="submit"/>New Student</button>
-      </form>
-    <p>{{students}}</p>
+    </form>
+
   </main>
-  <main data-ng-controller="studentsController" data-ng-init="getAllClasses()">
+  <main class="right" data-ng-controller="studentsController" data-ng-init="getAllClasses()">
   <h1>CLASSES!!!!</h1>
   <ul>
     <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
@@ -39,12 +42,12 @@
         </form>
       </li>
     </ul>
-    <form data-ng-submit="create_Class(new_Class)">
+    <form class="center" data-ng-submit="create_Class(new_Class)">
         <input data-ng-model="new_Class.name" type="text"/>
         <input data-ng-model="new_Class.level" type="text"/>
         <button type="submit"/>New Class</button>
-      </form>
-    <p>{{_classes}}</p>
+    </form>
+
   </main>
 <!-- data is talking to HTML to not wory about it. ng signifys angular
 specif its part of the angular core. Do not use angular and jquery 
