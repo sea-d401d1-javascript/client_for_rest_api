@@ -1,0 +1,34 @@
+body{
+  background-color: #d3d6db;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  color: #000;
+  line-height: 1;
+  font-family: "arial";
+  display: block;
+}
+a {
+  color: #339900;
+}
+a:hover{
+  color: #00BD39;
+}
+a:visited{
+  color: #64DE89;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
