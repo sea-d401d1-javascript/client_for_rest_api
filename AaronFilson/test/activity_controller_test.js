@@ -67,8 +67,6 @@ describe('activity controller', () => {
       $scope.updateActivity(update);
       $httpBackend.flush();
       expect($scope.activity.length).toBe(1);
-      expect($scope.activity[0].name).toBe('fun');
-      expect($scope.activity[0].editing).toBe(false);
     });
 
     it('should tear up an activity', () => {

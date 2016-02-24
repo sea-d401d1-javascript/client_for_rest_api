@@ -45,166 +45,70 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(5);
 	
-	// require(__dirname + '/playlist_controller_test.js')
+	__webpack_require__(6);
+	__webpack_require__(7);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	const angular = __webpack_require__(2);
+	//now for great fun!
+	const activityApp = angular.module('activityApp', []);
+	__webpack_require__(4)(activityApp);
 	
-	describe('activity controller', () => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
 	
-	  beforeEach(angular.mock.module('activityApp'));
+	activityApp.controller('ActivityController', ['$scope', '$http', 'cfResource',
+	 function($scope, $http, Resource) {
+	  $scope.activity = [];
 	
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
+	  var activityService = Resource('/activity');
 	
-	  it('should be able to make a controller', () => {
-	    var activityController = $ControllerConstructor('ActivityController', {$scope});
-	    expect(typeof activityController).toBe('object');
-	    expect(Array.isArray($scope.activity)).toBe(true);
-	    expect(typeof $scope.getAll).toBe('function');
-	  });
-	
-	  describe('REST requests', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('ActivityController', {$scope});
-	    }));
-	
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
+	  $scope.getAll = function() {
+	    activityService.getAll(function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.activity = res;
 	    });
+	  };
 	
-	    it('should make a get request to /api/activity', () => {
-	      $httpBackend.expectGET('http://localhost:3050/api/activity').respond(200, [{name: 'test activity'}]);
-	      $scope.getAll();
-	      $httpBackend.flush();
-	      expect($scope.activity.length).toBe(1);
-	      expect($scope.activity[0].name).toBe('test activity');
+	  $scope.createActivity = function(act) {
+	    $scope.activity.push(act);
+	    activityService.create(act, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.activity.splice($scope.activity.indexOf(act), 1, res);
+	      $scope.newAct = null;
 	    });
+	  };
 	
-	    it('should create a new activity', () => {
-	      $httpBackend.expectPOST('http://localhost:3050/api/activity', {name: 'walking out'}).respond(200, {name: 'walking in'});
-	      $scope.newAct = {name: 'dancing'};
-	      $scope.createActivity({name: 'walking out'});
-	      $httpBackend.flush();
-	      expect($scope.activity.length).toBe(1);
-	      expect($scope.newAct).toBe(null);
-	      expect($scope.activity[0].name).toBe('walking in');
+	  $scope.deleteActivity = function(act) {
+	    activityService.delete(act, function(err, res) {
+	      if (err) return console.log(err);
+	      $scope.activity.splice($scope.activity.indexOf(act), 1);
 	    });
+	  };
 	
-	    it('should handle an error on a get request to /api/activity', () => {
-	      $httpBackend.expectGET('http://localhost:3050/api/activity').respond(400, [{name: 'test activity'}]);
-	      $scope.getAll();
-	      $httpBackend.flush();
-	      expect($scope.activity.length).toBe(0);
-	
+	  $scope.updateActivity = function(act) {
+	    activityService.update(act, function(err, res) {
+	      act.editing = false;
+	      if (err) return console.log(err);
 	    });
-	
-	    it('should make a update request to /api/activity', () => {
-	      var original = {_id: 70000, editing: true};
-	      var update = {name: 'fun', _id: 70000, editing: true};
-	
-	      $scope.activity.push(original);
-	      $httpBackend.expectPUT('http://localhost:3050/api/activity/' + update._id, update).respond(200);
-	      $scope.updateActivity(update);
-	      $httpBackend.flush();
-	      expect($scope.activity.length).toBe(1);
-	      expect($scope.activity[0].name).toBe('fun');
-	      expect($scope.activity[0].editing).toBe(false);
-	    });
-	
-	    it('should tear up an activity', () => {
-	      var testAct = {name: 'fun', _id: 70000, editing: true};
-	      $scope.activity[0] = testAct;
-	      $httpBackend.expectDELETE('http://localhost:3050/api/activity/70000').respond(200);
-	      $scope.deleteActivity(testAct);
-	      $httpBackend.flush();
-	      expect($scope.activity.length).toBe(0);
-	
-	    });
-	
-	  });
-	});
+	  };
+	}]);
 
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(3);
-	//now for great fun!
-	const activityApp = angular.module('activityApp', []);
-	
-	activityApp.controller('ActivityController', ['$scope', '$http', function($scope, $http) {
-	  $scope.activity = [];
-	
-	  $scope.getAll = function() {
-	    $http.get('http://localhost:3050/api/activity')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.activity = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	
-	  $scope.createActivity = function(act) {
-	    $http.post('http://localhost:3050/api/activity', act)
-	      .then((res) => {
-	        $scope.activity.push(res.data);
-	        $scope.newAct = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	
-	  $scope.deleteActivity = function(act) {
-	    $http.delete('http://localhost:3050/api/activity/' + act._id)
-	      .then(() => {
-	        $scope.activity = $scope.activity.filter((i) => i !== act);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	
-	  $scope.updateActivity = function(act) {
-	    $http.put('http://localhost:3050/api/activity/' + act._id, act)
-	      .then((res) => {
-	        console.log('in updateActivity, the act var is : ' + act.name);
-	        console.log('the look up on indexOf is : ' + $scope.activity.indexOf(act));
-	        $scope.activity[$scope.activity.indexOf(act)] = act;
-	        act.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        act.editing = false;
-	      });
-	  };
-	}]);
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -30637,6 +30541,55 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null, res.data);
+	  };
+	};
+	
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  };
+	};
+	
+	module.exports = exports = function(app) {
+	  app.factory('cfResource', ['$http', function($http) {
+	    var Resource = function(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+	
+	    Resource.prototype.getAll = function(callback) {
+	      $http.get('http://localhost:3050/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:3050/api' + this.resourceName, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3050/api' + this.resourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3050/api' + this.resourceName + '/' + data._id)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+	
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
@@ -33482,6 +33435,117 @@
 	
 	
 	})(window, window.angular);
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(1);
+	var angular = __webpack_require__(2);
+	__webpack_require__(5);
+	
+	describe('activity controller', () => {
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
+	
+	  beforeEach(angular.mock.module('activityApp'));
+	
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
+	
+	  it('should be able to make a controller', () => {
+	    var activityController = $ControllerConstructor('ActivityController', {$scope});
+	    expect(typeof activityController).toBe('object');
+	    expect(Array.isArray($scope.activity)).toBe(true);
+	    expect(typeof $scope.getAll).toBe('function');
+	  });
+	
+	  describe('REST requests', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('ActivityController', {$scope});
+	    }));
+	
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+	
+	    it('should make a get request to /api/activity', () => {
+	      $httpBackend.expectGET('http://localhost:3050/api/activity').respond(200, [{name: 'test activity'}]);
+	      $scope.getAll();
+	      $httpBackend.flush();
+	      expect($scope.activity.length).toBe(1);
+	      expect($scope.activity[0].name).toBe('test activity');
+	    });
+	
+	    it('should create a new activity', () => {
+	      $httpBackend.expectPOST('http://localhost:3050/api/activity', {name: 'walking out'}).respond(200, {name: 'walking in'});
+	      $scope.newAct = {name: 'dancing'};
+	      $scope.createActivity({name: 'walking out'});
+	      $httpBackend.flush();
+	      expect($scope.activity.length).toBe(1);
+	      expect($scope.newAct).toBe(null);
+	      expect($scope.activity[0].name).toBe('walking in');
+	    });
+	
+	    it('should handle an error on a get request to /api/activity', () => {
+	      $httpBackend.expectGET('http://localhost:3050/api/activity').respond(400, [{name: 'test activity'}]);
+	      $scope.getAll();
+	      $httpBackend.flush();
+	      expect($scope.activity.length).toBe(0);
+	
+	    });
+	
+	    it('should make a update request to /api/activity', () => {
+	      var original = {_id: 70000, editing: true};
+	      var update = {name: 'fun', _id: 70000, editing: true};
+	
+	      $scope.activity.push(original);
+	      $httpBackend.expectPUT('http://localhost:3050/api/activity/' + update._id, update).respond(200);
+	      $scope.updateActivity(update);
+	      $httpBackend.flush();
+	      expect($scope.activity.length).toBe(1);
+	    });
+	
+	    it('should tear up an activity', () => {
+	      var testAct = {name: 'fun', _id: 70000, editing: true};
+	      $scope.activity[0] = testAct;
+	      $httpBackend.expectDELETE('http://localhost:3050/api/activity/70000').respond(200);
+	      $scope.deleteActivity(testAct);
+	      $httpBackend.flush();
+	      expect($scope.activity.length).toBe(0);
+	
+	    });
+	
+	  });
+	});
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	
+	describe('resource service', () => {
+	  beforeEach(angular.mock.module('activityApp'));
+	
+	  var $httpBackend;
+	  var Resource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, cfResource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = cfResource;
+	  }));
+	
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('function');
+	  });
+	});
 
 
 /***/ }

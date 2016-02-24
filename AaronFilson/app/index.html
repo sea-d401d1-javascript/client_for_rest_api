@@ -3,8 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Activity API Client</title>
+	<link rel="stylesheet" href="/css/base.css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/css/layout.css" media="screen" charset="utf-8">
 </head>
 <body>
+	<header>
+		My Activity Header Placeholder
+	</header>
 
   <main>
 
@@ -14,7 +19,7 @@
       <section data-ng-controller="ActivityController">
 
         <h2>Activity API:</h2>
-        <ul>
+        <ul class="left">
           <li data-ng-repeat="myAct in activity">{{myAct.name}}, {{myAct.shoes}}
             <button data-ng-click="deleteActivity(myAct)">Delete This Activity</button>
             <button data-ng-click="myAct.editing = !myAct.editing">Update This Activity</button>
@@ -25,15 +30,24 @@
             </form>
           </li>
         </ul>
-        <form data-ng-submit="createActivity(newAct)">
+        <form class="center" data-ng-submit="createActivity(newAct)">
           <input data-ng-model="newAct.name" type="text"/>
           <input data-ng-model="newAct.shoes" type="text"/>
           <button type="submit">New Activity</button>
         </form>
-        <p>{{activity}}</p>
+        <aside>{{activity}}</aside>
       </section>
     </section>
   </main>
+
+	<p></p>
+	<p>
+		
+	</p>
+
+	<footer>
+		Footer content goes here.
+	</footer>
 
   <script src="bundle.js"></script>
 </body>
