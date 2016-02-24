@@ -1,9 +1,9 @@
 main {
   overflow: hidden;
+  width: 100%;
 }
 header, section {
   margin: 10px;
-  border: 1px solid red;
 }
 footer {
   height: 50px;
@@ -12,19 +12,26 @@ footer {
   padding: 10px;
 }
 header h1 {
+  font-family: 'Grand Hotel', sans-serif;
   text-align: center;
-  font-size: 3em;
-  color: #4C4B63;
+  font-size: 5em;
+  color: #fff;
 }
 .right {
+  background-color: rgba(0,0,0,0.5);
   float: right;
   width: 30%;
   text-align: center;
 }
 .left {
+  background-color: rgba(0,0,0,0.5);
   float: left;
   width: 30%;
   text-align: center;
+}
+h2 {
+  border-bottom: 1px solid #BABABE;
+  font-family: 'Grand Hotel', sans-serif;
 }
 input, label {
   display: block;
@@ -35,6 +42,7 @@ input, label {
   margin: 0 auto;
   width: 30%;
   font-size: 36px;
+  color: #fff;
 }
 button {
   margin-bottom: 10px;

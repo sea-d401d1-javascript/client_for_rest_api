@@ -1,12 +1,19 @@
 body{
-  background-color: #d3d6db;
+  background-color: #2B2C31;
+}
+main{
+  background: url(https://static.pexels.com/photos/6414/rucola-young-argula-sproutus.jpg) center no-repeat ;
+  background-size: cover;
 }
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-  color: #000;
+  color: #BABABE;
   line-height: 1;
   font-family: "lato";
   display: block;
+}
+article{
+  border-bottom: 1px solid #BABABE;
 }
 a {
   color: #339900;
