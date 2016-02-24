@@ -37,8 +37,9 @@ body {
 
 body::after {
   content: "";
-  background-image: '/img/2015-red-subaru-wrx-sti-desktop-wallpaper.jgp';
-  opacity: 0.8;
+  background: url('http://images6.alphacoders.com/478/478730.jpg');
+  background-size: auto;
+  opacity: 0.6;
   top: 0;
   left: 0;
   bottom: 0;
