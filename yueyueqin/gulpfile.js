@@ -12,7 +12,10 @@ gulp.task('css:dev', () => {
   gulp.src(__dirname + '/app/**/*.css')
     .pipe(gulp.dest(__dirname + '/build'));
 });
-
+gulp.task('asset', () => {
+  gulp.src(__dirname + '/app/**/*.png')
+    .pipe(gulp.dest(__dirname + '/build'));
+});
 gulp.task('webpack:dev', () => {
   gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
@@ -32,5 +35,5 @@ gulp.task('webpack:test', () => {
     }))
       .pipe(gulp.dest('test/'));
 });
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev','asset']);
 gulp.task('default', ['build:dev']);
