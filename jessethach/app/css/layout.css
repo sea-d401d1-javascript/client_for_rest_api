@@ -1,0 +1,26 @@
+@media screen and (min-width: 769px) {
+
+  .columns {
+    display: flex;
+  }
+
+  .columns:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .columns {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+  }
+
+  .column.is-third {
+    width: 33.3333%;
+  }
+
+  .column {
+    flex: 1;
+    padding: 10px;
+  }
+
+}

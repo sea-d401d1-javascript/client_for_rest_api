@@ -47,10 +47,10 @@
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(5);
-	__webpack_require__(6);
-	__webpack_require__(7);
-	__webpack_require__(8);
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(15);
 
 /***/ },
 /* 1 */
@@ -60,81 +60,13 @@
 
 	var angular = __webpack_require__(2);
 	var jedisApp = angular.module('jedisApp', []);
+
 	__webpack_require__(4)(jedisApp);
 
-	jedisApp.controller('JedisController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
-	  $scope.greeting = 'hello world';
-	  $scope.jedis = [];
-	  var jediService = Resource('/jedis');
+	__webpack_require__(6)(jedisApp);
+	__webpack_require__(9)(jedisApp);
 
-	  $scope.getAllJedi = function () {
-	    jediService.getAll(function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.jedis = res;
-	    });
-	  };
-
-	  $scope.createJedi = function (jedi) {
-	    jediService.create(jedi, function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.jedis.push(res);
-	      $scope.newJedi = null;
-	    });
-	  };
-
-	  $scope.deleteJedi = function (jedi) {
-	    jediService.delete(jedi, function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.jedis = $scope.jedis.filter(function (i) {
-	        return i !== jedi;
-	      });
-	    });
-	  };
-
-	  $scope.updateJedi = function (jedi) {
-	    jediService.update(jedi, function (err, res) {
-	      jedi.editting = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-	}]);
-
-	jedisApp.controller('SithlordsController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
-	  $scope.greeting = 'hello world';
-	  $scope.sithlords = [];
-	  var sithService = Resource('/sith-lords');
-
-	  $scope.getAllSith = function () {
-	    sithService.getAll(function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.sithlords = res;
-	    });
-	  };
-
-	  $scope.createSith = function (sith) {
-	    sithService.create(sith, function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.sithlords.push(res);
-	      $scope.newSith = null;
-	    });
-	  };
-
-	  $scope.deleteSith = function (sith) {
-	    sithService.delete(sith, function (err, res) {
-	      if (err) return console.log(err);
-	      $scope.sithlords = $scope.sithlords.filter(function (i) {
-	        return i !== sith;
-	      });
-	    });
-	  };
-
-	  $scope.updateSith = function (sith) {
-	    sithService.update(sith, function (err, res) {
-	      sith.editting = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-	}]);
+	// require('./directives/dummy_directive')(jedisApp);
 
 /***/ },
 /* 2 */
@@ -15955,6 +15887,17 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  // require('./cf_store')(app);
+	  __webpack_require__(5)(app);
+	};
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16001,7 +15944,161 @@
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  __webpack_require__(7)(app);
+
+	  __webpack_require__(8)(app);
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.controller('JedisController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
+	    $scope.greeting = 'hello world';
+	    $scope.jedis = [];
+	    var jediService = Resource('/jedis');
+
+	    $scope.getAllJedi = function () {
+	      jediService.getAll(function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.jedis = res;
+	      });
+	    };
+
+	    $scope.createJedi = function (jedi) {
+	      jediService.create(jedi, function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.jedis.push(res);
+	        $scope.newJedi = null;
+	      });
+	    };
+
+	    $scope.deleteJedi = function (jedi) {
+	      jediService.delete(jedi, function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.jedis = $scope.jedis.filter(function (i) {
+	          return i !== jedi;
+	        });
+	      });
+	    };
+
+	    $scope.updateJedi = function (jedi) {
+	      jediService.update(jedi, function (err, res) {
+	        jedi.editting = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+	  }]);
+	};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.directive('jedi', function () {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/jedis/directives/jedi.html',
+	      scope: {
+	        jediData: '@'
+	      }
+	    };
+	  });
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  __webpack_require__(10)(app);
+
+	  __webpack_require__(11)(app);
+	};
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.controller('SithlordsController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
+	    $scope.greeting = 'hello world';
+	    $scope.sithlords = [];
+	    var sithService = Resource('/sith-lords');
+
+	    $scope.getAllSith = function () {
+	      sithService.getAll(function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.sithlords = res;
+	      });
+	    };
+
+	    $scope.createSith = function (sith) {
+	      sithService.create(sith, function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.sithlords.push(res);
+	        $scope.newSith = null;
+	      });
+	    };
+
+	    $scope.deleteSith = function (sith) {
+	      sithService.delete(sith, function (err, res) {
+	        if (err) return console.log(err);
+	        $scope.sithlords = $scope.sithlords.filter(function (i) {
+	          return i !== sith;
+	        });
+	      });
+	    };
+
+	    $scope.updateSith = function (sith) {
+	      sithService.update(sith, function (err, res) {
+	        sith.editting = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+	  }]);
+	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.directive('sith', function () {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/sithlords/directives/sith.html',
+	      scope: {
+	        sithData: '@'
+	      }
+	    };
+	  });
+	};
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18794,7 +18891,7 @@
 	})(window, window.angular);
 
 /***/ },
-/* 6 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18879,7 +18976,7 @@
 	});
 
 /***/ },
-/* 7 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18963,7 +19060,7 @@
 	});
 
 /***/ },
-/* 8 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

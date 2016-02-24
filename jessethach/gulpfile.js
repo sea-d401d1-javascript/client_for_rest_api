@@ -4,14 +4,15 @@ const webpack = require('webpack-stream');
 const jsFiles = ['./*.js', 'app/**/*.js', '!node_modules/**'];
 const clientScripts = ['app/**/*.js'];
 const staticFiles = ['app/**/*.html'];
+const cssFiles = ['app/**/*.css'];
 
 gulp.task('html:dev', () => {
   gulp.src(staticFiles)
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest(__dirname + '/build'));
 });
 
 gulp.task('css:dev', () => {
-  gulp.src(__dirname + '/app/**/*.css')
+  gulp.src(cssFiles)
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
