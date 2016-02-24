@@ -3,8 +3,8 @@ module.exports = function(app) {
     $scope.cats = [];
     var catsService = Resource('/cats');
 
-    $scope.getAll = function() {
-      catsService.getAll(function(err, res) {
+    $scope.getCats = function() {
+      catsService.get(function(err, res) {
         if (err) return console.log(err);
         $scope.cats = res;
       });

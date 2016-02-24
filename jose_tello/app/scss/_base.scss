@@ -10,14 +10,17 @@ main {
     color: white;
     font-family: 'Roboto Slab', sans-serif;
     font-weight: 700;
-    font-size: 3em;
+    font-size: 2em;
     margin: 1.5em 0;
   }
   button {
-    padding: 1em;
+    padding: 1em 3.5em;
+    margin: 1.5em 1em;
+    width: 41%;
     color: white;
     background-color: #28AADC;
     border: 2px solid darken(#28AADC, 20%);
+    float: left;
     &:focus {
       outline: none;
     }

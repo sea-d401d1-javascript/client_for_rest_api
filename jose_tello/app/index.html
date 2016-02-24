@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CATS</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-ng-app="petsApp">
+  <main>
+    <header>
+      <h1>MEAN Stack Pets</h1>
+    </header>
+    <!-- Cats Resource -->
+    <section class="col-width" data-ng-controller="CatsController" data-ng-init="getCats()">
+        <bdi data-ng-repeat="cat in cats">
+          <span class="cat-property">Name: &nbsp;&nbsp;{{ cat.name }}</span>
+          <span class="cat-property">Color: &nbsp;&nbsp;{{ cat.color }}</span>
+          <span class="cat-property">Lives: &nbsp;&nbsp;{{ cat.lives }}</span>
+          <button data-ng-click="deleteCat(cat)">DELETE</button>
+          <button data-ng-click="cat.editing = !cat.editing">UPDATE</button>
+          <form data-ng-if="cat.modify" data-ng-submit="updateCat(cat)">
+            <input class="cat-input" data-ng-model="cat.name" type="text">
+            <input class="cat-input" data-ng-model="cat.color" type="text">
+            <input class="cat-input" data-ng-model="cat.lives" type="text">
+            <button type="submit">SUBMIT</button>
+          </form>
+        </bdi>
+        <form data-ng-submit="createCat(newCat)">
+          <input data-ng-model="newCat.name" type="text">
+          <input data-ng-model="newCat.color" type="text">
+          <input data-ng-model="newCat.lives" type="text">
+          <button type="submit">NEW CAT</button>
+        </form>
+    </section>
+    <!-- Dogs Resource -->
+    <section class="col-width" data-ng-controller="DogsController" data-ng-init="getDogs()">
+      <bdi data-ng-repeat="dog in dogs">
+        <span class="dog-property">Name: &nbsp;&nbsp;{{ dog.name }}</span>
+        <span class="dog-property">Color: &nbsp;&nbsp;{{ dog.color }}</span>
+        <span class="dog-property">Lives: &nbsp;&nbsp;{{ dog.lives }}</span>
+        <button data-ng-click="deleteDog(dog)">DELETE</button>
+        <button data-ng-click="dog.editing = !dog.editing">UPDATE</button>
+        <form data-ng-if="dog.modify" data-ng-submit="updateDog(dog)">
+          <input class="dog-input" data-ng-model="dog.name" type="text">
+          <input class="dog-input" data-ng-model="dog.color" type="text">
+          <input class="dog-input" data-ng-model="dog.lives" type="text">
+          <button type="submit">SUBMIT</button>
+        </form>
+      </bdi>
+      <form data-ng-submit="createDog(newDog)">
+        <input data-ng-model="newDog.name" type="text">
+        <input data-ng-model="newDog.color" type="text">
+        <input data-ng-model="newDog.lives" type="text">
+        <button type="submit">NEW DOG</button>
+      </form>
+    </section>
+
+  </main>
+  <script src="bundle.js"></script>
+</body>
+</html>

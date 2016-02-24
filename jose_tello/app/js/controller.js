@@ -1,6 +1,8 @@
 'use strict';
 
 const angular = require('angular');
-const catsApp = angular.module('catsApp', []);
-require('./services')(catsApp);
-require('./cats')(catsApp);
+const petsApp = angular.module('petsApp', []);
+require('./services')(petsApp);
+require('./cats')(petsApp);
+require('./services')(petsApp);
+require('./dogs')(petsApp);

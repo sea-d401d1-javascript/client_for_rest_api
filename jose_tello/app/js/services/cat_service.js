@@ -7,7 +7,7 @@ module.exports = exports = function(app) {
       this.resourceName = resourceName;
     };
 
-    Resource.prototype.getAll = function(cb) {
+    Resource.prototype.get = function(cb) {
       $http.get('http://localhost:3000/app' + this.resourceName)
         .then(handleSuccess(cb), handleFailure(cb));
     };
