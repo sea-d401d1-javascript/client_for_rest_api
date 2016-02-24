@@ -21,9 +21,9 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font-color:red;
 	font: inherit;
 	vertical-align: baseline;
+	font-family: 'Source Sans Pro', sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -32,6 +32,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background: url(./../asset/background_pattern.png) repeat;
 }
 ol, ul {
 	list-style: none;
@@ -47,4 +48,12 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.2rem;
 }
