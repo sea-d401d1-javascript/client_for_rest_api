@@ -5,7 +5,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   color: #000;
   line-height: 1;
-  font-family: "arial";
+  font-family: "lato";
   display: block;
 }
 a {
