@@ -1,0 +1,38 @@
+header{
+  background-color: $black;
+  width: 100%; margin: 0 auto; display: block;
+  height: 100px;
+}
+
+.container { margin: 20px auto 0; display: block; height: 500px; border: 2px solid $black;}
+
+$width: 1200px;
+
+main {
+  float: left;
+  width: 900px / $width * 100%;
+  height: 500px;
+  background-color: $white;
+  position: relative;
+}
+
+article {
+  float: left;
+  width: 150px / $width * 100%;
+  height: 500px;
+  background-color: $tb-retro-red;
+}
+
+aside {
+  float: right;
+  width: 150px / $width * 100%;
+  height: 500px;
+  background-color: $tb-dark-blue;
+}
+
+footer {
+  @extend header;
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+}

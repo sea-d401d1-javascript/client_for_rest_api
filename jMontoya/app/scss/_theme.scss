@@ -1,11 +1,18 @@
 //============================== colors ========================================
-$default-text-color: black !important;
+// theme specific
+$tb-dark-blue: #305790;
+$tb-light-blue: #2BA9D2;
+$tb-khaki: #F6EAD0;
+$tb-retro-red: #C43434;
+
+// theme general
+$default-text-color: black;
 $white: #FFF;
 $yellow: #FFFF00;
 $lime: #b0eb00;
 $pink: #FFCBDB;
-$bright-red: #b30015;
-$dark-blue: #2a00b3;
+$bright-red: #D70915;
+$dark-blue: #210C7C;
 $deep-blue: #0077b3;
 $strong-cyan: #00b0b3;
 $cyan: #24fbff;

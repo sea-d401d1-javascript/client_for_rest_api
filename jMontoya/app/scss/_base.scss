@@ -3,12 +3,12 @@
 // Font weights
 $light: 100;
 $regular: 400;
-$bold: 600;
+$bold: 700;
 
 // Default text sizes
 $default-font-size: 16;
 $default-font-size-big: 24;
-$default-font-size-xBig: 32;
+$default-font-size-xBig: 36;
 $default-font-size-sml: 12;
 
 // Base z-indexes
@@ -46,6 +46,11 @@ a {
 
 // Body Background Color
 body {
-  background-color: $white;
+  background-color: $tb-khaki;
   font-size: $base-font-size;
+}
+button{
+  background: none;
+  border: 2px solid black;
+  font-family: 'Muli', sans-serif;
 }
