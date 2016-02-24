@@ -6,8 +6,16 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-ng-app="beersApp">
-  <main data-ng-controller="BeersController">
+  <header>
     <h1>Beers!</h1>
+  </header>
+  <section id="container"> 
+
+  <article></article>
+  
+  <main data-ng-controller="BeersController">
+     
+
     <ul>
       <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
       <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
@@ -27,7 +35,14 @@
     <p>{{beers}}
 
   </main>
+  
+  <aside></aside>
+  
 
+  </section>
+  <footer>
+    <h2>Rob Merrill 2016</h2>
+  </footer>
   <script src="bundle.js"></script>
 
 </body>
