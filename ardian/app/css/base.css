@@ -1,8 +1,7 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
+/**
+* Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+* http://www.cssportal.com
 */
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -16,109 +15,33 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 100%;
+font: inherit;
+vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;
+display: block;
 }
 body {
-	line-height: 1;
-  font-family: Arial, Helvetica, sans-serif;
-  width: 100%;
-  padding-bottom: 30px;
-	/*background-color: white;
-	font-family: 'Libre Baskerville', serif;
-	font-size: 24px;
-	font-weight: 400;
-	line-height: 1.45;
-	color: #333;*/
-
+line-height: 1;
 }
 ol, ul {
-	list-style: none;
-  color: blue;
-  text-align: center;
+list-style: none;
 }
 blockquote, q {
-	quotes: none;
+quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
+content: '';
+content: none;
 }
 table {
-    width: 100%;
-    border-collapse: collapse;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-left: 30px;
-    margin-right:30px;
-    border: 2px;
-    align: center;
-}
-thead {
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
-}
-
-td {
-    border-bottom: 1px solid #ddd;
-    padding: 15px;
-    align:center;
-}
-
-tbody:hover {background-color: #f5f5f5}
-
-h1 {
-  width: 100%;
-  text-align: center;
-  padding: 5px;
-  margin-top: 50px;
-  border-bottom: 1px solid;
-  font-weight: bold;
-  font-size: 30px;
-}
-
-h2 {
-  text-align: center;
-  padding: 5px;
-  margin-top: 50px;
-  text-decoration: underline;
-  /*border-bottom: 1px solid;*/
-  font-weight: bold;
-  font-size: 20px;
-}
-
-#form {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  text-align: center;
-}
-
-input {
-  width: 25%;
-	padding: 5px;
-	border: 1px solid #d4d4d4;
-	border-bottom-right-radius: 5px;
-	border-top-right-radius: 4px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-  background-color: #4CAF50;
-  border: 1px black;
-  color: white;
-  padding: 5px;
-  text-align: center;
-  font-size: 14px;
-  margin: 4px 2px;
-  cursor: pointer;
+border-collapse: collapse;
+border-spacing: 0;
 }
