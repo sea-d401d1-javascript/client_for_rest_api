@@ -21,7 +21,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
     $http.get('http://localhost:3000/api/brewers')
       .then((res) => {
         console.log('success!');
-        $scope.beers = res.data;
+        $scope.brewers = res.data;
       }, (err) => {
         console.log(err);
       });
@@ -87,7 +87,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
     $scope.deleteBrewer = function(brewer) {
     $http.delete('http://localhost:3000/api/brewers/' + brewer._id)
       .then((res) => {
-        $scope.brewers = $scope.brewers.filter((i) => i !== beer);
+        $scope.brewers = $scope.brewers.filter((i) => i !== brewer);
       }, (err) => {
         console.log(err)
       })
@@ -107,7 +107,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
    $scope.updateBrewer = function(brewer) {
     $http.put('http://localhost:3000/api/brewers/' + brewer._id, brewer)
       .then((res) => {
-        $scope.brewers[$scope.brewer.indexOf(brewer)] = brewer;
+        $scope.brewers[$scope.brewers.indexOf(brewer)] = brewer;
         brewer.editing = false;
       }, (err) => {
         console.log(err);
