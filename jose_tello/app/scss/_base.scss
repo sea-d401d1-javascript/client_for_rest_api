@@ -1,3 +1,10 @@
+* {
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
+}
+
 body {
   background-color: #28AADC;
 }
@@ -13,25 +20,17 @@ main {
     font-size: 2em;
     margin: 1.5em 0;
   }
-  button {
-    padding: 1em 3.5em;
-    margin: 1.5em 1em;
-    width: 41%;
-    color: white;
-    background-color: #28AADC;
-    border: 2px solid darken(#28AADC, 20%);
-    float: left;
-    &:focus {
-      outline: none;
-    }
-    &:hover {
-      background-color: lighten(#28AADC, 20%);
-    }
-  }
 }
 
-.cat-input {
-  padding: 10px;
-  border: 5px solid darken(#28AADC, 20%);
-  transition: border 0.3s;
+button {
+  color: white;
+  background-color: #28AADC;
+  border: 2px solid darken(#28AADC, 20%);
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  padding: 1em 0;
+  &:hover {
+    background-color: lighten(#28AADC, 20%);
+  }
 }
