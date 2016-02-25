@@ -14,10 +14,10 @@
 
   <article></article>
   
-  <article data-ng-controller="BeersController" data-ng-"getAllBeers()">
-     
+  <main> 
 
-    <ul>
+    <section data-ng-controller="BeersController" data-ng-"getAllBeers()">
+     <ul>
       <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
       <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
       <button data-ng-click="beer.editing = !beer.editing">Update Beer</button>
@@ -34,9 +34,9 @@
       <button type="submit">New Beer</button>
     </form>
     <p>{{beers}}
-    </article>
+    </section>
     <!-- brewers -->
-    <main data-ng-controller="BrewersController" data-ng-"getAllBrewers()"
+    <div data-ng-controller="BeersController" data-ng-"getAllBrewers()"
      <ul>
       <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
       <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
@@ -55,12 +55,12 @@
     </form>
     <p>{{brewers}}
     <!-- end brewers -->
+  </div>
   </main>
-  
   <aside></aside>
   
 
-  </section>
+  
   <footer>
     <h2>© Rob Merrill 2016</h2>
   </footer>
