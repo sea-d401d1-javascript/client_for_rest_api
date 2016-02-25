@@ -14,7 +14,7 @@
 
   <article></article>
   
-  <main data-ng-controller="BeersController">
+  <article data-ng-controller="BeersController" data-ng-"getAllBeers()">
      
 
     <ul>
@@ -34,8 +34,9 @@
       <button type="submit">New Beer</button>
     </form>
     <p>{{beers}}
-
+    </article>
     <!-- brewers -->
+    <main data-ng-controller="BrewersController" data-ng-"getAllBrewers()"
      <ul>
       <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
       <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>

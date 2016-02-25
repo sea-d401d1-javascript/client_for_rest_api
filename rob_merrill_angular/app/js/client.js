@@ -8,33 +8,52 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   $scope.brewerGreeting = 'hello world...burp';
   $scope.brewers = [];
 
-  $http.get('http://localhost:3000/api/beers')
-    .then((res) => {
-      console.log('success!');
-      $scope.beers = res.data;
-    }, (err) => {
-      console.log(err);
-    });
-
+  $scope.getAllBeers = function() {
+    $http.get('http://localhost:3000/api/beers')
+      .then((res) => {
+        console.log('success!');
+        $scope.beers = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
+    $scope.getAllBrewers = function() {
     $http.get('http://localhost:3000/api/brewers')
-    .then((res) => {
-      console.log('success!');
-      $scope.brewers = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        console.log('success!');
+        $scope.beers = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
-    $scope.beersDrank = function() {
-      $http.get('http://localhost:3000/beersDrank/howManyBeers')
-        .then((res) => {
-          console.log('brews for everyone!');
-          $scope.beersDrank = res.data;
-        }, (err) => {
-          console.log(err);
-        });
-    };
+  // $http.get('http://localhost:3000/api/beers')
+  //   .then((res) => {
+  //     console.log('success!');
+  //     $scope.beers = res.data;
+  //   }, (err) => {
+  //     console.log(err);
+  //   });
 
-    $scope.beersDrank();
+  //   $http.get('http://localhost:3000/api/brewers')
+  //   .then((res) => {
+  //     console.log('success!');
+  //     $scope.brewers = res.data;
+  //   }, (err) => {
+  //     console.log(err);
+  //   });
+
+    // $scope.beersDrank = function() {
+    //   $http.get('http://localhost:3000/beersDrank/howManyBeers')
+    //     .then((res) => {
+    //       console.log('brews for everyone!');
+    //       $scope.beersDrank = res.data;
+    //     }, (err) => {
+    //       console.log(err);
+    //     });
+    // };
+
+    // $scope.beersDrank();
 
   $scope.createBeer = function(beer) {
     $http.post('http://localhost:3000/api/beers', beer)
@@ -86,7 +105,7 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
   };
 
    $scope.updateBrewer = function(brewer) {
-    $http.put('http://localhost:3000/api/brewer/' + brewer._id, brewer)
+    $http.put('http://localhost:3000/api/brewers/' + brewer._id, brewer)
       .then((res) => {
         $scope.brewers[$scope.brewer.indexOf(brewer)] = brewer;
         brewer.editing = false;
