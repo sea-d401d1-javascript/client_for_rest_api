@@ -1,0 +1,13 @@
+<form data-ng-submit="save(dog)">
+  <label for="name">Name:</label>
+  <input type="text" name="name" data-ng-model="dog.name">
+
+  <label for="kibblePreference">Kibble Preference:</label>
+  <input type="text" name="kibblePreference" data-ng-model="dog.kibblePreference">
+
+  <label for="fave toy">Favorite Toy:</label>
+  <input type="text" name="fave toy" data-ng-model="dog.favoriteToy">
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{buttonText}}</button>
+</form>
