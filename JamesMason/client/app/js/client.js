@@ -1,7 +1,7 @@
 'use strict';
 const angular = require('angular');
 const forceApp = angular.module('ForceApp', []);
-forceApp.controller('ForceController', ['$scope', '$http', ($scope, $http) => {
+forceApp.controller('ForceController', ['$scope', '$http', function($scope, $http) {
   $scope.lightJedi = [];
   $scope.darkJedi = [];
   $scope.getAllJedi = function() {

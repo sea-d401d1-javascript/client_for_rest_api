@@ -2,7 +2,6 @@
 require('../app/js/client');
 var angular = require('angular');
 require('angular-mocks');
-var expect = require('karma').expect;
 describe('Force Controller', () => {
   var $httpBackend;
   var $scope;
@@ -13,10 +12,13 @@ describe('Force Controller', () => {
     $scope = $rootScope.$new();
   }));
   it('Should be able to make a controller.', () => {
-    var bearsController = $ControllerConstructor('ForceController', { $scope });
-    expect(typeof bearsController).toBe('object');
-    expect(Array.isArray($scope.bears)).toBe(true);
-    expect(typeof $scope.getAll).toBe('function');
+    var controller = $ControllerConstructor('ForceController', { $scope });
+    expect(typeof controller).toBe('object'); // eslint-disable-line
+    expect(Array.isArray($scope.lightJedi)).toBe(true); // eslint-disable-line
+    expect(Array.isArray($scope.darkJedi)).toBe(true); // eslint-disable-line
+    expect(typeof $scope.getAllLightJedi).toBe('function'); // eslint-disable-line
+    expect(typeof $scope.getAllDarkJedi).toBe('function'); // eslint-disable-line
+    expect(typeof $scope.getAllJedi).toBe('function'); // eslint-disable-line
   });
   describe('REST requests', () => {
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
@@ -31,35 +33,69 @@ describe('Force Controller', () => {
       $httpBackend.expectGET('http://localhost:3000/api/light').respond(200, [{ name: 'Luke' }]);
       $scope.getAllLightJedi();
       $httpBackend.flush();
-      expect($scope.lightJedi.length).toBe(1);
-      expect($scope.lightJedi[0].name).toBe('Luke');
+      expect($scope.lightJedi.length).toBe(1); // eslint-disable-line
+      expect($scope.lightJedi[0].name).toBe('Luke'); // eslint-disable-line
     });
     it('Should make a GET request to "/api/dark".', () => {
       $httpBackend.expectGET('http://localhost:3000/api/dark').respond(200, [{ name: 'Vader' }]);
       $scope.getAllDarkJedi();
       $httpBackend.flush();
-      expect($scope.darkJedi.length).toBe(1);
-      expect($scope.darkJedi[0].name).toBe('Vader');
+      expect($scope.darkJedi.length).toBe(1); // eslint-disable-line
+      expect($scope.darkJedi[0].name).toBe('Vader'); // eslint-disable-line
     });
     it('Should make a POST request to "/api/light".', () => {
-      $httpBackend.expectPOST('http://localhost:3000/api/light', { name: 'the sent jedi' })
+      $httpBackend.expectPOST('http://localhost:3000/api/light', { name: 'the sent jedi', force: 'Light' })
         .respond(200, { name: 'the response jedi' });
       $scope.newLightJedi = { name: 'the new jedi' };
       $scope.createLightJedi({ name: 'the sent jedi' });
       $httpBackend.flush();
-      expect($scope.lightJedi.length).toBe(1);
-      expect($scope.newLightJedi).toBe(null);
-      expect($scope.lightJedi[0].name).toBe('the response jedi');
+      expect($scope.lightJedi.length).toBe(1); // eslint-disable-line
+      expect($scope.newLightJedi).toBe(null); // eslint-disable-line
+      expect($scope.lightJedi[0].name).toBe('the response jedi'); // eslint-disable-line
     });
     it('Should make a POST request to "/api/dark".', () => {
-      $httpBackend.expectPOST('http://localhost:3000/api/dark', { name: 'the sent jedi' })
+      $httpBackend.expectPOST('http://localhost:3000/api/dark', { name: 'the sent jedi', force: 'Dark' })
         .respond(200, { name: 'the response jedi' });
       $scope.newDarkJedi = { name: 'the new jedi' };
       $scope.createDarkJedi({ name: 'the sent jedi' });
       $httpBackend.flush();
-      expect($scope.darkJedi.length).toBe(1);
-      expect($scope.newDarkJedi).toBe(null);
-      expect($scope.darkJedi[0].name).toBe('the response jedi');
+      expect($scope.darkJedi.length).toBe(1); // eslint-disable-line
+      expect($scope.newDarkJedi).toBe(null); // eslint-disable-line
+      expect($scope.darkJedi[0].name).toBe('the response jedi'); // eslint-disable-line
+    });
+    it('Should make an PUT request to "/api/light/:id".', () => {
+      var testJedi = { name: 'JEDI', _id: 5 };
+      $scope.lightJedi.push(testJedi);
+      $httpBackend.expectPUT('http://localhost:3000/api/light/5', testJedi).respond(200);
+      $scope.updateLightJedi(testJedi);
+      $httpBackend.flush();
+      expect($scope.lightJedi[0].name).toBe('JEDI'); // eslint-disable-line
+    });
+    it('Should make an PUT request to "/api/dark/:id".', () => {
+      var testJedi = { name: 'JEDI', _id: 5 };
+      $scope.darkJedi.push(testJedi);
+      $httpBackend.expectPUT('http://localhost:3000/api/dark/5', testJedi).respond(200);
+      $scope.updateDarkJedi(testJedi);
+      $httpBackend.flush();
+      expect($scope.darkJedi[0].name).toBe('JEDI'); // eslint-disable-line
+    });
+    it('Should make a DELETE request to "/api/light/:id".', () => {
+      var testJedi = { name: 'Dead Jedi', _id: 1 };
+      $scope.lightJedi.push(testJedi);
+      expect($scope.lightJedi.indexOf(testJedi)).not.toBe(-1); // eslint-disable-line
+      $httpBackend.expectDELETE('http://localhost:3000/api/light/1').respond(200);
+      $scope.deleteLightJedi(testJedi);
+      $httpBackend.flush();
+      expect($scope.lightJedi.indexOf(testJedi)).toBe(-1); // eslint-disable-line
+    });
+    it('Should make a DELETE request to "/api/dark/:id".', () => {
+      var testJedi = { name: 'Dead Jedi', _id: 1 };
+      $scope.darkJedi.push(testJedi);
+      expect($scope.darkJedi.indexOf(testJedi)).not.toBe(-1); // eslint-disable-line
+      $httpBackend.expectDELETE('http://localhost:3000/api/dark/1').respond(200);
+      $scope.deleteDarkJedi(testJedi);
+      $httpBackend.flush();
+      expect($scope.darkJedi.indexOf(testJedi)).toBe(-1); // eslint-disable-line
     });
   });
 });

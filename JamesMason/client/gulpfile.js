@@ -25,13 +25,13 @@ gulp.task('css:dev', () => {
     .pipe(gulp.dest(__dirname + '/build/css'));
 });
 gulp.task('webpack:test', () => {
-  gulp.src(__dirname + '/test/testEntry.js')
+  return gulp.src(__dirname + '/test/testEntry.js', { read: true })
     .pipe(webpack({
       output: {
         filename: 'testBundle.js'
       }
     }))
-    .pipe(gulp.dest('test/'));
+    .pipe(gulp.dest('test'));
 });
 gulp.task('build:dev', [
   'webpack:dev',
