@@ -1,5 +1,5 @@
 {
-  "name": "force_balancer",
+  "name": "force_balance",
   "version": "1.0.0",
   "description": "An application to determine the balance of the Force.",
   "main": "server.js",
