@@ -14,9 +14,9 @@
 
   <article></article>
   
-  <main> 
+  <main data-ng-controller="BeersController"> 
 
-    <section data-ng-controller="BeersController" data-ng-"getAllBeers()">
+    <section data-ng-init="getAllBeers()">
      <ul>
       <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
       <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
@@ -33,10 +33,10 @@
       <input data-ng-model="newBeer.style" type="text"/>
       <button type="submit">New Beer</button>
     </form>
-    <p>{{beers}}
+    <!-- <p>{{beers}}</p> -->
     </section>
     <!-- brewers -->
-    <div data-ng-controller="BeersController" data-ng-"getAllBrewers()"
+    <section data-ng-init="getAllBrewers()">
      <ul>
       <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
       <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
@@ -53,10 +53,11 @@
       <input data-ng-model="newBrewer.age" type="text"/>
       <button type="submit">New Brewer</button>
     </form>
-    <p>{{brewers}}
+    <!-- <p>{{brewers}}</p> -->
     <!-- end brewers -->
-  </div>
-  </main>
+  </section>
+</main>
+  
   <aside></aside>
   
 
