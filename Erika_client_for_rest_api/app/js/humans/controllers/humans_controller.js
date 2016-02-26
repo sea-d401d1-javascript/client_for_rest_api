@@ -2,11 +2,8 @@
 
 var angular = require('angular');
 
-var wapApp = angular.module('wapApp', []);
-require('./services/resource_service')(wapApp);
-
-wapApp.controller('humanController', ['$scope', function($scope) {
-}]);
+var wapApp = angular.module('wapApp');
+require('../../services/resource_service')(wapApp);
 
 wapApp.controller('humanController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.human = [];

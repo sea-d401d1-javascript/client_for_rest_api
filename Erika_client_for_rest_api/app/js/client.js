@@ -1,8 +1,6 @@
 const angular = require('angular');
 const wapApp = angular.module('wapApp', []);
 
-require('./services')(wapApp);
+require('./services/resource_service')(wapApp);
 
-require('./dogs')(wapApp);
-
-require('./directives')(wapApp);
+require('./dogs/controllers/dog_controller')(wapApp);
