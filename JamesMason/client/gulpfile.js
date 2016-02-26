@@ -24,6 +24,14 @@ gulp.task('css:dev', () => {
     .pipe(plugins.cssnano())
     .pipe(gulp.dest(__dirname + '/build/css'));
 });
+gulp.task('fonts:dev', () => {
+  return gulp.src(__dirname + '/app/css/fonts/*')
+    .pipe(gulp.dest(__dirname + '/build/css/fonts'));
+});
+gulp.task('images:dev', () => {
+  return gulp.src(__dirname + '/app/img/*')
+    .pipe(gulp.dest(__dirname + '/build/img'));
+});
 gulp.task('webpack:test', () => {
   return gulp.src(__dirname + '/test/testEntry.js', { read: true })
     .pipe(webpack({
@@ -37,6 +45,7 @@ gulp.task('build:dev', [
   'webpack:dev',
   'html:dev',
   'css:dev',
-  'webpack:test'
+  'fonts:dev',
+  'images:dev'
 ]);
 gulp.task('default', ['build:dev']);

@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'StarWars';
+    src: url('/css/fonts/starjedi-webfont.eot');
+    src: url('/css/fonts/starjedi-webfont.eot?#iefix') format('embedded-opentype'),
+      url('/css/fonts/starjedi-webfont.woff2') format('woff2'),
+      url('/css/fonts/starjedi-webfont.woff') format('woff'),
+      url('/css/fonts/starjedi-webfont.ttf') format('truetype'),
+      url('/css/fonts/starjedi-webfont.svg#star_jediregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+html {
+  font-size: 16px;
+  font-family: 'StarWars', sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  background-image: url('/img/background.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+input, button {
+  font-size: 0.707em;
+}
+section {
+  font-size: 1em;
+  padding: 20px;
+}
+section input {
+  padding: 5px;
+  margin: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+section button {
+  padding: 10px;
+  margin: 20px;
+}
+button {
+  background-color: white;
+  color: black;
+  border: solid black 0px;
+}
+h1 {
+  font-size: 3.998em;
+  color: white;
+}
+h2 {
+  font-size: 2.827em;
+  color: white;
+}
+h3 {
+  font-size: 1.999em;
+  color: white;
+}
+h4 {
+  font-size: 1.414em;
+  color: white;
+}
+h5 {
+  font-size: 1em;
+  color: white;
+}
