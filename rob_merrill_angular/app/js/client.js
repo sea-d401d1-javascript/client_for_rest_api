@@ -27,34 +27,6 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
       });
   };
 
-  // $http.get('http://localhost:3000/api/beers')
-  //   .then((res) => {
-  //     console.log('success!');
-  //     $scope.beers = res.data;
-  //   }, (err) => {
-  //     console.log(err);
-  //   });
-
-  //   $http.get('http://localhost:3000/api/brewers')
-  //   .then((res) => {
-  //     console.log('success!');
-  //     $scope.brewers = res.data;
-  //   }, (err) => {
-  //     console.log(err);
-  //   });
-
-    // $scope.beersDrank = function() {
-    //   $http.get('http://localhost:3000/beersDrank/howManyBeers')
-    //     .then((res) => {
-    //       console.log('brews for everyone!');
-    //       $scope.beersDrank = res.data;
-    //     }, (err) => {
-    //       console.log(err);
-    //     });
-    // };
-
-    // $scope.beersDrank();
-
   $scope.createBeer = function(beer) {
     $http.post('http://localhost:3000/api/beers', beer)
       .then((res) => {
@@ -62,8 +34,8 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
         $scope.newBeer = null;
       }, (err) => {
         console.log(err)
-      })
-  }
+      });
+  };
 
     $scope.createBrewer = function(brewer) {
     $http.post('http://localhost:3000/api/brewers', brewer)
@@ -72,8 +44,8 @@ beersApp.controller('BeersController', ['$scope', '$http', function($scope, $htt
         $scope.newBrewer = null;
       }, (err) => {
         console.log(err)
-      })
-  }
+      });
+  };
 
   $scope.deleteBeer = function(beer) {
     $http.delete('http://localhost:3000/api/beers/' + beer._id)

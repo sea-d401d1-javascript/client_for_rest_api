@@ -59,8 +59,8 @@ describe('beers controller', () => {
 
     // it('should create a new beer', () => {
     //   $httpBackend.expectPost('http:localhost:3000/api/beers', {name: 'the sent beer'}).respond(200, {name: 'the response beer'});
-    //   $scope.newBeer = {name: 'the new beer'};
-    //   $scope.createBeer({name: 'the sent beer'});
+    //   $scope.newBeer = {name: 'the new beer' };
+    //   $scope.createBeer({name: 'the sent beer' });
     //   $httpBackend.flush();
     //   expect($scope.beers.length).toBe(1);
     //   expect($scope.newBeer).toBe(null);
