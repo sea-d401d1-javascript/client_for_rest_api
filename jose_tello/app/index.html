@@ -22,21 +22,7 @@
           <button class="col-xs-12" type="submit">CREATE</button>
         </form>
       </bdi>
-      <bdi class="row" data-ng-repeat="cat in cats">
-        <span class="col-xs-12">NAME:&nbsp;&nbsp; {{ cat.name }}</span>
-        <span class="col-xs-12">COLOR:&nbsp;&nbsp; {{ cat.color }}</span>
-        <span class="col-xs-12">LIVES:&nbsp;&nbsp; {{ cat.lives }}</span>
-        <div class="box-container col-xs-12">
-          <button class="col-xs-6" data-ng-click="deleteCat(cat)">DELETE</button>
-          <button class="col-xs-6" data-ng-click="cat.editing = !cat.editing">UPDATE</button>
-        </div>
-        <form class="row" data-ng-if="cat.editing" data-ng-submit="updateCat(cat)">
-          <input class="col-xs-12" data-ng-model="cat.name" type="text">
-          <input class="col-xs-12" data-ng-model="cat.color" type="text">
-          <input class="col-xs-12" data-ng-model="cat.lives" type="text">
-          <button class="col-xs-12" type="submit">SUBMIT</button>
-        </form>
-      </bdi>
+      <cat class="row resource" data-ng-repeat="cat in cats" data-cat-data="cat"></cat>
     </section>
     <!-- Dogs Resource -->
     <section class="col-sm-4" data-ng-controller="DogsController" data-ng-init="getDogs()">
@@ -49,21 +35,7 @@
           <button class="col-xs-12" type="submit">CREATE</button>
         </form>
       </bdi>
-      <bdi class="row" data-ng-repeat="dog in dogs">
-        <span class="col-xs-12">Name: &nbsp;&nbsp;{{ dog.name }}</span>
-        <span class="col-xs-12">Color: &nbsp;&nbsp;{{ dog.color }}</span>
-        <span class="col-xs-12">Lives: &nbsp;&nbsp;{{ dog.lives }}</span>
-        <div class="box-container col-xs-12">
-          <button class="col-xs-12" data-ng-click="deleteDog(dog)">DELETE</button>
-          <button class="col-xs-12" data-ng-click="dog.editing = !dog.editing">UPDATE</button>
-        </div>
-        <form class="row" data-ng-if="dog.editing" data-ng-submit="updateDog(dog)">
-          <input class="col-xs-12" data-ng-model="dog.name" type="text">
-          <input class="col-xs-12" data-ng-model="dog.color" type="text">
-          <input class="col-xs-12" data-ng-model="dog.lives" type="text">
-          <button class="col-xs-12" type="submit">SUBMIT</button>
-        </form>
-      </bdi>
+      <dog class="row resource" data-ng-repeat="dog in dogs" data-dog-data="dog"></dog>
     </section>
     <!-- Non-REST Feature -->
     <section class="col-sm-4"></section>

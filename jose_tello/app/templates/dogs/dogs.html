@@ -1,0 +1,13 @@
+<span class="col-xs-12">NAME: &nbsp;&nbsp;{{ dogData.name }}</span>
+<span class="col-xs-12">COLOR: &nbsp;&nbsp;{{ dogData.color }}</span>
+<span class="col-xs-12">LIVES: &nbsp;&nbsp;{{ dogData.lives }}</span>
+<div class="box-container col-xs-12">
+  <button class="col-xs-12" data-ng-click="deleteDog(dog)">DELETE</button>
+  <button class="col-xs-12" data-ng-click="dog.editing = !dog.editing">UPDATE</button>
+</div>
+<form class="row" data-ng-if="dog.editing" data-ng-submit="updateDog(dog)">
+  <input class="col-xs-12" data-ng-model="dog.name" type="text">
+  <input class="col-xs-12" data-ng-model="dog.color" type="text">
+  <input class="col-xs-12" data-ng-model="dog.lives" type="text">
+  <button class="col-xs-12" type="submit">SUBMIT</button>
+</form>
