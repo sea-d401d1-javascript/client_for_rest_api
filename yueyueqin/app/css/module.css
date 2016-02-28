@@ -5,3 +5,26 @@
 .actors h1 {
   color:#2677bb;
 }
+
+header {
+  text-align: center;
+}
+header ul {
+  display: inline-block;
+
+}
+
+header li {
+  padding: 1rem;
+
+}
+
+header li a {
+  font-size: 2rem;
+  color:black;
+  display: inline-block;
+  padding: 0.5rem;
+  background: #c7943e;
+
+
+}
