@@ -33,6 +33,8 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	background: url(./../asset/background_pattern.png) repeat;
+	width:90%;
+	margin: 1rem auto;
 }
 ol, ul {
 	list-style: none;
@@ -56,4 +58,20 @@ h1 {
 
 h2 {
 	font-size: 1.2rem;
+}
+
+header {
+	margin:2%;
+}
+
+.movies {
+	margin:2%;
+}
+
+.actors {
+	margin:2%;
+}
+
+a {
+	text-decoration: none;
 }
