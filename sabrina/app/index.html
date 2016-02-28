@@ -3,11 +3,14 @@
 <head>
 	<meta charset='UTF-8'>
 	<title>House of Gift Cards</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 </head>
 <body data-ng-app='hogcApp'>
 
   <section data-ng-controller='RequestsController' data-ng-init='getAllRequests()'>
-		<article>
+		<article class='column'>
 	    <h1>All Requests</h1>
 	    <ul>
 	      <request data-ng-repeat='request in requests' data-request-data='request'>
@@ -26,14 +29,52 @@
 	    </ul>
 		</article>
 
-    <article data-request-data='newRequest'>
+    <article class='column' data-request-data='newRequest'>
+			<h2>Add A Request!</h2>
+			<p>Currently, only accepting gift cards from: QFC, Amazon, Petco, Best Buy</p>
 			<request-form
 				data-button-text='Create New Request'
 				data-request='newRequest'
 				data-save='createRequest(newRequest)'
 			></request-form>
     </article>
+
+		<article class='column' data-request-data='newRequest'>
+			<h2 data-ng-init='getUnclaimed()'>Claim Requests!</h2>
+			<p>When claiming, add a unique donor id:</p>
+			<li data-ng-repeat='req in requestsUnclaimed'> {{req.firstName}} {{req.lastName}} - {{req.giftCard}}
+			<button data-ng-click='req.editing = !req.editing'>Claim</button>
+			<form data-ng-if='req.editing' data-ng-submit='claimRequest(req, id)'>
+				<input data-ng-model='id' type='text' placeholder='Unique Donor ID'/>
+				<button type='submit'>Claimed!</button>
+			</form>
+			</li>
+		</article>
+
   </section>
+
+	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
+		<h1>All Donors</h1>
+		<ul>
+			<li data-ng-repeat='donor in donors'> {{donor.username}} at {{donor.organisation}} - Donor ID: {{donor._id}}, Email: {{donor.authentication.email}}
+        <button data-ng-click='donor.editing = !donor.editing'>Update Donor</button>
+				<button data-ng-click='deleteDonor(donor)'>Delete Donor</button>
+				<form data-ng-if='donor.editing' data-ng-submit='updateDonor(donor)'>
+					<input data-ng-model='donor.username' type='text' placeholder='Username'/>
+					<input data-ng-model='donor.organisation' type='text' placeholder='Organisation'/>
+					<input data-ng-model='donor.authentication.email' type='text' placeholder='Email'/>
+					<button type='submit'>Update</button>
+				</form>
+			</li>
+		</ul>
+		<h2>Sign Up!</h2>
+		<form data-ng-submit='createDonor(donor)'>
+			<input data-ng-model='donor.username' type='text' placeholder='Username'/>
+			<input data-ng-model='donor.email' type='text' placeholder='Email'/>
+			<input data-ng-model='donor.password' type='text' placeholder='Password'/>
+			<button type='submit'>Sign Up!</button>
+		</form>
+	</section>
 
   <script src='bundle.js'></script>
 </body>

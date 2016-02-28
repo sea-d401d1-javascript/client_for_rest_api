@@ -22,6 +22,16 @@ module.exports = function(app) {
       });
     };
 
+    $scope.getUnclaimed = function() {
+      $http.get('http://localhost:3000/api/requestsUnclaimed')
+        .then((res) => {
+          console.log('success getting unclaimed requests!');
+          $scope.requestsUnclaimed = res.data;
+        }, (err) => {
+          console.log(err);
+        });
+    };
+
     $scope.createRequest = function(request) {
       $scope.requests.push(request);
       requestService.create(request, function(err, res) {
@@ -37,6 +47,17 @@ module.exports = function(app) {
         request.backup = null;
         if (err) return console.log(err);
       });
+    };
+
+    $scope.claimRequest = (req, id) => {
+      $http.put('http://localhost:3000/api/requests/' + req._id + '/' + id)
+        .then((res) => {
+          console.log('success claiming request!');
+          req.editing = false;
+        }, (err) => {
+          console.log(err);
+          req.editing = false;
+        });
     };
 
     $scope.deleteRequest = function(request) {
