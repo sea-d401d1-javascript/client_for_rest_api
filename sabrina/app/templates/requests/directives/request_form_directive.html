@@ -1,0 +1,12 @@
+<form data-ng-submit='save(request)'>
+  <input type='text' name='firstName' placeholder='First Name' data-ng-model='request.firstName'/>
+
+  <input type='text' name='lastName' placeholder='Last Name' data-ng-model='request.lastName'/>
+
+  <input type='text' name='giftCard' placeholder='Gift Card' data-ng-model='request.giftCard'/>
+
+  <input type='text' name='claimedBy' placeholder='Claimed By' data-ng-model='request.claimedBy'/>
+
+  <ng-transclude></ng-transclude>
+  <button type='submit'>{{buttonText}}</button>
+</form>

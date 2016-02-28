@@ -1,6 +1,4 @@
-require('../app/js/client');
 var angular = require('angular');
-require('angular-mocks');
 
 describe('requests controller', () => {
   var $httpBackend;
