@@ -6,7 +6,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/sithlords/directives/sith.html',
       scope: {
-        sithData: '@'
+        sithData: '='
       }
     };
   });

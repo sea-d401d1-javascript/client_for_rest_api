@@ -6,7 +6,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/jedis/directives/jedi.html',
       scope: {
-        jediData: '@'
+        jediData: '='
       }
     };
   });

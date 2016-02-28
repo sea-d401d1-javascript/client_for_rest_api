@@ -58,11 +58,11 @@ describe('jedis controller', () => {
     });
 
     it('should be able to update a jedi', () => {
-      var jedi = {_id: 1, editting: true};
+      var jedi = {_id: 1, editing: true};
       $httpBackend.expectPUT('http://localhost:3000/api/jedis' + '/1').respond(200);
       $scope.updateJedi(jedi);
       $httpBackend.flush();
-      expect(jedi.editting).toBe(false);
+      expect(jedi.editing).toBe(false);
     });
 
     it('should be able to delete a jedi', () => {

@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
+
 const jsFiles = ['./*.js', 'app/**/*.js', '!node_modules/**'];
 const clientScripts = ['app/**/*.js'];
 const staticFiles = ['app/**/*.html'];
@@ -51,7 +52,7 @@ gulp.task('webpack:test', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch([jsFiles, staticFiles], ['dev']);
+  gulp.watch([jsFiles, staticFiles, cssFiles], ['build:dev']);
 });
 
 gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'css:dev']);

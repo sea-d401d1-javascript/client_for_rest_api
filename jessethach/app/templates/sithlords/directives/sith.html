@@ -1,7 +1,10 @@
 <li>
-  <span role="div" class="div">
-    {{sithData.name}} weild a {{sith.lightsaberColor}}.
-  </span>
+  <p data-ng-if="sithData.name" role="list" class="sith-list">
+    {{sithData.name}} <br>
+    Light Saber: {{sithData.lightsaberColor}} <br>
+    Status: {{sithData.status}} <br>
+    Home World: {{sithData.world}} <br>
+  </p>
 
   <section role="actions" class="actions" data-ng-transclude></section>
 </li>

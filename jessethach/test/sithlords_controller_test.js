@@ -58,11 +58,11 @@ describe('sithlords controller', () => {
     });
 
     it('should be able to update a sith', () => {
-      var sith = {_id: 1, editting: true};
+      var sith = {_id: 1, editing: true};
       $httpBackend.expectPUT('http://localhost:3000/api/sith-lords' + '/1').respond(200);
       $scope.updateSith(sith);
       $httpBackend.flush();
-      expect(sith.editting).toBe(false);
+      expect(sith.editing).toBe(false);
     });
 
     it('should be able to delete a sith', () => {

@@ -1,0 +1,27 @@
+button {
+  -webkit-appearance: none;
+  border: 1px solid #d3d6db;
+  border-radius: 3px;
+  display: inline-block;
+  font-size: 14px;
+  height: 32px;
+  line-height: 24px;
+  position: relative;
+  vertical-align: top;
+  -webkit-user-select: none;
+  padding: 3px 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.button.is-info {  
+  background: #42afe3;
+  border-color: transparent;
+  color: white;
+}
+
+.button.is-primary {
+    background: #1fc8db;
+    border-color: transparent;
+    color: white;
+}

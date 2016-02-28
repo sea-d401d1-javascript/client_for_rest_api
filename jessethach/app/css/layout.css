@@ -1,8 +1,18 @@
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 980px) {
+  .container {
+      margin: 0 auto;
+      max-width: 960px;
+  }
+}
 
+@media screen and (min-width: 769px) {
   header {
     padding-bottom: 10px;
     text-align: center;
+  }
+
+  li {
+    padding-bottom: 10px;
   }
 
   footer {
@@ -32,5 +42,4 @@
     flex: 1;
     padding: 10px;
   }
-
 }

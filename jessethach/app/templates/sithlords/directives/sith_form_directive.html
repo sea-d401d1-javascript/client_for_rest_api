@@ -1,0 +1,21 @@
+<form data-ng-submit="save(sith)">
+
+  <label for="name">Name:</label> <br>
+  <input type="text" name="name" data-ng-model="sith.name" placeholder="Name"/> <br>
+
+  <label for="lightSaberColor">Light Saber Color:</label> <br>
+  <input type="text" name="lightSaberColor" data-ng-model="sith.lightsaberColor" placeholder="Light Saber Color"/> <br>
+
+  <label for="world">World</label> <br>
+  <input type="text" name="world" data-ng-model="sith.world" placeholder="World"/> <br>
+
+  <label for="status">Status:</label> <br>
+  <select name="status" data-ng-model="sith.status" placeholder="Status">
+    <option value="Alive">Alive</option>
+    <option value="Dead">Dead</option>
+    <option value="Unknown">Unknown</option>
+  </select> <br>
+
+  <ng-transclude></ng-transclude>
+  <button class="button is-primary" type="submit">{{buttonText}}</button>
+</form>

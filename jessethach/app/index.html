@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Super Jedi Stream Adventure</title>
 	<link rel="stylesheet" href="/css/base.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/css/layout.css">
+	<link rel="stylesheet" href="/css/form.css">
 </head>
 <body data-ng-app="jedisApp">
 
@@ -12,61 +14,74 @@
 		<h1>Duel of Fates</h1>
 	</header>
 
-	<section class="columns">
+	<main class="container">
+		<section class="columns">
 
-		<section class="column is-third">
-			<h3>Empty space for now</h3>
+			<aside class="column is-third">
+				<h3>Empty space for now</h3>
+			</aside>
+
+		  <section class="column is-third" data-ng-controller="JedisController" data-ng-init="getAllJedi()">
+		    <h1>Jedis:</h1>
+		    <ul>
+		      <jedi data-ng-repeat="jedi in jedis" data-jedi-data="jedi">
+		        <button class="button is-info" data-ng-click="deleteJedi(jedi)">Delete Jedi</button>
+		        <button class="button is-info" data-ng-if="!jedi.editing" data-ng-click="toggleEditJedi(jedi)">Update Jedi</button>
+
+						<jedi-form
+								data-ng-if="jedi.editing"
+								data-save="updateJedi(jedi)"
+								data-button-text="Update Jedi"
+								data-jedi="jedi"
+							><button type="button" data-ng-click="toggleEditJedi(jedi)">Cancel</button>
+						</jedi-form>
+
+		      </jedi>
+		    </ul>
+
+				<jedi data-jedi-data="newJedi">
+
+			    <jedi-form
+						data-button-text="Create new Jedi"
+						data-jedi="newJedi"
+						data-save="createJedi(newJedi)"
+					></jedi-form>
+
+				</jedi>
+
+		  </section>
+
+		  <section class="column is-third" data-ng-controller="SithlordsController" data-ng-init="getAllSith()">
+		    <h1>Sith Lords:</h1>
+		    <ul>
+					<sith data-ng-repeat="sith in sithlords" data-sith-data="sith">
+		        <button class="button is-info" data-ng-click="deleteSith(sith)">Delete Sith</button>
+		        <button class="button is-info" data-ng-if="!sith.editing" data-ng-click="toggleEditSith(sith)">Update Sith</button>
+
+						<sith-form
+								data-ng-if="sith.editing"
+								data-save="updateSith(sith)"
+								data-button-text="Update Sith"
+								data-sith="sith"
+							><button type="button" data-ng-click="toggleEditSith(sith)">Cancel</button>
+						</sith-form>
+
+		      </sith>
+		    </ul>
+
+				<sith data-sith-data="newSith">
+
+			    <sith-form
+						data-button-text="Create new Sith"
+						data-sith="newSith"
+						data-save="createSith(newSith)"
+					></sith-form>
+
+				</sith>
+		  </section>
+
 		</section>
-
-	  <section class="column is-third" data-ng-controller="JedisController" data-ng-init="getAllJedi()">
-	    <h1>Jedis:</h1>
-	    <ul>
-	      <li data-ng-repeat="jedi in jedis" data-jedi-data="jedi">
-	        <button data-ng-click="deleteJedi(jedi)">Delete Jedi</button>
-	        <button data-ng-click="jedi.editting = !jedi.editting">Update Jedi</button>
-	        <form data-ng-if="jedi.editting" data-ng-submit="updateJedi(jedi)">
-	          <input data-ng-model="jedi.name" type="text"/>
-	          <input data-ng-model="jedi.lightsaberColor" type="text"/>
-	          <input data-ng-model="jedi.world" type="text"/>
-	          <input data-ng-model="jedi.status" type="text"/>
-	          <button type="submit">Update</button>
-	        </form>
-	      </li>
-	    </ul>
-	    <form data-ng-submit="createJedi(newJedi)">
-	      <input data-ng-model="newJedi.name" type="text" placeholder="Name"/>
-	      <input data-ng-model="newJedi.lightsaberColor" type="text" placeholder="Light Saber Color"/>
-	      <input data-ng-model="newJedi.world" type="text" placeholder="World"/>
-	      <input data-ng-model="newJedi.status" type="text" placeholder="Status"/>
-	      <button type="submit">New Jedi</button>
-	    </form>
-	  </section>
-
-	  <section class="column is-third" data-ng-controller="SithlordsController" data-ng-init="getAllSith()">
-	    <h1>Sith Lords:</h1>
-	    <ul>
-	      <li data-ng-repeat="sith in sithlords" data-sith-data="sith">
-	        <button data-ng-click="deleteSith(sith)">Delete Sith</button>
-	        <button data-ng-click="sith.editting = !sith.editting">Update Sith</button>
-	        <form data-ng-if="sith.editting" data-ng-submit="updateSith(sith)">
-	          <input data-ng-model="sith.name" type="text"/>
-	          <input data-ng-model="sith.lightsaberColor" type="text"/>
-	          <input data-ng-model="sith.world" type="text"/>
-	          <input data-ng-model="sith.status" type="text"/>
-	          <button type="submit">Update</button>
-	        </form>
-	      </li>
-	    </ul>
-	    <form data-ng-submit="createSith(newSith)">
-	      <input data-ng-model="newSith.name" type="text" placeholder="Name"/>
-	      <input data-ng-model="newSith.lightsaberColor" type="text" placeholder="Light Saber Color"/>
-	      <input data-ng-model="newSith.world" type="text" placeholder="World"/>
-	      <input data-ng-model="newSith.status" type="text" placeholder="Status"/>
-	      <button type="submit">New Sith</button>
-	    </form>
-	  </section>
-
-	</section>
+	</main>
 
 	<footer>End of Fates</footer>
 

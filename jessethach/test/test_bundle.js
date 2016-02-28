@@ -15993,7 +15993,7 @@
 
 	    $scope.updateJedi = function (jedi) {
 	      jediService.update(jedi, function (err, res) {
-	        jedi.editting = false;
+	        jedi.editing = false;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -16070,7 +16070,7 @@
 
 	    $scope.updateSith = function (sith) {
 	      sithService.update(sith, function (err, res) {
-	        sith.editting = false;
+	        sith.editing = false;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -18957,11 +18957,11 @@
 	    });
 
 	    it('should be able to update a jedi', function () {
-	      var jedi = { _id: 1, editting: true };
+	      var jedi = { _id: 1, editing: true };
 	      $httpBackend.expectPUT('http://localhost:3000/api/jedis' + '/1').respond(200);
 	      $scope.updateJedi(jedi);
 	      $httpBackend.flush();
-	      expect(jedi.editting).toBe(false);
+	      expect(jedi.editing).toBe(false);
 	    });
 
 	    it('should be able to delete a jedi', function () {
@@ -19041,11 +19041,11 @@
 	    });
 
 	    it('should be able to update a sith', function () {
-	      var sith = { _id: 1, editting: true };
+	      var sith = { _id: 1, editing: true };
 	      $httpBackend.expectPUT('http://localhost:3000/api/sith-lords' + '/1').respond(200);
 	      $scope.updateSith(sith);
 	      $httpBackend.flush();
-	      expect(sith.editting).toBe(false);
+	      expect(sith.editing).toBe(false);
 	    });
 
 	    it('should be able to delete a sith', function () {
