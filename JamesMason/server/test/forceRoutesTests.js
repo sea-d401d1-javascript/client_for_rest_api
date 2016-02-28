@@ -5,7 +5,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/force_balancer_test';
-require(__dirname + '/../app');
+require(__dirname + '/../server');
 const Jedi = require(__dirname + '/../lib/jedi');
 
 describe('Force Balancer REST API', function() {

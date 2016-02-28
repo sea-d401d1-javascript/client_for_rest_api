@@ -11,7 +11,7 @@ gulp.task('webpack:dev', () => {
       }
     }))
     .pipe(plugins.concat('bundle.min.js'))
-    // .pipe(plugins.uglify())
+    .pipe(plugins.uglify())
     .pipe(gulp.dest('build/js'));
 });
 gulp.task('html:dev', () => {

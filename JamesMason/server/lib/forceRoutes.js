@@ -68,7 +68,6 @@ forceRouter.get('/light', (req, res) => {
   });
 });
 forceRouter.post('/light', jsonParser, (req, res) => {
-  console.log('POST REQUEST RECIEVED: ' + req.body); // eslint-disable-line
   var newJedi = new Jedi(req.body);
   newJedi.save((err, data) => {
     if (err) {
