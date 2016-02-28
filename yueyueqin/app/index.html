@@ -16,37 +16,40 @@
          </ul>
        </header>
         <section class="movies" data-ng-controller="MoviesController" data-ng-init="getAllMovies()">
-          <h1>Movies</h1>
-          <ul>
-            <ol data-ng-repeat="movie in movies">
-                  <data value="">{{movie.name}}</data>
-                  <data value="">{{movie.type}}</data>
-                  <data value="">{{movie.actors}}</data>
-                  <data value="">  {{movie.publish}}</data>
-                  <button data-ng-click="deleteMovie(movie)" type="button" class="btn btn-primary btn-xs">Delete</button>
-                  <button data-ng-click="movie.editing = !movie.editing" type="button" class="btn btn-primary btn-xs">Update</button>
-                  <form data-ng-if="movie.editing" data-ng-submit="updateMovie(movie)">
-                      <input type="text" data-ng-model="movie.name" class="form-control" placeholder="name">
-                      <input type="text" data-ng-model="movie.type" class="form-control" placeholder="type">
-                      <input type="text" data-ng-model="movie.actors" class="form-control" placeholder="actors">
-                      <input type="text" data-ng-model="movie.publish"  class="form-control" placeholder="publish">
-                      <button type="submit" class="btn btn-default">Submit</button>
-                  </form>
-           </ol>
-          </ul>
-          <hr>
-          <h2>Create New Movie</h2>
-          <form data-ng-submit="createMovie(newMovie)" style="margin-top: 2rem">
+          <section class="left-col">
+            <h1>Movies Editing</h1>
+            <ul>
+              <ol data-ng-repeat="movie in movies">
+                <data value=""><span class="label">Name:&nbsp;</span>{{movie.name}};&nbsp;&nbsp;</data>
+                <data value=""><span class="label">Type:&nbsp;</span>{{movie.type}};&nbsp;&nbsp;</data>
+                <data value=""><span class="label">Actors:&nbsp;</span>{{movie.actors}};&nbsp;&nbsp;</data>
+                <data value=""><span class="label">Publish On:&nbsp;</span>{{movie.publish}}&nbsp;&nbsp;</data>
+                <button data-ng-click="deleteMovie(movie)" type="button" class="btn btn-primary btn-xs">Delete</button>
+                <button data-ng-click="movie.editing = !movie.editing" type="button" class="btn btn-primary btn-xs">Update</button>
+                <form data-ng-if="movie.editing" data-ng-submit="updateMovie(movie)">
+                  <input type="text" data-ng-model="movie.name" class="form-control" placeholder="name">
+                  <input type="text" data-ng-model="movie.type" class="form-control" placeholder="type">
+                  <input type="text" data-ng-model="movie.actors" class="form-control" placeholder="actors">
+                  <input type="text" data-ng-model="movie.publish"  class="form-control" placeholder="publish">
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+              </ol>
+            </ul>
+          </section>
+          <section class="middle-col">
+            <h1>Create New Movie</h1>
+            <form data-ng-submit="createMovie(newMovie)" style="margin-top: 2rem">
               <input type="text" data-ng-model="newMovie.name" class="form-control" placeholder="name">
               <input type="text" data-ng-model="newMovie.type" class="form-control" placeholder="type">
               <input type="text" data-ng-model="newMovie.actors" class="form-control" placeholder="actors">
               <input type="text" data-ng-model="newMovie.publish"  class="form-control" placeholder="publish">
               <button type="submit" class="btn btn-default">New Movie</button>
-          </form>
-          <hr>
+            </form>
+          </section>
 
-            <h2>Movies List</h2>
-            <table class="table" style="margin-top: 3rem">
+          <section class="right-col">
+            <h1>Movies List</h1>
+            <table class="movies-table">
               <thead>
                 <tr>
                   <td> <strong>movie name</strong>  </td>
@@ -71,38 +74,42 @@
                   </td>
                 </tr>
               </tbody>
-          </table>
+            </table>
+          </section>
         </section>
 
 
         <section class="actors" data-ng-controller="ActorsController" data-ng-init="getAllActors()">
-          <h1>Actors</h1>
-          <ul>
-            <ol data-ng-repeat="actor in actors">
-                  <data value="">{{actor.name}}</data>
-                  <data value="">{{actor.country}}</data>
-                  <data value="">{{actor.age}}</data>
-                  <button data-ng-click="deleteActor(actor)" type="button" class="btn btn-primary btn-xs">Delete</button>
-                  <button data-ng-click="actor.editing = !actor.editing" type="button" class="btn btn-primary btn-xs">Update</button>
+          <section class="left-col">
+            <h1>Actors</h1>
+            <ul>
+              <ol data-ng-repeat="actor in actors">
+                <data value=""><span class="label">Name:&nbsp;</span>{{actor.name}}&nbsp;</data>
+                <data value=""><span class="label">Country:&nbsp;</span>{{actor.country}}&nbsp;</data>
+                <data value=""><span class="label">Age:&nbsp;</span>{{actor.age}}&nbsp;</data>
+                <button data-ng-click="deleteActor(actor)" type="button" class="btn btn-primary btn-xs">Delete</button>
+                <button data-ng-click="actor.editing = !actor.editing" type="button" class="btn btn-primary btn-xs">Update</button>
                 <form data-ng-if="actor.editing" data-ng-submit="updateActor(actor)">
-                    <input type="text" data-ng-model="actor.name" class="form-control" placeholder="name">
-                    <input type="text" data-ng-model="actor.country" class="form-control" placeholder="country">
-                    <input type="text" data-ng-model="actor.age" class="form-control" placeholder="age">
-                    <button type="submit" class="btn btn-default">Submit</button>
+                  <input type="text" data-ng-model="actor.name" class="form-control" placeholder="name">
+                  <input type="text" data-ng-model="actor.country" class="form-control" placeholder="country">
+                  <input type="text" data-ng-model="actor.age" class="form-control" placeholder="age">
+                  <button type="submit" class="btn btn-default">Submit</button>
                 </form>
-           </ol>
-          </ul>
-          <hr>
-          <h2>Create New Actor</h2>
-          <form data-ng-submit="createActor(newActor)" style="margin-top: 2rem">
+              </ol>
+            </ul>
+          </section>
+          <section class="middle-col">
+            <h1>Create New Actor</h1>
+            <form data-ng-submit="createActor(newActor)" style="margin-top: 2rem">
               <input type="text" data-ng-model="newActor.name" class="form-control" placeholder="name">
               <input type="text" data-ng-model="newActor.country" class="form-control" placeholder="country">
               <input type="text" data-ng-model="newActor.age" class="form-control" placeholder="age">
               <button type="submit" class="btn btn-default">New Actor</button>
-          </form>
-          <hr>
-            <h2>Actors List</h2>
-            <table class="table" style="margin-top: 3rem">
+            </form>
+          </section>
+          <section class="left-col">
+            <h1>Actors List</h1>
+            <table class="actora-table">
               <thead>
                 <tr>
                   <td> <strong>actor name</strong>  </td>
@@ -123,9 +130,11 @@
                   </td>
                 </tr>
               </tbody>
-          </table>
+            </table>
+          </section>
         </section>
-
+        <hr>
+        <footer>For the Movie Lover</footer>
 
     <script src="bundle.js"></script>
   </body>
