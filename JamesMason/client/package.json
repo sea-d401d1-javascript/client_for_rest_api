@@ -4,7 +4,7 @@
   "description": "An application to determine the balance of the Force.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start"
   },
   "keywords": [],
   "repository": {

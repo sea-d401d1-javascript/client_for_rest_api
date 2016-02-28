@@ -4,10 +4,6 @@ const forceApp = angular.module('ForceApp', []);
 forceApp.controller('ForceController', ['$scope', '$http', function($scope, $http) {
   $scope.lightJedi = [];
   $scope.darkJedi = [];
-  $scope.getAllJedi = function() {
-    $scope.getAllLightJedi();
-    $scope.getAllDarkJedi();
-  };
   $scope.getAllLightJedi = function() {
     $http.get('http://localhost:3000/api/light').then(function(res) {
       $scope.lightJedi = res.data;
@@ -22,6 +18,12 @@ forceApp.controller('ForceController', ['$scope', '$http', function($scope, $htt
         console.log(err);
       });
   };
+  $scope.getAllJedi = function() {
+    console.log('here');
+    $scope.getAllLightJedi();
+    $scope.getAllDarkJedi();
+  };
+  $scope.getAllJedi();
   $scope.createLightJedi = function(newJedi) {
     newJedi.force = 'Light';
     $http.post('http://localhost:3000/api/light', newJedi).then(function(res) {
