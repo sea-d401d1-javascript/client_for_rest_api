@@ -1,17 +1,15 @@
 var angular = require('angular');
 
 module.exports = function(app) {
-  app.controller('DonorsController', ['$scope', '$http', function($scope, $http) {
+  app.controller('DonorsController', ['$scope', '$http', 'cfResource', 'cfStore', function($scope, $http, Resource, cfStore) {
     $scope.donors = [];
+    var donorService = Resource('/donors');
 
     $scope.getAllDonors = function() {
-      $http.get('http://localhost:3000/api/donors')
-        .then((res) => {
-          console.log('success getting all donors!');
-          $scope.donors = res.data;
-        }, (err) => {
-          console.log(err);
-        });
+      donorService.getAll(function(err, res) {
+        if (err) return console.log(err);
+        $scope.donors = res;
+      });
     };
 
     $scope.createDonor = (donor) => {
@@ -25,26 +23,20 @@ module.exports = function(app) {
         });
     };
 
-    $scope.updateDonor = (donor) => {
-      $http.put('http://localhost:3000/api/donors/' + donor._id, donor)
-        .then((res) => {
-          console.log('success updating donor!');
-          $scope.donors[$scope.donors.indexOf(donor)] = donor;
-          donor.editing = false;
-        }, (err) => {
-          console.log(err);
-          donor.editing = false;
-        });
+    $scope.updateDonor = function(donor) {
+      donorService.update(donor, function(err, res) {
+        $scope.donors[$scope.donors.indexOf(donor)] = donor;
+        donor.editing = false;
+        if (err) return console.log(err);
+      });
     };
 
-    $scope.deleteDonor = (donor) => {
-      $http.delete('http://localhost:3000/api/donors/' + donor._id)
-        .then((res) => {
-          console.log('success deleting donor!');
-          $scope.donors = $scope.donors.filter((i) => i._id !== donor._id);
-        }, (err) => {
-          console.log(err);
-        });
+    $scope.deleteDonor = function(donor) {
+      if (!donor._id) return setTimeout(function() {$scope.deleteDonor(donor);}, 1000);
+      donorService.delete(donor, function(err, res) {
+        if (err) return console.log(err);
+        $scope.donors = $scope.donors.filter((i) => i._id !== donor._id);
+      });
     };
   }]);
 };

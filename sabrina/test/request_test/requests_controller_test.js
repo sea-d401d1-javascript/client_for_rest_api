@@ -30,8 +30,8 @@ describe('requests controller', () => {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('should make a GET request to /api/requestsAll', () => {
-      $httpBackend.expectGET('http://localhost:3000/api/requestsAll').respond(200, [{firstName: 'test request'}]);
+    it('should make a GET request to /api/requests', () => {
+      $httpBackend.expectGET('http://localhost:3000/api/requests').respond(200, [{firstName: 'test request'}]);
       $scope.getAllRequests();
       $httpBackend.flush();
       expect($scope.requests.length).toBe(1);

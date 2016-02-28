@@ -59,7 +59,7 @@
 	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
 		<h1>All Donors</h1>
 		<ul>
-			<li data-ng-repeat='donor in donors'> {{donor.username}} at {{donor.organisation}} - Donor ID: {{donor._id}}, Email: {{donor.authentication.email}}
+			<donor data-ng-repeat='donor in donors' data-donor-data='donor'>
         <button data-ng-click='donor.editing = !donor.editing'>Update Donor</button>
 				<button data-ng-click='deleteDonor(donor)'>Delete Donor</button>
 				<form data-ng-if='donor.editing' data-ng-submit='updateDonor(donor)'>
@@ -68,8 +68,9 @@
 					<input data-ng-model='donor.authentication.email' type='text' placeholder='Email'/>
 					<button type='submit'>Update</button>
 				</form>
-			</li>
+			</donor>
 		</ul>
+
 		<h2>Sign Up!</h2>
 		<form data-ng-submit='createDonor(donor)'>
 			<input data-ng-model='donor.username' type='text' placeholder='Username'/>
