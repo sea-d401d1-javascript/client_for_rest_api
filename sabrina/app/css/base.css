@@ -32,17 +32,21 @@ body {
 }
 
 header, section {
+	width: 100%;
+}
+
+header, article {
   margin: 10px;
 }
 
-/*section .column h1, section .column h2 {
+article .column h1, article .column h2 {
   text-align: center;
 }
 
-section .column p, section .column p {
+article .column p, article .column p {
   text-align: center;
 	padding: 10px;
-}*/
+}
 
 footer {
 	text-align: center;

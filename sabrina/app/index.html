@@ -7,7 +7,11 @@
 	<link rel="stylesheet" type="text/css" href="/css/base.css">
 	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 </head>
+
 <body data-ng-app='hogcApp'>
+	<header>
+		<h1>House of Gift Cards</h1>
+	</header>
 
   <section data-ng-controller='RequestsController' data-ng-init='getAllRequests()'>
 		<article class='column'>
@@ -50,7 +54,6 @@
 			</form>
 			</li>
 		</article>
-
   </section>
 
 	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
@@ -75,6 +78,12 @@
 			<button type='submit'>Sign Up!</button>
 		</form>
 	</section>
+
+	<footer>
+		<p>
+			100% of every dollar you gift on House of Gift Cards goes directly towards the requestor; House of Gift Cards does not take a cut.
+		</p>
+	</footer>
 
   <script src='bundle.js'></script>
 </body>
