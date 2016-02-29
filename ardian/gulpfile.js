@@ -25,6 +25,14 @@ gulp.task('webpack:dev', () => {
 gulp.task('webpack:test', () => {
   gulp.src(__dirname + '/test/test_entry.js')
     .pipe(webpack({
+      module: {
+        loaders: [
+          {
+            test:/\.html$/,
+            loader: 'html'
+          }
+        ]
+      },
       output: {
         filename: 'test_bundle.js'
       }
