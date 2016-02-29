@@ -17,8 +17,8 @@ module.exports = function(app) {
       }
     };
 
-    $scope.getAllStudents = function() {
-      studentService.getAllStudents(function(err, res) {
+    $scope.getAll = function() {
+      studentService.getAll(function(err, res) {
         if (err) return console.log(err);
         $scope.students = res;
       });

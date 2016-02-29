@@ -9,7 +9,7 @@
 </head>
 <body data-ng-app="studentsApp">
   <header><h1>Students and Classes</h1></header>
-  <article class="left" data-ng-controller="StudentsController" data-ng-init="getAllStudents()">
+  <article class="left" data-ng-controller="StudentsController" data-ng-init="getAll()">
     <h2>STUDENTS!!!!</h2>
     <ul>
       <student data-ng-repeat="student in students" data-student-data="student">
@@ -22,7 +22,6 @@
         data-student="student"
         >
           <button type="button" data-ng-click="toggleEdit(student)">Cancel</button>
-          <button type="submit"/>Update</button>
         </student-form>
       </student>
     </ul>
@@ -37,7 +36,7 @@
 
   <img class="center" src="http://washingtontechnology.org/wp-content/uploads/2014/12/Code-fellows-logo-stacked-lettering.png">
   
-  <main class="right" data-ng-controller="StudentsController" data-ng-init="getAllClasses()">
+ <!--  <main class="right" data-ng-controller="StudentsController" data-ng-init="getAll()">
   <h2>CLASSES!!!!</h2>
   <ul>
     <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
@@ -55,7 +54,7 @@
         <input data-ng-model="new_Class.level" type="text"/>
         <button type="submit"/>New Class</button>
     </form>
-  </main>
+  </main> -->
   <footer>This shows student's names, majors, classes, and class level.</footer>
 <!-- data is talking to HTML to not wory about it. ng signifys angular
 specif its part of the angular core. Do not use angular and jquery 

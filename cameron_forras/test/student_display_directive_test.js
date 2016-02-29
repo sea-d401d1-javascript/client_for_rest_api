@@ -18,7 +18,7 @@ describe('student display directive', () => {
     $httpBackend.expectGET('/templates/students/directives/student.html').respond(200, template);
 
     var element = $compile('<student data-student-data="{name: \'test student\'}"></student>')($rootScope);
-      $httpBackened.flush();
+      $httpBackend.flush();
       $rootScope.$digest();
       expect(element.html()).toContain('test student');
   });

@@ -63,49 +63,49 @@
 	__webpack_require__(4)(studentsApp);
 	__webpack_require__(7)(studentsApp);
 
-	studentsApp.controller('StudentsController', ['$scope', '$http', function($scope, $http) {
-	  $scope._classes = [];
+	// studentsApp.controller('StudentsController', ['$scope', '$http', function($scope, $http) {
+	//   $scope._classes = [];
 
-	  $scope.getAllClasses = function() {
-	    $http.get('http://localhost:3000/api/classes')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope._classes = res.data;
-	    }, (err) => {
-	        console.log(err);
-	    });
-	  };
+	//   $scope.getAllClasses = function() {
+	//     $http.get('http://localhost:3000/api/classes')
+	//       .then((res) => {
+	//         console.log('success!');
+	//         $scope._classes = res.data;
+	//     }, (err) => {
+	//         console.log(err);
+	//     });
+	//   };
 	  
-	  $scope.create_Class = function(_class) {
-	    $http.post('http://localhost:3000/api/classes/', _class)
-	      .then((res) => {
-	        $scope._classes.push(res.data);
-	        $scope.new_Class= null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	    };
+	//   $scope.create_Class = function(_class) {
+	//     $http.post('http://localhost:3000/api/classes/', _class)
+	//       .then((res) => {
+	//         $scope._classes.push(res.data);
+	//         $scope.new_Class= null;
+	//       }, (err) => {
+	//         console.log(err);
+	//       });
+	//     };
 
-	  $scope.delete_Class = function(_class) {
-	    $http.delete('http://localhost:3000/api/classes/' + _class._id)
-	      .then((res) => {
-	        $scope._classes = $scope._classes.filter((i) => i !== _class);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
+	//   $scope.delete_Class = function(_class) {
+	//     $http.delete('http://localhost:3000/api/classes/' + _class._id)
+	//       .then((res) => {
+	//         $scope._classes = $scope._classes.filter((i) => i !== _class);
+	//       }, (err) => {
+	//         console.log(err);
+	//       });
+	//   };
 
-	  $scope.update_Class = function(_class) {
-	    $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
-	      .then((res) => {
-	        $scope._classes[$scope._classes.indexOf(_class)] = _class;
-	        _class.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        _class.editing = false;
-	      });
-	  };
-	}]);
+	//   $scope.update_Class = function(_class) {
+	//     $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
+	//       .then((res) => {
+	//         $scope._classes[$scope._classes.indexOf(_class)] = _class;
+	//         _class.editing = false;
+	//       }, (err) => {
+	//         console.log(err);
+	//         _class.editing = false;
+	//       });
+	//   };
+	// }]);
 
 	  
 
@@ -30664,8 +30664,8 @@
 	      }
 	    };
 
-	    $scope.getAllStudents = function() {
-	      studentService.getAllStudents(function(err, res) {
+	    $scope.getAll = function() {
+	      studentService.getAll(function(err, res) {
 	        if (err) return console.log(err);
 	        $scope.students = res;
 	      });
@@ -33593,9 +33593,7 @@
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
 	var angular = __webpack_require__(2);
-	__webpack_require__(11);
 
 	describe('students controller', () => {
 	  var $httpBackend;
@@ -33613,7 +33611,7 @@
 	    var studentsController = $ControllerConstructor('StudentsController', {$scope});
 	    expect(typeof studentsController).toBe('object');
 	    expect(Array.isArray($scope.students)).toBe(true);
-	    expect(typeof $scope.getAllStudents).toBe('function');
+	    expect(typeof $scope.getAll).toBe('function');
 	  });
 
 	  describe('REST requests', () => {
@@ -33629,14 +33627,14 @@
 
 	    it('should make a get request to /api/students', () => {
 	      $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
-	      $scope.getAllStudents();
+	      $scope.getAll();
 	      $httpBackend.flush();
 	      expect($scope.students.length).toBe(1);
 	      expect($scope.students[0].name).toBe('test student');
 	    });
 
 	    it('should create a new student', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/students/', {name: 'the sent student'}).respond(200, {name: 'the response student'});
+	      $httpBackend.expectPOST('http://localhost:3000/api/students', {name: 'the sent student'}).respond(200, {name: 'the response student'});
 	      $scope.newStudent = {name: 'the new student'};
 	      $scope.createStudent({name: 'the sent student'});
 	      $httpBackend.flush();
@@ -33649,14 +33647,14 @@
 	      var testStudent = {name: 'inside scope', editing: true, _id: 5};
 	      $scope.students.push(testStudent);
 	      $httpBackend.expectPUT('http://localhost:3000/api/students/5', testStudent).respond(200);
-	      $scope.updateStudent(testStudent);
-	      $httpBackend.flush();
-	      expect(testStudent.editing).toBe(false); 
-	      expect($scope.students[0].editing).toBe(false);
+	        $scope.updateStudent(testStudent);
+	        $httpBackend.flush();
+	        expect(testStudent.editing).toBe(false);
+	        expect($scope.students[0].editing).toBe(false);
 	    });
 
 	    it('should delete a student', () => {
-	      var testStudent = {name: 'deleted student', _id: 1};
+	      var testStudent = {name: 'condemned student', _id: 1};
 	      $scope.students.push(testStudent);
 	      expect($scope.students.indexOf(testStudent)).not.toBe(-1);
 	      $httpBackend.expectDELETE('http://localhost:3000/api/students/1').respond(200);
@@ -33773,7 +33771,7 @@
 	    $httpBackend.expectGET('/templates/students/directives/student.html').respond(200, template);
 
 	    var element = $compile('<student data-student-data="{name: \'test student\'}"></student>')($rootScope);
-	      $httpBackened.flush();
+	      $httpBackend.flush();
 	      $rootScope.$digest();
 	      expect(element.html()).toContain('test student');
 	  });
