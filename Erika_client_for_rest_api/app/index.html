@@ -22,56 +22,62 @@
 
 <h1 class="title">Walk a Pup</h1>
 
-<section data-ng-controller="humanController" class="column column_left">
+<section data-ng-controller="humanController" data-ng-init="allhumans()" class="column column_left">
 	<h1>All Humans</h1>
 	<ul>
-		<li data-ng-repeat='human in humans'>
-			<!-- {{human.name}} at {{human.fitnessLevel}} - Human ID: {{human._id}}, Email: {{human.authentication.email}} -->
+		<human data-ng-repeat='human in humans' data-human-data='human'>
       <button data-ng-click='human.editing = !human.editing'>Update Human</button>
 			<button data-ng-click='deleteHuman(human)'>Delete Human</button>
-			<form data-ng-if='human.editing' data-ng-submit='updateHuman(human)'>
-				<input data-ng-model='human.name' type='text' placeholder='Username'/>
-				<input data-ng-model='human.fitnessLevel' type='text' placeholder='Fitness Level'/>
-				<input data-ng-model='human.email' type='text' placeholder='Email'/>
-				<button type='submit'>Update</button>
-			</form>
-		</li>
+			<human-form
+				data-ng-if='human.editing'
+				data-save='updateHuman(human)'
+				data-button-text='Update Human'
+				data-human='human'
+			>
+				<button type='button' data-ng-click='updateHuman(human)'>Update</button>
+			</human-form>
+		</human>
 	</ul>
 
 	<h1>New Humans</h1>
 	<p>Sign up to walk a doggy</p>
-	<form data-ng-submit='createHuman(human)'>
-		<input data-ng-model='human.name' type='text' placeholder='Username'/>
-		<input data-ng-model='human.email' type='text' placeholder='Email'/>
-		<input data-ng-model='human.password' type='text' placeholder='Password'/>
-		<button type='submit'>Sign Up!</button>
-	</form>
+		<human data-human-data='newHuman'>
+			<human-form
+				data-button-text='Create New Human'
+				data-human='newHuman'
+				data-save='createHuman(newHuman)'
+				>
+			</human-form>
+		</human>
 </section>
 
-<section data-ng-controller="dogController" class="column column_center">
+<section data-ng-controller="dogController" data-ng-init="alldogs" class="column column_center">
   <h1>All Dogs</h1>
 	<ul>
-		<li data-ng-repeat='dog in dogs'>
-			<!-- {{dog.dogName}} {{dog.favoriteToy}} - {{dog.kibblePreference}} -->
-      <button data-ng-click='dog.editing = !dog.editing'>Update Dog</button>
+		<dog data-ng-repeat='dog in dogs' data-dog-data='dog'>
+			<button data-ng-click='dog.editing = !dog.editing'>Update Dog</button>
 			<button data-ng-click='deleteDog(dog)'>Delete Dog</button>
-			<form data-ng-if='dog.editing' data-ng-submit='updateDog(dog)'>
-				<input data-ng-model='dog.dogName' type='text' placeholder='Dog Name'/>
-        <input data-ng-model='dog.favoriteToy' type='text' placeholder='Favorite Toy'/>
-        <input data-ng-model='dog.kibblePreference' type='text' placeholder='Kibble Preference'/>
-				<button type='submit'>Update</button>
-			</form>
-		</li>
+			<dog-form
+				data-ng-if='dog.editing'
+				data-save='updateDog(dog)'
+				data-button-text='Update Dog'
+				data-dog='dog'
+			>
+				<button type='button' data-ng-click='updateDog(dog)'>Update</button>
+			</dog-form>
+		</dog>
 	</ul>
 
 	<h1>New Dogs</h1>
 	<p>Add dog</p>
-	<form data-ng-submit='createDog(newDog)'>
-		<input data-ng-model='newDog.dogName' type='text' placeholder='Dog Name'/>
-		<input data-ng-model='newRequest.lastName' type='text' placeholder='Favorite Toy'/>
-    <input data-ng-model='newRequest.giftCard' type='text' placeholder='Kibble Preference'/>
-		<button type='submit'>Sign Up!</button>
-	</form>
+		<dog data-dog-data='newDog'>
+			<dog-form
+				data-button-text='Create New Dog'
+				data-dog='newDog'
+				data-save='createDog(newDog)'
+				>
+			</dog-form>
+		</dog>
 </section>
 
 <section class="column column_right">
