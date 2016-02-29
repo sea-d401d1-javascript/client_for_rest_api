@@ -19,28 +19,6 @@
     <main data-ng-controller="BeersController"> 
 
           <section data-ng-init="getAllBeers()">
-         <!--    <ul>
-            <beer data-ng-repeat="beer in beers" data-beer-data="beer">
-              <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
-              <button data-ng-if="!beer.editing" data-ng-click="toggleEdit(beer)">Update Beer</button>
-              <beer-form 
-                data-ng-if="beer.editing" 
-                data-save="updateBeer(beer)"
-                data-button-text="Update Beer"
-                data-beer="beer"
-              >
-                <button type="button" data-ng-click="toggleEdit(beer)">Cancel</button>
-              </beer-form>
-            </beer>  
-          </ul>
-          <beer data-beer-data="newBeer">
-            <beer-form 
-              data-button-text="Create new Beer"
-              data-beer="newBeer"
-              data-save="createBeer(newBeer)"
-            ></beer-form>
-          </beer> -->
-
 
            <ul>
             <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
@@ -77,8 +55,7 @@
             <input data-ng-model="newBrewer.age" type="text"/>
             <button type="submit">New Brewer</button>
           </form>
-          <!-- <p>{{brewers}}</p> -->
-          <!-- end brewers -->
+          
         </section>
       </main>
     
