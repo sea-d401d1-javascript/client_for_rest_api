@@ -33689,8 +33689,8 @@
 	      $httpBackend.expectPUT('http://localhost:3000/api/ct/5', testCT).respond(200);
 	      $scope.updateCT(testCT);
 	      $httpBackend.flush();
-	      expect(testCT.editting).toBe(false);
-	      expect($scope.cts[0].editting).toBe(false);
+	      expect(testCT.editing).toBe(false);
+	      expect($scope.cts[0].editing).toBe(false);
 	    });
 	    it('should make a DELETE request to /api/ct/:id', () => {
 	      var testCT = {name: 'condemned ct', _id: 1};
@@ -33733,8 +33733,8 @@
 	      $httpBackend.expectPUT('http://localhost:3000/api/t/5', testT).respond(200);
 	      $scope.updateT(testT);
 	      $httpBackend.flush();
-	      expect(testT.editting).toBe(false);
-	      expect($scope.ts[0].editting).toBe(false);
+	      expect(testT.editing).toBe(false);
+	      expect($scope.ts[0].editing).toBe(false);
 	    });
 	    it('should make a DELETE request to /api/t/:id', () => {
 	      var testT = {name: 'condemned T', _id: 1};
