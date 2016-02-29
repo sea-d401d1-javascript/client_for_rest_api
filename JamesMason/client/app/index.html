@@ -8,77 +8,39 @@
 		<title>Force Balance</title>
 		<link rel="stylesheet" href="css/style.css" media="all" type="text/css" title="Client Application Stylesheet">
 	</head>
-	<body data-ng-app="ForceApp">
-	  <main data-ng-controller="ForceController">
+	<body data-ng-app="forceApp">
+	  <main data-ng-controller="JediController">
 			<header>
 				<h1>Force Balance</h1>
 			</header>
 			<section class="left-column">
 				<h3>$ jedi</h3>
 				<ul>
-		      <li data-ng-repeat="thisLightJedi in lightJedi">
-		        <form data-ng-submit="updateLightJedi(thisLightJedi)">
-							<section>
-		          	<input data-ng-model="thisLightJedi.name" placeholder="name" type="text"/>
-							</section>
-		          <input data-ng-model="thisLightJedi.health" placeholder="health" type="text"/>
-							<input data-ng-model="thisLightJedi.damage.min" placeholder="minimum damage" type="text"/>
-							<input data-ng-model="thisLightJedi.damage.max" placeholder="maximum damage" type="text"/>
-							<input data-ng-model="thisLightJedi.accuracy" placeholder="accuracy" type="text"/>
-							<section>
-			          <button type="submit">update</button>
-								<button data-ng-click="deleteLightJedi(thisLightJedi)">delete</button>
-							</section>
-		        </form>
-		      </li>
+					<display-jedi data-ng-repeat="jedi in lightJedi" data-jedi-data="jedi">
+		        <jedi-form data-save="updateLightJedi(jedi)" data-button-text="update" data-new-jedi="jedi">
+							<button data-ng-click="deleteLightJedi(jedi)">delete</button>
+						</jedi-form>
+		      </display-jedi>
 		    </ul>
 			</section>
 			<section class="center-column">
 				<section class="creation-form">
 					<h3>create light jedi</h3>
-			    <form data-ng-submit="createLightJedi(newLightJedi)">
-			      <input data-ng-model="newLightJedi.name" placeholder="name" type="text"/>
-			      <input data-ng-model="newLightJedi.health" placeholder="health" type="text"/>
-						<input data-ng-model="newLightJedi.damage.min" placeholder="minimum damage" type="text"/>
-						<input data-ng-model="newLightJedi.damage.max" placeholder="maximum damage" type="text"/>
-						<input data-ng-model="newLightJedi.accuracy" placeholder="accuracy" type="text"/>
-						<section>
-							<button type="submit">create</button>
-						</section>
-			    </form>
+			    <jedi-form data-save="createLightJedi(newLightJedi)" data-button-text="create" data-new-jedi="newLightJedi"></jedi-form>
 				</section>
 				<section class="creation-form">
 					<h3>create dark jedi</h3>
-			    <form data-ng-submit="createDarkJedi(newDarkJedi)">
-			      <input data-ng-model="newDarkJedi.name" placeholder="name" type="text"/>
-			      <input data-ng-model="newDarkJedi.health" placeholder="health" type="text"/>
-						<input data-ng-model="newDarkJedi.damage.min" placeholder="minimum damage" type="text"/>
-						<input data-ng-model="newDarkJedi.damage.max" placeholder="maximum damage" type="text"/>
-						<input data-ng-model="newDarkJedi.accuracy" placeholder="accuracy" type="text"/>
-						<section>
-			      	<button type="submit">create</button>
-						</section>
-			    </form>
+					<jedi-form data-save="createDarkJedi(newDarkJedi)" data-button-text="create" data-new-jedi="newDarkJedi"></jedi-form>
 				</section>
 			</section>
 			<section class="right-column">
 				<h3>jedi #</h3>
 				<ul>
-		      <li data-ng-repeat="thisDarkJedi in darkJedi">
-		        <form data-ng-submit="updateDarkJedi(thisDarkJedi)">
-							<section>
-		          	<input data-ng-model="thisDarkJedi.name" placeholder="name" type="text"/>
-							</section>
-		          <input data-ng-model="thisDarkJedi.health" placeholder="health" type="text"/>
-							<input data-ng-model="thisDarkJedi.damage.min" placeholder="minimum damage" type="text"/>
-							<input data-ng-model="thisDarkJedi.damage.max" placeholder="maximum damage" type="text"/>
-							<input data-ng-model="thisDarkJedi.accuracy" placeholder="accuracy" type="text"/>
-							<section>
-								<button type="submit">update</button>
-								<button data-ng-click="deleteDarkJedi(thisDarkJedi)">delete</button>
-							</section>
-		        </form>
-		      </li>
+					<display-jedi data-ng-repeat="jedi in darkJedi" data-jedi-data="jedi">
+						<jedi-form data-save="updateDarkJedi(jedi)" data-button-text="update" data-new-jedi="jedi">
+							<button data-ng-click="deleteDarkJedi(jedi)">delete</button>
+						</jedi-form>
+		      </display-jedi>
 		    </ul>
 			</section>
 			<footer>

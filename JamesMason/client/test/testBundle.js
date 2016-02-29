@@ -55,18 +55,18 @@
 	'use strict';
 	__webpack_require__(2);
 	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	__webpack_require__(12);
 	describe('Force Controller', () => {
 	  var $httpBackend;
 	  var $scope;
 	  var $ControllerConstructor;
-	  beforeEach(angular.mock.module('ForceApp'));
+	  beforeEach(angular.mock.module('forceApp'));
 	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
 	    $ControllerConstructor = $controller;
 	    $scope = $rootScope.$new();
 	  }));
 	  it('Should be able to make a controller.', () => {
-	    var controller = $ControllerConstructor('ForceController', { $scope });
+	    var controller = $ControllerConstructor('JediController', { $scope });
 	    expect(typeof controller).toBe('object'); // eslint-disable-line
 	    expect(Array.isArray($scope.lightJedi)).toBe(true); // eslint-disable-line
 	    expect(Array.isArray($scope.darkJedi)).toBe(true); // eslint-disable-line
@@ -77,7 +77,7 @@
 	  describe('REST requests', () => {
 	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
 	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('ForceController', { $scope });
+	      $ControllerConstructor('JediController', { $scope });
 	    }));
 	    afterEach(() => {
 	      $httpBackend.verifyNoOutstandingExpectation();
@@ -98,29 +98,34 @@
 	      expect($scope.darkJedi[0].name).toBe('Vader'); // eslint-disable-line
 	    });
 	    it('Should make a POST request to "/api/light".', () => {
+	      var testJedi = { name: 'the response jedi' };
 	      $httpBackend.expectPOST('http://localhost:3000/api/light', { name: 'the sent jedi', force: 'Light' })
-	        .respond(200, { name: 'the response jedi' });
-	      $scope.newLightJedi = { name: 'the new jedi' };
+	        .respond(200, testJedi);
+	      $httpBackend.expectGET('http://localhost:3000/api/light').respond(200, [testJedi]);
+	      $scope.newJedi = { name: 'the new jedi' };
 	      $scope.createLightJedi({ name: 'the sent jedi' });
 	      $httpBackend.flush();
 	      expect($scope.lightJedi.length).toBe(1); // eslint-disable-line
-	      expect($scope.newLightJedi).toBe(null); // eslint-disable-line
+	      expect($scope.newJedi).toBe(null); // eslint-disable-line
 	      expect($scope.lightJedi[0].name).toBe('the response jedi'); // eslint-disable-line
 	    });
 	    it('Should make a POST request to "/api/dark".', () => {
+	      var testJedi = { name: 'the response jedi' };
 	      $httpBackend.expectPOST('http://localhost:3000/api/dark', { name: 'the sent jedi', force: 'Dark' })
-	        .respond(200, { name: 'the response jedi' });
-	      $scope.newDarkJedi = { name: 'the new jedi' };
+	        .respond(200, testJedi);
+	      $httpBackend.expectGET('http://localhost:3000/api/dark').respond(200, [testJedi]);
+	      $scope.newJedi = { name: 'the new jedi' };
 	      $scope.createDarkJedi({ name: 'the sent jedi' });
 	      $httpBackend.flush();
 	      expect($scope.darkJedi.length).toBe(1); // eslint-disable-line
-	      expect($scope.newDarkJedi).toBe(null); // eslint-disable-line
+	      expect($scope.newJedi).toBe(null); // eslint-disable-line
 	      expect($scope.darkJedi[0].name).toBe('the response jedi'); // eslint-disable-line
 	    });
 	    it('Should make an PUT request to "/api/light/:id".', () => {
 	      var testJedi = { name: 'JEDI', _id: 5 };
 	      $scope.lightJedi.push(testJedi);
 	      $httpBackend.expectPUT('http://localhost:3000/api/light/5', testJedi).respond(200);
+	      $httpBackend.expectGET('http://localhost:3000/api/light').respond(200, [testJedi]);
 	      $scope.updateLightJedi(testJedi);
 	      $httpBackend.flush();
 	      expect($scope.lightJedi[0].name).toBe('JEDI'); // eslint-disable-line
@@ -129,6 +134,7 @@
 	      var testJedi = { name: 'JEDI', _id: 5 };
 	      $scope.darkJedi.push(testJedi);
 	      $httpBackend.expectPUT('http://localhost:3000/api/dark/5', testJedi).respond(200);
+	      $httpBackend.expectGET('http://localhost:3000/api/dark').respond(200, [testJedi]);
 	      $scope.updateDarkJedi(testJedi);
 	      $httpBackend.flush();
 	      expect($scope.darkJedi[0].name).toBe('JEDI'); // eslint-disable-line
@@ -138,6 +144,7 @@
 	      $scope.lightJedi.push(testJedi);
 	      expect($scope.lightJedi.indexOf(testJedi)).not.toBe(-1); // eslint-disable-line
 	      $httpBackend.expectDELETE('http://localhost:3000/api/light/1').respond(200);
+	      $httpBackend.expectGET('http://localhost:3000/api/light').respond(200, [testJedi]);
 	      $scope.deleteLightJedi(testJedi);
 	      $httpBackend.flush();
 	      expect($scope.lightJedi.indexOf(testJedi)).toBe(-1); // eslint-disable-line
@@ -147,6 +154,7 @@
 	      $scope.darkJedi.push(testJedi);
 	      expect($scope.darkJedi.indexOf(testJedi)).not.toBe(-1); // eslint-disable-line
 	      $httpBackend.expectDELETE('http://localhost:3000/api/dark/1').respond(200);
+	      $httpBackend.expectGET('http://localhost:3000/api/dark').respond(200, [testJedi]);
 	      $scope.deleteDarkJedi(testJedi);
 	      $httpBackend.flush();
 	      expect($scope.darkJedi.indexOf(testJedi)).toBe(-1); // eslint-disable-line
@@ -161,85 +169,11 @@
 
 	'use strict';
 	const angular = __webpack_require__(3);
-	const forceApp = angular.module('ForceApp', []);
-	forceApp.controller('ForceController', ['$scope', '$http', function($scope, $http) {
-	  $scope.lightJedi = [];
-	  $scope.darkJedi = [];
-	  $scope.getAllJedi = function() {
-	    $scope.getAllLightJedi();
-	    $scope.getAllDarkJedi();
-	  };
-	  $scope.getAllLightJedi = function() {
-	    $http.get('http://localhost:3000/api/light')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.lightJedi = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.getAllDarkJedi = function() {
-	    $http.get('http://localhost:3000/api/dark')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope.darkJedi = res.data;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.createLightJedi = function(newJedi) {
-	    newJedi.force = 'Light';
-	    $http.post('http://localhost:3000/api/light', newJedi)
-	      .then((res) => {
-	        $scope.lightJedi.push(res.data);
-	        $scope.newLightJedi = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.createDarkJedi = function(newJedi) {
-	    newJedi.force = 'Dark';
-	    $http.post('http://localhost:3000/api/dark', newJedi)
-	      .then((res) => {
-	        $scope.darkJedi.push(res.data);
-	        $scope.newDarkJedi = null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.deleteLightJedi = function(jediToDelete) {
-	    $http.delete('http://localhost:3000/api/light/' + jediToDelete._id)
-	      .then(() => {
-	        $scope.lightJedi = $scope.lightJedi.filter((i) => i !== jediToDelete);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.updateLightJedi = function(jediToUpdate) {
-	    $http.put('http://localhost:3000/api/light/' + jediToUpdate._id, jediToUpdate)
-	      .then(() => {
-	        $scope.lightJedi[$scope.lightJedi.indexOf(jediToUpdate)] = jediToUpdate;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.deleteDarkJedi = function(jediToDelete) {
-	    $http.delete('http://localhost:3000/api/dark/' + jediToDelete._id)
-	      .then(() => {
-	        $scope.darkJedi = $scope.darkJedi.filter((i) => i !== jediToDelete);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	  $scope.updateDarkJedi = function(jediToUpdate) {
-	    $http.put('http://localhost:3000/api/dark/' + jediToUpdate._id, jediToUpdate)
-	      .then(() => {
-	        $scope.darkJedi[$scope.darkJedi.indexOf(jediToUpdate)] = jediToUpdate;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-	}]);
+	const forceApp = angular.module('forceApp', []);
+
+	__webpack_require__(5)(forceApp);
+	__webpack_require__(7)(forceApp);
+	__webpack_require__(9)(forceApp);
 
 
 /***/ },
@@ -30685,6 +30619,204 @@
 
 /***/ },
 /* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	module.exports = exports = function(app) {
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+	var success = function(cb) {
+	  return function(res) {
+	    console.log(res);
+	    cb(null, res.data);
+	  };
+	};
+
+	var failure = function(cb) {
+	  return function(res) {
+	    console.log(res);
+	    cb(res);
+	  };
+	};
+
+	module.exports = exports = function(app) {
+	  app.factory('Resource', ['$http', function($http) {
+	    var Resource = function(resource) {
+	      this.resource = resource;
+	    };
+	    Resource.prototype.getAll = function(cb) {
+	      $http.get('http://localhost:3000/api/' + this.resource).then(success(cb), failure(cb));
+	    };
+	    Resource.prototype.create = function(data, cb) {
+	      $http.post('http://localhost:3000/api/' + this.resource, data).then(success(cb), failure(cb));
+	    };
+	    Resource.prototype.update = function(data, cb) {
+	      $http.put('http://localhost:3000/api/' + this.resource + '/' + data._id, data).then(success(cb), failure(cb));
+	    };
+	    Resource.prototype.delete = function(data, cb) {
+	      $http.delete('http://localhost:3000/api/' + this.resource + '/' + data._id).then(success(cb), failure(cb));
+	    };
+	    return function(resource) {
+	      return new Resource(resource);
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	module.exports = exports = function(app) {
+	  __webpack_require__(8)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = exports = function(app) {
+	  app.controller('JediController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
+	    // Light Jedi Functions
+	    $scope.lightJedi = [];
+	    var lightREST = Resource('light');
+	    $scope.getAllLightJedi = function() {
+	      lightREST.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.lightJedi = res;
+	      });
+	    };
+	    $scope.createLightJedi = function(jedi) {
+	      jedi.force = 'Light';
+	      $scope.lightJedi.push(jedi);
+	      lightREST.create(jedi, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.lightJedi.splice($scope.lightJedi.indexOf(jedi), 1, res);
+	        $scope.newJedi = null;
+	        $scope.getAllLightJedi();
+	      });
+	    };
+	    $scope.deleteLightJedi = function(jedi) {
+	      lightREST.delete(jedi, function(err) {
+	        if (err) return console.log(err);
+	        $scope.lightJedi.splice($scope.lightJedi.indexOf(jedi), 1);
+	        $scope.getAllLightJedi();
+	      });
+	    };
+	    $scope.updateLightJedi = function(jedi) {
+	      lightREST.update(jedi, function(err) {
+	        if (err) return console.log(err);
+	        $scope.getAllLightJedi();
+	      });
+	    };
+	    // Dark Jedi Functions
+	    $scope.darkJedi = [];
+	    var darkREST = Resource('dark');
+	    $scope.getAllDarkJedi = function() {
+	      darkREST.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.darkJedi = res;
+	      });
+	    };
+	    $scope.createDarkJedi = function(jedi) {
+	      jedi.force = 'Dark';
+	      $scope.darkJedi.push(jedi);
+	      darkREST.create(jedi, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.darkJedi.splice($scope.darkJedi.indexOf(jedi), 1, res);
+	        $scope.newJedi = null;
+	        $scope.getAllDarkJedi();
+	      });
+	    };
+	    $scope.deleteDarkJedi = function(jedi) {
+	      darkREST.delete(jedi, function(err) {
+	        if (err) return console.log(err);
+	        $scope.darkJedi.splice($scope.darkJedi.indexOf(jedi), 1);
+	        $scope.getAllDarkJedi();
+	      });
+	    };
+	    $scope.updateDarkJedi = function(jedi) {
+	      darkREST.update(jedi, function(err) {
+	        if (err) return console.log(err);
+	        $scope.getAllDarkJedi();
+	      });
+	    };
+	    // General Jedi Functions
+	    $scope.getAllJedi = function() {
+	      $scope.getAllLightJedi();
+	      $scope.getAllDarkJedi();
+	    };
+	    // $scope.getAllJedi();
+	  }]);
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	module.exports = exports = function(app) {
+	  __webpack_require__(10)(app);
+	  __webpack_require__(11)(app);
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function(app) {
+	  app.directive('displayJedi', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/directives/displayJedi.html',
+	      scope: {
+	        jediData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+	module.exports = function(app) {
+	  app.directive('jediForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/directives/jediForm.html',
+	      scope: {
+	        buttonText: '@',
+	        newJedi: '=',
+	        save: '&'
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	/**

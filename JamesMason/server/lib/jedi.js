@@ -8,7 +8,6 @@ var jediSchema = new mongoose.Schema({
     max: { type: Number, min: 2, max: 50, default: 10 }
   },
   accuracy: { type: Number, min: 1, max: 100, default: 50 },
-  force: { type: String, default: 'Neutral' },
-  editting: false
+  force: { type: String, default: 'Neutral' }
 });
 module.exports = exports = mongoose.model('Jedi', jediSchema);
