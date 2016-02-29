@@ -5,4 +5,4 @@ require('./services/resource_service')(wapApp);
 
 require('./dogs/controllers/dogs_controller')(wapApp);
 
-require('.humans/controllers/humans_controller')(wapApp);
+require('./humans/controllers/humans_controller')(wapApp);
