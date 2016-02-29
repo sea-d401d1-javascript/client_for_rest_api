@@ -1,3 +1,52 @@
 header ul li {
   float:left;
 }
+
+.movies {
+  overflow: auto;
+}
+.movies ul ol {
+  padding: 0.5rem;
+}
+
+.movies-table {
+  margin-top: 0.5rem;
+}
+
+.actors {
+  overflow: auto;
+}
+.actors ul ol {
+  padding: 0.5rem;
+}
+.actors h1 {
+  color:#2677bb;
+}
+.actors-table {
+  margin-top: 0.5rem;
+}
+
+.left-col {
+  margin: 1%;
+  width: 31.3%;
+  float: left;
+}
+
+.middle-col {
+  margin: 1%;
+  width: 31.3%;
+  float: left;
+}
+
+.right-col {
+  margin: 1%;
+  width:31.3%;
+  float: left;
+}
+
+.middle-col form {
+  padding: 0.5rem;
+}
+footer {
+  text-align: center;
+}
