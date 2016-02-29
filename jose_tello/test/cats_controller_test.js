@@ -7,7 +7,7 @@ describe('cats controller', () => {
   var $scope;
   var $ControllerConstructor;
 
-  beforeEach(angular.mock.module('catsApp'));
+  beforeEach(angular.mock.module('petsApp'));
 
   beforeEach(angular.mock.inject(function($rootScope, $controller) {
     $ControllerConstructor = $controller;
@@ -18,7 +18,7 @@ describe('cats controller', () => {
     var catsController = $ControllerConstructor('CatsController', { $scope });
     expect(typeof catsController).toBe('object');
     expect(Array.isArray($scope.cats)).toBe(true);
-    expect(typeof $scope.getAll).toBe('function');
+    expect(typeof $scope.getCats).toBe('function');
   });
 
   describe('REST requests', () => {
@@ -34,7 +34,7 @@ describe('cats controller', () => {
 
     it('should make a GET request to /app/cats', () => {
       $httpBackend.expectGET('http://localhost:3000/app/cats').respond(200, [{ name: 'test cat' }]);
-      $scope.getAll();
+      $scope.getCats();
       $httpBackend.flush();
       expect($scope.cats.length).toBe(1);
       expect($scope.cats[0].name).toBe('test cat');

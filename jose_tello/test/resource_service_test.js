@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 describe('resource service', () => {
-  beforeEach(angular.mock.module('catsApp'));
+  beforeEach(angular.mock.module('petsApp'));
 
   var $httpBackend;
   var Resource;
@@ -15,11 +15,11 @@ describe('resource service', () => {
     expect(typeof Resource).toBe('function');
   });
 
-  it('should make a successful GET request via the service', () => {
+  it('should make a successful cat resource GET request via the service', () => {
     var res = new Resource('/cats');
-    $httpBackend.expectGET('http://localhost:3000/app/cats').respond(200, { name: 'the GET bear', _id: 1 });
-    res.getAll(function(err, res) {
-      expect(res.name).toBe('the GET bear');
+    $httpBackend.expectGET('http://localhost:3000/app/cats').respond(200, { name: 'GET cat', _id: 1 });
+    res.get(function(err, res) {
+      expect(res.name).toBe('GET cat');
     });
     $httpBackend.flush();
   });
