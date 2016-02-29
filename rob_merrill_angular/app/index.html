@@ -18,24 +18,30 @@
     
     <main data-ng-controller="BeersController"> 
 
-          <section data-ng-init="getAllBeers()">
+      <section data-ng-init="getAllBeers()">
 
-           <ul>
-            <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
-            <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
-            <button data-ng-click="beer.editing = !beer.editing">Update Beer</button>
-            <form data-ng-if="beer.editing" data-ng-submit="updateBeer(beer)">
-              <input data-ng-model="beer.name" type="text"/>
-              <input data-ng-model="beer.style" type="text"/>
-              <button type="submit">Update</button>
-            </form>
-            </li>
-          </ul>
-          <form data-ng-submit="createBeer(newBeer)">
-            <input data-ng-model="newBeer.name" type="text"/>
-            <input data-ng-model="newBeer.style" type="text"/>
-            <button type="submit">New Beer</button>
-          </form>
+         
+    <ul>
+      <beer data-ng-repeat="beer in beers" data-beer-data="beer">
+        <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
+        <button data-ng-if="!beer.editing" data-ng-click="toggleEdit(beer)">Update Beer</button>
+        <beer-form 
+          data-ng-if="beer.editing" 
+          data-save="updateBeer(beer)"
+          data-button-text="Update Beer"
+          data-beer="beer"
+        >
+          <button type="button" data-ng-click="toggleEdit(beer)">Cancel</button>
+        </beer-form>
+      </beer>  
+    </ul>
+    <beer data-beer-data="newBeer">
+      <beer-form 
+        data-button-text="Create new Beer"
+        data-beer="newBeer"
+        data-save="createBeer(newBeer)"
+      ></beer-form>
+    </beer>
           </section>
 
           <section data-ng-init="getAllBrewers()">
