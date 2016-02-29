@@ -6,60 +6,85 @@
   <link rel="stylesheet" href="styles.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,800' rel='stylesheet' type='text/css'>
 </head>
+
 <body data-ng-app="beersApp">
   <header>
     <h1>Beers!</h1>
   </header>
+  
   <section id="container"> 
 
-  <article></article>
-  
-  <main data-ng-controller="BeersController"> 
+    <article></article>
+    
+    <main data-ng-controller="BeersController"> 
 
-    <section data-ng-init="getAllBeers()">
-     <ul>
-      <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
-      <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
-      <button data-ng-click="beer.editing = !beer.editing">Update Beer</button>
-      <form data-ng-if="beer.editing" data-ng-submit="updateBeer(beer)">
-        <input data-ng-model="beer.name" type="text"/>
-        <input data-ng-model="beer.style" type="text"/>
-        <button type="submit">Update</button>
-      </form>
-      </li>
-    </ul>
-    <form data-ng-submit="createBeer(newBeer)">
-      <input data-ng-model="newBeer.name" type="text"/>
-      <input data-ng-model="newBeer.style" type="text"/>
-      <button type="submit">New Beer</button>
-    </form>
-    <!-- <p>{{beers}}</p> -->
+          <section data-ng-init="getAllBeers()">
+         <!--    <ul>
+            <beer data-ng-repeat="beer in beers" data-beer-data="beer">
+              <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
+              <button data-ng-if="!beer.editing" data-ng-click="toggleEdit(beer)">Update Beer</button>
+              <beer-form 
+                data-ng-if="beer.editing" 
+                data-save="updateBeer(beer)"
+                data-button-text="Update Beer"
+                data-beer="beer"
+              >
+                <button type="button" data-ng-click="toggleEdit(beer)">Cancel</button>
+              </beer-form>
+            </beer>  
+          </ul>
+          <beer data-beer-data="newBeer">
+            <beer-form 
+              data-button-text="Create new Beer"
+              data-beer="newBeer"
+              data-save="createBeer(newBeer)"
+            ></beer-form>
+          </beer> -->
+
+
+           <ul>
+            <li data-ng-repeat="beer in beers">{{beer.name}}, {{beer.style}} 
+            <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
+            <button data-ng-click="beer.editing = !beer.editing">Update Beer</button>
+            <form data-ng-if="beer.editing" data-ng-submit="updateBeer(beer)">
+              <input data-ng-model="beer.name" type="text"/>
+              <input data-ng-model="beer.style" type="text"/>
+              <button type="submit">Update</button>
+            </form>
+            </li>
+          </ul>
+          <form data-ng-submit="createBeer(newBeer)">
+            <input data-ng-model="newBeer.name" type="text"/>
+            <input data-ng-model="newBeer.style" type="text"/>
+            <button type="submit">New Beer</button>
+          </form>
+          </section>
+
+          <section data-ng-init="getAllBrewers()">
+           <ul>
+            <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
+            <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
+            <button data-ng-click="brewer.editing = !brewer.editing">Update Brewer</button>
+            <form data-ng-if="brewer.editing" data-ng-submit="updateBrewer(brewer)">
+              <input data-ng-model="brewer.name" type="text"/>
+              <input data-ng-model="brewer.age" type="text"/>
+              <button type="submit">Update</button>
+            </form>
+            </li>
+          </ul>
+          <form data-ng-submit="createBrewer(newBrewer)">
+            <input data-ng-model="newBrewer.name" type="text"/>
+            <input data-ng-model="newBrewer.age" type="text"/>
+            <button type="submit">New Brewer</button>
+          </form>
+          <!-- <p>{{brewers}}</p> -->
+          <!-- end brewers -->
+        </section>
+      </main>
+    
+      <aside></aside>
+  
     </section>
-    <!-- brewers -->
-    <section data-ng-init="getAllBrewers()">
-     <ul>
-      <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
-      <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
-      <button data-ng-click="brewer.editing = !brewer.editing">Update Brewer</button>
-      <form data-ng-if="brewer.editing" data-ng-submit="updateBrewer(brewer)">
-        <input data-ng-model="brewer.name" type="text"/>
-        <input data-ng-model="brewer.age" type="text"/>
-        <button type="submit">Update</button>
-      </form>
-      </li>
-    </ul>
-    <form data-ng-submit="createBrewer(newBrewer)">
-      <input data-ng-model="newBrewer.name" type="text"/>
-      <input data-ng-model="newBrewer.age" type="text"/>
-      <button type="submit">New Brewer</button>
-    </form>
-    <!-- <p>{{brewers}}</p> -->
-    <!-- end brewers -->
-  </section>
-</main>
-  
-  <aside></aside>
-  
 
   
   <footer>

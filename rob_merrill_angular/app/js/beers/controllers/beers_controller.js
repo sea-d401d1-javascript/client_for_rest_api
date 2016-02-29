@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = function(app) {
-  app.controller('BeersController', ['$scope', '$http', 'Resource', 'Store', function($scope, $http, Resource, Store) {
+  app.controller('BeersController', ['$scope', '$http', 'Resource', 'store', function($scope, $http, Resource, store) {
     
     $scope.beerGreeting = 'hello world';
     $scope.fakeBeer={name: 'a fake beer', style: 'stout'};
