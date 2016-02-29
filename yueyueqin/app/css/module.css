@@ -67,6 +67,9 @@ header li a {
   float: left;
 }
 
+.middle-col form {
+  padding: 0.5rem;
+}
 footer {
   text-align: center;
 }
