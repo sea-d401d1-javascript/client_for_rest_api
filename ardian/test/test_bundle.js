@@ -45,12 +45,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(9);
-
-	__webpack_require__(10);
-	__webpack_require__(11);
-	__webpack_require__(12);
 	__webpack_require__(13);
+
+	__webpack_require__(14);
+	__webpack_require__(15);
+	__webpack_require__(16);
+	__webpack_require__(17);
+	__webpack_require__(18);
+	__webpack_require__(20);
+	__webpack_require__(22);
+	__webpack_require__(24);
 
 
 /***/ },
@@ -65,7 +69,7 @@
 
 	__webpack_require__(5)(myApp);
 
-	__webpack_require__(7)(myApp);
+	__webpack_require__(9)(myApp);
 
 
 /***/ },
@@ -30589,18 +30593,33 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(6)(app);
+
+	  __webpack_require__(7)(app);
+	  __webpack_require__(8)(app);
 	};
 
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
 
 	module.exports = function(sharksApp) {
 	  // For the Sharks
 	  sharksApp.controller('SharksController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
 	    $scope.sharks = [];
 	    var sharksService = Resource('/sharks');
+
+	    $scope.toggleEdit = function(shark) {
+	      if(shark.backup) {
+	        var temp = shark.backup;
+	        $scope.sharks.splice($scope.sharks.indexOf(shark), 1, temp);
+	      } else {
+	        shark.backup = angular.copy(shark);
+	        shark.editing = true;
+	      }
+	    };
 
 	    $scope.getAll = function() {
 	      sharksService.getAll(function(err, res) {
@@ -30620,6 +30639,7 @@
 	    $scope.updateShark = function(shark) {
 	      sharksService.update(shark, function(err, res) {
 	        shark.editing = false;
+	        shark.backup = null;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -30637,10 +30657,20 @@
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(8)(app);
+	  app.directive('shark', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/sharks/directives/sharks_display.html',
+	      scope: {
+	        sharkData: '='
+	      }
+	    };
+	  });
 	};
 
 
@@ -30648,11 +30678,59 @@
 /* 8 */
 /***/ function(module, exports) {
 
+	module.exports = function(app) {
+	  app.directive('sharkForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/sharks/directives/sharks_form.html',
+	      scope: {
+	        buttonText: '@',
+	        shark: '=',
+	        save: '&'
+	      },
+	      controller: function($scope) {
+	        $scope.sharks = $scope.sharks;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(10)(app);
+
+	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
 	module.exports = function(peopleApp) {
 	  // For the People
 	  peopleApp.controller('PeoplesController', ['$scope', '$http', 'myResource', function($scope, $http, Resource) {
 	    $scope.peoples = [];
 	    var peopleService = Resource('/people');
+
+	    $scope.toggleEdit = function(people) {
+	      if(people.backup) {
+	        var temp = people.backup;
+	        $scope.peoples.splice($scope.peoples.indexOf(people), 1, temp);
+	      } else {
+	        people.backup = angular.copy(people);
+	        people.editing = true;
+	      }
+	    };
 
 	    $scope.getAllPeople = function() {
 	      peopleService.getAllPeople(function(err, res) {
@@ -30672,6 +30750,7 @@
 	    $scope.updatePeople = function(people) {
 	      peopleService.update(people, function(err, res) {
 	        people.editing = false;
+	        people.backup = null;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -30688,7 +30767,50 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('people', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/people/directives/people_display.html',
+	      scope: {
+	        peopleData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('peopleForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/people/directives/people_form.html',
+	      scope: {
+	        buttonText: '@',
+	        people: '=',
+	        save: '&'
+	      },
+	      controller: function($scope) {
+	        $scope.people = $scope.people;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -33536,7 +33658,7 @@
 
 
 /***/ },
-/* 10 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33614,7 +33736,7 @@
 
 
 /***/ },
-/* 11 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33692,7 +33814,7 @@
 
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33764,7 +33886,7 @@
 
 
 /***/ },
-/* 13 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -33834,6 +33956,226 @@
 	  });
 	});
 
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(19);
+
+	describe('people display directive', ()=> {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('myApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive with an appropriate people scope', () => {
+	    $httpBackend.when('GET', '/templates/people/directives/people_display.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    scope.newPeople = {name: 'inside scope', weapon: 'inside scope weapon'};
+	    var element = $compile('<people data-people-data="newPeople">shjsdghsghsohsoh</people>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside scope');
+	    expect(element.html()).toContain('inside scope weapon');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+
+	  it('should load the directive with an appropriate people object', () => {
+	    $httpBackend.when('GET', '/templates/people/directives/people_display.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    var element = $compile('<people data-people-data="{name: \'bruce\', weapon: \'gun\'}">shjsdghsghsohsoh</people>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('bruce');
+	    expect(element.html()).toContain('gun');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+	});
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <div>\n    {{peopleData.name}}\n    {{peopleData.weapon}}\n  </div>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(21);
+
+	describe('people form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('myApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET', '/templates/people/directives/people_form.html').respond(200, template);
+
+	    var element = $compile('<people-form data-people="{}" data-button-text="test button"></people-form>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save function', () =>{
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/people/directives/people_form.html').respond(200, template);
+	    var called = false;
+	    scope.bear = {name: 'inside scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from directive');
+	      scope.bear = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<people-form data-people="{name: \'inside directive\'}" data-save=testSave></people-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    element.isolateScope().save(scope)({name: 'from directive'});
+	    expect(called).toBe(true);
+	    expect(scope.bear.name).toBe('from directive');
+	  });
+
+	});
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(people)\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"people.name\">\n\n  <label for=\"weapon\">Weapon:</label>\n  <input type=\"text\" name=\"weapon\" data-ng-model=\"people.weapon\">\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(23);
+
+	describe('shark display directive', ()=> {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('myApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive with an appropriate sharks scope', () => {
+	    $httpBackend.when('GET', '/templates/sharks/directives/sharks_display.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    scope.newShark = {name: 'inside scope name', size: 'inside scope size'};
+	    var element = $compile('<shark data-shark-data="newShark">shjsdghsghsohsoh</shark>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside scope name');
+	    expect(element.html()).toContain('inside scope size');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+
+	  it('should load the directive with an appropriate sharks object', () => {
+	    $httpBackend.when('GET', '/templates/sharks/directives/sharks_display.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    var element = $compile('<shark data-shark-data="{name: \'bruce\', size: \'large\'}">shjsdghsghsohsoh</shark>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('bruce');
+	    expect(element.html()).toContain('large');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+	});
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <div>\n    {{sharkData.name}}\n    {{sharkData.size}}\n  </div>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(25);
+
+	describe('shark form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('myApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET', '/templates/sharks/directives/sharks_form.html').respond(200, template);
+
+	    var element = $compile('<shark-form data-shark="{}" data-button-text="test button"></shark-form>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save function', () =>{
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/sharks/directives/sharks_form.html').respond(200, template);
+	    var called = false;
+	    scope.bear = {name: 'inside scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from directive');
+	      scope.bear = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<shark-form data-shark="{name: \'inside directive\'}" data-save=testSave></shark-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    element.isolateScope().save(scope)({name: 'from directive'});
+	    expect(called).toBe(true);
+	    expect(scope.bear.name).toBe('from directive');
+	  });
+
+	});
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(shark)\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"shark.name\">\n\n  <label for=\"size\">Size:</label>\n  <input type=\"text\" name=\"size\" data-ng-model=\"shark.size\">\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ }
 /******/ ]);
