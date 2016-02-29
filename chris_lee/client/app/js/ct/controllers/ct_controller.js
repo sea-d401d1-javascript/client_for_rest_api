@@ -1,7 +1,19 @@
+var angular = require('angular');
+
 module.exports = function(CSApp) {
   CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
     $scope.cts = [];
     var ctService = Resource('/ct');
+
+    $scope.toggleCTEdit = function(ct) {
+      if(ct.backup) {
+        var temp = ct.backup;
+        $scope.cts.splice($scope.cts.indexOf(ct), 1, temp);
+      } else {
+        ct.backup = angular.copy(ct);
+        ct.editing = true;
+      }
+    };
 
     $scope.getCT = function() {
       ctService.get(function(err, res) {
@@ -20,7 +32,7 @@ module.exports = function(CSApp) {
 
     $scope.updateCT = function(ct) {
       ctService.update(ct, function(err, res) {
-        ct.editting = false;
+        ct.editing = false;
         if (err) return console.log(err);
       });
     };
@@ -31,5 +43,6 @@ module.exports = function(CSApp) {
         $scope.cts.splice($scope.cts.indexOf(ct), 1);
       });
     };
+
   }]);
 }

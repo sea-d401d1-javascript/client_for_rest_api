@@ -1,7 +1,19 @@
+var angular = require('angular');
+
 module.exports = function(CSApp) {
   CSApp.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
     $scope.ts = [];
     var tService = Resource('/t');
+
+    $scope.toggleTEdit = function(t) {
+      if(t.backup) {
+        var temp = t.backup;
+        $scope.ts.splice($scope.ts.indexOf(t), 1, temp);
+      } else {
+        t.backup = angular.copy(t);
+        t.editing = true;
+      }
+    };
 
     $scope.getT = function() {
       tService.get(function(err, res) {
@@ -20,7 +32,7 @@ module.exports = function(CSApp) {
 
     $scope.updateT = function(t) {
       tService.update(t, function(err, res) {
-        t.editting = false;
+        t.editing = false;
         if (err) return console.log(err);
       });
     };

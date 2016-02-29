@@ -48,7 +48,7 @@
 	const CSApp = angular.module('CSApp', []);
 	__webpack_require__(3)(CSApp);
 	__webpack_require__(5)(CSApp);
-	__webpack_require__(7)(CSApp);
+	__webpack_require__(9)(CSApp);
 
 
 /***/ },
@@ -30556,17 +30556,31 @@
 
 	module.exports = function(app) {
 	  __webpack_require__(6)(app);
+	  __webpack_require__(7)(app);
+	  __webpack_require__(8)(app);
 	};
 
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
 
 	module.exports = function(CSApp) {
 	  CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
 	    $scope.cts = [];
 	    var ctService = Resource('/ct');
+
+	    $scope.toggleCTEdit = function(ct) {
+	      if(ct.backup) {
+	        var temp = ct.backup;
+	        $scope.cts.splice($scope.cts.indexOf(ct), 1, temp);
+	      } else {
+	        ct.backup = angular.copy(ct);
+	        ct.editing = true;
+	      }
+	    };
 
 	    $scope.getCT = function() {
 	      ctService.get(function(err, res) {
@@ -30585,7 +30599,7 @@
 
 	    $scope.updateCT = function(ct) {
 	      ctService.update(ct, function(err, res) {
-	        ct.editting = false;
+	        ct.editing = false;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -30596,16 +30610,27 @@
 	        $scope.cts.splice($scope.cts.indexOf(ct), 1);
 	      });
 	    };
+
 	  }]);
 	}
 
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(8)(app);
+	  app.directive('ct', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/ct/directives/ct.html',
+	      scope: {
+	        ctData: '='
+	      }
+	    };
+	  });
 	};
 
 
@@ -30613,10 +30638,57 @@
 /* 8 */
 /***/ function(module, exports) {
 
+	module.exports = function(app) {
+	  app.directive('ctForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/ct/directives/ct_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        ct: '=',
+	        save: '&'
+	      },
+	      controller: function($scope) {
+	        $scope.ct = $scope.ct || {rifle: 'M4A1', pistol: 'USP', grenade: 'Flashbang', organization: 'SEAL Team 6'};
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(10)(app);
+	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(1);
+
 	module.exports = function(CSApp) {
 	  CSApp.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
 	    $scope.ts = [];
 	    var tService = Resource('/t');
+
+	    $scope.toggleTEdit = function(t) {
+	      if(t.backup) {
+	        var temp = t.backup;
+	        $scope.ts.splice($scope.ts.indexOf(t), 1, temp);
+	      } else {
+	        t.backup = angular.copy(t);
+	        t.editing = true;
+	      }
+	    };
 
 	    $scope.getT = function() {
 	      tService.get(function(err, res) {
@@ -30635,7 +30707,7 @@
 
 	    $scope.updateT = function(t) {
 	      tService.update(t, function(err, res) {
-	        t.editting = false;
+	        t.editing = false;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -30649,6 +30721,49 @@
 
 	  }]);
 	}
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('t', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/t/directives/t.html',
+	      scope: {
+	        tData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('tForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/t/directives/t_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        t: '=',
+	        save: '&'
+	      },
+	      controller: function($scope) {
+	        $scope.t = $scope.t || {rifle: 'AK47', pistol: 'Glock', grenade: 'HE', organization: 'Phoenix Organization'};
+	      }
+	    };
+	  });
+	};
 
 
 /***/ }
