@@ -23,4 +23,24 @@ describe('sith form directive', () => {
     expect(element.html()).toContain('test button');
   });
 
+  it('should be able to call a passed function', () => {
+    var scope = $rootScope.$new();
+    $httpBackend.when('GET', '/templates/sithlords/directives/sith_form_directive.html').respond(200, template);
+    var called = false;
+    scope.sith = {name: 'inside scope'};
+
+    scope.testSave = function(input) {
+      scope.sith = input;
+      called = true;
+    };
+
+    var element = $compile('<sith-form data-sith="{name: \'inside directive\'}" data-save=testSave></sith-form>')(scope);
+    $httpBackend.flush();
+    $rootScope.$digest();
+
+    element.isolateScope().save(scope)({name: 'test sith'});
+    expect(called).toBe(true);
+    expect(scope.sith.name).toBe('test sith');
+  });
+
 });

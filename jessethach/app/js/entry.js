@@ -5,5 +5,3 @@ require('./services')(jedisApp);
 
 require('./jedis')(jedisApp);
 require('./sithlords')(jedisApp);
-
-// require('./directives/dummy_directive')(jedisApp);

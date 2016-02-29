@@ -54,6 +54,7 @@
 	__webpack_require__(18);
 	__webpack_require__(20);
 	__webpack_require__(22);
+	__webpack_require__(24);
 
 /***/ },
 /* 1 */
@@ -68,8 +69,6 @@
 
 	__webpack_require__(6)(jedisApp);
 	__webpack_require__(10)(jedisApp);
-
-	// require('./directives/dummy_directive')(jedisApp);
 
 /***/ },
 /* 2 */
@@ -19307,26 +19306,26 @@
 	  it('should load the directive with an appropriate scope', function () {
 	    $httpBackend.when('GET', '/templates/jedis/directives/jedi.html').respond(200, template);
 	    var scope = $rootScope.$new();
-	    scope.newJedi = { name: 'inside scope name', flavor: 'inside scope flavor', fishPreference: 'inside scope fish preference' };
-	    var element = $compile('<jedi data-jedi-data="newJedi">shjsdghsghsohsoh</jedi>')(scope);
+	    scope.newJedi = { name: 'test jedi', status: 'Dead', lightsaberColor: 'green' };
+	    var element = $compile('<jedi data-jedi-data="newJedi">This is a test</jedi>')(scope);
 	    $httpBackend.flush();
 	    $rootScope.$digest();
-	    expect(element.html()).toContain('inside scope name');
-	    expect(element.html()).toContain('inside scope flavor');
-	    expect(element.html()).toContain('inside scope fish preference');
-	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	    expect(element.html()).toContain('test jedi');
+	    expect(element.html()).toContain('Dead');
+	    expect(element.html()).toContain('green');
+	    expect(element.html()).toContain('This is a test');
 	  });
 
 	  it('should load the directive with an appropriate object', function () {
 	    $httpBackend.when('GET', '/templates/jedis/directives/jedi.html').respond(200, template);
 	    var scope = $rootScope.$new();
-	    var element = $compile('<jedi data-jedi-data="{name: \'yogi\', flavor: \'grizzly\', fishPreference: \'saalmons\'}">shjsdghsghsohsoh</jedi>')(scope);
+	    var element = $compile('<jedi data-jedi-data="{name: \'test\', status: \'Alive\', lightsaberColor: \'blue\'}">inside directive</jedi>')(scope);
 	    $httpBackend.flush();
 	    $rootScope.$digest();
-	    expect(element.html()).toContain('yogi');
-	    expect(element.html()).toContain('grizzly');
-	    expect(element.html()).toContain('saalmons');
-	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	    expect(element.html()).toContain('test');
+	    expect(element.html()).toContain('Alive');
+	    expect(element.html()).toContain('blue');
+	    expect(element.html()).toContain('inside directive');
 	  });
 	});
 
@@ -19344,6 +19343,60 @@
 
 	var angular = __webpack_require__(2);
 	var template = __webpack_require__(23);
+
+	describe('sith display directive', function () {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+
+	  beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive with an appropriate scope', function () {
+	    $httpBackend.when('GET', '/templates/sithlords/directives/sith.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    scope.newSith = { name: 'test sith', status: 'Dead', lightsaberColor: 'green' };
+	    var element = $compile('<sith data-sith-data="newSith">This is a test</sith>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test sith');
+	    expect(element.html()).toContain('Dead');
+	    expect(element.html()).toContain('green');
+	    expect(element.html()).toContain('This is a test');
+	  });
+
+	  it('should load the directive with an appropriate object', function () {
+	    $httpBackend.when('GET', '/templates/sithlords/directives/sith.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    var element = $compile('<sith data-sith-data="{name: \'test\', status: \'Alive\', lightsaberColor: \'blue\'}">inside directive</sith>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test');
+	    expect(element.html()).toContain('Alive');
+	    expect(element.html()).toContain('blue');
+	    expect(element.html()).toContain('inside directive');
+	  });
+	});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <p data-ng-if=\"sithData.name\" role=\"list\" class=\"sith-list\">\n    {{sithData.name}} <br>\n    Light Saber: {{sithData.lightsaberColor}} <br>\n    Status: {{sithData.status}} <br>\n    Home World: {{sithData.world}} <br>\n  </p>\n\n  <section role=\"actions\" class=\"actions\" data-ng-transclude></section>\n</li>\n";
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(25);
 
 	describe('sith form directive', function () {
 	  var $compile;
@@ -19366,10 +19419,30 @@
 	    $rootScope.$digest();
 	    expect(element.html()).toContain('test button');
 	  });
+
+	  it('should be able to call a passed function', function () {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/sithlords/directives/sith_form_directive.html').respond(200, template);
+	    var called = false;
+	    scope.sith = { name: 'inside scope' };
+
+	    scope.testSave = function (input) {
+	      scope.sith = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<sith-form data-sith="{name: \'inside directive\'}" data-save=testSave></sith-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    element.isolateScope().save(scope)({ name: 'test sith' });
+	    expect(called).toBe(true);
+	    expect(scope.sith.name).toBe('test sith');
+	  });
 	});
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(sith)\">\n\n  <label for=\"name\">Name:</label> <br>\n  <input type=\"text\" name=\"name\" data-ng-model=\"sith.name\" placeholder=\"Name\"/> <br>\n\n  <label for=\"lightSaberColor\">Light Saber Color:</label> <br>\n  <input type=\"text\" name=\"lightSaberColor\" data-ng-model=\"sith.lightsaberColor\" placeholder=\"Light Saber Color\"/> <br>\n\n  <label for=\"world\">World</label> <br>\n  <input type=\"text\" name=\"world\" data-ng-model=\"sith.world\" placeholder=\"World\"/> <br>\n\n  <label for=\"status\">Status:</label> <br>\n  <select name=\"status\" data-ng-model=\"sith.status\" placeholder=\"Status\">\n    <option value=\"Alive\">Alive</option>\n    <option value=\"Dead\">Dead</option>\n    <option value=\"Unknown\">Unknown</option>\n  </select> <br>\n\n  <ng-transclude></ng-transclude>\n  <button class=\"button is-primary\" type=\"submit\">{{buttonText}}</button>\n</form>\n";
