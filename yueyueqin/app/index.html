@@ -50,30 +50,26 @@
           <section class="right-col">
             <h1>Movies List</h1>
             <table class="movies-table">
-              <thead>
-                <tr>
-                  <td> <strong>movie name</strong>  </td>
-                  <td>  <strong>movie type</strong> </td>
-                  <td>  <strong>movie actors</strong> </td>
-                  <td>  <strong>publishe time</strong> </td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr data-ng-repeat="movie in movies">
-                  <td>
-                    {{movie.name}}
-                  </td>
-                  <td>
-                    {{movie.type}}
-                  </td>
-                  <td>
-                    {{movie.actors}}
-                  </td>
-                  <td>
-                    {{movie.publish}}
-                  </td>
-                </tr>
-              </tbody>
+              <tr>
+                <th> name</th>
+                <th> type</th>
+                <th> actors </th>
+                <th> time </th>
+              </tr>
+              <tr data-ng-repeat="movie in movies">
+                <td>
+                  {{movie.name}}
+                </td>
+                <td>
+                  {{movie.type}}
+                </td>
+                <td>
+                  {{movie.actors}}
+                </td>
+                <td>
+                  {{movie.publish}}
+                </td>
+              </tr>
             </table>
           </section>
         </section>
@@ -109,27 +105,23 @@
           </section>
           <section class="left-col">
             <h1>Actors List</h1>
-            <table class="actora-table">
-              <thead>
-                <tr>
-                  <td> <strong>actor name</strong>  </td>
-                  <td>  <strong>actor country</strong> </td>
-                  <td>  <strong>actor age</strong> </td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr data-ng-repeat="actor in actors">
-                  <td>
-                    {{actor.name}}
-                  </td>
-                  <td>
-                    {{actor.country}}
-                  </td>
-                  <td>
-                    {{actor.age}}
-                  </td>
-                </tr>
-              </tbody>
+            <table class="actors-table">
+              <tr>
+                <th>name</th>
+                <th>country</th>
+                <th>age</th>
+              </tr>
+              <tr data-ng-repeat="actor in actors">
+                <td>
+                  {{actor.name}}
+                </td>
+                <td>
+                  {{actor.country}}
+                </td>
+                <td>
+                  {{actor.age}}
+                </td>
+              </tr>
             </table>
           </section>
         </section>
