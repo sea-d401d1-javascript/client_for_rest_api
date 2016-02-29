@@ -22,15 +22,15 @@ describe('request display directive', () => {
     expect(element.html()).toContain('test name');
   });
 
-  it('should be able to display update request options', () => {
+  it('should be able to transclude update request options', () => {
     $httpBackend.whenGET('/templates/requests/directives/request.html').respond(200, template);
 
-    var element = $compile('<request data-request-data="{firstName: \'test name\', editing: true}"></request>')($rootScope);
+    var element = $compile('<request data-request-data="{firstName: \'test name\', editing: true}"><div></div></request>')($rootScope);
 
     $httpBackend.flush();
     $rootScope.$digest();
 
     expect(element.html()).toContain('test name');
-    expect(element.html()).toContain('<div data-ng-transclude=');
+    expect(element.html()).toContain('<div class="ng-scope">');
   });
 });

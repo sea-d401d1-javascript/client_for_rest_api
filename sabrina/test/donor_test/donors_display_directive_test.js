@@ -33,4 +33,16 @@ describe('donor display directive', () => {
     expect(element.html()).toContain('test username');
     expect(element.html()).toContain('<div data-ng-transclude=');
   });
+
+  it('should be able to transclude update donor options', () => {
+    $httpBackend.whenGET('/templates/donors/directives/donor.html').respond(200, template);
+
+    var element = $compile('<donor data-donor-data="{username: \'test username\', editing: true}"><div></div></donor>')($rootScope);
+
+    $httpBackend.flush();
+    $rootScope.$digest();
+
+    expect(element.html()).toContain('test username');
+    expect(element.html()).toContain('<div class="ng-scope">');
+  });
 });
