@@ -1,48 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-	<meta charset="UTF-8">
+	<meta charset='UTF-8'>
 	<title>House of Gift Cards</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/base.css">
+	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 </head>
-<body data-ng-app="hogcApp">
-  <section data-ng-controller="RequestsController" data-ng-init='getAllRequests()'>
-    <h1>All Requests</h1>
-		<ul>
-			<li data-ng-repeat='request in requests'> {{request.firstName}} {{request.lastName}} - {{request.giftCard}}
-        <button data-ng-click='request.editing = !request.editing'>Update Request</button>
-				<button data-ng-click='deleteRequest(request)'>Delete Request</button>
-				<form data-ng-if='request.editing' data-ng-submit='updateRequest(request)'>
-					<input data-ng-model='request.firstName' type='text' placeholder='First Name'/>
-          <input data-ng-model='request.lastName' type='text' placeholder='Last Name'/>
-          <input data-ng-model='request.giftCard' type='text' placeholder='Gift Card'/>
-          <input data-ng-model='request.claimedBy' type='text' placeholder='Claimed By'/>
-					<button type='submit'>Update</button>
-				</form>
-			</li>
-		</ul>
-		<h2 data-ng-init='getUnclaimed()'>Add A Request!</h2>
-		<p>Currently, only accepting gift cards from: QFC, Amazon, Petco, Best Buy</p>
-		<form data-ng-submit='createRequest(newRequest)'>
-			<input data-ng-model='newRequest.firstName' type='text' placeholder='First Name'/>
-			<input data-ng-model='newRequest.lastName' type='text' placeholder='Last Name'/>
-      <input data-ng-model='newRequest.giftCard' type='text' placeholder='Gift Card'/>
-      <input data-ng-model='newRequest.claimedBy' type='text' placeholder='Claimed By'/>
-			<input type='submit'/>
-		</form>
-		<h2>Claim Requests!</h2>
-		<p>When claiming, add unique donor id:</p>
-    <li data-ng-repeat='req in requestsUnclaimed'> {{req.firstName}} {{req.lastName}} - {{req.giftCard}}
+
+<body data-ng-app='hogcApp'>
+	<header>
+		<h1>House of Gift Cards</h1>
+	</header>
+
+  <section data-ng-controller='RequestsController' data-ng-init='getAllRequests()'>
+		<article class='column'>
+	    <h1>All Requests</h1>
+	    <ul>
+	      <request data-ng-repeat='request in requests' data-request-data='request'>
+	        <button data-ng-if='!request.editing' data-ng-click='toggleEdit(request)'>Update Request</button>
+	        <button data-ng-click='deleteRequest(request)'>Delete Request</button>
+
+					<request-form
+						data-ng-if='request.editing'
+						data-save='updateRequest(request)'
+						data-button-text='Update Request'
+						data-request='request'>
+					<button type='button' data-ng-click='toggleEdit(request)'>Cancel</button>
+					</request-form>
+
+	      </request>
+	    </ul>
+		</article>
+
+    <article class='column' data-request-data='newRequest'>
+			<h2>Add A Request!</h2>
+			<p>Currently, only accepting gift cards from: QFC, Amazon, Petco, Best Buy</p>
+			<request-form
+				data-button-text='Create New Request'
+				data-request='newRequest'
+				data-save='createRequest(newRequest)'
+			></request-form>
+    </article>
+
+		<article class='column' data-request-data='newRequest'>
+			<h2 data-ng-init='getUnclaimed()'>Claim Requests!</h2>
+			<p>When claiming, add a unique donor id:</p>
+			<li data-ng-repeat='req in requestsUnclaimed'> {{req.firstName}} {{req.lastName}} - {{req.giftCard}}
 			<button data-ng-click='req.editing = !req.editing'>Claim</button>
 			<form data-ng-if='req.editing' data-ng-submit='claimRequest(req, id)'>
 				<input data-ng-model='id' type='text' placeholder='Unique Donor ID'/>
 				<button type='submit'>Claimed!</button>
 			</form>
-		</li>
+			</li>
+		</article>
   </section>
+
 	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
 		<h1>All Donors</h1>
 		<ul>
-			<li data-ng-repeat='donor in donors'> {{donor.username}} at {{donor.organisation}} - Donor ID: {{donor._id}}, Email: {{donor.authentication.email}}
+			<donor data-ng-repeat='donor in donors' data-donor-data='donor'>
         <button data-ng-click='donor.editing = !donor.editing'>Update Donor</button>
 				<button data-ng-click='deleteDonor(donor)'>Delete Donor</button>
 				<form data-ng-if='donor.editing' data-ng-submit='updateDonor(donor)'>
@@ -51,8 +68,9 @@
 					<input data-ng-model='donor.authentication.email' type='text' placeholder='Email'/>
 					<button type='submit'>Update</button>
 				</form>
-			</li>
+			</donor>
 		</ul>
+
 		<h2>Sign Up!</h2>
 		<form data-ng-submit='createDonor(donor)'>
 			<input data-ng-model='donor.username' type='text' placeholder='Username'/>
@@ -61,6 +79,13 @@
 			<button type='submit'>Sign Up!</button>
 		</form>
 	</section>
-  <script src="bundle.js"></script>
+
+	<footer>
+		<p>
+			100% of every dollar you gift on House of Gift Cards goes directly towards the requestor; House of Gift Cards does not take a cut.
+		</p>
+	</footer>
+
+  <script src='bundle.js'></script>
 </body>
 </html>
