@@ -39,7 +39,7 @@ describe('flower controller', () => {
       $httpBackend.expectGET('http://localhost:3000/api/gardeners').respond(200, [{name: 'null get'}]);
       $httpBackend.expectGET('http://localhost:3000/nonCrud/howManyFlowers').respond(200, 'nonCrud');
       $scope.getAll();
-      $httpBackend.flush(); // resolves the promis $http returns, all requests have been made -- resolve them
+      $httpBackend.flush(); // resolves the promise $http returns, all requests have been made -- resolve them
       //expect($scope.flowers[0].name).toBe('test flower');
       expect($scope.flowers.length).toBe(1);
     });
@@ -56,13 +56,13 @@ describe('flower controller', () => {
     });
     
     it('should make a PUT request to /api/flowers/:ID', () => {
-      var updatedFlower  = {name: 'updated flower' , editting:true, _id: 123456};
+      var updatedFlower  = {name: 'updated flower' , editing:true, _id: 123456};
       $scope.flowers.push(updatedFlower);
       $httpBackend.expectPUT('http://localhost:3000/api/flowers/' + updatedFlower._id, updatedFlower).respond(200, {msg: 'success'});
       $scope.updateFlower(updatedFlower);
       $httpBackend.flush();
-      expect(updatedFlower.editting).toBe(false);
-      expect($scope.flowers[0].editting).toBe(false);
+      expect(updatedFlower.editing).toBe(false);
+      expect($scope.flowers[0].editing).toBe(false);
     });
 
     it('should make a DELETE request to /api/flowers/:ID', () => {

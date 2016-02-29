@@ -6,7 +6,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/flower_app_resource.html',
       scope: {
-        bearData: '='
+        flowerData: '='
       }
     };
   });

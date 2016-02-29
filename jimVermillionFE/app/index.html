@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="css/normalize.css">
   <link rel="stylesheet" type="text/css" href="css/base.css">
   <link rel="stylesheet" type="text/css" href="css/layout.css">
+  <link rel="stylesheet" type="text/css" href="css/module.css">
 </head>
 <body data-ng-app="flower">
   <header><h1>flowers and gardeners</h1></header>
@@ -16,42 +17,40 @@
     <section class="right">
       <!-- show all the flowers -->
       <h2>flowers!</h2>
-      <article data-ng-repeat="flower in flowers">
-        <h3>{{flower.name}} is a flower</h3>
-        <h4>difficulty to grow is {{flower.difficulty_to_grow}}</h4>
-        <button data-ng-click="flower.editting = !flower.editting">edit</button>
-        <form ng-if="flower.editting" ng-submit="updateFlower(flower)">
-          <label for="name">Name:</label>
-          <input type="text" name="name" data-ng-model="flower.name">
-          <label for="difficulty">Difficulty to Grow:</label>
-          <input type="text" name="difficulty" data-ng-model="flower.difficulty_to_grow">
-          <button type="submit">update</button>
-        </form>
-        <!-- delete button -->
-        <button data-ng-click="deleteFlower(flower, $index)">DELETE {{flower.name}} </button>
-      </article>
-      
+      <ul>
+        <flower data-ng-repeat="flower in flowers" data-flower-data="flower">
+          <!-- delete the flower -->
+          <button data-ng-click="deleteFlower(flower)">Delete Flower</button>
+          <button data-ng-if="!flower.editing" data-ng-click="toggleEdit(flower)">edit</button>
+          <flower-form 
+            data-ng-if="flower.editing" 
+            data-save="updateFlower(flower)"
+            data-button-text="Update Flower"
+            data-resource="flower"
+          >
+            <button type="button" data-ng-click="toggleEdit(flower)">Cancel</button>
+          </flower-form>
+        </flower> 
+      </ul>
       <!-- post a new flower -->
       <article>
         <h4>NEW FLOWER</h4>
-        <form data-ng-submit="postFlower(newFlower)">
-          <label for="name">Name:</label>
-          <input type="text" name="name" id="name" data-ng-model="newFlower.name">
-          <label for="difficulty">Difficulty:</label>
-          <input type="text" name="difficulty" id="difficulty" data-ng-model="newFlower.difficulty_to_grow">
-          <button type="submit">POST</button>
-        </form>
+        <flower-form
+          data-button-text="New Flower"
+          data-resource="newFlower"
+          data-save="postFlower(newFlower)"
+        ></flower-form>
       </article>
     </section>
 
-    <section class="left" class="gardeners">
+    <section class="left">
       <!-- show all the gardeners -->
       <h2>gardeners!</h2>
       <article data-ng-repeat="gardener in gardeners">
         <h3>{{gardener.name}} is a gardener</h3>
         <h4>{{gardener.favFlower}} is {{gardener.name}}'s favorite flower.</h4>
-        <button data-ng-click="gardener.editting = !gardener.editting">edit</button>
-        <form ng-if="gardener.editting" ng-submit="updateGardener(gardener)">
+        <button data-ng-click="gardener.editing = !gardener.editing">edit</button>
+        <form ng-if="gardener.editing" ng-submit="updateGardener(gardener)">
           <label for="name">Name:</label>
           <input type="text" name="name" id="name" data-ng-model="gardener.name">
           <label for="favFlower">Favorite Flower:</label>
@@ -61,7 +60,6 @@
         <!-- delete button -->
         <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
       </article>
-      
       <!-- post a new gardener -->
       <article>
         <h4>NEW GARDENER</h4>
