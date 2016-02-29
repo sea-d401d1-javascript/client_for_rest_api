@@ -15,7 +15,7 @@ describe('students controller', () => {
   }));
 
   it('should be able to make a controller', () => {
-    var studentsController = $ControllerConstructor('studentsController', {$scope});
+    var studentsController = $ControllerConstructor('StudentsController', {$scope});
     expect(typeof studentsController).toBe('object');
     expect(Array.isArray($scope.students)).toBe(true);
     expect(typeof $scope.getAllStudents).toBe('function');
@@ -24,7 +24,7 @@ describe('students controller', () => {
   describe('REST requests', () => {
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
       $httpBackend = _$httpBackend_;
-      $ControllerConstructor('studentsController', {$scope});
+      $ControllerConstructor('StudentsController', {$scope});
     }));
 
     afterEach(() => {

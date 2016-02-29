@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
 const babel = require('babel-loader');
+const html = require('html-loader');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -25,6 +26,14 @@ gulp.task('webpack:dev', () => {
 gulp.task('webpack:test', () => {
   gulp.src(__dirname + '/test/test_entry.js')
     .pipe(webpack({
+      module: {
+        loaders: [
+          {
+          test: /\.html$/,
+          loader: 'html'
+          }
+        ]
+      },
       output: {
         filename: 'test_bundle.js'
       }
