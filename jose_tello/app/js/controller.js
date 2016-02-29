@@ -1,5 +1,3 @@
-'use strict';
-
 const angular = require('angular');
 const petsApp = angular.module('petsApp', []);
 require('./services')(petsApp);

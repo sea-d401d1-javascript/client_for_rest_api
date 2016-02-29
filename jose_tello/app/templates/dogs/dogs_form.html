@@ -1,0 +1,13 @@
+<form data-ng-submit="save(dog)">
+  <label for="name">NAME:</label>
+  <input class="col-xs-12" data-ng-model="dog.name" type="text" placeholder="Name">
+
+  <label for="color">COLOR:</label>
+  <input class="col-xs-12" data-ng-model="dog.color" type="text" placeholder="Color">
+
+  <label for="lives">LIVES:</label>
+  <input class="col-xs-12" data-ng-model="dog.lives" type="text" placeholder="Lives (default: 1)">
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{ buttonText }}</button>
+</form>

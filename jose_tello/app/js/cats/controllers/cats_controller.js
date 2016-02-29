@@ -19,6 +19,7 @@ module.exports = function(app) {
     };
 
     $scope.deleteCat = function(cat) {
+      if (!cat._id) return setTimeout(function() { $scope.deleteCat(cat); }, 1000);
       catsService.delete(cat, function(err, res) {
         if (err) return console.log(err);
         $scope.cats.splice($scope.cats.indexOf(cat), 1);
@@ -28,6 +29,7 @@ module.exports = function(app) {
     $scope.updateCat = function(cat) {
       catsService.update(cat, function(err, res) {
         cat.editing = false;
+        cat.backup = null;
         if (err) return console.log(err);
       });
     };

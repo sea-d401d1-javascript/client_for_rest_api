@@ -1,13 +1,4 @@
-<span class="col-xs-12">NAME: &nbsp;&nbsp; {{ catData.name }}</span>
-<span class="col-xs-12">COLOR: &nbsp;&nbsp; {{ catData.color }}</span>
-<span class="col-xs-12">LIVES: &nbsp;&nbsp; {{ catData.lives }}</span>
-<div class="box-container col-xs-12">
-  <button class="col-xs-6" data-ng-click="deleteCat(cat)">DELETE</button>
-  <button class="col-xs-6" data-ng-click="cat.editing = !cat.editing">UPDATE</button>
-</div>
-<form class="row" data-ng-if="cat.editing" data-ng-submit="updateCat(cat)">
-  <input class="col-xs-12" data-ng-model="cat.name" type="text">
-  <input class="col-xs-12" data-ng-model="cat.color" type="text">
-  <input class="col-xs-12" data-ng-model="cat.lives" type="text">
-  <button class="col-xs-12" type="submit">SUBMIT</button>
-</form>
+<span class="col-xs-12">NAME:&nbsp;&nbsp;{{ catData.name }}</span>
+<span class="col-xs-12">COLOR:&nbsp;&nbsp;{{ catData.color }}</span>
+<span class="col-xs-12">LIVES:&nbsp;&nbsp;{{ catData.lives }}</span>
+<div role="actions" class="actions" data-ng-transclude></div>

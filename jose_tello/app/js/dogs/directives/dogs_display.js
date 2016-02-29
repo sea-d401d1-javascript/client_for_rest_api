@@ -3,6 +3,7 @@ module.exports = function(app) {
     return {
       restrict: 'E',
       replace: false,
+      transclude: true,
       templateUrl: '/templates/dogs/dogs.html',
       scope: {
         dogData: '='

@@ -13,29 +13,53 @@
     </header>
     <!-- Cats Resource -->
     <section class="col-sm-4" data-ng-controller="CatsController" data-ng-init="getCats()">
-      <bdi class="row">
-        <form class="row" data-ng-submit="createCat(newCat)">
-          <h2 class="col-xs-12">Create a New Cat</h2>
-          <input class="col-xs-12" data-ng-model="newCat.name" type="text" placeholder="Name">
-          <input class="col-xs-12" data-ng-model="newCat.color" type="text" placeholder="Color">
-          <input class="col-xs-12" data-ng-model="newCat.lives" type="text" placeholder="Lives (default: 9)">
-          <button class="col-xs-12" type="submit">CREATE</button>
-        </form>
-      </bdi>
-      <cat class="row resource" data-ng-repeat="cat in cats" data-cat-data="cat"></cat>
+      <h2 class="col-xs-12">Create a New Cat</h2>
+      <cat class="row resource" data-cat-data="newCat">
+        <cat-form class="row"
+          data-button-text="CREATE"
+          data-cat="newCat"
+          data-save="createCat(newCat)"
+        ></cat-form>
+      </cat>
+      <cat class="row resource" data-ng-repeat="cat in cats" data-cat-data="cat">
+        <div class="box-container col-xs-12">
+          <button class="col-xs-12" data-ng-click="deleteCat(cat)">DELETE</button>
+          <button class="col-xs-12" data-ng-if="!cat.editing" data-ng-click="toggleEdit(cat)">UPDATE</button>
+        </div>
+        <cat-form
+          class="row"
+          data-button-text="SUBMIT"
+          data-ng-if="cat.editing"
+          data-ng-save="updateCat(cat)"
+          data-cat="cat"
+        ></cat-form>
+        <button type="button" data-ng-click="toggleEdit(cat)">CANCEL</button>
+      </cat>
     </section>
     <!-- Dogs Resource -->
     <section class="col-sm-4" data-ng-controller="DogsController" data-ng-init="getDogs()">
-      <bdi class="row">
-        <form class="row" data-ng-submit="createDog(newDog)">
-          <h2 class="col-xs-12">Create a New Dog</h2>
-          <input class="col-xs-12" data-ng-model="newDog.name" type="text" placeholder="Name">
-          <input class="col-xs-12" data-ng-model="newDog.color" type="text" placeholder="Color">
-          <input class="col-xs-12" data-ng-model="newDog.lives" type="text" placeholder="Lives (default: 1)">
-          <button class="col-xs-12" type="submit">CREATE</button>
-        </form>
-      </bdi>
-      <dog class="row resource" data-ng-repeat="dog in dogs" data-dog-data="dog"></dog>
+      <h2 class="col-xs-12">Create a New Dog</h2>
+      <dog class="row resource" data-dog-data="newDog">
+        <dog-form class="row"
+          data-button-text="CREATE"
+          data-dog="newDog"
+          data-save="createDog(newDog)"
+        ></dog-form>
+      </dog>
+      <dog class="row resource" data-ng-repeat="dog in dogs" data-dog-data="dog">
+        <div class="box-container col-xs-12">
+          <button class="col-xs-12" data-ng-click="deleteDog(dog)">DELETE</button>
+          <button class="col-xs-12" data-ng-if="!dog.editing" data-ng-click="toggleEdit(dog)">UPDATE</button>
+        </div>
+        <dog-form
+          class="row"
+          data-button-text="SUBMIT"
+          data-ng-if="dog.editing"
+          data-ng-save="updateDog(dog)"
+          data-dog="dog"
+        ></dog-form>
+        <button type="button" data-ng-click="toggleEdit(dog)">CANCEL</button>
+      </dog>
     </section>
     <!-- Non-REST Feature -->
     <section class="col-sm-4"></section>
