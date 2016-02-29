@@ -2,7 +2,7 @@ var angular = require('angular');
 var ctTemplate = require('../app/templates/ct/directives/ct_form_directive.html');
 var tTemplate = require('../app/templates/t/directives/t_form_directive.html');
 
-describe('ct form directive', () => {
+describe('form directive', () => {
   var $compile;
   var $rootScope;
   var $httpBackend;
@@ -15,23 +15,23 @@ describe('ct form directive', () => {
     $httpBackend = _$httpBackend_;
   }));
 
-  it('should load the directive', () => {
-    $httpBackend.when('GET', '/templates/bears/directives/ct_form_directive.html').respond(200, ctTemplate);
+  it('should load the CT directive', () => {
+    $httpBackend.when('GET', '/templates/ct/directives/ct_form_directive.html').respond(200, ctTemplate);
     var element = $compile('<ct-form data-ct="{}" data-button-text="test button"></ct-form')($rootScope);
     $httpBackend.flush();
     $rootScope.$digest();
     expect(element.html()).toContain('test button');
   });
 
-  it('should be able to call a passed save function', () => {
+  it('should be able to call a passed save CT function', () => {
     var scope = $rootScope.$new();
     $httpBackend.when('GET', '/templates/ct/directives/ct_form_directive.html').respond(200, ctTemplate);
     var called = false;
-    scope.bear = {name: 'inside scope'};
+    scope.ct = {name: 'inside ct scope'};
 
     scope.testSave = function(input) {
-      expect(input.name).toBe('from directive');
-      scope.bear = input;
+      expect(input.name).toBe('from ct directive');
+      scope.ct = input;
       called = true
     };
 
@@ -40,8 +40,39 @@ describe('ct form directive', () => {
     $rootScope.$digest();
 
     expect(typeof element.isolateScope().save).toBe('function');
-    element.isolateScope().save(scope)({name: 'from directive'});
+    element.isolateScope().save(scope)({name: 'from ct directive'});
     expect(called).toBe(true);
-    expect(scope.ct.name).toBe('from directive');
+    expect(scope.ct.name).toBe('from ct directive');
   })
+
+  it('should load the T directive', () => {
+    $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
+    var element = $compile('<t-form data-t="{}" data-button-text="test button"></ct-form')($rootScope);
+    $httpBackend.flush();
+    $rootScope.$digest();
+    expect(element.html()).toContain('test button');
+  });
+
+  it('should be able to call a passed save T function', () => {
+    var scope = $rootScope.$new();
+    $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
+    var called = false;
+    scope.t = {name: 'inside scope'};
+
+    scope.testSave = function(input) {
+      expect(input.name).toBe('from t directive');
+      scope.t = input;
+      called = true
+    };
+
+    var element = $compile('<t-form data-t="{name: \'inside directive\'}" data-save=testSave></t-form>')(scope);
+    $httpBackend.flush();
+    $rootScope.$digest();
+
+    expect(typeof element.isolateScope().save).toBe('function');
+    element.isolateScope().save(scope)({name: 'from t directive'});
+    expect(called).toBe(true);
+    expect(scope.t.name).toBe('from t directive');
+  })
+
 });
