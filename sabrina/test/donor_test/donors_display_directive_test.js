@@ -7,7 +7,7 @@ describe('donor display directive', () => {
   beforeEach(angular.mock.module('hogcApp'));
   beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
     $compile = _$compile_;
-    $rootScope A= _$rootScope_;
+    $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
   }));
 
