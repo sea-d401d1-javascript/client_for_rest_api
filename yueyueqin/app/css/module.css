@@ -25,3 +25,21 @@ header li a {
 .movies h1 {
   color: #f67944;
 }
+
+table{
+  width: 100%;
+}
+
+th, td {
+  padding: 7px 10px 10px 10px;
+  text-align: left;
+}
+
+th {
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 90%;
+  border-bottom: 2px solid #111111;
+  border-top: 1px solid #999;
+}
