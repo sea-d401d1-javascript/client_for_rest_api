@@ -47,10 +47,13 @@
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(12);
-	__webpack_require__(13);
 	__webpack_require__(14);
 	__webpack_require__(15);
+	__webpack_require__(16);
+	__webpack_require__(17);
+	__webpack_require__(18);
+	__webpack_require__(20);
+	__webpack_require__(22);
 
 /***/ },
 /* 1 */
@@ -64,7 +67,7 @@
 	__webpack_require__(4)(jedisApp);
 
 	__webpack_require__(6)(jedisApp);
-	__webpack_require__(9)(jedisApp);
+	__webpack_require__(10)(jedisApp);
 
 	// require('./directives/dummy_directive')(jedisApp);
 
@@ -15953,19 +15956,32 @@
 	  __webpack_require__(7)(app);
 
 	  __webpack_require__(8)(app);
+	  __webpack_require__(9)(app);
 	};
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var angular = __webpack_require__(2);
 
 	module.exports = function (app) {
 	  app.controller('JedisController', ['$scope', '$http', 'cfResource', function ($scope, $http, Resource) {
 	    $scope.greeting = 'hello world';
 	    $scope.jedis = [];
 	    var jediService = Resource('/jedis');
+
+	    $scope.toggleEditJedi = function (jedi) {
+	      if (jedi.backup) {
+	        var temp = angular.copy(jedi.backup);
+	        $scope.jedis.splice($scope.jedis.indexOf(jedi), 1, temp);
+	      } else {
+	        jedi.backup = angular.copy(jedi);
+	        jedi.editing = true;
+	      }
+	    };
 
 	    $scope.getAllJedi = function () {
 	      jediService.getAll(function (err, res) {
@@ -16014,7 +16030,7 @@
 	      transclude: true,
 	      templateUrl: '/templates/jedis/directives/jedi.html',
 	      scope: {
-	        jediData: '@'
+	        jediData: '='
 	      }
 	    };
 	  });
@@ -16022,18 +16038,44 @@
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.directive('jediForm', function () {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/jedis/directives/jedi_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        jedi: '=',
+	        save: '&'
+	      },
+	      controller: function controller($scope) {
+	        $scope.jedi = $scope.jedi || { lightSaberColor: 'Blue', status: 'Unknown' };
+	      }
+	    };
+	  });
+	};
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	module.exports = function (app) {
-	  __webpack_require__(10)(app);
-
 	  __webpack_require__(11)(app);
+
+	  __webpack_require__(12)(app);
+	  __webpack_require__(13)(app);
 	};
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16043,6 +16085,16 @@
 	    $scope.greeting = 'hello world';
 	    $scope.sithlords = [];
 	    var sithService = Resource('/sith-lords');
+
+	    $scope.toggleEditSith = function (sith) {
+	      if (sith.backup) {
+	        var temp = angular.copy(sith.backup);
+	        $scope.sithlords.splice($scope.sithlords.indexOf(sith), 1, temp);
+	      } else {
+	        sith.backup = angular.copy(sith);
+	        sith.editing = true;
+	      }
+	    };
 
 	    $scope.getAllSith = function () {
 	      sithService.getAll(function (err, res) {
@@ -16078,7 +16130,7 @@
 	};
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16091,14 +16143,39 @@
 	      transclude: true,
 	      templateUrl: '/templates/sithlords/directives/sith.html',
 	      scope: {
-	        sithData: '@'
+	        sithData: '='
 	      }
 	    };
 	  });
 	};
 
 /***/ },
-/* 12 */
+/* 13 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function (app) {
+	  app.directive('sithForm', function () {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/sithlords/directives/sith_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        sith: '=',
+	        save: '&'
+	      },
+	      controller: function controller($scope) {
+	        $scope.sith = $scope.sith || { lightSaberColor: 'Blue', status: 'Unknown' };
+	      }
+	    };
+	  });
+	};
+
+/***/ },
+/* 14 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -18891,7 +18968,7 @@
 	})(window, window.angular);
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -18976,7 +19053,7 @@
 	});
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19060,7 +19137,7 @@
 	});
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19146,6 +19223,156 @@
 	    $httpBackend.flush();
 	  });
 	});
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(19);
+
+	describe('jedi form directive', function () {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+
+	  beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', function () {
+	    $httpBackend.when('GET', '/templates/jedis/directives/jedi_form_directive.html').respond(200, template);
+
+	    var element = $compile('<jedi-form data-jedi="{}" data-button-text="test button"></jedi-form>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed function', function () {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/jedis/directives/jedi_form_directive.html').respond(200, template);
+	    var called = false;
+	    scope.jedi = { name: 'inside scope' };
+
+	    scope.testSave = function (input) {
+	      scope.jedi = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<jedi-form data-jedi="{name: \'inside directive\'}" data-save=testSave></jedi-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    element.isolateScope().save(scope)({ name: 'test jedi' });
+	    expect(called).toBe(true);
+	    expect(scope.jedi.name).toBe('test jedi');
+	  });
+	});
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(jedi)\">\n\n  <label for=\"name\">Name:</label> <br>\n  <input type=\"text\" name=\"name\" data-ng-model=\"jedi.name\" placeholder=\"Name\"/> <br>\n\n  <label for=\"lightSaberColor\">Light Saber Color:</label> <br>\n  <input type=\"text\" name=\"lightSaberColor\" data-ng-model=\"jedi.lightsaberColor\" placeholder=\"Light Saber Color\"/> <br>\n\n  <label for=\"world\">World</label> <br>\n  <input type=\"text\" name=\"world\" data-ng-model=\"jedi.world\" placeholder=\"World\"/> <br>\n\n  <label for=\"status\">Status:</label> <br>\n  <select name=\"status\" data-ng-model=\"jedi.status\" placeholder=\"Status\">\n    <option value=\"Alive\">Alive</option>\n    <option value=\"Dead\">Dead</option>\n    <option value=\"Unknown\">Unknown</option>\n  </select> <br>\n\n  <ng-transclude></ng-transclude>\n  <button class=\"button is-primary\" type=\"submit\">{{buttonText}}</button>\n</form>\n";
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(21);
+
+	describe('jedi display directive', function () {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+
+	  beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive with an appropriate scope', function () {
+	    $httpBackend.when('GET', '/templates/jedis/directives/jedi.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    scope.newJedi = { name: 'inside scope name', flavor: 'inside scope flavor', fishPreference: 'inside scope fish preference' };
+	    var element = $compile('<jedi data-jedi-data="newJedi">shjsdghsghsohsoh</jedi>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside scope name');
+	    expect(element.html()).toContain('inside scope flavor');
+	    expect(element.html()).toContain('inside scope fish preference');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+
+	  it('should load the directive with an appropriate object', function () {
+	    $httpBackend.when('GET', '/templates/jedis/directives/jedi.html').respond(200, template);
+	    var scope = $rootScope.$new();
+	    var element = $compile('<jedi data-jedi-data="{name: \'yogi\', flavor: \'grizzly\', fishPreference: \'saalmons\'}">shjsdghsghsohsoh</jedi>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('yogi');
+	    expect(element.html()).toContain('grizzly');
+	    expect(element.html()).toContain('saalmons');
+	    expect(element.html()).toContain('shjsdghsghsohsoh');
+	  });
+	});
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <p data-ng-if=\"jediData.name\" role=\"list\" class=\"jedi-list\">\n    {{jediData.name}} <br>\n    Light Saber: {{jediData.lightsaberColor}} <br>\n    Status: {{jediData.status}} <br>\n    Home World: {{jediData.world}} <br>\n  </p>\n\n  <section role=\"actions\" class=\"actions\" data-ng-transclude></section>\n</li>\n";
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(23);
+
+	describe('sith form directive', function () {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('jedisApp'));
+
+	  beforeEach(angular.mock.inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', function () {
+	    $httpBackend.when('GET', '/templates/sithlords/directives/sith_form_directive.html').respond(200, template);
+
+	    var element = $compile('<sith-form data-sith="{}" data-button-text="test button"></sith-form>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+	});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(sith)\">\n\n  <label for=\"name\">Name:</label> <br>\n  <input type=\"text\" name=\"name\" data-ng-model=\"sith.name\" placeholder=\"Name\"/> <br>\n\n  <label for=\"lightSaberColor\">Light Saber Color:</label> <br>\n  <input type=\"text\" name=\"lightSaberColor\" data-ng-model=\"sith.lightsaberColor\" placeholder=\"Light Saber Color\"/> <br>\n\n  <label for=\"world\">World</label> <br>\n  <input type=\"text\" name=\"world\" data-ng-model=\"sith.world\" placeholder=\"World\"/> <br>\n\n  <label for=\"status\">Status:</label> <br>\n  <select name=\"status\" data-ng-model=\"sith.status\" placeholder=\"Status\">\n    <option value=\"Alive\">Alive</option>\n    <option value=\"Dead\">Dead</option>\n    <option value=\"Unknown\">Unknown</option>\n  </select> <br>\n\n  <ng-transclude></ng-transclude>\n  <button class=\"button is-primary\" type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ }
 /******/ ]);
