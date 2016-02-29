@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>ANgulR</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,300|Dosis:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="css/normalize.css">
-  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" type="text/css" href="css/base.css">
+  <link rel="stylesheet" type="text/css" href="css/layout.css">
 </head>
 <body data-ng-app="flower">
+  <header><h1>flowers and gardeners</h1></header>
+
   <main data-ng-controller="FlowerController" data-ng-init="getAll()">
-    <article class="flowers">
+    <section class="right">
       <!-- show all the flowers -->
-      <h2>FLOWERS!</h2>
-      <section data-ng-repeat="flower in flowers">
-        <h2>{{flower.name}}</h2>
-        <h3>{{flower.difficulty_to_grow}}</h3>
+      <h2>flowers!</h2>
+      <article data-ng-repeat="flower in flowers">
+        <h3>{{flower.name}} is a flower</h3>
+        <h4>difficulty to grow is {{flower.difficulty_to_grow}}</h4>
         <button data-ng-click="flower.editting = !flower.editting">edit</button>
         <form ng-if="flower.editting" ng-submit="updateFlower(flower)">
           <label for="name">Name:</label>
@@ -24,10 +29,10 @@
         </form>
         <!-- delete button -->
         <button data-ng-click="deleteFlower(flower, $index)">DELETE {{flower.name}} </button>
-      </section>
+      </article>
       
       <!-- post a new flower -->
-      <section>
+      <article>
         <h4>NEW FLOWER</h4>
         <form data-ng-submit="postFlower(newFlower)">
           <label for="name">Name:</label>
@@ -36,15 +41,15 @@
           <input type="text" name="difficulty" id="difficulty" data-ng-model="newFlower.difficulty_to_grow">
           <button type="submit">POST</button>
         </form>
-      </section>
-    </article>
+      </article>
+    </section>
 
-    <article class="gardeners">
+    <section class="left" class="gardeners">
       <!-- show all the gardeners -->
-      <h2>GARDENERS!</h2>
-      <section data-ng-repeat="gardener in gardeners">
-        <h2>{{gardener.name}}</h2>
-        <h3>{{gardener.favFlower}}</h3>
+      <h2>gardeners!</h2>
+      <article data-ng-repeat="gardener in gardeners">
+        <h3>{{gardener.name}} is a gardener</h3>
+        <h4>{{gardener.favFlower}} is {{gardener.name}}'s favorite flower.</h4>
         <button data-ng-click="gardener.editting = !gardener.editting">edit</button>
         <form ng-if="gardener.editting" ng-submit="updateGardener(gardener)">
           <label for="name">Name:</label>
@@ -55,10 +60,10 @@
         </form>
         <!-- delete button -->
         <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
-      </section>
+      </article>
       
       <!-- post a new gardener -->
-      <section >
+      <article>
         <h4>NEW GARDENER</h4>
         <form data-ng-submit="postGardener(newGardener)">
           <label for="name">Name:</label>
@@ -67,14 +72,14 @@
           <input type="text" name="favFlower" id="favorite flower" data-ng-model="newGardener.favFlower">
           <button type="submit">POST</button>
         </form>
-      </section>
-    </article>
+      </article>
+    </section>
     
-    <article class="nonCrud">
+    <section class="nonCrud" >
       <p>{{nonCrud}}</p>
-    </article>
+    </section>
   </main>
-
+  <footer>Get your landscaping business running with this terrible app!</footer>
   <script src="bundle.js"></script>
 </body>
 </html>
