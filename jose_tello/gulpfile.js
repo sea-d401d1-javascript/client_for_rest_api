@@ -3,6 +3,8 @@ const webpack = require('webpack-stream');
 const babel = require('babel-loader');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
+const cleanCSS = require('gulp-clean-css');
+const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -12,7 +14,10 @@ gulp.task('html:dev', () => {
 gulp.task('sass:dev', () => {
   gulp.src(__dirname + '/app/scss/manifest.scss')
     .pipe(sass())
-    .pipe(rename('style.css'))
+    .pipe(rename('style.min.css'))
+    .pipe(sourcemaps.init())
+    .pipe(cleanCSS())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/css'));
 });
 
