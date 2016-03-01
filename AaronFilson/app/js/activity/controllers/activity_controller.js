@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = function(app){
-  app.controller('ActivityController', ['$scope', '$http', 'cfResource', function($scope, $http, cfResource)]){
+  app.controller('ActivityController', ['$scope', '$http', 'cfResource', function($scope, $http, cfResource){
     $scope.activity = [];
 
     var activityService = Resource('/activity');
@@ -46,5 +46,5 @@ module.exports = function(app){
       });
     };
 
-  }
+  }]);
 };
