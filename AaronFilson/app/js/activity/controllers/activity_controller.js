@@ -1,7 +1,7 @@
 var angular = require('angular');
 
 module.exports = function(app){
-  app.controller('ActivityController', ['$scope', '$http', 'cfResource', function($scope, $http, cfResource){
+  app.controller('ActivityController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource){
     $scope.activity = [];
 
     var activityService = Resource('/activity');
