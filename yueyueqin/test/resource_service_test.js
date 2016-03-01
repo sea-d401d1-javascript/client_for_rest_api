@@ -1,6 +1,7 @@
-require(__dirname + '/../app/js/two_resources_controller');
+// require(__dirname + '/../app/js/two_resources_controller');
 var angular = require('angular');
-require('angular-mocks');
+// require('angular-mocks');
+
 
 describe('resource service', () => {
   beforeEach(angular.mock.module('twoResourcesApp'));

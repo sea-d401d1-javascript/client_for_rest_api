@@ -17,7 +17,7 @@ describe('movie form directive', () => {
 
   it('should load the directive', () => {
     $httpBackend.when('GET','/templates/movies/directives/movie_form.html').respond(200, template);
-    var element = $compile('<div data-movie-form ></div>')($rootScope);
+    var element = $compile('<div data-movie-form data-movie="{}" data-button-text="test button"></div>')($rootScope);
     $httpBackend.flush();
     $rootScope.$digest();
     expect(element.html()).toContain('test button');
@@ -30,14 +30,14 @@ describe('movie form directive', () => {
     var call = false;
     scope.movie = {name: 'test movie'};
     scope.testSave = function(input){
-      expect(input.name).toBe('test movie');
+      expect(input.name).toBe('movie');
       call = true;
     };
     var element = $compile('<movie-form data-movie="{name : \'test movie\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
-    // $httpBackend.flush();
-    $httpBackend.$digest();
+    $httpBackend.flush();
+    $rootScope.$digest();
 
-    element.isolateScope.save({name: 'test movie'});
-    expect(called).toBe(true);
+    element.isolateScope().save(scope)({name: 'movie'});
+    expect(call).toBe(true);
   });
 });

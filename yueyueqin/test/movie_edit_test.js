@@ -27,7 +27,7 @@ describe('movie edit directive', () => {
 
   it('should transclue the element', () => {
    $httpBackend.when('GET', '/templates/movies/directives/movie_edit.html').respond(200,template);
-    var element = $compile('<movie data-movie-data="{name:\'inside directive\'}" ">Hello</movie>')($rootScope);
+    var element = $compile('<movie-edit data-movie-data="{name:\'inside directive\'}" ">Hello</movie-edit>')($rootScope);
     $httpBackend.flush();
     $rootScope.$digest();
     expect(element.html()).toContain('inside directive');
