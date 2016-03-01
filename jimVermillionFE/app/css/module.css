@@ -1,0 +1,31 @@
+.nonCrud {
+  text-align: center;
+  margin: 0 auto;
+  width: 30%;
+  font-size: 36px;
+  color: #fff;
+}
+
+h2 {
+  border-bottom: 1px solid #BABABE;
+  font-family: 'Grand Hotel', sans-serif;
+}
+input, label {
+  display: block;
+  margin: 10px auto;
+}
+input {
+  background: black;
+  color: white;
+  border: none;
+}
+button {
+  margin-bottom: 10px;
+}
+
+header h1 {
+  font-family: 'Grand Hotel', sans-serif;
+  text-align: center;
+  font-size: 5em;
+  color: #fff;
+}

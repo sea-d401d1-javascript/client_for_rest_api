@@ -12,7 +12,7 @@ footer, header, hgroup, menu, nav, section {
   font-family: "lato";
   display: block;
 }
-article{
+article, li{
   border-bottom: 1px solid #BABABE;
 }
 a {
@@ -26,6 +26,7 @@ a:visited{
 }
 ol, ul {
   list-style: none;
+  padding: 0;
 }
 blockquote, q {
   quotes: none;

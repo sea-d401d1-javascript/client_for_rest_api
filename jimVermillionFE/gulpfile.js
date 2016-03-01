@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
 const babel = require('babel-loader');
+const html = require('html-loader');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
@@ -35,6 +36,10 @@ gulp.task('webpack:test', () => {
         loaders: [
           {
             loader: 'babel?presets[]=es2015'
+          },
+          {
+            test: /\.html$/,
+            loader: 'html'
           }
         ]
       }
