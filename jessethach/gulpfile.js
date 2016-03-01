@@ -2,20 +2,27 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
 const html = require('html-loader');
+const sass = require('gulp-sass');
+const maps = require('gulp-sourcemaps');
+const minifyCss = require('gulp-minify-css');
 
 const jsFiles = ['./*.js', 'app/**/*.js', '!node_modules/**'];
 const clientScripts = ['app/**/*.js'];
 const staticFiles = ['app/**/*.html'];
-const cssFiles = ['app/**/*.css'];
+const scssFiles = ['app/**/*.scss'];
 
 gulp.task('html:dev', () => {
   gulp.src(staticFiles)
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
-gulp.task('css:dev', () => {
-  gulp.src(cssFiles)
-    .pipe(gulp.dest(__dirname + '/build'));
+gulp.task('scss:dev', () => {
+  gulp.src(scssFiles)
+    .pipe(maps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(minifyCss())
+    .pipe(maps.write('./'))
+    .pipe(gulp.dest(__dirname + '/build'))
 });
 
 gulp.task('webpack:dev', () => {
@@ -57,8 +64,8 @@ gulp.task('webpack:test', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch([jsFiles, staticFiles, cssFiles], ['build:dev']);
+  gulp.watch([jsFiles, staticFiles, scssFiles], ['build:dev']);
 });
 
-gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'css:dev']);
+gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'scss:dev']);
 gulp.task('default', ['build:dev']);
