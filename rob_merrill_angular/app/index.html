@@ -16,11 +16,11 @@
 
     <article></article>
     
-    <main data-ng-controller="BeersController"> 
+    <main data-ng-controller="BeersController" data-ng-init="getAll()"> 
 
-      <section data-ng-init="getAllBeers()">
+      <section>
 
-         
+    <h2>Beers!</h2>     
     <ul>
       <beer data-ng-repeat="beer in beers" data-beer-data="beer">
         <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
@@ -38,7 +38,7 @@
     <beer data-beer-data="newBeer">
       <beer-form 
         data-button-text="Create new Beer"
-        data-beer="newBeer"
+        data-resource="newBeer"
         data-save="createBeer(newBeer)"
       ></beer-form>
     </beer>

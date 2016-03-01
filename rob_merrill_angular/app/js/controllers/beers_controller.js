@@ -1,20 +1,27 @@
 var angular = require('angular');
 
-module.exports = function(app) {
-  app.controller('BeersController', ['$scope', '$http', 'Resource', 'store', function($scope, $http, Resource, store) {
-    
-    $scope.beerGreeting = 'hello world';
-    $scope.fakeBeer={name: 'a fake beer', style: 'stout'};
-    store.set('greeting', 'hello world');
+module.exports = exports = function(app) {
+  app.controller('BeersController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
     $scope.beers = [];
+    $scope.flowers = [];
     var beerService = Resource('/beers');
-
-    $scope.brewerGreeting = 'hello world';
-    $scope.fakeBrewer={name: 'a fake brewer', age: 34};
-    store.set('greeting', 'hello world');
-    $scope.brewers = [];
     var brewerService = Resource('/brewers');
 
+    // $scope.beerGreeting = 'hello world';
+    // $scope.fakeBeer={name: 'a fake beer', style: 'stout'};
+    // store.set('greeting', 'hello world');
+    // $scope.beers = [];
+    // var beerService = Resource('/beers');
+
+    // $scope.brewerGreeting = 'hello world';
+    // $scope.fakeBrewer={name: 'a fake brewer', age: 34};
+    // store.set('greeting', 'hello world');
+    // $scope.brewers = [];
+    // var brewerService = Resource('/brewers');
+
+    function handleError(err) {
+      return console.log(err);
+    };
 
     $scope.toggleEdit = function(beer) {
       if (beer.backup) {
@@ -26,28 +33,38 @@ module.exports = function(app) {
       }
     };
 
-    $scope.getAll = function () {
-      beerService.getAll(function(err, res) {
-        if (err) return console.log(err);
+    $scope.getBeers = function() {
+      beerService.get((err, res) => {
+        if (err) handleError(err);
         $scope.beers = res;
       });
     };
 
-    $scope.createBeer = function(beer) {
-      $scope.beers.push(beer);
+    $scope.getBrewers = function() {
+      brewerService.get((err, res) => {
+        if (err) handleError(err);
+        $scope.brewers = res;
+      });
+    };
+
+    $scope.getAll = function () {
+      $scope.getBeers();
+      $scope.getBrewers();
+    };
+
+    $scope.postBeer = function(beer) {
       beerService.create(beer, function(err, res) {
         if (err) return console.log(err);
-        $scope.beers.splice($scope.beers.indexOf(beer), 1, res);
+        $scope.beers.push(res);
         $scope.newBeer = null;
       });
     };
 
-    $scope.createBrewer = function(brewer) {
-      $scope.brewers.push(brewer);
+    $scope.postBrewer = function(brewer) {
       brewerService.create(brewer, function(err, res) {
         if (err) return console.log(err);
-        $scope.brewers.splice($scope.brewers.indexOf(brewer), 1, res);
-        $scope.newBrewer = null;
+        $scope.brewers.push(res);
+        $scope.newBrewers = null;
       });
     };
 
