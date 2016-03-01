@@ -2,11 +2,12 @@ var mongoose = require('mongoose');
 
 var democraticSchema = new mongoose.Schema({
   party: {type: String, default: 'Democrat'},
-  name: {type: String, trim: true, unique: true, required: true},
+  name: {type: String, trim: true, required: true},
+  voted4: {type: String, trim: true, required: true},
   email: {type: String, index: true, match: /.+\@.+\..+/},
   gender: {type: String, enum: ['Male', 'Female']},
   cityFrom: {type: String},
-  prevExper: {type: Boolean},
+  prevVoter: {type: Boolean},
   age: {type: Number, min: 18},
   living: {type: Boolean},
   money: {type: Number}

@@ -45,176 +45,34 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(13);
+
+	__webpack_require__(14);
+	__webpack_require__(15);
+	__webpack_require__(16);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(14);
+	const angular = __webpack_require__(2);
+	const politiciansApp = angular.module('politiciansApp', []);
 
-	describe('politicians controller', () => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
-
-	  beforeEach(angular.mock.module('politiciansApp'));
-
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller;
-	    $scope = $rootScope.$new();
-	  }));
-
-	  // ======================= test the controllers ==============================
-	  // ===========================================================================
-
-	  it('should be able to make a controller', () => {
-	    var politiciansController = $ControllerConstructor('PoliticiansController', {$scope});
-	    expect(typeof politiciansController).toBe('object');
-	    expect(Array.isArray($scope.demPoliticians)).toBe(true);
-	    expect(typeof $scope.getDem).toBe('function');
-	  });
-
-	  it('should be able to make a controller', () => {
-	    var politiciansController = $ControllerConstructor('PoliticiansController', {$scope});
-	    expect(typeof politiciansController).toBe('object');
-	    expect(Array.isArray($scope.repPoliticians)).toBe(true);
-	    expect(typeof $scope.getRep).toBe('function');
-	  });
-
-	  // ======================= test the REST requests ============================
-	  // ===========================================================================
-
-	  describe('REST requests', () => {
-
-	  // ======================= test the REST requests ============================
-	  // ===========================================================================
-
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('PoliticiansController', {$scope});
-	    }));
-
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-
-	    // ======================= test the GET requests ===========================
-	    // =========================================================================
-
-	    it('should make a GET request to api/demPoliticians', () => {
-	      $httpBackend.expectGET('http://localhost:5000/api/demPoliticians').respond(200, [{name: 'test politician'}]);
-	      $scope.getDem();
-	      $httpBackend.flush();
-	      expect($scope.demPoliticians.length).toBe(1);
-	      expect($scope.demPoliticians[0].name).toBe('test politician');
-	    });
-
-	    it('should make a GET request to api/repPoliticians', () => {
-	      $httpBackend.expectGET('http://localhost:5000/api/repPoliticians').respond(200, [{name: 'test politician'}]);
-	      $scope.getRep();
-	      $httpBackend.flush();
-	      expect($scope.repPoliticians.length).toBe(1);
-	      expect($scope.repPoliticians[0].name).toBe('test politician');
-	    });
-
-	    // ======================= test the POST requests ==========================
-	    // =========================================================================
-
-	    it('should create a new dem politician', () => {
-	      $httpBackend.expectPOST('http://localhost:5000/api/demPoliticians', {name: 'the sent politician'}).respond(200, {name: 'the response politician'});
-	      $scope.demPolitician = {name: 'the new politician'};
-	      $scope.createDemPolitician({name: 'the sent politician'});
-	      $httpBackend.flush();
-	      expect($scope.demPoliticians.length).toBe(1);
-	      expect($scope.demPolitician).toBe(null);
-	      expect($scope.demPoliticians[0].name).toBe('the response politician');
-	    });
-
-	    it('should create a new rep politician', () => {
-	      $httpBackend.expectPOST('http://localhost:5000/api/repPoliticians', {name: 'the sent politician'}).respond(200, {name: 'the response politician'});
-	      $scope.repPolitician = {name: 'the new politician'};
-	      $scope.createRepPolitician({name: 'the sent politician'});
-	      $httpBackend.flush();
-	      expect($scope.repPoliticians.length).toBe(1);
-	      expect($scope.repPolitician).toBe(null);
-	      expect($scope.repPoliticians[0].name).toBe('the response politician');
-	    });
-
-	    // ======================= test the PUT requests ===========================
-	    // =========================================================================
-
-	    it('should update a dem politician', () => {
-	      var testPolitician = {name: 'inside scope', editing: true, _id: 5};
-	      $scope.demPoliticians.push(testPolitician);
-	      $httpBackend.expectPUT('http://localhost:5000/api/demPoliticians/5', testPolitician).respond(200);
-	      $scope.updateDemPolitician(testPolitician);
-	      $httpBackend.flush();
-	      expect(testPolitician.editing).toBe(false);
-	      expect($scope.demPoliticians[0].editing).toBe(false);
-	    });
-
-	    it('should update a rep politician', () => {
-	      var testPolitician = {name: 'inside scope', editing: true, _id: 5};
-	      $scope.repPoliticians.push(testPolitician);
-	      $httpBackend.expectPUT('http://localhost:5000/api/repPoliticians/5', testPolitician).respond(200);
-	      $scope.updateRepPolitician(testPolitician);
-	      $httpBackend.flush();
-	      expect(testPolitician.editing).toBe(false);
-	      expect($scope.repPoliticians[0].editing).toBe(false);
-	    });
-
-	    // ======================= test the DELETE requests ========================
-	    // =========================================================================
-
-	    it('should delete a dem politician', () => {
-	      var testPolitician = {name: 'condemned politician', _id: 1};
-	      $scope.demPoliticians.push(testPolitician);
-	      expect($scope.demPoliticians.indexOf(testPolitician)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:5000/api/demPoliticians/1').respond(200);
-	      $scope.deleteDemPolitician(testPolitician);
-	      $httpBackend.flush();
-	      expect($scope.demPoliticians.indexOf(testPolitician)).toBe(-1);
-	    });
-
-	    it('should delete a rep politician', () => {
-	      var testPolitician = {name: 'condemned politician', _id: 1};
-	      $scope.repPoliticians.push(testPolitician);
-	      expect($scope.repPoliticians.indexOf(testPolitician)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:5000/api/repPoliticians/1').respond(200);
-	      $scope.deleteRepPolitician(testPolitician);
-	      $httpBackend.flush();
-	      expect($scope.repPoliticians.indexOf(testPolitician)).toBe(-1);
-	    });
-
-	  });
-	});
+	__webpack_require__(4)(politiciansApp);
+	__webpack_require__(7)(politiciansApp);
 
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(3);
-	const politiciansApp = angular.module('politiciansApp', []);
-
-	__webpack_require__(5)(politiciansApp);
-	__webpack_require__(8)(politiciansApp);
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -30647,17 +30505,17 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
+	  __webpack_require__(5)(app);
 	  __webpack_require__(6)(app);
-	  __webpack_require__(7)(app);
 	};
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -30677,7 +30535,7 @@
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30732,25 +30590,25 @@
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(politiciansApp) {
-	  __webpack_require__(9)(politiciansApp);
+	  __webpack_require__(8)(politiciansApp);
 
 	  // require('./directives/politician_display_directive')(politiciansApp);
+	  __webpack_require__(9)(politiciansApp);
 	  __webpack_require__(10)(politiciansApp);
 	  __webpack_require__(11)(politiciansApp);
 	  __webpack_require__(12)(politiciansApp);
-	  __webpack_require__(13)(politiciansApp);
 	};
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(3);
+	const angular = __webpack_require__(2);
 
 	module.exports = function(politiciansApp) {
 	  politiciansApp.controller('PoliticiansController', ['$scope', '$http', 'Resource', 'polyStore', function($scope, $http, Resource, polyStore) {
@@ -30850,7 +30708,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -30890,7 +30748,7 @@
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -30904,7 +30762,7 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -30918,7 +30776,7 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -30933,7 +30791,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -33779,6 +33637,162 @@
 
 	})(window, window.angular);
 
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('politicians controller', () => {
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerCOnstructor;
+
+	  beforeEach(angular.mock.module('politiciansApp'));
+
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller;
+	    $scope = $rootScope.$new();
+	  }));
+
+	  it('should be able to make a controller', () => {
+	    var politiciansController = $ControllerConstructor('politiciansController', {$scope});
+	    expect(typeof politiciansController).toBe('object');
+	    expect(Array.isArray($scope.politicians)).toBe(true);
+	    expect(typeof $scope.getAll).toBe('function');
+	  });
+
+	  describe('REST requests', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('politiciansController', {$scope});
+	    }));
+	    afterEach(() => {
+	      $httpBackend.verfiyNoOutstandingExpectation();
+	      $httpBackend.verfiyNoOutstandingRequests();
+	    });
+
+	    it('should make a get request to /api/demPoliticians', () => {
+	       $httpBackend.expectGET('http://localhost:5000/api/demPoliticians').respond(200, [{name: 'Jackie'}]);
+	       $scope.getAll();
+	       $httpBackend.flush();
+	       expect($scope.demPoliticians.length).toBe(1);
+	       expect($scope.demPoliticians[0].name).toBe('Jackie');
+	     });
+
+	     it('should create a new politician', () => {
+	       $httpBackend.expectPOST('http://localhost:5000/api/demPoliticians', {name: 'the sent politician'}).respond(200, {name: 'the response politician'});
+	       $scope.newDemPolitician = {name: 'the new dem politician'};
+	       $scope.createBear({name: 'the sent politician'});
+	       $httpBackend.flush();
+	       expect($scope.demPoliticians.length).toBe(1);
+	       expect($scope.newDemPolitician).toBe(null);
+	       expect($scope.demPoliticians[0].name).toBe('the response politician');
+	     });
+
+	     it('should update a politician', () => {
+	       var testPolitician = {name: 'inside scope', editing: true, _id: 5};
+	       $scope.demPoliticians.push(testPolitician);
+	       $httpBackend.expectPUT('http://localhost:5000/api/demPoliticians/5', testPolitician).respond(200);
+	       $scope.updatePolitician(testPolitician);
+	       $httpBackend.flush();
+	       expect(testDemPolitician.editing).toBe(false);
+	       expect($scope.demPoliticians[0].editing).toBe(false);
+	     });
+
+	     it('should murder a politician', () => {
+	       var testPolitician = {name: 'condemned politician', _id: 1};
+	       $scope.demPoliticians.push(testPolitician);
+	       expect($scope.demPoliticians.indexOf(testPolitician)).not.toBe(-1);
+	       $httpBackend.expectDELETE('http://localhost:3000/api/demPoliticians/1').respond(200);
+	       $scope.deletePolitcian(testPolitician);
+	       $httpBackend.flush();
+	       expect($scope.demPoliticians.indexOf(testPolitician)).toBe(-1);
+	     });
+	   });
+	 });
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('reosurce service', () => {
+	  beforeEach(angular.mock.module('politiciansApp'));
+
+	  var $httpBackend;
+	  var Resource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, Resource) {
+	    $httpBackend = _$httpBackend_;
+	    Resource = Resource;
+	  }));
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('function');
+	  });
+	});
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(17);
+
+	describe('dem form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('politiciansApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET', '/templates/politicians/directives/dempolitician_form_directive.html').respond(200, template);
+
+	    var element = $compile('<dem-form data-dem="{}" data-button-text="test button"></dem-form>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save function', () => {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/politicians/directives/demPolitician_form_directive.html').respond(200, template);
+	    var called = false;
+	    scope.demPolitician = {name: 'inside scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from directive');
+	      scope.demPolitician = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<dem-form data-dem="{name: \'inside directive\'}" data-save=testSave></dem-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    element.isolateScope().save(scope)({name: 'from directive'});
+	    expect(called).toBe(true);
+	    expect(scope.demPolitician.name).toBe('from directive');
+	  });
+	});
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(demPolitician)\">\n  <label for=\"name\">Your Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"demPolitician.name\"></input>\n\n  <label for=\"age\">Your Age:</label>\n  <input type=\"text\" name=\"age\" data-ng-model=\"demPolitician.age\" placeholder=\"18+\"></input>\n\n  <label for=\"voted4\">Who You Voted For:</label>\n  <input type=\"text\" name=\"votedFor\" data-ng-model=\"demPolitician.voted4\"></input>\n\n  <label for=\"cityFrom\">Your City:</label>\n  <input type=\"text\" name=\"cityFrom\" data-ng-model=\"demPolitician.cityFrom\"></input>\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ }
 /******/ ]);

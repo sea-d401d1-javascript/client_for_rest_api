@@ -10,6 +10,8 @@ var handleFailure = function(callback) {
   };
 };
 
+//these modules process the HTTP ............
+
 module.exports = exports = function(app) {
   app.factory('Resource', ['$http', function($http) {
     var Resource = function(resourceName) {

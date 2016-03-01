@@ -46,76 +46,9 @@
 
 	const angular = __webpack_require__(1);
 	const politiciansApp = angular.module('politiciansApp', []);
+
 	__webpack_require__(3)(politiciansApp);
-
-	politiciansApp.controller('PoliticiansController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
-	  $scope.demGreeting = 'Hello Democrat Voters';
-	  $scope.demPoliticians = [];
-	  var demService = Resource('/demPoliticians');
-
-	  $scope.repGreeting = 'Hello Republican Voters';
-	  $scope.repPoliticians = [];
-	  var repService = Resource('/repPoliticians');
-
-	  $scope.getDem = function() {
-	    demService.getDem(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.demPoliticians = res;
-	    });
-	  };
-
-	  $scope.getRep = function() {
-	    repService.getRep(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.repPoliticians = res;
-	    });
-	  };
-
-	  $scope.createDemPolitician = function(demPolitician) {
-	    demService.create(demPolitician, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.demPoliticians.push(res);
-	      $scope.demPolitician = null;
-	    });
-	  };
-
-	  $scope.createRepPolitician = function(repPolitician) {
-	    repService.create(repPolitician, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.repPoliticians.push(res);
-	      $scope.repPolitician = null;
-	    });
-	  };
-
-	  $scope.deleteDemPolitician = function(demPolitician) {
-	    demService.delete(demPolitician, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1);
-	    });
-	  };
-
-	  $scope.deleteRepPolitician = function(repPolitician) {
-	    repService.delete(repPolitician, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1);
-	    });
-	  };
-
-	  $scope.updateDemPolitician = function(demPolitician) {
-	    demService.update(demPolitician, function(err, res) {
-	      demPolitician.editing = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	  $scope.updateRepPolitician = function(repPolitician) {
-	    repService.update(repPolitician, function(err, res) {
-	      repPolitician.editing = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-
-	}]);
+	__webpack_require__(6)(politiciansApp);
 
 
 /***/ },
@@ -30561,6 +30494,36 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(4)(app);
+	  __webpack_require__(5)(app);
+	};
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('polyStore', function() {
+	    var data = {};
+	    return {
+	      get: function(key) {
+	        return data[key];
+	      },
+	      set: function(key, value) {
+	        data[key] = value;
+	        return value;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30574,6 +30537,8 @@
 	    callback(res);
 	  };
 	};
+
+	//these modules process the HTTP ............
 
 	module.exports = exports = function(app) {
 	  app.factory('Resource', ['$http', function($http) {
@@ -30609,6 +30574,207 @@
 	      return new Resource(resourceName);
 	    };
 	  }]);
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(politiciansApp) {
+	  __webpack_require__(7)(politiciansApp);
+
+	  // require('./directives/politician_display_directive')(politiciansApp);
+	  __webpack_require__(8)(politiciansApp);
+	  __webpack_require__(9)(politiciansApp);
+	  __webpack_require__(10)(politiciansApp);
+	  __webpack_require__(11)(politiciansApp);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(1);
+
+	module.exports = function(politiciansApp) {
+	  politiciansApp.controller('PoliticiansController', ['$scope', '$http', 'Resource', 'polyStore', function($scope, $http, Resource, polyStore) {
+
+	    $scope.demGreeting = 'Hello Democrat Voters';
+	    $scope.fakeDemPolitician={name: 'a fake dem', cityFrom: 'Seattle'};
+	    polyStore.set('greeting', 'hello from dem');
+	    $scope.demPoliticians = [];
+	    var demService = Resource('/demPoliticians');
+
+	    $scope.repGreeting = 'Hello Republican Voters';
+	    $scope.fakeRepPolitician={name: 'a fake rep', cityFrom: 'Seattle'};
+	    polyStore.set('greeting', 'hello from rep');
+	    $scope.repPoliticians = [];
+	    var repService = Resource('/repPoliticians');
+
+	    $scope.toggleEdit = function(repPolitician) {
+	      if (repPolitician.backup) {
+	        var temp = repPolitician.backup;
+	        $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1, temp);
+	      } else {
+	        repPolitician.backup = angular.copy(repPolitician);
+	        repPolitician.editing = true;
+	      }
+	    };
+
+	    $scope.toggleEdit = function(demPolitician) {
+	      if (demPolitician.backup) {
+	        var temp = demPolitician.backup;
+	        $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1, temp);
+	      } else {
+	        demPolitician.backup = angular.copy(demPolitician);
+	        demPolitician.editing = true;
+	      }
+	    };
+
+	    $scope.getDem = function() {
+	      demService.getDem(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.demPoliticians = res;
+	      });
+	    };
+
+	    $scope.getRep = function() {
+	      repService.getRep(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.repPoliticians = res;
+	      });
+	    };
+
+	    $scope.createDemPolitician = function(demPolitician) {
+	      demService.create(demPolitician, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.demPoliticians.push(res);
+	        $scope.demPolitician = null;
+	      });
+	    };
+
+	    $scope.createRepPolitician = function(repPolitician) {
+	      repService.create(repPolitician, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.repPoliticians.push(res);
+	        $scope.repPolitician = null;
+	      });
+	    };
+
+	    $scope.deleteDemPolitician = function(demPolitician) {
+	      demService.delete(demPolitician, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1);
+	      });
+	    };
+
+	    $scope.deleteRepPolitician = function(repPolitician) {
+	      repService.delete(repPolitician, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1);
+	      });
+	    };
+
+	    $scope.updateDemPolitician = function(demPolitician) {
+	      demService.update(demPolitician, function(err, res) {
+	        demPolitician.editing = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.updateRepPolitician = function(repPolitician) {
+	      repService.update(repPolitician, function(err, res) {
+	        repPolitician.editing = false;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	  }]);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('repform', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: 'templates/politicians/directives/repPolitician_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        repPolitician: '=',
+	        save: "&"
+	      },
+	      controller: function($scope) {
+	        $scope.repPolitician = $scope.repPolitician || {party: 'Rebublican'};
+	      }
+	    };
+	  });
+	  app.directive('demform', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: 'templates/politicians/directives/demPolitician_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        demPolitician: '=',
+	        save: "&"
+	      },
+	      controller: function($scope) {
+	        $scope.demPolitician = $scope.demPolitician || {party: 'Democrat'};
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('logo', function() {
+	    return {
+	      restrict: 'E',
+	      template: '<h1 class="thin">A FUTURE TO <span>BELIEVE IN</span></h1><br><h2>TELL US WHO YOU ARE VOTING FOR IN 2016</h2><h3>VOTE<span>2016</span><span style="color:white;">&#9733;</span></h3>'
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('copyright', function() {
+	    return {
+	      restrict: 'EA',
+	      template: '<p>Copyright &copy 2016</p>'
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('redblue', function() {
+	    return{
+	      restrict: 'AEC', //restrict attribute, element, class
+	      replace: true,
+	      template: '<article style="float:left;background-color:{{color}}"><aside style="float:right;background-color:{{color}}">',
+	    }
+	  });
 	};
 
 

@@ -6,7 +6,8 @@ const gulp = require('gulp'),
       babel = require('babel-loader'),
       minifyCss = require('gulp-minify-css'),
       sass = require('gulp-sass'),
-      maps = require('gulp-sourcemaps');
+      maps = require('gulp-sourcemaps'),
+      html = require('html-loader');
 
 // gulp.task('lint', function() {
 //   return gulp.src(files)
@@ -53,7 +54,7 @@ gulp.task('sass:watch', function() {
 // });
 
 gulp.task('webpack:dev', () => {
-  gulp.src(__dirname + '/app/js/client.js')
+  gulp.src(__dirname + '/app/js/*.js')
     .pipe(webpack({
       output: {
         filename: 'bundle.js'
@@ -70,6 +71,24 @@ gulp.task('webpack:test', () => {
      }
    }))
    .pipe(gulp.dest('test/'));
+});
+
+gulp.task('webpack:testDir', () => {
+  gulp.src(__dirname + '/test_directives/test_directive_entry.js')
+    .pipe(webpack({
+      module: {
+        loaders: [
+          {
+            test: /\.html$/,
+            loader: 'html'
+          }
+        ]
+      },
+      output: {
+        filename: 'test_directive_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test_directives/'));
 });
 
 // gulp.task('mocha', function() {

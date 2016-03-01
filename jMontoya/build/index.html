@@ -3,73 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <title>Super Politician Stream Adventure</title>
-  <link href='https://fonts.googleapis.com/css?family=Ovo|Muli:400,300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Ovo|Muli|Roboto:900,400,300,100' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-ng-app="politiciansApp">
-  <header>
-    <h1 class="thin">A FUTURE TO <span>BELIEVE IN</span></h1>
+   <header>
+
+    <input style="float:left;margin: 20px 40px;" type="text" ng-model="color" placeholder="Are you Red or Blue - Type red or blue here!"/>
+
+    <logo></logo>
 
   </header>
+
   <section class="container">
-    <article>
+    <article class="redblue">
 
     </article>
     <main data-ng-controller="PoliticiansController" data-ng-init="getDem(); getRep()">
-      <section class="left">
+
+      <button ng-click="slide=!slide" class="showHideButton" >Hide/Show the GOP/DEMS</button>
+
+      <section class="center" ng-if="slide">
         <h1>{{ repGreeting }}</h1>
 
         <ul>
-          <li data-ng-repeat="repPolitician in repPoliticians">{{repPolitician.name}}, {{repPolitician.age}}<br>
-            <button data-ng-click="deleteRepPolitician(repPolitician)">Delete This Politician</button>
-            <button data-ng-click="repPolitician.editing = !repPolitician.editing">Update This Politician</button>
-            <form data-ng-if="repPolitician.editing" data-ng-submit="updateRepPolitician(repPolitician)">
-                <input data-ng-model="repPolitician.name" type="text" placeholder="Enter Name to Update"/>
-                <input data-ng-model="repPolitician.age" type="text" placeholder="Update Age Too"/>
-              <button type="submit">Update</button>
-            </form>
+          <li data-ng-repeat="repPolitician in repPoliticians">{{repPolitician.name}}, {{repPolitician.age}}, {{repPolitician.voted4}}<br>
+            <button data-ng-click="deleteRepPolitician(repPolitician)">Delete This Entry</button>
+            <button data-ng-if="!repPolitician.editing" data-ng-click="toggleEdit(repPolitician)">Update This Entry</button>
+
+            <repform
+              data-ng-if="repPolitician.editing"
+              data-ng-save="updateRepPolitician(repPolitician)"
+              data-button-text="Update Entry"
+              data-rep-politician="repPolitician"
+            >
+              <button type="button" data-ng-click="toggleEdit(repPolitician)">Cancel</button>
+            </repform>
           </li>
         </ul>
-        <form data-ng-submit="createRepPolitician(newRepPolitician)" class="positionInput">
-            <input data-ng-model="newRepPolitician.name" type="text" placeholder="Please Enter Name"/>
-            <input data-ng-model="newRepPolitician.age" type="text" placeholder="Please Enter Age"/>
-          <button type="submit" class="submit">New Rep Politician</button>
-        </form>
-        <p class="politicianOutput">{{repPoliticians}}</p>
+
+        <repPolitician data-repPolitician-data="newRepPolitician" class="repPolitician">
+          <repform
+            data-button-text="Create New Entry"
+            data-rep-politician="newRepPolitician"
+            data-save="createRepPolitician(newRepPolitician)"
+          ></repform>
+        </repPolitician>
+
+        <p class="politicianOutput repPoliticianOutput">{{repPoliticians}}</p>
       </section>
 
-      <section class="right">
+      <section class="center">
         <h1>{{ demGreeting }}</h1>
 
         <ul>
-          <li data-ng-repeat="demPolitician in demPoliticians">{{demPolitician.name}}, {{demPolitician.age}}<br>
-            <button data-ng-click="deleteDemPolitician(demPolitician)">Delete This Politician</button>
-            <button data-ng-click="demPolitician.editing = !demPolitician.editing">Update This Politician</button>
-            <form data-ng-if="demPolitician.editing" data-ng-submit="updateDemPolitician(demPolitician)">
-                <input data-ng-model="demPolitician.name" type="text" placeholder="Enter Name to Update"/>
-                <input data-ng-model="demPolitician.age" type="text" placeholder="Update Age Too"/>
-              <button type="submit">Update</button>
-            </form>
+          <li data-ng-repeat="demPolitician in demPoliticians">{{demPolitician.name}}, {{demPolitician.age}}, {{demPolitician.voted4}}<br>
+            <button data-ng-click="deleteDemPolitician(demPolitician)">Delete This Entry</button>
+            <button data-ng-if="!demPolitician.editing" data-ng-click="toggleEdit(demPolitician)">Update This Entry</button>
+
+            <demform
+              data-ng-if="demPolitician.editing"
+              data-ng-save="updateDemPolitician(demPolitician)"
+              data-button-text="Update Politician"
+              data-dem-politician="demPolitician"
+            >
+              <button type="button" data-ng-click="toggleEdit(demPolitician)">Cancel</button>
+            </demform>
           </li>
         </ul>
-        <form data-ng-submit="createDemPolitician(newDemPolitician)" class="positionInput">
-          <input data-ng-model="newDemPolitician.name" type="text" placeholder="Please Enter Name"/>
-          <input data-ng-model="newDemPolitician.age" type="text" placeholder="Please Enter Age"/>
-          <button type="submit" class="submit">New Dem Politician</button>
-        </form>
+
+        <demPolitician data-demPolitician-data="newDemPolitician" class="demPolitician">
+          <demform
+            data-button-text="Create New Entry"
+            data-dem-politician="newDemPolitician"
+            data-save="createDemPolitician(newDemPolitician)"
+          ></demform>
+        </demPolitician>
+
         <p class="politicianOutput">{{demPoliticians}}</p>
       </section>
 
     </main>
 
-    <aside>
+    <aside class="redblue">
 
     </aside>
+
   </section>
 
-  <footer><p>Copyright &copy 2016</p></footer>
-
+  <footer data-copyright></footer>
 
   <script src="bundle.js"></script>
+
+  <script type="text/javascript">
+    var slide = false;
+  </script>
+
 </body>
 </html>

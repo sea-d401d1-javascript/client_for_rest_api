@@ -5,7 +5,7 @@ const politicianRouter = require(__dirname + '/routes/dem_routes');
 const politicianRouter2 = require(__dirname + '/routes/rep_routes');
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/politiciansdb');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/politiciansdb2');
 
 app.use('/api', politicianRouter);
 app.use('/api', politicianRouter2);
