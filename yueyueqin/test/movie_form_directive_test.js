@@ -23,21 +23,21 @@ describe('movie form directive', () => {
     expect(element.html()).toContain('test button');
   });
 
-  // it('should be able to call a passed save function', () => {
-  //   var scope = $rootScope.$new();
-  //   $httpBackend.when('GET','/templates/movies/directives/movie_form.html')
-  //     .respond(200, template);
-  //   var call = false;
-  //   scope.movie = {name: 'test movie'};
-  //   scope.testSave = function(input){
-  //     expect(input.name).toBe('test movie');
-  //     call = true;
-  //   };
-  //   var element = $compile('<movie-form data-movie="{name : \'test movie\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
-  //   // $httpBackend.flush();
-  //   $httpBackend.$digest();
-  //
-  //   element.isolateScope.save({name: 'test movie'});
-  //   expect(called).toBe(true);
-  // });
+  it('should be able to call a passed save function', () => {
+    var scope = $rootScope.$new();
+    $httpBackend.when('GET','/templates/movies/directives/movie_form.html')
+      .respond(200, template);
+    var call = false;
+    scope.movie = {name: 'test movie'};
+    scope.testSave = function(input){
+      expect(input.name).toBe('test movie');
+      call = true;
+    };
+    var element = $compile('<movie-form data-movie="{name : \'test movie\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
+    // $httpBackend.flush();
+    $httpBackend.$digest();
+
+    element.isolateScope.save({name: 'test movie'});
+    expect(called).toBe(true);
+  });
 });

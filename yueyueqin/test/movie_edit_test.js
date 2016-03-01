@@ -25,12 +25,12 @@ describe('movie edit directive', () => {
     expect(element.html()).toContain('inside directive');
   });
 
-  // it('should transclue the element', () => {
-  //  $httpBackend.when('GET', '/templates/movies/directives/movie_edit.html').respond(200,template);
-  //   var element = $compile('<movie data-movie-data="{name:\'inside directive\'}" ">Hello</movie>')($rootScope);
-  //   $httpBackend.flush();
-  //   $rootScope.$digest();
-  //   expect(element.html()).toContain('inside directive');
-  //   expect(element.html()).toContain('Hello');
-  // });
+  it('should transclue the element', () => {
+   $httpBackend.when('GET', '/templates/movies/directives/movie_edit.html').respond(200,template);
+    var element = $compile('<movie data-movie-data="{name:\'inside directive\'}" ">Hello</movie>')($rootScope);
+    $httpBackend.flush();
+    $rootScope.$digest();
+    expect(element.html()).toContain('inside directive');
+    expect(element.html()).toContain('Hello');
+  });
 });
