@@ -1,3 +1,9 @@
+@mixin floater() {
+  background-color: rgba(0,0,0,0.5);
+  width: 30%;
+  text-align: center;
+}
+
 main {
   overflow: hidden;
   width: 100%;
@@ -12,14 +18,10 @@ footer {
   padding: 10px;
 }
 .right {
-  background-color: rgba(0,0,0,0.5);
+  @include floater();
   float: right;
-  width: 30%;
-  text-align: center;
 }
 .left {
-  background-color: rgba(0,0,0,0.5);
+  @include floater();
   float: left;
-  width: 30%;
-  text-align: center;
 }

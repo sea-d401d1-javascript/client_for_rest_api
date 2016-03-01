@@ -3,11 +3,10 @@
   margin: 0 auto;
   width: 30%;
   font-size: 36px;
-  color: #fff;
+  color: $white;
 }
-
 h2 {
-  border-bottom: 1px solid #BABABE;
+  border-bottom: 1px solid $gray;
   font-family: 'Grand Hotel', sans-serif;
 }
 input, label {
@@ -16,7 +15,7 @@ input, label {
 }
 input {
   background: black;
-  color: white;
+  color: $white;
   border: none;
 }
 button {
@@ -27,5 +26,5 @@ header h1 {
   font-family: 'Grand Hotel', sans-serif;
   text-align: center;
   font-size: 5em;
-  color: #fff;
+  color: $white;
 }
