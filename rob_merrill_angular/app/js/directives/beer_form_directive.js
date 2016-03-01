@@ -7,7 +7,7 @@ module.exports = function(app) {
       templateUrl: '/templates/beer_form_directive.html',
       scope: {
         buttonText: '@',
-        bear: '=',
+        student: '=',
         save: '&'
       },
       controller: function($scope) {

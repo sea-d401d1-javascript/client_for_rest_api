@@ -69,7 +69,6 @@ module.exports = exports = function(app) {
     };
 
     $scope.deleteBeer = function(beer) {
-      if (!beer._id) return setTimeout(function() {$scope.deleteBeer(beer);}, 1000);
       beerService.delete(beer, function(err, res) {
         if (err) return console.log(err);
         $scope.beers.splice($scope.beers.indexOf(beer), 1);
@@ -77,7 +76,6 @@ module.exports = exports = function(app) {
     };
 
       $scope.deleteBrewer = function(brewer) {
-      if (!brewer._id) return setTimeout(function() {$scope.deleteBrewer(brewer);}, 1000);
       brewerService.delete(brewer, function(err, res) {
         if (err) return console.log(err);
         $scope.brewers.splice($scope.brewers.indexOf(brewer), 1);

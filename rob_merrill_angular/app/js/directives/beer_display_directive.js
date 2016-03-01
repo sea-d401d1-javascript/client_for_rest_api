@@ -6,7 +6,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/beer.html',
       scope: {
-        beerData: '='
+        studentData: '='
       }
     };
   });
