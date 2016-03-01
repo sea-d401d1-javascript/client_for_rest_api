@@ -16,12 +16,11 @@ gulp.task('css:dev', () => {
 gulp.task('webpack:dev', () => {
   gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
-      // module: {
-      //   loaders: [{
-      //     loader: 'babel'
-      //   }
-      //   ]
-      // },
+      module: {
+        loaders: [{
+          loader: 'babel?presets[]=es2015'
+        }]
+      },
       output: {
         filename: 'bundle.js'
       }
