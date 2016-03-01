@@ -45,10 +45,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(5);
+	__webpack_require__(9);
 	
-	__webpack_require__(6);
-	__webpack_require__(7);
+	__webpack_require__(10);
+	__webpack_require__(11);
 
 
 /***/ },
@@ -56,47 +56,56 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const angular = __webpack_require__(2);
-	//now for great fun!
 	const activityApp = angular.module('activityApp', []);
+	
 	__webpack_require__(4)(activityApp);
 	
+	__webpack_require__(6)(activityApp);
 	
-	activityApp.controller('ActivityController', ['$scope', '$http', 'cfResource',
-	 function($scope, $http, Resource) {
-	  $scope.activity = [];
-	
-	  var activityService = Resource('/activity');
-	
-	  $scope.getAll = function() {
-	    activityService.getAll(function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.activity = res;
-	    });
-	  };
-	
-	  $scope.createActivity = function(act) {
-	    $scope.activity.push(act);
-	    activityService.create(act, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.activity.splice($scope.activity.indexOf(act), 1, res);
-	      $scope.newAct = null;
-	    });
-	  };
-	
-	  $scope.deleteActivity = function(act) {
-	    activityService.delete(act, function(err, res) {
-	      if (err) return console.log(err);
-	      $scope.activity.splice($scope.activity.indexOf(act), 1);
-	    });
-	  };
-	
-	  $scope.updateActivity = function(act) {
-	    activityService.update(act, function(err, res) {
-	      act.editing = false;
-	      if (err) return console.log(err);
-	    });
-	  };
-	}]);
+	// const angular = require('angular');
+	// //now for great fun!
+	// const activityApp = angular.module('activityApp', []);
+	// require('./services/resource_service')(activityApp);
+	//
+	//
+	// activityApp.controller('ActivityController', ['$scope', '$http', 'cfResource',
+	//  function($scope, $http, Resource) {
+	//   $scope.activity = [];
+	//
+	//   var activityService = Resource('/activity');
+	//
+	//
+	//
+	//   $scope.getAll = function() {
+	//     activityService.getAll(function(err, res) {
+	//       if (err) return console.log(err);
+	//       $scope.activity = res;
+	//     });
+	//   };
+	//
+	//   $scope.createActivity = function(act) {
+	//     $scope.activity.push(act);
+	//     activityService.create(act, function(err, res) {
+	//       if (err) return console.log(err);
+	//       $scope.activity.splice($scope.activity.indexOf(act), 1, res);
+	//       $scope.newAct = null;
+	//     });
+	//   };
+	//
+	//   $scope.deleteActivity = function(act) {
+	//     activityService.delete(act, function(err, res) {
+	//       if (err) return console.log(err);
+	//       $scope.activity.splice($scope.activity.indexOf(act), 1);
+	//     });
+	//   };
+	//
+	//   $scope.updateActivity = function(act) {
+	//     activityService.update(act, function(err, res) {
+	//       act.editing = false;
+	//       if (err) return console.log(err);
+	//     });
+	//   };
+	// }]);
 
 
 /***/ },
@@ -30542,6 +30551,15 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(5)(app);
+	};
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30590,7 +30608,43 @@
 
 
 /***/ },
-/* 5 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app){
+	  __webpack_require__(7)(app);
+	  __webpack_require__(8)(app);
+	
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('myAct', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/activity/directives/act.html',
+	      scope: {
+	        actData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports) {
 
 	/**
@@ -33438,12 +33492,12 @@
 
 
 /***/ },
-/* 6 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
 	var angular = __webpack_require__(2);
-	__webpack_require__(5);
+	__webpack_require__(9);
 	
 	describe('activity controller', () => {
 	  var $httpBackend;
@@ -33527,7 +33581,7 @@
 
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);

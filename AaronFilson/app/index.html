@@ -16,20 +16,24 @@
     <h1>API Magic! :</h1>
 
     <section data-ng-app="activityApp">
-      <section data-ng-controller="ActivityController">
+      <section data-ng-controller="ActivityController" data-ng-init="getAll()">
 
         <h2>Activity API:</h2>
-        <ul class="left">
-          <li data-ng-repeat="myAct in activity">{{myAct.name}}, {{myAct.shoes}}
-            <button data-ng-click="deleteActivity(myAct)">Delete This Activity</button>
-            <button data-ng-click="myAct.editing = !myAct.editing">Update This Activity</button>
-            <form data-ng-if="myAct.editing" data-ng-submit="updateActivity(myAct)">
-              <input data-ng-model="myAct.name" type="text"/>
-              <input data-ng-model="myAct.shoes" type="text"/>
-              <button type="submit">Update</button>
-            </form>
-          </li>
-        </ul>
+				<ul class="left">
+					<myAct data-ng-repeat="myAct in activity" data-myAct-data="myAct">
+						<button data-ng-click="deleteActivity(myAct)">Delete this Activity</button>
+						<button data-ng-if="!myAct.editing" data-ng-click="toggleEdit(myAct)">Update This Activity</button>
+						<myAct-form
+							data-ng-if="myAct.editing"
+							data-save="updateActivity(myAct)"
+							data-button-text="Update Activity"
+							data-myAct="myAct"
+						>
+								<button type="button" data-ng-click="toggleEdit(myAct)">Cancel</button>
+						</myAct-form>
+					</myAct>
+				</ul>
+
         <form class="center" data-ng-submit="createActivity(newAct)">
           <input data-ng-model="newAct.name" type="text"/>
           <input data-ng-model="newAct.shoes" type="text"/>
@@ -40,9 +44,17 @@
     </section>
   </main>
 
-	<p></p>
+	<!-- <p><li data-ng-repeat="myAct in activity">{{myAct.name}}, {{myAct.shoes}}
+		<button data-ng-click="deleteActivity(myAct)">Delete This Activity</button>
+		<button data-ng-click="myAct.editing = !myAct.editing">Update This Activity</button>
+		<form data-ng-if="myAct.editing" data-ng-submit="updateActivity(myAct)">
+			<input data-ng-model="myAct.name" type="text"/>
+			<input data-ng-model="myAct.shoes" type="text"/>
+			<button type="submit">Update</button>
+		</form>
+	</li></p> -->
 	<p>
-		
+
 	</p>
 
 	<footer>
