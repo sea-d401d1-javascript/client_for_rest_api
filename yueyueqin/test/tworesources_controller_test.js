@@ -1,6 +1,4 @@
-require(__dirname + '/../app/js/two_resources_controller.js');
 var angular = require('angular');
-require('angular-mocks');
 
 describe('movies controller',() => {
   beforeEach(angular.mock.module('twoResourcesApp'));

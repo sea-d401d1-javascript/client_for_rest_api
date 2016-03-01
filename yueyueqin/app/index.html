@@ -22,16 +22,14 @@
               <movie-edit data-ng-repeat="movie in movies" data-movie-data="movie">
                 <button data-ng-click="deleteMovie(movie)" type="button">Delete</button>
                 <button data-ng-click="toggleEdit(movie)" data-ng-if="!movie.editing">Update</button>
-                <form data-ng-if="movie.editing" data-ng-submit="updateMovie(movie)">
-                  <input type="text" data-ng-model="movie.name" class="form-control" placeholder="name">
-                  <input type="text" data-ng-model="movie.type" class="form-control" placeholder="type">
-                  <input type="text" data-ng-model="movie.actors" class="form-control" placeholder="actors">
-                  <input type="text" data-ng-model="movie.publish"  class="form-control" placeholder="publish">
-                  <section class="edit">
-                    <button type="button" data-ng-click="toggleEdit(movie)">Cancel</button>
-                    <button type="submit">Save</button>
-                  </section>
-                </form>
+                <movie-form
+                  data-button-text="Save"
+                  data-save="updateMovie(movie)"
+                  data-movie="movie"
+                  data-ng-if="movie.editing"
+                >
+                  <button type="button" data-ng-click="toggleEdit(movie)">Cancel</button>
+                </movie-form>
               </movie-edit>
             </ul>
           </section>

@@ -27,15 +27,20 @@
     "eslint-plugin-angular": "^0.15.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
+    "html-loader": "^0.4.3",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.7",
+    "karma-ng-html2js-preprocessor": "^0.2.1",
     "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^2.4.5",
     "phantomjs-prebuilt": "^2.1.4",
     "webpack": "^1.12.13",
     "webpack-stream": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
   }
 }

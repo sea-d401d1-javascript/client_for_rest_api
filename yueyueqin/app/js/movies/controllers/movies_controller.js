@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
+  app.controller('MoviesController',['$scope', '$http', 'twoResource',  function($scope, $http, Resource) {
     $scope.movies = [];
 
     var movieService = Resource('/movies');

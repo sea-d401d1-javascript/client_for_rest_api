@@ -1,9 +1,9 @@
 const angular = require('angular');
 const twoResourcesApp = angular.module('twoResourcesApp', []);
 require('./services/resources_service')(twoResourcesApp);
-require('./services/resource_store')(twoResourcesApp);
 
-twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
+
+twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
   $scope.movies = [];
 
   var movieService = Resource('/movies');

@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
 const babel = require('babel-loader');
+const html = require('html-loader');
 
 
 gulp.task('html:dev', () => {
@@ -29,11 +30,19 @@ gulp.task('webpack:dev', () => {
 gulp.task('webpack:test', () => {
   gulp.src(__dirname + '/test/test_entry.js')
     .pipe(webpack({
+      module: {
+        loaders: [
+          {
+            test: /\.html$/,
+            loader: 'html'
+          }
+        ]
+      },
       output: {
         filename: 'test_bundle.js'
       }
     }))
       .pipe(gulp.dest('test/'));
 });
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev','asset']);
+gulp.task('build:dev', ['webpack:dev', 'webpack:test','html:dev', 'css:dev','asset']);
 gulp.task('default', ['build:dev']);
