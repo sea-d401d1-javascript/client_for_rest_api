@@ -4,13 +4,13 @@ module.exports = function(politiciansApp) {
   politiciansApp.controller('PoliticiansController', ['$scope', '$http', 'Resource', 'polyStore', function($scope, $http, Resource, polyStore) {
 
     $scope.demGreeting = 'Hello Democrat Voters';
-    $scope.fakeDemPolitician={name: 'a fake dem', cityFrom: 'Seattle'};
+    $scope.fakeDemPolitician={name: 'a fake dem', cityFrom: 'Seattle', voted4: 'dem'};
     polyStore.set('greeting', 'hello from dem');
     $scope.demPoliticians = [];
     var demService = Resource('/demPoliticians');
 
     $scope.repGreeting = 'Hello Republican Voters';
-    $scope.fakeRepPolitician={name: 'a fake rep', cityFrom: 'Seattle'};
+    $scope.fakeRepPolitician={name: 'a fake rep', cityFrom: 'Seattle', voted4: 'rep'};
     polyStore.set('greeting', 'hello from rep');
     $scope.repPoliticians = [];
     var repService = Resource('/repPoliticians');

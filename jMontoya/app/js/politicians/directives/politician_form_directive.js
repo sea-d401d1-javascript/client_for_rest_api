@@ -4,10 +4,10 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: 'templates/politicians/directives/repPolitician_form_directive.html',
+      templateUrl: '/templates/politicians/directives/rep_politician_form_directive.html',
       scope: {
         buttonText: '@',
-        repPolitician: '=',
+        reppolitician: '=',
         save: "&"
       },
       controller: function($scope) {
@@ -20,10 +20,10 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: 'templates/politicians/directives/demPolitician_form_directive.html',
+      templateUrl: '/templates/politicians/directives/dem_politician_form_directive.html',
       scope: {
         buttonText: '@',
-        demPolitician: '=',
+        dempolitician: '=',
         save: "&"
       },
       controller: function($scope) {

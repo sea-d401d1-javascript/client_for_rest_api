@@ -1,16 +1,16 @@
 var angular = require('angular');
 
-describe('reosurce service', () => {
+describe('resource service', () => {
   beforeEach(angular.mock.module('politiciansApp'));
 
   var $httpBackend;
-  var Resource;
+  var Resources;
   beforeEach(angular.mock.inject(function(_$httpBackend_, Resource) {
     $httpBackend = _$httpBackend_;
-    Resource = Resource;
+    Resources = Resource;
   }));
 
   it('should be a service', () => {
-    expect(typeof Resource).toBe('function');
+    expect(typeof Resources).toBe('function');
   });
 });
