@@ -7,8 +7,12 @@ require('../../services/resource_service')(wapApp);
 
 wapApp.controller('dogController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.dog = [];
+  $scope.errors = [];
   var dogService = Resource('/dog');
 
+$scope.dismissError = function(err) {
+    $scope.errors.splice($scope.errors.indexOf(err), 1);
+};
 
 $scope.alldogs = function() {
   dogService.alldogs(function(err, res) {

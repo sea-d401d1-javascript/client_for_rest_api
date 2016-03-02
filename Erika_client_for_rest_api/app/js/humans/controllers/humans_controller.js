@@ -7,8 +7,12 @@ require('../../services/resource_service')(wapApp);
 
 wapApp.controller('humanController', ['$scope', '$http', 'cfResource', function($scope, $http, Resource) {
   $scope.human = [];
+  $scope.errors = [];
   var humanService = Resource('/human');
 
+$scope.dismissError = function(err) {
+    $scope.errors.splice($scope.errors.indexOf(err), 1);
+};
 
 $scope.allhumans = function() {
   humanService.allhumans(function(err, res) {

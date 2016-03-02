@@ -1,0 +1,30 @@
+<section data-ng-init="allhumans()">
+  <h1>Humans</h1>
+  <section data-ng-if="errors.length">
+    <h2>Errors: </h2>
+    <ul>
+    	<li data-ng-repeat="error in errors">{{error}}<button data-ng-click="dismissError(error)" alt="dismiss">X</button></li>
+    </ul>
+  </section>
+  <ul>
+    <human data-ng-repeat="human in humans" data-human-data="human">
+      <button data-ng-click="deleteHuman(human)">Delete Human</button>
+      <button data-ng-if="!human.editing" data-ng-click="updateHuman(human)">Update Human</button>
+      <human-form
+        data-ng-if="human.editing"
+        data-save="updateHuman(human)"
+        data-button-text="Update Human"
+        data-human="human"
+      >
+        <button type="button" data-ng-click="updateHuman(human)">Cancel</button>
+      </human-form>
+    </human>
+  </ul>
+  <human data-human-data="newHuman">
+    <human-form
+      data-button-text="Create new Human"
+      data-human="newHuman"
+      data-save="createHuman(newHuman)"
+    ></human-form>
+  </human>
+</section>
