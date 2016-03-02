@@ -50,51 +50,6 @@
 	__webpack_require__(3)(studentsApp);
 	__webpack_require__(6)(studentsApp);
 
-	// studentsApp.controller('StudentsController', ['$scope', '$http', function($scope, $http) {
-	//   $scope._classes = [];
-
-	//   $scope.getAllClasses = function() {
-	//     $http.get('http://localhost:3000/api/classes')
-	//       .then((res) => {
-	//         console.log('success!');
-	//         $scope._classes = res.data;
-	//     }, (err) => {
-	//         console.log(err);
-	//     });
-	//   };
-	  
-	//   $scope.create_Class = function(_class) {
-	//     $http.post('http://localhost:3000/api/classes/', _class)
-	//       .then((res) => {
-	//         $scope._classes.push(res.data);
-	//         $scope.new_Class= null;
-	//       }, (err) => {
-	//         console.log(err);
-	//       });
-	//     };
-
-	//   $scope.delete_Class = function(_class) {
-	//     $http.delete('http://localhost:3000/api/classes/' + _class._id)
-	//       .then((res) => {
-	//         $scope._classes = $scope._classes.filter((i) => i !== _class);
-	//       }, (err) => {
-	//         console.log(err);
-	//       });
-	//   };
-
-	//   $scope.update_Class = function(_class) {
-	//     $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
-	//       .then((res) => {
-	//         $scope._classes[$scope._classes.indexOf(_class)] = _class;
-	//         _class.editing = false;
-	//       }, (err) => {
-	//         console.log(err);
-	//         _class.editing = false;
-	//       });
-	//   };
-	// }]);
-
-	  
 
 
 /***/ },
@@ -30639,7 +30594,10 @@
 	    $scope.greeting = 'Howdy pardner';
 	    cfStore.set('greeting', 'Howdy pardner');
 	    $scope.students = [];
+	    $scope._classes = [];
 	    var studentService = Resource('/students');
+	    var _classService = Resource('/classes');
+
 
 	    $scope.toggleEdit = function(student) {
 	      if (student.backup) {
@@ -30651,11 +30609,23 @@
 	      }
 	    };
 
-	    $scope.getAll = function() {
+	    $scope.getStudents = function() {
 	      studentService.getAll(function(err, res) {
 	        if (err) return console.log(err);
 	        $scope.students = res;
 	      });
+	    };
+
+	    $scope.getClasses = function() {
+	      _classService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes = res;
+	      });
+	    };
+
+	    $scope.getAll = function() {
+	      $scope.getStudents();
+	      $scope.getClasses();
 	    };
 
 	    $scope.createStudent = function(student) {
@@ -30677,6 +30647,29 @@
 	      studentService.update(student, function(err, res) {
 	        student.editing = false;
 	        student.backup = null;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.createClass = function(_class) {
+	      _classService.create(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.push(res);
+	        $scope.newClass = null;
+	      });
+	    };
+
+	    $scope.deleteClass = function(_class) {
+	      _classService.delete(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.splice($scope._classes.indexOf(_class), 1);
+	      });
+	    };
+
+	    $scope.updateClass = function(_class) {
+	      _classService.update(_class, function(err, res) {
+	        _class.editing = false;
+	        _class.backup = null;
 	        if (err) return console.log(err);
 	      });
 	    };

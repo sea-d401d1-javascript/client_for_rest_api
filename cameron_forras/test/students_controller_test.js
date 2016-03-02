@@ -32,7 +32,7 @@ describe('students controller', () => {
 
     it('should make a get request to /api/students', () => {
       $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
-      $scope.getAll();
+      $scope.getStudents();
       $httpBackend.flush();
       expect($scope.students.length).toBe(1);
       expect($scope.students[0].name).toBe('test student');

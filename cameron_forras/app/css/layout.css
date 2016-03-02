@@ -1,5 +1,4 @@
-main, article,  {
-  overflow: hidden;
+main, article {
   height: 600px;
 }
 article {
@@ -13,11 +12,11 @@ header, section {
   border: 3px solid black;
 }
 footer {
+  font-size: 25px;
   height: 50px;
   width: 100%;
   text-align: center;
   padding: 10px;
-  position: fixed;
   bottom: 0;
 }
 header h1 {
@@ -31,14 +30,14 @@ header h1 {
 }
 .left {
   float: left;
-  width: 33%;
+  width: 32%;
   text-align: center;
 }
 .center {
-  display: inline-block;
+  float: center;
   text-align: center;
-  width: 33%;
-  margin-top: -80px;
+  width: 30%;
+  margin-top: -25px;
 }
 button {
   margin-bottom: 10px;

@@ -5,7 +5,10 @@ module.exports = function(app) {
     $scope.greeting = 'Howdy pardner';
     cfStore.set('greeting', 'Howdy pardner');
     $scope.students = [];
+    $scope._classes = [];
     var studentService = Resource('/students');
+    var _classService = Resource('/classes');
+
 
     $scope.toggleEdit = function(student) {
       if (student.backup) {
@@ -17,11 +20,23 @@ module.exports = function(app) {
       }
     };
 
-    $scope.getAll = function() {
+    $scope.getStudents = function() {
       studentService.getAll(function(err, res) {
         if (err) return console.log(err);
         $scope.students = res;
       });
+    };
+
+    $scope.getClasses = function() {
+      _classService.getAll(function(err, res) {
+        if (err) return console.log(err);
+        $scope._classes = res;
+      });
+    };
+
+    $scope.getAll = function() {
+      $scope.getStudents();
+      $scope.getClasses();
     };
 
     $scope.createStudent = function(student) {
@@ -43,6 +58,29 @@ module.exports = function(app) {
       studentService.update(student, function(err, res) {
         student.editing = false;
         student.backup = null;
+        if (err) return console.log(err);
+      });
+    };
+
+    $scope.createClass = function(_class) {
+      _classService.create(_class, function(err, res) {
+        if (err) return console.log(err);
+        $scope._classes.push(res);
+        $scope.newClass = null;
+      });
+    };
+
+    $scope.deleteClass = function(_class) {
+      _classService.delete(_class, function(err, res) {
+        if (err) return console.log(err);
+        $scope._classes.splice($scope._classes.indexOf(_class), 1);
+      });
+    };
+
+    $scope.updateClass = function(_class) {
+      _classService.update(_class, function(err, res) {
+        _class.editing = false;
+        _class.backup = null;
         if (err) return console.log(err);
       });
     };

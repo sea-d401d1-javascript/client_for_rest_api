@@ -63,51 +63,6 @@
 	__webpack_require__(4)(studentsApp);
 	__webpack_require__(7)(studentsApp);
 
-	// studentsApp.controller('StudentsController', ['$scope', '$http', function($scope, $http) {
-	//   $scope._classes = [];
-
-	//   $scope.getAllClasses = function() {
-	//     $http.get('http://localhost:3000/api/classes')
-	//       .then((res) => {
-	//         console.log('success!');
-	//         $scope._classes = res.data;
-	//     }, (err) => {
-	//         console.log(err);
-	//     });
-	//   };
-	  
-	//   $scope.create_Class = function(_class) {
-	//     $http.post('http://localhost:3000/api/classes/', _class)
-	//       .then((res) => {
-	//         $scope._classes.push(res.data);
-	//         $scope.new_Class= null;
-	//       }, (err) => {
-	//         console.log(err);
-	//       });
-	//     };
-
-	//   $scope.delete_Class = function(_class) {
-	//     $http.delete('http://localhost:3000/api/classes/' + _class._id)
-	//       .then((res) => {
-	//         $scope._classes = $scope._classes.filter((i) => i !== _class);
-	//       }, (err) => {
-	//         console.log(err);
-	//       });
-	//   };
-
-	//   $scope.update_Class = function(_class) {
-	//     $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
-	//       .then((res) => {
-	//         $scope._classes[$scope._classes.indexOf(_class)] = _class;
-	//         _class.editing = false;
-	//       }, (err) => {
-	//         console.log(err);
-	//         _class.editing = false;
-	//       });
-	//   };
-	// }]);
-
-	  
 
 
 /***/ },
@@ -30652,7 +30607,10 @@
 	    $scope.greeting = 'Howdy pardner';
 	    cfStore.set('greeting', 'Howdy pardner');
 	    $scope.students = [];
+	    $scope._classes = [];
 	    var studentService = Resource('/students');
+	    var classService = Resource('/classes');
+
 
 	    $scope.toggleEdit = function(student) {
 	      if (student.backup) {
@@ -30664,11 +30622,23 @@
 	      }
 	    };
 
-	    $scope.getAll = function() {
+	    $scope.getStudents = function() {
 	      studentService.getAll(function(err, res) {
 	        if (err) return console.log(err);
 	        $scope.students = res;
 	      });
+	    };
+
+	    $scope.getClasses = function() {
+	      classService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes = res;
+	      });
+	    };
+
+	    $scope.getAll = function() {
+	      $scope.getStudents();
+	      $scope.getClasses();
 	    };
 
 	    $scope.createStudent = function(student) {
@@ -30690,6 +30660,29 @@
 	      studentService.update(student, function(err, res) {
 	        student.editing = false;
 	        student.backup = null;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.createClass = function(_class) {
+	      classService.create(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.push(res);
+	        $scope.newClass = null;
+	      });
+	    };
+
+	    $scope.deleteClass = function(_class) {
+	      classService.delete(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.splice($scope._classes.indexOf(_class), 1);
+	      });
+	    };
+
+	    $scope.updateClass = function(_class) {
+	      classService.update(_class, function(err, res) {
+	        _class.editing = false;
+	        _class.backup = null;
 	        if (err) return console.log(err);
 	      });
 	    };
@@ -33627,7 +33620,7 @@
 
 	    it('should make a get request to /api/students', () => {
 	      $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
-	      $scope.getAll();
+	      $scope.getStudents();
 	      $httpBackend.flush();
 	      expect($scope.students.length).toBe(1);
 	      expect($scope.students[0].name).toBe('test student');
@@ -33745,7 +33738,7 @@
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = "<form data-ng-submit=\"save(student)\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"student.name\">\n\n  <label for=\"major\">Major:</label>\n  <input type=\"text\" name=\"major\" data-ng-model=\"student.major\">\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
+	module.exports = "<form data-ng-submit=\"save(student)\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"student.name\">\n\n  <label for=\"major\">Major:</label>\n  <input type=\"text\" name=\"major\" data-ng-model=\"student.major\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
 
 /***/ },
 /* 16 */
