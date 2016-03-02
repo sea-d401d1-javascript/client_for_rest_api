@@ -24,10 +24,12 @@ article, li{
 }
 a {
   color: $green;
-  &:hover{
+  &:hover {
     color: $greener;
   }
-  &:visited: $greenest;
+  &:visited {
+    color: $greenest;
+  }
 }
 ol, ul {
   list-style: none;

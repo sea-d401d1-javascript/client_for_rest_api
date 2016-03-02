@@ -14,10 +14,10 @@ gulp.task('html:dev', () => {
 });
 
 // CSS DEPRICATED I THINK
-gulp.task('css:dev', () => {
-  gulp.src(__dirname + '/app/css/*.css')
-    .pipe(gulp.dest(__dirname + '/build/css'));
-});
+// gulp.task('css:dev', () => {
+//   gulp.src(__dirname + '/app/css/*.css')
+//     .pipe(gulp.dest(__dirname + '/build/css'));
+// });
 
 // JS BUNDLING
 gulp.task('webpack:dev', () => {
@@ -31,7 +31,7 @@ gulp.task('webpack:dev', () => {
 });
 
 // sassy
-gulp.task('sassy', () => {
+gulp.task('sassy:dev', () => {
   gulp.src(__dirname + '/app/sass/*.scss')
     .pipe(maps.init())
     .pipe(sass().on('error', sass.logError))
@@ -71,7 +71,7 @@ gulp.task('lint', () => {
 });
 
 // build combo platter
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'sassy:dev']);
 
 // watchout!
 gulp.task('watch', function() {
@@ -82,4 +82,4 @@ gulp.task('watch', function() {
 });
 
 // default
-gulp.task('default', ['build:dev', 'lint', 'webpack:test', 'sassy']);
+gulp.task('default', ['build:dev', 'lint', 'webpack:test', 'sassy:dev']);

@@ -5,31 +5,27 @@
   <title>ANgulR</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700,300|Dosis:400,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
-<!--   <link rel="stylesheet" type="text/css" href="css/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/base.css">
-  <link rel="stylesheet" type="text/css" href="css/layout.css">
-  <link rel="stylesheet" type="text/css" href="css/module.css"> -->
   <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body data-ng-app="flower">
   <header><h1>flowers and gardeners</h1></header>
 
   <main data-ng-controller="FlowerController" data-ng-init="getAll()">
-    <section class="right">
+    <section class="right" data-ng-init="getAll()">
       <!-- show all the flowers -->
       <h2>flowers!</h2>
       <ul>
         <flower data-ng-repeat="flower in flowers" data-flower-data="flower">
           <!-- delete the flower -->
-          <button data-ng-click="deleteFlower(flower)">Delete Flower</button>
-          <button data-ng-if="!flower.editing" data-ng-click="toggleEdit(flower)">edit</button>
+          <button data-ng-click="deleteFlower(flower)">Delete {{flower.name}}</button>
+          <button data-ng-if="!flower.editing" data-ng-click="toggleEdit(flower, $index)">edit</button>
           <flower-form 
             data-ng-if="flower.editing" 
             data-save="updateFlower(flower)"
             data-button-text="Update Flower"
             data-resource="flower"
           >
-            <button type="button" data-ng-click="toggleEdit(flower)">Cancel</button>
+            <button type="button" data-ng-click="toggleEdit(flower, $index)">Cancel</button>
           </flower-form>
         </flower> 
       </ul>
@@ -50,13 +46,14 @@
       <article data-ng-repeat="gardener in gardeners">
         <h3>{{gardener.name}} is a gardener</h3>
         <h4>{{gardener.favFlower}} is {{gardener.name}}'s favorite flower.</h4>
-        <button data-ng-click="gardener.editing = !gardener.editing">edit</button>
+        <button data-ng-click="toggleEdit(gardener, $index)">edit</button>
         <form ng-if="gardener.editing" ng-submit="updateGardener(gardener)">
           <label for="name">Name:</label>
           <input type="text" name="name" id="name" data-ng-model="gardener.name">
           <label for="favFlower">Favorite Flower:</label>
           <input type="text" name="favFlower" data-ng-model="gardener.favFlower">
           <button type="submit">update</button>
+          <button type="button" data-ng-click="toggleEdit(gardener, $index)">Cancel</button>
         </form>
         <!-- delete button -->
         <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
@@ -78,7 +75,9 @@
       <p>{{nonCrud}}</p>
     </section>
   </main>
+
   <footer>Get your landscaping business running with this terrible app!</footer>
+  
   <script src="bundle.js"></script>
 </body>
 </html>
