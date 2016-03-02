@@ -1,17 +1,15 @@
 header, footer, section {
   border: 1px dotted black;
 }
-header, footer {
-  background-color: #05243B;
-}
 header, footer, .column-center {
+  background-color: #05243B;
   text-align: center;
 }
 footer {
   height: 50px;
-}
-footer p {
-  margin-top: 15px;
+  p {
+    margin-top: 15px;
+  }
 }
 .column-left {
   float: left;
@@ -42,11 +40,11 @@ th {
 }
 li {
   margin: 10px 5px 10px 5px;
-}
-li button {
-  float: right;
-  position: relative;
-  margin-left: 10px;
-  margin-right: 20px;
-  color: blue;
+  button {
+    float: right;
+    position: relative;
+    margin-left: 10px;
+    margin-right: 20px;
+    color: blue;
+  }
 }

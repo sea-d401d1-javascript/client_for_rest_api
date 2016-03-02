@@ -49,6 +49,8 @@
 
 	__webpack_require__(15);
 	__webpack_require__(16);
+	__webpack_require__(17);
+	__webpack_require__(20);
 
 
 /***/ },
@@ -33893,6 +33895,171 @@
 
 	});
 
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var ctTemplate = __webpack_require__(18);
+	var tTemplate = __webpack_require__(19);
+
+	describe('display directives', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('CSApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the CT display directive', () => {
+	    $httpBackend.when('GET', '/templates/ct/directives/ct.html').respond(200, ctTemplate);
+	    var element = $compile('<ct data-ct-data="{name: \'inside ct directive\'}"></ct>')($rootScope);
+	    console.log(element);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside ct directive');
+	  });
+
+	  // it('should transclude the CT element', () => {
+	  //   $httpBackend.when('GET', '/templates/ct/directives/ct.html').respond(200, ctTemplate);
+	  //   var element = $compile('<ct data-ct-data="{name: \'inside directive\'}"></ct>')($rootScope);
+	  //   $httpBackend.flush();
+	  //   $rootScope.$digest();
+	  //   expect(element.html()).toContain('inside directive');
+	  // });
+
+	  it('should load the T display directive', () => {
+	    $httpBackend.when('GET', '/templates/t/directives/t.html').respond(200, tTemplate);
+	    var element = $compile('<t data-t-data="{name: \'inside t directive\'}"></t>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside t directive');
+	  });
+
+	  // it('should transclude the T element', () => {
+	  //   $httpBackend.when('GET', '/templates/t/directives/t.html').respond(200, tTemplate);
+	  //   var element = $compile('<ct data-t-data="{name: \'inside t directive\'}"></ct>')($rootScope);
+	  //   $httpBackend.flush();
+	  //   $rootScope.$digest();
+	  //   expect(element.html()).toContain('inside t directive');
+	  // });
+
+	})
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <span role=\"div\" class=\"div\">\n  {{ctData.name}}\n  </span>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <span role=\"div\" class=\"div\">\n  {{tData.name}}\n  </span>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var ctTemplate = __webpack_require__(21);
+	var tTemplate = __webpack_require__(22);
+	console.log(ctTemplate);
+	describe('form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('CSApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the CT directive', () => {
+	    $httpBackend.when('GET', '/templates/ct/directives/ct_form_directive.html').respond(200, ctTemplate);
+	    var element = $compile('<ct-form data-ct="{}" data-button-text="test button"></ct-form')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save CT function', () => {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/ct/directives/ct_form_directive.html').respond(200, ctTemplate);
+	    var called = false;
+	    scope.ct = {name: 'inside ct scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from ct directive');
+	      scope.ct = input;
+	      called = true
+	    };
+
+	    var element = $compile('<ct-form data-ct="{name: \'inside directive\'}" data-save=testSave></ct-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    expect(typeof element.isolateScope().save).toBe('function');
+	    element.isolateScope().save(scope)({name: 'from ct directive'});
+	    expect(called).toBe(true);
+	    expect(scope.ct.name).toBe('from ct directive');
+	  })
+
+	  it('should load the T directive', () => {
+	    $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
+	    var element = $compile('<t-form data-t="{}" data-button-text="test button"></ct-form')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+	  
+	  it('should be able to call a passed save T function', () => {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
+	    var called = false;
+	    scope.t = {name: 'inside scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from t directive');
+	      scope.t = input;
+	      called = true
+	    };
+
+	    var element = $compile('<t-form data-t="{name: \'inside directive\'}" data-save=testSave></t-form>')(scope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+
+	    expect(typeof element.isolateScope().save).toBe('function');
+	    element.isolateScope().save(scope)({name: 'from t directive'});
+	    expect(called).toBe(true);
+	    expect(scope.t.name).toBe('from t directive');
+	  })
+
+	});
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(ct)\">\n  <input data-ng-model=\"ct.name\" nameplaceholder=\"Name\" type=\"text\"/>\n  <input data-ng-model=\"ct.rifle\" placeholder=\"Rifle\" type=\"text\"/>\n  <input data-ng-model=\"ct.pistol\" placeholder=\"Pistol\" type=\"text\"/>\n  <input data-ng-model=\"ct.grenade\" placeholder=\"Grenade\" type=\"text\"/>\n  <input data-ng-model=\"ct.organization\" placeholder=\"Organization\" type=\"text\"/>\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(t)\">\n  <input data-ng-model=\"t.name\" nameplaceholder=\"Name\" type=\"text\"/>\n  <input data-ng-model=\"t.rifle\" placeholder=\"Rifle\" type=\"text\"/>\n  <input data-ng-model=\"t.pistol\" placeholder=\"Pistol\" type=\"text\"/>\n  <input data-ng-model=\"t.grenade\" placeholder=\"Grenade\" type=\"text\"/>\n  <input data-ng-model=\"t.organization\" placeholder=\"Organization\" type=\"text\"/>\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ }
 /******/ ]);
