@@ -1,6 +1,5 @@
-// require(__dirname + '/../app/js/two_resources_controller');
 var angular = require('angular');
-// require('angular-mocks');
+
 
 
 describe('resource service', () => {

@@ -30,14 +30,15 @@ describe('movie form directive', () => {
     var call = false;
     scope.movie = {name: 'test movie'};
     scope.testSave = function(input){
-      expect(input.name).toBe('movie');
+      expect(input.name).toBe('test movie');
       call = true;
     };
-    var element = $compile('<movie-form data-movie="{name : \'test movie\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
+    var element = $compile('<movie-form data-movie="{name : \'test movie from compile\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
+
     $httpBackend.flush();
     $rootScope.$digest();
-
-    element.isolateScope().save(scope)({name: 'movie'});
+    debugger;
+    element.isolateScope().save(scope)(scope.movie);
     expect(call).toBe(true);
   });
 });
