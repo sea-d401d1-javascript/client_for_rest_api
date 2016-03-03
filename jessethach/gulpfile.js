@@ -9,15 +9,16 @@ const minifyCss = require('gulp-minify-css');
 const jsFiles = ['./*.js', 'app/**/*.js', '!node_modules/**'];
 const clientScripts = ['app/**/*.js'];
 const staticFiles = ['app/**/*.html'];
-const scssFiles = ['app/**/*.scss'];
+const sassFiles = ['app/**/styles.sass'];
+// const testFiles = ['test/test_entry.js'];
 
 gulp.task('html:dev', () => {
   gulp.src(staticFiles)
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
-gulp.task('scss:dev', () => {
-  gulp.src(scssFiles)
+gulp.task('sass:dev', () => {
+  gulp.src(sassFiles)
     .pipe(maps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(minifyCss())
@@ -64,8 +65,8 @@ gulp.task('webpack:test', () => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch([jsFiles, staticFiles, scssFiles], ['build:dev']);
+  gulp.watch([jsFiles, staticFiles, sassFiles], ['build:dev']);
 });
 
-gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'scss:dev']);
+gulp.task('build:dev', ['watch', 'lint', 'html:dev', 'webpack:dev', 'sass:dev']);
 gulp.task('default', ['build:dev']);
