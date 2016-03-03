@@ -44,15 +44,17 @@ module.exports = exports = function(app){
         var service = whichService(list);
         service.get((err, res) => {
           if (err) return handleError(err);
-          if (service === flowerService) $scope.flowers = res;
-          else $scope.gardeners = res;
+          if (service === flowerService) { $scope.flowers = res;
+          } else {
+            $scope.gardeners = res;
+            $scope.nC();
+          }
         });
       };
 
       $scope.getAll = function() {
         $scope.get($scope.flowers);
         $scope.get($scope.gardeners);
-        $scope.nC();
       };
 
       $scope.post = function(resource, list) {
