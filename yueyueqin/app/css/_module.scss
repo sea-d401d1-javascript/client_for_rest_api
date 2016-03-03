@@ -1,45 +1,53 @@
 header {
   text-align: center;
-}
-header ul {
-  display: inline-block;
-
-}
-
-header li {
-  padding: 1rem;
-}
-
-header li a {
-  font-size: 1.5rem;
-  color:black;
-  display: inline-block;
-  padding: 0.5rem;
-  background: #c7943e;
+  ul {
+    display: inline-block;
+    li {
+      padding: 1rem;
+      a {
+        font-size: 1.5rem;
+        color:black;
+        display: inline-block;
+        padding: 0.5rem;
+        background: #c7943e;
+      }
+    }
+  }
 }
 
-.label {
-  font-weight: bold;
+
+.movies {
+  h1 {
+    color: #f67944;
+  }
+  .label {
+    font-weight: bold;
+  }
 }
 
-.movies h1 {
-  color: #f67944;
+.actors {
+  h1 {
+    color:#2677bb;
+  }
+  .label {
+    font-weight: bold;
+  }
 }
+
 
 table{
   width: 100%;
-}
-
-th, td {
-  padding: 7px 10px 10px 10px;
-  text-align: left;
-}
-
-th {
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 90%;
-  border-bottom: 2px solid #111111;
-  border-top: 1px solid #999;
+  th {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 90%;
+    border-bottom: 2px solid #111111;
+    border-top: 1px solid #999;
+    padding: 7px 10px 10px 10px;
+    td {
+      text-align: left;
+      padding: 7px 10px 10px 10px;
+    }
+  }
 }
