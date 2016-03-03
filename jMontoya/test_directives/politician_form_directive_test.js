@@ -15,7 +15,7 @@ describe('dem form directive', () => {
   }));
 
   it('should load the directive', () => {
-    $httpBackend.when('GET', '/templates/politicians/directives/dem_politician_form_directive.html').respond(200, template);
+    $httpBackend.when('GET', '/templates/politicians/directives/dempolitician_form_directive.html').respond(200, template);
 
     var element = $compile('<demform data-dem="{}" data-button-text="test button"></demform>')($rootScope);
     $httpBackend.flush();
@@ -25,7 +25,7 @@ describe('dem form directive', () => {
 
   it('should be able to call a passed save function', () => {
     var scope = $rootScope.$new();
-    $httpBackend.when('GET', '/templates/politicians/directives/dem_politician_form_directive.html').respond(200, template);
+    $httpBackend.when('GET', '/templates/politicians/directives/dempolitician_form_directive.html').respond(200, template);
     var called = false;
     scope.demPolitician = {name: 'inside scope'};
 

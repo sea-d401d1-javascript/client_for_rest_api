@@ -2,6 +2,7 @@ const express = require('express');
 const parser = require('body-parser').json();
 const Politician = require(__dirname + '/../models/republicanModel');
 const handleDBError = require(__dirname + '/../lib/db_error_handler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var politicianRouter = module.exports = exports = express.Router();
 

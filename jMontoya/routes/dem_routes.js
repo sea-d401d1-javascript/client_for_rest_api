@@ -2,10 +2,11 @@ const express = require('express');
 const parser = require('body-parser').json();
 const Politician = require(__dirname + '/../models/democraticModel');
 const handleDBError = require(__dirname + '/../lib/db_error_handler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var politicianRouter = module.exports = exports = express.Router();
 
-politicianRouter.post('/demPoliticians', parser, (req, res) => {
+politicianRouter.post('/demPoliticians', parser, /*, jwtAuth,*/ (req, res) => {
   var newPolitician = new Politician(req.body);
   newPolitician.save((err, data) => {
     if (err) return handleDBError(err, res);
@@ -14,7 +15,7 @@ politicianRouter.post('/demPoliticians', parser, (req, res) => {
   console.log('POSTed!');
 });
 
-politicianRouter.get('/demPoliticians', (req, res) => {
+politicianRouter.get('/demPoliticians',  /* jwtAuth,*/ (req, res) => {
   Politician.find({}, (err, data) => {
     if (err) return handleDBError(err, res);
     res.status(200).json(data);

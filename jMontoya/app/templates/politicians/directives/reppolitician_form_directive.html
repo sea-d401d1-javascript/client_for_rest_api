@@ -1,0 +1,16 @@
+<form data-ng-submit="save(reppolitician)">
+  <label for="name">Your Name:</label>
+  <input type="text" name="name" data-ng-model="reppolitician.name"></input>
+
+  <label for="age">Your Age:</label>
+  <input type="text" name="age" data-ng-model="reppolitician.age"></input>
+
+  <label for="voted4">Who You Voted For:</label>
+  <input type="text" name="votedFor" data-ng-model="reppolitician.voted4"></input>
+
+  <label for="cityFrom">Your City:</label>
+  <input type="text" name="cityFrom" data-ng-model="reppolitician.cityFrom"></input>
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{buttonText}}</button>
+</form>

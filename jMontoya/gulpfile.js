@@ -39,7 +39,7 @@ gulp.task('sass:dev', function() {
   gulp.src('./app/scss/**/*.scss')
   .pipe(maps.init())
   .pipe(sass().on('error', sass.logError))
-  // .pipe(minifyCss())
+  .pipe(minifyCss())
   .pipe(maps.write('./'))
   .pipe(gulp.dest('build/'));
 });

@@ -4,14 +4,14 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/politicians/directives/rep_politician_form_directive.html',
+      templateUrl: '/templates/politicians/directives/reppolitician_form_directive.html',
       scope: {
         buttonText: '@',
         reppolitician: '=',
         save: "&"
       },
       controller: function($scope) {
-        $scope.repPolitician = $scope.repPolitician || {party: 'Rebublican'};
+        $scope.repPolitician = $scope.repPolitician || {party: 'Republican'};
       }
     };
   });
@@ -20,7 +20,7 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/politicians/directives/dem_politician_form_directive.html',
+      templateUrl: '/templates/politicians/directives/dempolitician_form_directive.html',
       scope: {
         buttonText: '@',
         dempolitician: '=',
