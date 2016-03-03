@@ -1,15 +1,15 @@
 <section data-ng-init="getAll()">
-  <section class="right" data-ng-init="getAll()">
+  <section class="right">
     <!-- show all the flowers -->
     <h2>flowers!</h2>
     <ul>
       <flower data-ng-repeat="flower in flowers" data-flower-data="flower">
         <!-- delete the flower -->
-        <button data-ng-click="deleteFlower(flower)">Delete {{flower.name}}</button>
+        <button data-ng-click="delete(flower, $index, flowers)">Delete {{flower.name}}</button>
         <button data-ng-if="!flower.editing" data-ng-click="toggleEdit(flower, $index)">edit</button>
         <flower-form 
           data-ng-if="flower.editing" 
-          data-save="updateFlower(flower)"
+          data-save="update(flower, flowers)"
           data-button-text="Update Flower"
           data-resource="flower"
         >
@@ -23,7 +23,7 @@
       <flower-form
         data-button-text="New Flower"
         data-resource="newFlower"
-        data-save="postFlower(newFlower)"
+        data-save="post(newFlower, flowers)"
       ></flower-form>
     </article>
   </section>
@@ -34,8 +34,8 @@
     <article data-ng-repeat="gardener in gardeners">
       <h3>{{gardener.name}} is a gardener</h3>
       <h4>{{gardener.favFlower}} is {{gardener.name}}'s favorite flower.</h4>
-      <button data-ng-click="toggleEdit(gardener, $index)">edit</button>
-      <form ng-if="gardener.editing" ng-submit="updateGardener(gardener)">
+      <button data-ng-if="!gardener.editing" data-ng-click="toggleEdit(gardener, $index)">edit</button>
+      <form ng-if="gardener.editing" ng-submit="update(gardener, gardeners)">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" data-ng-model="gardener.name">
         <label for="favFlower">Favorite Flower:</label>
@@ -44,12 +44,12 @@
         <button type="button" data-ng-click="toggleEdit(gardener, $index)">Cancel</button>
       </form>
       <!-- delete button -->
-      <button data-ng-click="deleteGardener(gardener, $index)">DELETE {{gardener.name}} </button>
+      <button data-ng-click="delete(gardener, $index, gardeners)">DELETE {{gardener.name}} </button>
     </article>
     <!-- post a new gardener -->
     <article>
       <h4>NEW GARDENER</h4>
-      <form data-ng-submit="postGardener(newGardener)">
+      <form data-ng-submit="post(newGardener, gardeners)">
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" data-ng-model="newGardener.name">
         <label for="favFlower">Favorite Flower:</label>
