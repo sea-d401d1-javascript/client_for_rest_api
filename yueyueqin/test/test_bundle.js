@@ -34009,7 +34009,6 @@
 
 	    $httpBackend.flush();
 	    $rootScope.$digest();
-	    debugger;
 	    element.isolateScope().save(scope)(scope.movie);
 	    expect(call).toBe(true);
 	  });
