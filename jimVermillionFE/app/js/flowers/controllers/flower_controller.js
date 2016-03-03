@@ -35,10 +35,9 @@ module.exports = exports = function(app){
       };
 
       $scope.nC = function() {
-        nCService.get((err, res) => {
-          if (err) return handleError(err);
-          $scope.nonCrud = res;
-        });
+        $scope.nonCrud = 'With the gardeners on hand we can potentially grow '
+          + $scope.flowers.length * $scope.gardeners.length
+          + ' flowers.';
       };
 
       $scope.get = function(list) {
@@ -79,22 +78,6 @@ module.exports = exports = function(app){
           if (err) handleError(err);
         });
       };
-
-      // $scope.deleteFlower = function(flower, index) {
-      //   flowerService.delete(flower, (err, res) => { // eslint-disable-line
-      //     if (err) return handleError(err);
-      //     $scope.flowers.splice(index, 1);
-      //     $scope.nC();
-      //   });
-      // };
-
-      // $scope.deleteGardener = function(gardener, index) {
-      //   gardenerService.delete(gardener, (err, res) => { // eslint-disable-line
-      //     if (err) return handleError(err);
-      //     $scope.gardeners.splice(index, 1);
-      //     $scope.nC();
-      //   });
-      // };
 
       $scope.delete = function(resource, index, list) {
         var service = whichService(list);
