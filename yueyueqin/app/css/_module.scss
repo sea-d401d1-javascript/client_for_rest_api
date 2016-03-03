@@ -1,3 +1,6 @@
+$color_movies: #f67944;
+$color_actors: #2677bb;
+
 header {
   text-align: center;
   ul {
@@ -18,7 +21,7 @@ header {
 
 .movies {
   h1 {
-    color: #f67944;
+    color: $color_movies;
   }
   .label {
     font-weight: bold;
@@ -27,7 +30,7 @@ header {
 
 .actors {
   h1 {
-    color:#2677bb;
+    color: $color_actors;
   }
   .label {
     font-weight: bold;
