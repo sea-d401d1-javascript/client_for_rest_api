@@ -12,11 +12,6 @@ gulp.task('html:dev', () => {
     .pipe(gulp.dest(__dirname + '/build'));
 });
 
-// gulp.task('css:dev', () => {
-//   gulp.src(__dirname + '/app/**/*.css')
-//     .pipe(gulp.dest(__dirname + '/build'));
-// });
-
 gulp.task('sass:dev', function() {
   gulp.src(__dirname + '/app/**/*.scss')
   .pipe(maps.init())
@@ -25,6 +20,7 @@ gulp.task('sass:dev', function() {
   .pipe(maps.write('./'))
   .pipe(gulp.dest('./build'));
 });
+
 gulp.task('asset', () => {
   gulp.src(__dirname + '/app/**/*.png')
     .pipe(gulp.dest(__dirname + '/build'));
