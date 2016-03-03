@@ -1,5 +1,5 @@
 var angular = require('angular');
-var template = require('../app/templates/politicians/directives/dempolitician_form_directive.html');
+var template = require('../../app/templates/politicians/directives/dempolitician_form_directive.html');
 
 describe('dem form directive', () => {
   var $compile;

@@ -4,7 +4,7 @@ const gulp = require('gulp'),
       files = ['test/*.js', '!node_modules//**'],
       webpack = require('webpack-stream'),
       babel = require('babel-loader'),
-      minifyCss = require('gulp-minify-css'),
+      // minifyCss = require('gulp-minify-css'),
       sass = require('gulp-sass'),
       maps = require('gulp-sourcemaps'),
       html = require('html-loader');
@@ -63,18 +63,18 @@ gulp.task('webpack:dev', () => {
     .pipe(gulp.dest('build/'));
 });
 
-gulp.task('webpack:test', () => {
-  gulp.src(__dirname + '/test/test_entry.js')
-   .pipe(webpack({
-     output: {
-       filename: 'test_bundle.js'
-     }
-   }))
-   .pipe(gulp.dest('test/'));
-});
+// gulp.task('webpack:test', () => {
+//   gulp.src(__dirname + '/test/test_entry.js')
+//    .pipe(webpack({
+//      output: {
+//        filename: 'test_bundle.js'
+//      }
+//    }))
+//    .pipe(gulp.dest('tests/'));
+// });
 
 gulp.task('webpack:testDir', () => {
-  gulp.src(__dirname + '/test_directives/test_directive_entry.js')
+  gulp.src(__dirname + '/tests/tests_client/test_directive_entry.js')
     .pipe(webpack({
       module: {
         loaders: [
@@ -88,14 +88,14 @@ gulp.task('webpack:testDir', () => {
         filename: 'test_directive_bundle.js'
       }
     }))
-    .pipe(gulp.dest('test_directives/'));
+    .pipe(gulp.dest('tests/tests_client/'));
 });
 
 // gulp.task('mocha', function() {
-//   return gulp.src(['test/*.js'], { read: false })
+//   return gulp.src(['/tests/tests_server/*.js'], { read: false })
 //     .pipe(mocha());
 // });
-//
+
 gulp.task('watch', function() {
   gulp.watch(files, ['/build']);
 });

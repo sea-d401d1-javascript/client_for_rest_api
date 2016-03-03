@@ -1,4 +1,4 @@
-require(__dirname + '/../app/js/client');
+require(__dirname + '/../../app/js/client');
 require('angular-mocks');
 
 require(__dirname + '/politicians_controller_test');
