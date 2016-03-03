@@ -1,0 +1,10 @@
+<form data-ng-submit="save(resource, collection)">
+  <label for="name">Name:</label>
+  <input type="text" name="name" data-ng-model="resource.name">
+
+  <label for="attrName">{{attrName}}:</label>
+  <input type="text" name="attrName" data-ng-model="attr">
+
+  <button type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>

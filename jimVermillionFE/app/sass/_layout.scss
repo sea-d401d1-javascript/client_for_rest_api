@@ -6,10 +6,15 @@
 
 main {
   overflow: hidden;
-  width: 100%;
+  width: 90%;
+  padding: 0 5%;
+  margin: 0 auto;
 }
-header, section {
+section {
   margin: 10px;
+}
+header{
+  border-bottom: $white 1px solid;
 }
 footer {
   height: 50px;

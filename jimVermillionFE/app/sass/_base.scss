@@ -34,6 +34,9 @@ a {
 ol, ul {
   list-style: none;
   padding: 0;
+  max-height: 350px;
+  overflow: auto;
+  border-bottom: 1px solid $white;
 }
 blockquote, q {
   quotes: none;

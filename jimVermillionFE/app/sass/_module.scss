@@ -1,9 +1,14 @@
 .nonCrud {
   text-align: center;
   margin: 0 auto;
-  width: 30%;
+  width: 33%;
   font-size: 36px;
   color: $white;
+  border: 1px dashed $white;
+  border-radius: 5%;
+  p{
+    padding: 5px;
+  }
 }
 h2 {
   border-bottom: 1px solid $gray;
@@ -20,8 +25,8 @@ input {
 }
 button {
   margin-bottom: 10px;
+  max-width: 150px;
 }
-
 header h1 {
   font-family: 'Grand Hotel', sans-serif;
   text-align: center;
