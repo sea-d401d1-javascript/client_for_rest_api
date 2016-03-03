@@ -4,8 +4,7 @@
 	<meta charset='UTF-8'>
 	<title>House of Gift Cards</title>
 	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="/css/base.css">
-	<link rel="stylesheet" type="text/css" href="/css/layout.css">
+	<link rel="stylesheet" type="text/css" href="/application.css">
 </head>
 
 <body data-ng-app='hogcApp'>
@@ -57,8 +56,8 @@
   </section>
 
 	<section data-ng-controller="DonorsController" data-ng-init='getAllDonors()'>
-		<h1>All Donors</h1>
-		<ul>
+		<h1 class = 'fullWidth'>All Donors</h1>
+		<ul class = 'fullWidth'>
 			<donor data-ng-repeat='donor in donors' data-donor-data='donor'>
         <button data-ng-click='donor.editing = !donor.editing'>Update Donor</button>
 				<button data-ng-click='deleteDonor(donor)'>Delete Donor</button>
@@ -71,8 +70,8 @@
 			</donor>
 		</ul>
 
-		<h2>Sign Up!</h2>
-		<form data-ng-submit='createDonor(donor)'>
+		<h2 class = 'fullWidth'>Sign Up!</h2>
+		<form data-ng-submit='createDonor(donor)' class = 'fullWidth'>
 			<input data-ng-model='donor.username' type='text' placeholder='Username'/>
 			<input data-ng-model='donor.email' type='text' placeholder='Email'/>
 			<input data-ng-model='donor.password' type='text' placeholder='Password'/>
