@@ -1,7 +1,22 @@
 module.exports = function(app) {
   app.controller('CatsController', ['$scope', '$http', 'catResource', function($scope, $http, Resource) {
     $scope.cats = [];
+    $scope.errors = [];
     var catsService = Resource('/cats');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
+
+    $scope.toggleEdit = function(cat) {
+      if (cat.backup) {
+        var temp = cat.backup;
+        $scope.cats.splice($scope.cats.indexOf(cat), 1, temp);
+      } else {
+        cat.backup = angular.copy(cat);
+        cat.editing = true;
+      }
+    };
 
     $scope.getCats = function() {
       catsService.get(function(err, res) {

@@ -7,9 +7,10 @@
   <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body data-ng-app="petsApp">
-  <main class="row">
+  <main class="row" data-ng-controller="authController" data-ng-init="updateUsername()">
     <header class="col-xs-12">
       <h1>Cats & Dogs</h1>
+      <p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
     </header>
     <!-- Views -->
     <main data-ng-view></main>
