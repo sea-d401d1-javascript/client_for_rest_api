@@ -3,6 +3,8 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const webpack = require('webpack-stream');
+const babel = require('babel-loader');
+const html = require('html-loader');
 
 // const scripts = ['**/.js', '!node_modules/**'];
 
