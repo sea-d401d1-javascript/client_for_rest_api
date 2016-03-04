@@ -17,7 +17,9 @@
 		</ul>
 </nav>
 
-<header class="header">
+<div class="header" data-ng-controller="authController" data-ng-init="updateUsername()">
+	<header>
+		<p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
 </header>
 
 <h1 class="title">Walk a Pup</h1>

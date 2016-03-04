@@ -1,5 +1,5 @@
 var angular = require('angular');
-var template = require('../app/templates/dogs/directives/dog_form_directive.html');
+var template = require('/../app/templates/dogs/directives/dog_form_directive.html');
 
 describe('bear form directive', () => {
   var $compile;
