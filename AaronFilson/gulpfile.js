@@ -3,6 +3,31 @@ const webpack = require('webpack-stream');
 const babel = require('babel-loader');
 const html = require('html-loader');
 
+var sass = require('gulp-sass');
+var maps = require('gulp-sourcemaps');
+var minifyCss = require('gulp-minify-css');
+
+gulp.task('sass:dev', function(){
+  gulp.src(__dirname + '/app/scss/manifest.scss')
+    .pipe(maps.init())
+    .pipe(sass().on('error', sass.logError))
+    // .pipe(minifyCss)
+    .pipe(maps.write('./'))
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('sass:nominify', function(){
+  gulp.src(__dirname + '/app/css/*.scss')
+    .pipe(maps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(maps.write('./'))
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('sass:watch', function () {
+  gulp.watch(__dirname + '/app/css/')
+})
+
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
     .pipe(gulp.dest(__dirname + '/build'));
@@ -47,5 +72,5 @@ gulp.task('webpack:test', () => {
 });
 
 
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev', 'sass:dev']);
 gulp.task('default', ['build:dev']);
