@@ -1,0 +1,54 @@
+<section data-ng-init="getAll()">
+  <section class="left">
+  <h2>STUDENTS!!!!</h2>
+    <section data-ng-if="errors.length">
+      <h3>Errors: </h3>
+      <ul>
+        <li data-ng-repeat="error in errors">{{error}}<button data-ng-click="dismissError(error)" alt="dismiss">X</button></li>
+      </ul>
+    </section>
+    <ul>
+      <student data-ng-repeat="student in students" data-student-data="student">
+        <button data-ng-click="deleteStudent(student)">Delete Student</button>
+        <button data-ng-if="!student.editing" = data-ng-click="toggleEdit(student)">Update Student</button>
+        <student-form 
+        data-ng-if="student.editing" 
+        data-save="updateStudent(student)"
+        data-button-text="Update Student"
+        data-student="student"
+        >
+          <button type="button" data-ng-click="toggleEdit(student)">Cancel</button>
+        </student-form>
+      </student>
+    </ul>
+    <student data-student-data="newStudent">
+      <student-form
+        data-button-text="Create new Student"
+        data-student="newStudent"
+        data-save="createStudent(newStudent)"
+      ></student-form>
+    </student>
+  </section>
+    <img class="center" src="http://washingtontechnology.org/wp-content/uploads/2014/12/Code-fellows-logo-stacked-lettering.png">
+  <section class="right">
+  <h2>CLASSES!!!!</h2>
+  <ul>
+    <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
+      <button data-ng-click="deleteClass(_class)">Delete Class</button>
+        <button data-ng-click="_class.editing = !_class.editing">Update Class</button>
+        <form data-ng-if="_class.editing" data-ng-submit="updateClass(_class)">
+          <input data-ng-model="_class.name" type="text"/>
+          <input data-ng-model="_class.level" type="text"/>
+          <button type="submit"/>Update</button>
+        </form>
+      </li>
+    </ul>
+    <form data-ng-submit="createClass(newClass)">
+      Class Name
+        <input data-ng-model="newClass.name" type="text"/>
+        Class Level
+        <input data-ng-model="newClass.level" type="text"/>
+        <button type="submit"/>New Class</button>
+    </form>
+  </section>
+</section>

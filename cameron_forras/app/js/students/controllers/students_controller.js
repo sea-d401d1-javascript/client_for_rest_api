@@ -6,13 +6,17 @@ module.exports = function(app) {
     cfStore.set('greeting', 'Howdy pardner');
     $scope.students = [];
     $scope._classes = [];
+    $scope.errors = [];
     var studentService = Resource('/students');
     var _classService = Resource('/classes');
 
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleEdit = function(student) {
       if (student.backup) {
-        var temp = angular.copy(student.backup);
+        var temp = student.backup;
         $scope.students.splice($scope.students.indexOf(student), 1, temp);
       } else {
         student.backup = angular.copy(student);
@@ -40,16 +44,25 @@ module.exports = function(app) {
     };
 
     $scope.createStudent = function(student) {
+      $scope.students.push(student);
       studentService.create(student, function(err, res) {
-        if (err) return console.log(err);
-        $scope.students.push(res);
+        if (err) {
+          $scope.students.splice($scope.students.indexOf(student),1);
+          $scope.errors.push('Could not save student with name of ' + student.name);
+          return console.log(err);
+        }
+        $scope.students.splice($scope.students.indexOf(student), 1, res);
         $scope.newStudent = null;
       });
     };
 
     $scope.deleteStudent = function(student) {
+      if (!student._id) return setTimeout(function() {$scope.deleteStudent(student);}, 1000);
       studentService.delete(student, function(err, res) {
-        if (err) return console.log(err);
+        if (err) { 
+          $scope.errors.push('could not delete student ' + student.name);
+          return console.log(err);
+        }
         $scope.students.splice($scope.students.indexOf(student), 1);
       });
     };
@@ -58,7 +71,10 @@ module.exports = function(app) {
       studentService.update(student, function(err, res) {
         student.editing = false;
         student.backup = null;
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('could not update student ' + student.name);
+          return console.log(err);
+        }
       });
     };
 
