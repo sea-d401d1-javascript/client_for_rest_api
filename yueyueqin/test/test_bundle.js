@@ -45,10 +45,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(10);
-	__webpack_require__(11);
 	__webpack_require__(13);
 	__webpack_require__(14);
+	__webpack_require__(15);
+	__webpack_require__(16);
+	__webpack_require__(18);
 
 
 /***/ },
@@ -59,12 +60,10 @@
 	const twoResourcesApp = angular.module('twoResourcesApp',[]);
 
 	__webpack_require__(4)(twoResourcesApp);
-	__webpack_require__(5)(twoResourcesApp);
+
 
 	__webpack_require__(6)(twoResourcesApp);
-	__webpack_require__(8)(twoResourcesApp);
-
-	// require('./directives');
+	__webpack_require__(10)(twoResourcesApp);
 
 
 /***/ },
@@ -30510,6 +30509,15 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(5)(app);
+	};
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	var handleSuccess = function(callback) {
@@ -30524,7 +30532,7 @@
 	  };
 	};
 
-	module.exports = exports = function(app) {
+	module.exports = function(app) {
 	  app.factory('twoResource',['$http', function($http) {
 	    var Resource = function(ResourceName){
 	      this.ResourceName = ResourceName;
@@ -30557,31 +30565,13 @@
 
 
 /***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = function (app) {
-	  app.factory('resourceStore',function() {
-	    var data = {};
-	    return{
-	      get: function(key){
-	        return data[key];
-	      },
-	      set: function(key, value) {
-	        data[key] = value;
-	        return value;
-	      }
-	    };
-	  });
-	};
-
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
 	  __webpack_require__(7)(app);
+	  __webpack_require__(8)(app);
+	  __webpack_require__(9)(app);
 	};
 
 
@@ -30590,50 +30580,62 @@
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  app.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
+	  app.controller('MoviesController',['$scope', '$http', 'twoResource',  function($scope, $http, Resource) {
 	    $scope.movies = [];
 
 	    var movieService = Resource('/movies');
 
-	  $scope.getAllMovies = function() {
-	    movieService.getAll(function(err, res){
-	      if(err) return console.log(err);
-	      $scope.movies = res;
-	    });
-	  };
+	    $scope.toggleEdit = function(movie) {
+	      if(movie.backup){
+	        var temp = angular.copy(movie.backup);
+	        movie.backup = null;
+	        $scope.movies.splice($scope.movies.indexOf(movie),1,temp);
+	      }else{
+	        movie.backup = angular.copy(movie);
+	        movie.editing = true;
+	      }
+	    };
 
-
-	  $scope.createMovie = function(movie) {
-	    movieService.create(movie,function(err, res) {
-	      if(err) return console.log(err);
-	      $scope.movies.push(res);
-	      $scope.newMovie = null;
-	    });
-	  };
-
-
-	    $scope.updateMovie = function(movie) {
-	      movieService.update(movie, function(err,res) {
+	    $scope.getAllMovies = function() {
+	      movieService.getAll(function(err, res){
 	        if(err) return console.log(err);
-	        $scope.movies = $scope.movies.map(function(item) {
-	          if(item._id === movie._id){
-	            item = movie;
+	        $scope.movies = res;
+	      });
+	    };
+
+
+	    $scope.createMovie = function(movie) {
+	      movieService.create(movie,function(err, res) {
+	        if(err) return console.log(err);
+	        $scope.movies.push(res);
+	        $scope.newMovie = null;
+	      });
+	    };
+
+
+	      $scope.updateMovie = function(movie) {
+	        movieService.update(movie, function(err,res) {
+	          movie.backup = null;
+	          if(err) return console.log(err);
+	          $scope.movies = $scope.movies.map(function(item) {
+	            if(item._id === movie._id){
+	              item = movie;
+	              return item;
+	            }
 	            return item;
-	          }
-	          return item;
+	          });
+	          movie.editing = false;
 	        });
-	        movie.editing = false;
-	      });
-	    };
+	      };
 
-	    $scope.deleteMovie = function(movie) {
-	      movieService.delete(movie,function(err, res) {
-	        if(err) return console.log(err);
+	      $scope.deleteMovie = function(movie) {
+	        movieService.delete(movie,function(err, res) {
+	          if(err) return console.log(err);
 
-	        $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
+	          $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
 
-	      });
-	    };
+	        });
+	      };
 
 	  }]);
 
@@ -30642,10 +30644,20 @@
 
 /***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  __webpack_require__(9)(app);
+	  app.directive('movieEdit',function() {
+	    return{
+	      restric: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl:'/templates/movies/directives/movie_edit.html',
+	      scope:{
+	        movieData:'='
+	      }
+	    };
+	  });
 	};
 
 
@@ -30654,9 +30666,55 @@
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
+	  app.directive('movieForm', function() {
+	    return{
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/movies/directives/movie_form.html',
+	      scope: {
+	        buttonText: '@',
+	        save: '&',
+	        movie: '='
+	      },
+	      controller: function($scope){
+	        $scope.movie = $scope.movie || {name: 'test', type:'test', actors: 'test', publish:'test'};
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
+	  // require('./directives/actor_form_directive')(app);
+	};
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
 	  app.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
 	    $scope.actors = [];
 	    var actorResource = Resource('/actors');
+
+	    $scope.toggleEdit = function(actor) {
+	      if(actor.backup){
+	        var temp  = angular.copy(actor.backup);
+	        actor.backup = null;
+	        $scope.actors.splice($scope.actors.indexOf(actor), 1, temp);
+	      }else{
+	        actor.backup = angular.copy(actor);
+	        actor.editing = true;
+	      }
+	    };
 
 	    $scope.getAllActors = function() {
 	      actorResource.getAll(function(err,res){
@@ -30677,6 +30735,7 @@
 
 	    $scope.updateActor = function(actor) {
 	      actorResource.update(actor,function(err,res) {
+	        actor.backup = null;
 	        if(err) return console.log(err);
 	        $scope.actors = $scope.actors.map(function(item) {
 	          if(item._id === actor._id){
@@ -30701,7 +30760,26 @@
 
 
 /***/ },
-/* 10 */
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('actorEdit',function() {
+	    return{
+	      restrict: 'E',
+	      replace:true,
+	      transclude: true,
+	      templateUrl: './templates/actors/directives/actor_edit.html',
+	      scope: {
+	        actorData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -33549,12 +33627,10 @@
 
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(12);
 	var angular = __webpack_require__(2);
-	__webpack_require__(10);
 
 	describe('movies controller',() => {
 	  beforeEach(angular.mock.module('twoResourcesApp'));
@@ -33728,113 +33804,12 @@
 
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(2);
-	const twoResourcesApp = angular.module('twoResourcesApp', []);
-	__webpack_require__(4)(twoResourcesApp);
-	__webpack_require__(5)(twoResourcesApp);
-
-	twoResourcesApp.controller('MoviesController',['$scope', '$http', 'twoResource', 'resourceStore', function($scope, $http, Resource, resourceStore) {
-	  $scope.movies = [];
-
-	  var movieService = Resource('/movies');
-
-	$scope.getAllMovies = function() {
-	  movieService.getAll(function(err, res){
-	    if(err) return console.log(err);
-	    $scope.movies = res;
-	  });
-	};
-
-
-	$scope.createMovie = function(movie) {
-	  movieService.create(movie,function(err, res) {
-	    if(err) return console.log(err);
-	    $scope.movies.push(res);
-	    $scope.newMovie = null;
-	  });
-	};
-
-
-	  $scope.updateMovie = function(movie) {
-	    movieService.update(movie, function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.movies = $scope.movies.map(function(item) {
-	        if(item._id === movie._id){
-	          item = movie;
-	          return item;
-	        }
-	        return item;
-	      });
-	      movie.editing = false;
-	    });
-	  };
-
-	  $scope.deleteMovie = function(movie) {
-	    movieService.delete(movie,function(err, res) {
-	      if(err) return console.log(err);
-
-	      $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
-
-	    });
-	  };
-
-	}]);
-
-	twoResourcesApp.controller('ActorsController', ['$scope', '$http', 'twoResource', function($scope, $http, Resource) {
-	  $scope.actors = [];
-	  var actorResource = Resource('/actors');
-
-	  $scope.getAllActors = function() {
-	    actorResource.getAll(function(err,res){
-	      if(err) return console.log(err);
-	      $scope.actors = res;
-	    });
-	  };
-
-
-	  $scope.createActor = function(actor) {
-	    actorResource.create(actor,function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.actors.push(res);
-	      $scope.newActor = null;
-	    });
-	  };
-
-
-	  $scope.updateActor = function(actor) {
-	    actorResource.update(actor,function(err,res) {
-	      if(err) return console.log(err);
-	      $scope.actors = $scope.actors.map(function(item) {
-	        if(item._id === actor._id){
-	          item = actor;
-	          return item;
-	        }
-	        return item;
-	      });
-	      actor.editing = false;
-	    });
-	  };
-
-	  $scope.deleteActor =  function(actor) {
-	    actorResource.delete(actor,function(err,data) {
-	      if(err) return console.log(err);
-	      $scope.actors = $scope.actors.filter((item) => item._id !== actor._id);
-	    });
-	  };
-
-	}]);
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(12);
 	var angular = __webpack_require__(2);
-	__webpack_require__(10);
+
+
 
 	describe('resource service', () => {
 	  beforeEach(angular.mock.module('twoResourcesApp'));
@@ -33944,34 +33919,107 @@
 
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(12);
 	var angular = __webpack_require__(2);
-	__webpack_require__(10);
+	var template = __webpack_require__(17);
+	console.log(template);
 
-	describe('data store', () => {
+
+	describe('movie edit directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
 	  beforeEach(angular.mock.module('twoResourcesApp'));
-	  var Store;
-	  var test;
-	  beforeEach(angular.mock.inject(function(resourceStore){
-	    Store = resourceStore;
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_){
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
 	  }));
 
-	  it('should be a object',() => {
-	    expect(typeof Store).toBe('object');
-	    expect(Store.data).toBe(undefined);
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET', '/templates/movies/directives/movie_edit.html').respond(200,template);
+	    var element = $compile('<movie-edit data-movie-data="{name:\'inside directive\'}"></movie-edit>')($rootScope);
+	    console.log(element);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside directive');
 	  });
 
-	  it('should get and set', () => {
-	    test = Store.get('prop1');
-	    Store.set('prop1','keyvalue');
-	    expect(Store.set('prop1','keyvalue')).toBe('keyvalue');
-	    console.log(Store.data);
-	  })
+	  it('should transclue the element', () => {
+	   $httpBackend.when('GET', '/templates/movies/directives/movie_edit.html').respond(200,template);
+	    var element = $compile('<movie-edit data-movie-data="{name:\'inside directive\'}" "><p>Hello</p></movie-edit>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('inside directive');
+	    expect(element.html()).toContain('Hello');
+	  });
 	});
 
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<ol>\n  <data value=\"\"><span class=\"label\">Name:&nbsp;</span>{{movieData.name}};&nbsp;&nbsp;</data>\n  <data value=\"\"><span class=\"label\">Type:&nbsp;</span>{{movieData.type}};&nbsp;&nbsp;</data>\n  <data value=\"\"><span class=\"label\">Actors:&nbsp;</span>{{movieData.actors}};&nbsp;&nbsp;</data>\n  <data value=\"\"><span class=\"label\">Publish On:&nbsp;</span>{{movieData.publish}}&nbsp;&nbsp;</data>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n<ol>\n";
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(19);
+	console.log(template);
+
+	describe('movie form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('twoResourcesApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET','/templates/movies/directives/movie_form.html').respond(200, template);
+	    var element = $compile('<div data-movie-form data-movie="{}" data-button-text="test button"></div>')($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save function', () => {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET','/templates/movies/directives/movie_form.html')
+	      .respond(200, template);
+	    var call = false;
+	    scope.movie = {name: 'test movie'};
+	    scope.testSave = function(input){
+	      expect(input.name).toBe('test movie');
+	      call = true;
+	    };
+	    var element = $compile('<movie-form data-movie="{name : \'test movie from compile\'}" data-save=testSave><button type="submit">New movie</button></movie-form>')(scope);
+
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    element.isolateScope().save(scope)(scope.movie);
+	    expect(call).toBe(true);
+	  });
+	});
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(movie)\">\n  <input type=\"text\" name=\"name\" data-ng-model=\"movie.name\"  placeholder=\"name\">\n  <input type=\"text\" name=\"type\" data-ng-model=\"movie.type\"  placeholder=\"type\">\n  <input type=\"text\" name=\"actors\" data-ng-model=\"movie.actors\"  placeholder=\"actors\">\n  <input type=\"text\" name=\"publish\" data-ng-model=\"movie.publish\"   placeholder=\"publish\">\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ }
 /******/ ]);

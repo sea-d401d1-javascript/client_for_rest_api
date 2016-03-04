@@ -10,7 +10,7 @@ var handleFailure = function(callback) {
   };
 };
 
-module.exports = exports = function(app) {
+module.exports = function(app) {
   app.factory('twoResource',['$http', function($http) {
     var Resource = function(ResourceName){
       this.ResourceName = ResourceName;
