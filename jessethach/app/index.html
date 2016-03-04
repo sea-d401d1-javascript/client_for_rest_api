@@ -7,77 +7,33 @@
 </head>
 <body data-ng-app="jedisApp">
 
-	<header>
-		<h1>Duel of Fates</h1>
+	<header class="container">
+		<!-- Main container -->
+		<nav class="navbar">
+		  <!-- Left side -->
+		  <section class="navbar-left">
+		    <section class="navbar-item">
+		      <p class="control is-grouped">
+		        <input class="input" type="text" placeholder="Choose a side">
+		        <button class="button">
+		          Search
+		        </button>
+		      </p>
+		    </section>
+		  </section>
+
+		  <!-- Right side -->
+		  <section class="navbar-right">
+		    <p class="navbar-item"><strong>All</strong></p>
+		    <p class="navbar-item"><a href="#">Jedis</a></p>
+		    <p class="navbar-item"><a href="#">Sith</a></p>
+		    <p class="navbar-item"><a class="button is-success">New</a></p>
+		  </section>
+		</nav>
 	</header>
 
-	<main class="container">
-		<section class="columns">
+	<main data-ng-view class="container">
 
-			<aside class="column is-third">
-				<h3>Empty space for now</h3>
-			</aside>
-
-		  <section class="column is-third" data-ng-controller="JedisController" data-ng-init="getAllJedi()">
-		    <h1>Jedis:</h1>
-		    <ul>
-		      <jedi data-ng-repeat="jedi in jedis" data-jedi-data="jedi">
-		        <button class="button is-info" data-ng-click="deleteJedi(jedi)">Delete Jedi</button>
-		        <button class="button is-info" data-ng-if="!jedi.editing" data-ng-click="toggleEditJedi(jedi)">Update Jedi</button>
-
-						<jedi-form
-								data-ng-if="jedi.editing"
-								data-save="updateJedi(jedi)"
-								data-button-text="Update Jedi"
-								data-jedi="jedi"
-							><button type="button" data-ng-click="toggleEditJedi(jedi)">Cancel</button>
-						</jedi-form>
-
-		      </jedi>
-		    </ul>
-
-				<jedi data-jedi-data="newJedi">
-
-			    <jedi-form
-						data-button-text="Create new Jedi"
-						data-jedi="newJedi"
-						data-save="createJedi(newJedi)"
-					></jedi-form>
-
-				</jedi>
-
-		  </section>
-
-		  <section class="column is-third" data-ng-controller="SithlordsController" data-ng-init="getAllSith()">
-		    <h1>Sith Lords:</h1>
-		    <ul>
-					<sith data-ng-repeat="sith in sithlords" data-sith-data="sith">
-		        <button class="button is-info" data-ng-click="deleteSith(sith)">Delete Sith</button>
-		        <button class="button is-info" data-ng-if="!sith.editing" data-ng-click="toggleEditSith(sith)">Update Sith</button>
-
-						<sith-form
-								data-ng-if="sith.editing"
-								data-save="updateSith(sith)"
-								data-button-text="Update Sith"
-								data-sith="sith"
-							><button type="button" data-ng-click="toggleEditSith(sith)">Cancel</button>
-						</sith-form>
-
-		      </sith>
-		    </ul>
-
-				<sith data-sith-data="newSith">
-
-			    <sith-form
-						data-button-text="Create new Sith"
-						data-sith="newSith"
-						data-save="createSith(newSith)"
-					></sith-form>
-
-				</sith>
-		  </section>
-
-		</section>
 	</main>
 
 	<footer>End of Fates</footer>

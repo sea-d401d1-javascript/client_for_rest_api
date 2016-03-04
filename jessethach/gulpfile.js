@@ -7,7 +7,7 @@ const maps = require('gulp-sourcemaps');
 const minifyCss = require('gulp-minify-css');
 
 const jsFiles = ['./*.js', 'app/**/*.js', '!node_modules/**'];
-const clientScripts = ['app/**/*.js'];
+const clientScripts = ['app/js/entry.js'];
 const staticFiles = ['app/**/*.html'];
 const sassFiles = ['app/**/styles.sass'];
 // const testFiles = ['test/test_entry.js'];
