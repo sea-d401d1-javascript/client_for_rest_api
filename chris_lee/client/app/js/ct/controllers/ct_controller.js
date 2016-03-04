@@ -3,7 +3,12 @@ var angular = require('angular');
 module.exports = function(CSApp) {
   CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
     $scope.cts = [];
+    $scope.errors = [];
     var ctService = Resource('/ct');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleCTEdit = function(ct) {
       if(ct.backup) {
@@ -16,7 +21,8 @@ module.exports = function(CSApp) {
     };
 
     $scope.getCT = function() {
-      ctService.get(function(err, res) {
+      ctService.getAll(function(err, res) {
+        console.log('getting CTs!');
         if (err) return console.log(err);
         $scope.cts = res;
       })

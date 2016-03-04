@@ -16,7 +16,7 @@ module.exports = exports = function(CSApp) {
       this.resourceName = resourceName;
     };
 
-    Resource.prototype.get = function(callback) {
+    Resource.prototype.getAll = function(callback) {
       $http.get('http://localhost:3000/api' + this.resourceName)
         .then(handleSuccess(callback), handleFailure(callback));
     };

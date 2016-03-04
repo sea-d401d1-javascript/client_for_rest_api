@@ -3,7 +3,12 @@ var angular = require('angular');
 module.exports = function(CSApp) {
   CSApp.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
     $scope.ts = [];
+    $scope.errors = [];
     var tService = Resource('/t');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleTEdit = function(t) {
       if(t.backup) {

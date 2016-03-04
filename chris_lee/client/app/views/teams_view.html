@@ -1,0 +1,51 @@
+<section data-ng-init="getCT()">
+  <h1>Counter-Strike!!!!:</h1>
+  <section data-ng-if="errors.length">
+    <h2>Errors: </h2>
+    <ul>
+    	<li data-ng-repeat="error in errors">{{error}}<button data-ng-click="dismissError(error)" alt="dismiss">X</button></li>
+    </ul>
+  </section>
+    <!-- <section class="column-left"> -->
+      <h2>Assemble the Counter-Terrorist team:</h2>
+      <ul>
+        <ct data-ng-repeat="ct in cts" data-ct-data="ct">
+          <button data-ng-click="deleteCT(ct)">Delete CT</button>
+          <button data-ng-if="!ct.editing" data-ng-click="toggleCTEdit(ct)">Update CT</button>
+          <ct-form
+            data-ng-if="ct.editing"
+            data-save="updateCT(ct)"
+            data-button-text="Update CT"
+            data-ct="ct"
+          >
+          <button type="button" data-ng-click="toggleCTEdit(ct)">Cancel</button>
+          </ct-form>
+        </ct>
+      </ul>
+      <ct data-ct-data="newCT">
+        <ct-form
+          data-button-text="Create new CT"
+          data-ct="newCT"
+          data-save="createCT(newCT)"
+        ></ct-form>
+      </ct>
+      <br/>
+      <table style="width:100%">
+        <tr>
+          <th>Name</th>
+          <th>Rifle</th>
+          <th>Pistol</th>
+          <th>Grenade</th>
+          <th>Organization</th>
+        </tr>
+        <tr data-ng-repeat="ct in cts">
+          <td>{{ct.name}}</td>
+          <td>{{ct.rifle}}</td>
+          <td>{{ct.pistol}}</td>
+          <td>{{ct.grenade}}</td>
+          <td>{{ct.organization}}</td>
+        </tr>
+      </table>
+
+    <!-- </section> -->
+  </section>

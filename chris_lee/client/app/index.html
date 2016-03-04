@@ -7,54 +7,25 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   </head>
   <body data-ng-app="CSApp">
-    <header>
-      <h1>Super Awesome Counter-Strike App</h1>
-    </header>
-    <main>
-      <section class="column-left" data-ng-controller="CTController" data-ng-init="getCT()">
-        <h2>Assemble the Counter-Terrorist team:</h2>
-        <ul>
-          <ct data-ng-repeat="ct in cts" data-ct-data="ct">
-            <button data-ng-click="deleteCT(ct)">Delete CT</button>
-            <button data-ng-if="!ct.editing" data-ng-click="toggleCTEdit(ct)">Update CT</button>
-            <ct-form
-              data-ng-if="ct.editing"
-              data-save="updateCT(ct)"
-              data-button-text="Update CT"
-              data-ct="ct"
-            >
-            <button type="button" data-ng-click="toggleCTEdit(ct)">Cancel</button>
-            </ct-form>
-          </ct>
-        </ul>
-        <ct data-ct-data="newCT">
-          <ct-form
-            data-button-text="Create new CT"
-            data-ct="newCT"
-            data-save="createCT(newCT)"
-          ></ct-form>
-        </ct>
-        <br/>
-        <table style="width:100%">
-          <tr>
-            <th>Name</th>
-            <th>Rifle</th>
-            <th>Pistol</th>
-            <th>Grenade</th>
-            <th>Organization</th>
-          </tr>
-          <tr data-ng-repeat="ct in cts">
-            <td>{{ct.name}}</td>
-            <td>{{ct.rifle}}</td>
-            <td>{{ct.pistol}}</td>
-            <td>{{ct.grenade}}</td>
-            <td>{{ct.organization}}</td>
-          </tr>
-        </table>
 
-      </section>
 
-      <section class="column-right" data-ng-controller="TController" data-ng-init="getT()">
+
+    <div class="span" role="div" data-ng-controller="AuthController" data-ng-init="updateUsername()">
+      <header>
+        <p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
+      </header>
+      <!-- <main data-ng-view>
+        <p>Stay tuned loading, or you have a javascript blocker active</p>
+      </main> -->
+
+
+
+
+
+    <main data-ng-view>
+
+
+      <!-- <section class="column-right" data-ng-controller="TController" data-ng-init="getT()">
         <h2>Assemble the Terrorist team:</h2>
 
         <ul>
@@ -99,8 +70,9 @@
       </section>
       <section class="column-center">
         <h1>Fight!</h1>
-      </section>
+      </section> -->
     </main>
+      </div>
     <footer>
       <p>© Copyright 2016, Chris Lee</p>
     </footer>
