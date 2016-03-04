@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.controller('authController', ['$scope', 'flowerAuth', function($scope, flowerAuth) {
+  app.controller('authController', ['$scope', 'flowerAuth', '$location', function($scope, flowerAuth, $location) {
     $scope.username = null;
 
     $scope.updateUsername = function() {
@@ -19,6 +19,7 @@ module.exports = function(app) {
         console.log('logout callback in signOut');
 
         $scope.username = null;
+        $location.path('/signin');
       });
     };
   }]);
