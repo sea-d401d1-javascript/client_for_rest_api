@@ -1,8 +1,8 @@
 module.exports = function(app) {
-  app.controller('SignupController', ['$scope', '$location', 'flowerAuth', function($scope, $location, auth) {
+  app.controller('SignupController', ['$scope', '$location', 'flowerAuth', function($scope, $location, flowerAuth) {
     $scope.signup = true;
     $scope.submit = function(user) {
-      auth.createUser(user, function() {
+      flowerAuth.createUser(user, function() {
         $location.path('/home');
       });
     };
