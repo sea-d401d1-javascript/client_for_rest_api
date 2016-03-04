@@ -7,6 +7,9 @@ module.exports = function(app) {
         cb = cb || function() {};
         $http.post('http://localhost:3000/signup', user)
           .then(function(res) {
+            console.log(res);
+            // $scope.donors.push(res.data);
+            // $scope.newDonor = null;
             token = $window.localStorage.token = res.data.token;
             cb(null);
           }, function(res) {

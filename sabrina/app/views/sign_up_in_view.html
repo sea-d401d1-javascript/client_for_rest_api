@@ -1,16 +1,19 @@
 <h2 class = 'fullWidth'>Sign Up!</h2>
-<form name="authForm" data-ng-submit="createDonor(donor)" class = 'fullWidth'>
+<form name="authForm" data-ng-submit="submit(auth)" class = 'fullWidth'>
   <label data-ng-if="signup" for="username">Username: </label>
-  <input data-ng-if="signup" type="text" name="username" data-ng-model="donor.username">
+  <input data-ng-if="signup" type="text" name="username" data-ng-model="auth.username">
 
   <label for="email">Email: </label>
-  <input type="text" required name="email" data-ng-model="donor.email">
+  <input type="email" required name="email" data-ng-model="auth.email">
+
+  <label data-ng-if="signup" for="organisation">Organisation: </label>
+  <input data-ng-if="signup" type="text" name="organisation" data-ng-model="donor.organisation">
 
   <label for="password">Password</label>
-  <input type="password" required name="password" data-ng-model="donor.password">
+  <input type="password" required name="password" data-ng-model="auth.password">
 
   <label data-ng-if="signup" for="confirmation">Confirmation:</label>
-  <input data-ng-if="signup" type="password" name="confirmation" data-ng-model="donor.confirmation">
+  <input data-ng-if="signup" type="password" name="confirmation" data-ng-model="auth.confirmation">
 
-  <button type="submit" data-ng-disabled="(signup && (donor.confirmation !== donor.password)) || authForm.$invalid">{{signup ? 'Create New User' : 'Sign In'}}</button>
+  <button type="submit" data-ng-disabled="(signup && (auth.confirmation !== auth.password)) || authForm.$invalid">{{signup ? 'Create New User' : 'Sign In'}}</button>
 </form>
