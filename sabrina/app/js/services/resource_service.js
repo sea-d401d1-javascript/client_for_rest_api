@@ -11,7 +11,7 @@ var handleFailure = function(callback) {
 };
 
 module.exports = exports = function(app) {
-  app.factory('cfResource', ['$http', function($http) {
+  app.factory('cfResource', ['$http', 'requestAuth', function($http, requestAuth) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
     };
@@ -22,18 +22,39 @@ module.exports = exports = function(app) {
     };
 
     Resource.prototype.create = function(data, callback) {
-      $http.post('http://localhost:3000/api' + this.resourceName, data)
-        .then(handleSuccess(callback), handleFailure(callback));
+      $http({
+        method: 'POST',
+        url: 'http://localhost:3000/api' + this.resourceName,
+        data: data,
+        headers: {
+          token: requestAuth.getToken()
+        }
+      })
+      .then(handleSuccess(callback), handleFailure(callback));
     };
 
     Resource.prototype.update = function(data, callback) {
-      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
-        .then(handleSuccess(callback), handleFailure(callback));
+      $http({
+        method: 'PUT',
+        url: 'http://localhost:3000/api' + this.resourceName + '/' + data._id,
+        data: data,
+        headers: {
+          token: requestAuth.getToken()
+        }
+      })
+      .then(handleSuccess(callback), handleFailure(callback));
     };
 
     Resource.prototype.delete = function(data, callback) {
-      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
-        .then(handleSuccess(callback), handleFailure(callback));
+      $http({
+        method: 'DELETE',
+        url: 'http://localhost:3000/api' + this.resourceName + '/' + data._id,
+        data: data,
+        headers: {
+          token: requestAuth.getToken()
+        }
+      })
+      .then(handleSuccess(callback), handleFailure(callback));
     };
 
     return function(resourceName) {
