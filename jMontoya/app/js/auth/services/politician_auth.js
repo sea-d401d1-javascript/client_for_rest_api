@@ -14,6 +14,17 @@ module.exports = function(app) {
             cb(res.err);
           });
       },
+      signIn: function(user, cb) {
+        cb = cb || function() {};
+        $http({
+          method: 'GET',
+          url: 'http://localhost:3000/api/signin',
+          headers: {
+            'Authorization': 'Basic ' + btoa((user.email+ ':' + user.password));
+          }
+        })
+          .then(fun)
+      },
       getToken: function() {
         token = token || $window.localStorage.token;
         return token;

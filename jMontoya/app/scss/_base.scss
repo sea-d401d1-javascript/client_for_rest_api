@@ -44,10 +44,12 @@ a {
   }
 }
 
-// Body Background Color
+// Base Body Font Size
 body {
   font-size: $base-font-size;
 }
+
+// Body Background Color
 html {
   background: url('http://1mvacq1b4o32xjfah3ao75bn.wpengine.netdna-cdn.com/wp-content/uploads/2016/01/VotoLatinoSupporters.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -59,4 +61,15 @@ button{
   background: $white;
   border: 2px solid $black;
   font-family: 'Muli', sans-serif;
+}
+
+// modifies default scrollbar styles
+main ul::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 4px;
+}
+main ul::-webkit-scrollbar-thumb {
+   border-radius: 0px;
+   background-color: rgba(0,0,0,.5);
+   -webkit-box-shadow: 0 0 1px rgba(255,255,255, 1);
 }
