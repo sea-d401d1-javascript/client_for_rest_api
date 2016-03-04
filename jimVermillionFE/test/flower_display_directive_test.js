@@ -1,5 +1,5 @@
 var angular = require('angular');
-var template = require('../app/templates/flower_app_resource.html');
+var template = require('../app/templates/flower_display.html');
 
 describe('flower display directive', () => {
   var $compile;
@@ -15,7 +15,7 @@ describe('flower display directive', () => {
   }));
 
   it('should load the directive', () => {
-    $httpBackend.expectGET('/templates/flower_app_resource.html').respond(200, template);
+    $httpBackend.expectGET('/templates/flower_display.html').respond(200, template);
 
     var element = $compile('<flower data-flower-data="{name: \'test flower\'}"></flower>')($rootScope);
       $httpBackend.flush();
@@ -24,7 +24,7 @@ describe('flower display directive', () => {
   });
 
     it('should pass in a flower off of the scope', () => {
-    $httpBackend.expectGET('/templates/flower_app_resource.html').respond(200, template);
+    $httpBackend.expectGET('/templates/flower_display.html').respond(200, template);
     var scope = $rootScope.$new();
     scope.flower = {name: 'test flower 2', difficulty_to_grow: 'meh'};
 

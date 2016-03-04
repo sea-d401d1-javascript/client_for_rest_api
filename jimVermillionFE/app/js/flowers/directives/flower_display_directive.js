@@ -4,7 +4,7 @@ module.exports = function(app) {
       restrict: 'E',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/flower_app_resource.html',
+      templateUrl: '/templates/flower_display.html',
       scope: {
         flowerData: '='
       }

@@ -1,13 +1,17 @@
 .nonCrud {
   text-align: center;
   margin: 0 auto;
-  width: 30%;
+  width: 33%;
   font-size: 36px;
-  color: #fff;
+  color: $white;
+  border: 1px dashed $white;
+  border-radius: 5%;
+  p{
+    padding: 5px;
+  }
 }
-
 h2 {
-  border-bottom: 1px solid #BABABE;
+  border-bottom: 1px solid $gray;
   font-family: 'Grand Hotel', sans-serif;
 }
 input, label {
@@ -16,16 +20,16 @@ input, label {
 }
 input {
   background: black;
-  color: white;
+  color: $white;
   border: none;
 }
 button {
   margin-bottom: 10px;
+  max-width: 150px;
 }
-
 header h1 {
   font-family: 'Grand Hotel', sans-serif;
   text-align: center;
   font-size: 5em;
-  color: #fff;
+  color: $white;
 }

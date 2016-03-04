@@ -1,0 +1,32 @@
+@mixin floater() {
+  background-color: rgba(0,0,0,0.5);
+  width: 30%;
+  text-align: center;
+}
+
+main {
+  overflow: hidden;
+  width: 90%;
+  padding: 0 5%;
+  margin: 0 auto;
+}
+section {
+  margin: 10px;
+}
+header{
+  border-bottom: $white 1px solid;
+}
+footer {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+.right {
+  @include floater();
+  float: right;
+}
+.left {
+  @include floater();
+  float: left;
+}

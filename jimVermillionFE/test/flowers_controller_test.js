@@ -37,18 +37,16 @@ describe('flower controller', () => {
     it('should make a GET request to /api/flowers', () => {
       $httpBackend.expectGET('http://localhost:3000/api/flowers').respond(200, [{name: 'test flower'}]);
       $httpBackend.expectGET('http://localhost:3000/api/gardeners').respond(200, [{name: 'null get'}]);
-      $httpBackend.expectGET('http://localhost:3000/nonCrud/howManyFlowers').respond(200, 'nonCrud');
       $scope.getAll();
       $httpBackend.flush(); // resolves the promise $http returns, all requests have been made -- resolve them
-      //expect($scope.flowers[0].name).toBe('test flower');
+      expect($scope.flowers[0].name).toBe('test flower');
       expect($scope.flowers.length).toBe(1);
     });
 
     it('should make a POST request to /api/flowers', () => {
       $httpBackend.expectPOST('http://localhost:3000/api/flowers', {name: 'the sent flower'}).respond(200, {name: 'the response flower'});
-      $httpBackend.expectGET('http://localhost:3000/nonCrud/howManyFlowers').respond(200, [{name: 'test flower'}]); // gotta update
       $scope.newFlower = {name: 'the new flower'};
-      $scope.postFlower({name: 'the sent flower'});
+      $scope.post({name: 'the sent flower'}, $scope.flowers);
       $httpBackend.flush();
       expect($scope.flowers.length).toBe(1);
       expect($scope.newFlower).toBe(null);
@@ -59,7 +57,7 @@ describe('flower controller', () => {
       var updatedFlower  = {name: 'updated flower' , editing:true, _id: 123456};
       $scope.flowers.push(updatedFlower);
       $httpBackend.expectPUT('http://localhost:3000/api/flowers/' + updatedFlower._id, updatedFlower).respond(200, {msg: 'success'});
-      $scope.updateFlower(updatedFlower);
+      $scope.update(updatedFlower, $scope.flowers);
       $httpBackend.flush();
       expect(updatedFlower.editing).toBe(false);
       expect($scope.flowers[0].editing).toBe(false);
@@ -70,8 +68,7 @@ describe('flower controller', () => {
       $scope.flowers.push(deadFlower);
       expect($scope.flowers.indexOf(deadFlower)).not.toBe(-1);
       $httpBackend.expectDELETE('http://localhost:3000/api/flowers/' + deadFlower._id).respond(200, {msg: 'success'} );
-      $httpBackend.expectGET('http://localhost:3000/nonCrud/howManyFlowers').respond(200, 'nonCrud'); 
-      $scope.deleteFlower(deadFlower);
+      $scope.delete(deadFlower, 0, $scope.flowers);
       $httpBackend.flush();
       expect($scope.flowers.length).toBe(0);
       expect($scope.flowers.indexOf(deadFlower)).toBe(-1);

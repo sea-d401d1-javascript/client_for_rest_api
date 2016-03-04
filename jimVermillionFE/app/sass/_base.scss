@@ -1,5 +1,12 @@
+$white: #fff;
+$gray: #BABABE;
+$dGray: #2B2C31;
+$green: #339900;
+$greener: #00BD39;
+$greenest: #64DE89;
+
 body{
-  background-color: #2B2C31;
+  background-color: $dGray;
 }
 main{
   background: url(https://static.pexels.com/photos/6414/rucola-young-argula-sproutus.jpg) center no-repeat ;
@@ -7,26 +14,29 @@ main{
 }
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-  color: #BABABE;
+  color: $gray;
   line-height: 1;
   font-family: "lato";
   display: block;
 }
 article, li{
-  border-bottom: 1px solid #BABABE;
+  border-bottom: 1px solid $gray;
 }
 a {
-  color: #339900;
-}
-a:hover{
-  color: #00BD39;
-}
-a:visited{
-  color: #64DE89;
+  color: $green;
+  &:hover {
+    color: $greener;
+  }
+  &:visited {
+    color: $greenest;
+  }
 }
 ol, ul {
   list-style: none;
   padding: 0;
+  max-height: 350px;
+  overflow: auto;
+  border-bottom: 1px solid $white;
 }
 blockquote, q {
   quotes: none;

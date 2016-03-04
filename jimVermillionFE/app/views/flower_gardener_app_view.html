@@ -1,0 +1,87 @@
+<section data-ng-init="getAll()">
+  <section class="right">
+    <!-- show all the flowers -->
+    <h2>flowers!</h2>
+    <ul>
+      <!-- display the flower -->
+      <resource data-ng-repeat="flower in flowers" 
+          data-resource-data="flower"
+          data-attr-name="difficulty to grow"
+          data-attr="flower.difficulty_to_grow"
+          data-resource="flower"
+          >
+        <!-- delete the flower -->
+        <button data-ng-click="delete(flower, $index, flowers)">Delete {{flower.name}}</button>
+        <!-- toggle editing mode -->
+        <button data-ng-if="!flower.editing" data-ng-click="toggleEdit(flower, $index)">edit</button>
+        <!-- form -->
+        <resource-form 
+            data-ng-if="flower.editing" 
+            data-save="update(flower, flowers)"
+            data-button-text="Update Flower"
+            data-resource="flower"
+            data-attr="flower.difficulty_to_grow"
+            data-attr-name="difficulty to grow"
+            >
+          <button type="button" data-ng-click="toggleEdit(flower, $index)">Cancel</button>
+        </resource-form>
+
+      </resource> 
+    </ul>
+    <!-- post a new flower -->
+    <article>
+      <h4>NEW FLOWER</h4>
+      <flower-form
+        data-button-text="New Flower"
+        data-resource="newFlower"
+        data-save="post(newFlower, flowers)"
+      ></flower-form>
+    </article>
+  </section>
+
+  <section class="left">
+    <!-- show all the gardeners -->
+
+    <h2>gardeners!</h2>
+    <ul>
+      <resource data-ng-repeat="gardener in gardeners" 
+          data-resource-data="gardener"
+          data-attr-name="favorite flower"
+          data-attr="gardener.favFlower"
+          data-resource="gardener"
+          data-list="gardeners"
+          >
+
+        <button data-ng-click="delete(gardener, $index, gardeners)">DELETE {{gardener.name}} </button>
+        <button data-ng-if="!gardener.editing" data-ng-click="toggleEdit(gardener, $index)">edit</button>
+       
+        <resource-form 
+            data-ng-if="gardener.editing" 
+            data-save="update(gardener, gardeners)"
+            data-button-text="Update Gardener"
+            data-resource="gardener"
+            data-attr="gardener.favFlower"
+            data-attr-name="favorite flower"
+            >
+          <button type="button" data-ng-click="toggleEdit(gardener, $index)">Cancel</button>
+        </resource-form>
+      </resource>
+    </ul>
+
+    <!-- post a new gardener -->
+    <article>
+      <h4>NEW GARDENER</h4>
+      <form data-ng-submit="post(newGardener, gardeners)">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" data-ng-model="newGardener.name">
+        <label for="favFlower">Favorite Flower:</label>
+        <input type="text" name="favFlower" id="favorite flower" data-ng-model="newGardener.favFlower">
+        <button type="submit">New Gardener</button>
+      </form>
+    </article>
+  </section>
+  
+  <section class="nonCrud" >
+    <p>{{nonCrud}}</p>
+  </section>
+</section>
