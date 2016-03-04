@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.controller('authController', ['$scope', 'requestAuth', function($scope, requestAuth) {
+  app.controller('AuthController', ['$scope', 'requestAuth', function($scope, requestAuth) {
     $scope.username = null;
 
     $scope.updateUsername = function() {

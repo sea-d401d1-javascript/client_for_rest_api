@@ -17,19 +17,6 @@ module.exports = function(app) {
       });
     };
 
-    // $scope.createDonor = (donor) => {
-    //   $http.post('http://localhost:3000/signup', donor)
-    //     .then((res) => {
-    //       console.log('success creating donor!');
-    //       $scope.donors.push(res.data);
-    //       $scope.newDonor = null;
-    //     }, (err) => {
-    //       $scope.donors.splice($scope.donors.indexOf(donor), 1);
-    //       $scope.errors.push('Could not save donor with username of ' + donor.username);
-    //       console.log(err);
-    //     });
-    // };
-
     $scope.updateDonor = function(donor) {
       donorService.update(donor, function(err, res) {
         $scope.donors[$scope.donors.indexOf(donor)] = donor;
