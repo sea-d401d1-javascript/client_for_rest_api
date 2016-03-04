@@ -6,35 +6,40 @@
 	<link rel="stylesheet" href="/scss/styles.css">
 </head>
 <body data-ng-app="jedisApp">
+	<div data-ng-controller="authController" data-ng-init="updateUsername()">
+		<header class="container">
+			<!-- Main container -->
+			<nav class="navbar">
+			  <!-- Left side -->
+			  <section class="navbar-left">
+			    <section class="navbar-item">
+			      <p class="control is-grouped">
+			        <input class="input" type="text" placeholder="Choose a side">
+			        <button class="button">
+			          Search
+			        </button>
+			      </p>
+			    </section>
+			  </section>
 
-	<header class="container">
-		<!-- Main container -->
-		<nav class="navbar">
-		  <!-- Left side -->
-		  <section class="navbar-left">
-		    <section class="navbar-item">
-		      <p class="control is-grouped">
-		        <input class="input" type="text" placeholder="Choose a side">
-		        <button class="button">
-		          Search
-		        </button>
-		      </p>
-		    </section>
-		  </section>
+			  <!-- Right side -->
+			  <section class="navbar-right">
+					<p class="navbar-item" data-ng-if="username">
+						Hello {{username}} <a href data-ng-click="signOut()">logout</a>
+					</p>
+			    <p class="navbar-item"><strong>All</strong></p>
+			    <p class="navbar-item"><a href="#">Jedis</a></p>
+			    <p class="navbar-item"><a href="#">Sith</a></p>
+			    <p class="navbar-item"><a class="button is-success">New</a></p>
+			  </section>
+			</nav>
+		</header>
 
-		  <!-- Right side -->
-		  <section class="navbar-right">
-		    <p class="navbar-item"><strong>All</strong></p>
-		    <p class="navbar-item"><a href="#">Jedis</a></p>
-		    <p class="navbar-item"><a href="#">Sith</a></p>
-		    <p class="navbar-item"><a class="button is-success">New</a></p>
-		  </section>
-		</nav>
-	</header>
+		<main data-ng-view class="container">
 
-	<main data-ng-view class="container">
+		</main>
 
-	</main>
+	</div>
 
 	<footer>End of Fates</footer>
 

@@ -4,8 +4,13 @@ module.exports = function(app){
   app.controller('JedisController', ['$scope', '$http','cfResource', function($scope, $http, Resource) {
     $scope.jedis = [];
     $scope.sithlords = [];
+    $scope.errors = [];
     var jediService = Resource('/jedis');
     var sithService = Resource('/sith-lords');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleEditJedi = function(jedi) {
       if(jedi.backup) {
