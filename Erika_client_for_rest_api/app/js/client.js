@@ -14,10 +14,10 @@ wapApp.config(['$routeProvider', function(routes) {
       controller: 'dogController',
       templateUrl: '/views/dogs_view.html'
     })
-    // .when('/home', {
-    //   controller:'HumansController',
-    //   templateURL: '/views/humans_view.html'
-    // })
+    .when('/home', {
+      controller:'HumansController',
+      templateURL: '/views/humans_view.html'
+    })
     .when('/', {
       redirectTo: '/home'
     })
