@@ -2,11 +2,11 @@ const angular = require('angular');
 require('angular-route');
 const wapApp = angular.module('wapApp', ['ngRoute']);
 
-require('./services')(wapApp);
+require('./services/resource_service')(wapApp);
 
-require('./dogs')(wapApp);
-require('./humans')(wapApp);
-require('./auth')(wapApp);
+require('./dogs/dogs.js')(wapApp);
+require('./humans/humans.js')(wapApp);
+require('./auth/auth.js')(wapApp);
 
 wapApp.config(['$routeProvider', function(routes) {
   routes
