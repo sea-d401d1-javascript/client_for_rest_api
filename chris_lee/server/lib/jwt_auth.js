@@ -6,16 +6,15 @@ module.exports = exports = function(req, res, next) {
   try {
     decoded = jwt.verify(req.headers.token, process.env.APP_SECRET || 'changethis');
   } catch(e) {
-    debugger;
-    return res.status(401).json({msg: 'authenticat seyzz meow'});
+    return res.status(401).json({msg: 'authenticat seyzz one'});
   }
   User.findOne({_id: decoded.id}, (err, user) => {
     if (err) {
       console.log(err);
-      return res.status(401).json({msg: 'authenticat seyzz meow'});
+      return res.status(401).json({msg: 'authenticat seyzz two'});
     }
 
-    if (!user) return res.status(401).json({msg: 'authenticat seyzz meow'});
+    if (!user) return res.status(401).json({msg: 'authenticat seyzz three'});
 
     req.user = user;
     next();

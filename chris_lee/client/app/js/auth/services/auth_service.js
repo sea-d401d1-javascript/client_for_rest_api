@@ -53,6 +53,7 @@ module.exports = function(app) {
         .then(function(res) {
           console.log('yooooooo');
           user = res.data.username;
+          console.log(user);
           cb(res);
         },function(res) {
           cb(res);

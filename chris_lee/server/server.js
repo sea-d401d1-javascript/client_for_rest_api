@@ -9,9 +9,10 @@ const tRouter = require(__dirname + '/routes/t_routes.js');
 const authRouter = require(__dirname + '/routes/auth_routes.js');
 const userRouter = require(__dirname + '/routes/user_routes.js');
 
+// X-Requested-With
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization, token');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, token');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });

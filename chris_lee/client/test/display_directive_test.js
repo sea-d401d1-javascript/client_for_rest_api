@@ -1,6 +1,6 @@
 var angular = require('angular');
-var ctTemplate = require('../app/templates/ct/directives/ct.html');
-var tTemplate = require('../app/templates/t/directives/t.html');
+var ctTemplate = require('../app/templates/ct/directives/ct_display_directive.html');
+var tTemplate = require('../app/templates/ct/directives/t_display_directive.html');
 
 describe('display directives', () => {
   var $compile;

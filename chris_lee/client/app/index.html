@@ -7,72 +7,13 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   </head>
   <body data-ng-app="CSApp">
-
-
-
     <div class="span" role="div" data-ng-controller="AuthController" data-ng-init="updateUsername()">
       <header>
+        <h1>Super Awesome Counter-Strike App</h1>
         <p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
       </header>
-      <!-- <main data-ng-view>
-        <p>Stay tuned loading, or you have a javascript blocker active</p>
-      </main> -->
-
-
-
-
-
-    <main data-ng-view>
-
-
-      <!-- <section class="column-right" data-ng-controller="TController" data-ng-init="getT()">
-        <h2>Assemble the Terrorist team:</h2>
-
-        <ul>
-          <t data-ng-repeat="t in ts" data-t-data="t">
-            <button data-ng-click="deleteT(t)">Delete T</button>
-            <button data-ng-if="!t.editing" data-ng-click="toggleTEdit(t)">Update T</button>
-            <t-form
-              data-ng-if="t.editing"
-              data-save="updateT(t)"
-              data-button-text="update T"
-              data-ct="t"
-            >
-            <button type="button" data-ng-click="toggleTEdit(t)">Cancel</button>
-          </t-form>
-        </t>
-        </ul>
-        <t data-t-data="newT">
-          <t-form
-            data-button-text="Create new T"
-            data-t="newT"
-            data-save="createT(newT)"
-          ></t-form>
-        </t>
-        <br/>
-        <table style="width:100%">
-          <tr>
-            <th>Name</th>
-            <th>Rifle</th>
-            <th>Pistol</th>
-            <th>Grenade</th>
-            <th>Organization</th>
-          </tr>
-          <tr data-ng-repeat="t in ts">
-            <td>{{t.name}}</td>
-            <td>{{t.rifle}}</td>
-            <td>{{t.pistol}}</td>
-            <td>{{t.grenade}}</td>
-            <td>{{t.organization}}</td>
-          </tr>
-        </table>
-
-      </section>
-      <section class="column-center">
-        <h1>Fight!</h1>
-      </section> -->
-    </main>
-      </div>
+      <main data-ng-view></main>
+    </div>
     <footer>
       <p>© Copyright 2016, Chris Lee</p>
     </footer>

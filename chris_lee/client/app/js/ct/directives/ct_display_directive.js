@@ -1,10 +1,10 @@
 module.exports = function(app) {
-  app.directive('ct', function() {
+  app.directive('ctDisplay', function() {
     return {
       restrict: 'E',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/ct/directives/ct.html',
+      templateUrl: '/templates/ct/directives/ct_display_directive.html',
       scope: {
         ctData: '='
       }

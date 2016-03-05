@@ -6,10 +6,8 @@ const handleDBError = require(__dirname + '/../lib/handle_db_error');
 
 const router = module.exports = exports = express.Router();
 
-router.get('/currentuser', jsonParser, jwtAuth, (req, res) => {
+router.get('/currentuser', jwtAuth, jsonParser, (req, res) => {
   User.findOne({_id: req.user._id}, (err, data) => {
-    console.log('hello!');
-    console.log(data);
     if(err) return handleDBError(err, res);
     res.json({username: data.username});
   });

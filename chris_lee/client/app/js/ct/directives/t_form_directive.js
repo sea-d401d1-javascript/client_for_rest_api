@@ -4,7 +4,7 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/t/directives/t_form_directive.html',
+      templateUrl: '/templates/ct/directives/t_form_directive.html',
       scope: {
         buttonText: '@',
         t: '=',

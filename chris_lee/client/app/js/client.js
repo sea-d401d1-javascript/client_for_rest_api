@@ -3,13 +3,13 @@ require('angular-route');
 const CSApp = angular.module('CSApp', ['ngRoute']);
 require('./services')(CSApp);
 require('./ct')(CSApp);
-require('./t')(CSApp);
 require('./auth')(CSApp);
+
 
 CSApp.config(['$routeProvider', function(routes) {
   routes
     .when('/home', {
-      controller: 'CTController',
+      controller: 'CSController',
       templateUrl: '/views/teams_view.html'
     })
     .when('/', {

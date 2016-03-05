@@ -45,12 +45,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(21);
+	__webpack_require__(19);
 
+	__webpack_require__(20);
+	__webpack_require__(21);
 	__webpack_require__(22);
-	__webpack_require__(23);
-	__webpack_require__(24);
-	__webpack_require__(27);
+	__webpack_require__(25);
 
 
 /***/ },
@@ -62,13 +62,13 @@
 	const CSApp = angular.module('CSApp', ['ngRoute']);
 	__webpack_require__(6)(CSApp);
 	__webpack_require__(8)(CSApp);
-	__webpack_require__(12)(CSApp);
-	__webpack_require__(16)(CSApp);
+	__webpack_require__(14)(CSApp);
+
 
 	CSApp.config(['$routeProvider', function(routes) {
 	  routes
 	    .when('/home', {
-	      controller: 'CTController',
+	      controller: 'CSController',
 	      templateUrl: '/views/teams_view.html'
 	    })
 	    .when('/', {
@@ -31585,7 +31585,7 @@
 	};
 
 	module.exports = exports = function(CSApp) {
-	  CSApp.factory('csResource', ['$http', function($http) {
+	  CSApp.factory('csResource', ['$http', 'csAuth', function($http, csAuth) {
 	    var Resource = function(resourceName) {
 	      this.resourceName = resourceName;
 	    };
@@ -31596,17 +31596,37 @@
 	    };
 
 	    Resource.prototype.create = function(data, callback) {
-	      $http.post('http://localhost:3000/api' + this.resourceName, data)
+	      $http({
+	        method: 'POST',
+	        url: 'http://localhost:3000/api' + this.resourceName,
+	        data: data,
+	        headers: {
+	          token: csAuth.getToken()
+	        }
+	      })
 	        .then(handleSuccess(callback), handleFailure(callback));
 	    };
 
 	    Resource.prototype.update = function(data, callback) {
-	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
+	      $http({
+	        method: 'PUT',
+	        url: 'http://localhost:3000/api' + this.resourceName + '/' + data._id,
+	        data: data,
+	        headers: {
+	          token: csAuth.getToken()
+	        }
+	      })
 	        .then(handleSuccess(callback), handleFailure(callback));
 	    };
 
 	    Resource.prototype.delete = function(data, callback) {
-	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
+	      $http({
+	        method: 'DELETE',
+	        url: 'http://localhost:3000/api' + this.resourceName + '/' + data._id,
+	        headers: {
+	          token: csAuth.getToken()
+	        }
+	      })
 	        .then(handleSuccess(callback), handleFailure(callback));
 	    };
 
@@ -31625,6 +31645,8 @@
 	  __webpack_require__(9)(app);
 	  __webpack_require__(10)(app);
 	  __webpack_require__(11)(app);
+	  __webpack_require__(12)(app);
+	  __webpack_require__(13)(app);
 	};
 
 
@@ -31635,10 +31657,12 @@
 	var angular = __webpack_require__(2);
 
 	module.exports = function(CSApp) {
-	  CSApp.controller('CTController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
+	  CSApp.controller('CSController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
 	    $scope.cts = [];
+	    $scope.ts = [];
 	    $scope.errors = [];
 	    var ctService = Resource('/ct');
+	    var tService = Resource('/t');
 
 	    $scope.dismissError = function(err) {
 	      $scope.errors.splice($scope.errors.indexOf(err), 1);
@@ -31656,16 +31680,20 @@
 
 	    $scope.getCT = function() {
 	      ctService.getAll(function(err, res) {
-	        console.log('getting CTs!');
 	        if (err) return console.log(err);
 	        $scope.cts = res;
 	      })
 	    };
 
 	    $scope.createCT = function(ct) {
+	      $scope.cts.push(ct);
 	      ctService.create(ct, function(err, res) {
-	        if (err) return console.log(err);
-	        $scope.cts.push(res);
+	        if (err) {
+	          $scope.cts.splice($scope.cts.indexOf(ct), 1);
+	          $scope.errors.push('Could not save CT with name of ' + ct.name);
+	          return console.log(err);
+	        }
+	        $scope.cts.splice($scope.cts.indexOf(ct), 1, res);
 	        $scope.newCT = null;
 	      });
 	    };
@@ -31673,17 +31701,74 @@
 	    $scope.updateCT = function(ct) {
 	      ctService.update(ct, function(err, res) {
 	        ct.editing = false;
-	        if (err) return console.log(err);
+	        ct.backup = null;
+	        if (err) {
+	          $scope.errors.push('could not update CT ' + ct.name);
+	          return console.log(err);
+	        }
 	      });
 	    };
 
 	    $scope.deleteCT = function(ct) {
 	      ctService.delete(ct, function(err, res) {
-	        if (err) return console.log(err);
+	        if (err) {
+	          $scope.errors.push('could not delete CT ' + ct.name);
+	          return console.log(err);
+	        }
 	        $scope.cts.splice($scope.cts.indexOf(ct), 1);
 	      });
 	    };
 
+	    $scope.toggleTEdit = function(t) {
+	      if(t.backup) {
+	        var temp = t.backup;
+	        $scope.ts.splice($scope.ts.indexOf(t), 1, temp);
+	      } else {
+	        t.backup = angular.copy(t);
+	        t.editing = true;
+	      }
+	    };
+
+	    $scope.getT = function() {
+	      tService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.ts = res;
+	      })
+	    };
+
+	    $scope.createT = function(t) {
+	      $scope.ts.push(t);
+	      tService.create(t, function(err, res) {
+	        if (err) {
+	          $scope.ts.splice($scope.ts.indexOf(t), 1);
+	          $scope.errors.push('Could not save T with name of ' + t.name);
+	          return console.log(err);
+	        }
+	        $scope.t.splice($scope.t.indexOf(t), 1, res);
+	        $scope.newT = null;
+	      });
+	    };
+
+	    $scope.updateT = function(t) {
+	      tService.update(t, function(err, res) {
+	        t.editing = false;
+	        t.backup = null;
+	        if (err) {
+	          $scope.errors.push('could not update T: ' + t.name);
+	          return console.log(err);
+	        }
+	      });
+	    };
+
+	    $scope.deleteT = function(t) {
+	      tService.delete(t, function(err, res) {
+	        if (err) {
+	          $scope.errors.push('could not delete T ' + t.name);
+	          return console.log(err);
+	        }
+	        $scope.ts.splice($scope.ts.indexOf(t), 1);
+	      });
+	    };
 	  }]);
 	}
 
@@ -31693,12 +31778,12 @@
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  app.directive('ct', function() {
+	  app.directive('ctDisplay', function() {
 	    return {
 	      restrict: 'E',
 	      replace: true,
 	      transclude: true,
-	      templateUrl: '/templates/ct/directives/ct.html',
+	      templateUrl: '/templates/ct/directives/ct_display_directive.html',
 	      scope: {
 	        ctData: '='
 	      }
@@ -31733,85 +31818,15 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function(app) {
-	  __webpack_require__(13)(app);
-	  __webpack_require__(14)(app);
-	  __webpack_require__(15)(app);
-	};
-
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var angular = __webpack_require__(2);
-
-	module.exports = function(CSApp) {
-	  CSApp.controller('TController', ['$scope', '$http', 'csResource', function($scope, $http, Resource) {
-	    $scope.ts = [];
-	    $scope.errors = [];
-	    var tService = Resource('/t');
-
-	    $scope.dismissError = function(err) {
-	      $scope.errors.splice($scope.errors.indexOf(err), 1);
-	    };
-
-	    $scope.toggleTEdit = function(t) {
-	      if(t.backup) {
-	        var temp = t.backup;
-	        $scope.ts.splice($scope.ts.indexOf(t), 1, temp);
-	      } else {
-	        t.backup = angular.copy(t);
-	        t.editing = true;
-	      }
-	    };
-
-	    $scope.getT = function() {
-	      tService.get(function(err, res) {
-	        if (err) return console.log(err);
-	        $scope.ts = res;
-	      })
-	    };
-
-	    $scope.createT = function(t) {
-	      tService.create(t, function(err, res) {
-	        if (err) return console.log(err);
-	        $scope.ts.push(res);
-	        $scope.newT = null;
-	      });
-	    };
-
-	    $scope.updateT = function(t) {
-	      tService.update(t, function(err, res) {
-	        t.editing = false;
-	        if (err) return console.log(err);
-	      });
-	    };
-
-	    $scope.deleteT = function(t) {
-	      tService.delete(t, function(err, res) {
-	        if (err) return console.log(err);
-	        $scope.ts.splice($scope.ts.indexOf(t), 1);
-	      });
-	    };
-
-	  }]);
-	}
-
-
-/***/ },
-/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
-	  app.directive('t', function() {
+	  app.directive('tDisplay', function() {
 	    return {
 	      restrict: 'E',
 	      replace: true,
 	      transclude: true,
-	      templateUrl: '/templates/t/directives/t.html',
+	      templateUrl: '/templates/ct/directives/t_display_directive.html',
 	      scope: {
 	        tData: '='
 	      }
@@ -31821,7 +31836,7 @@
 
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31830,7 +31845,7 @@
 	      restrict: 'EAC',
 	      replace: true,
 	      transclude: true,
-	      templateUrl: '/templates/t/directives/t_form_directive.html',
+	      templateUrl: '/templates/ct/directives/t_form_directive.html',
 	      scope: {
 	        buttonText: '@',
 	        t: '=',
@@ -31845,19 +31860,19 @@
 
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(app) {
+	  __webpack_require__(15)(app);
+	  __webpack_require__(16)(app);
 	  __webpack_require__(17)(app);
 	  __webpack_require__(18)(app);
-	  __webpack_require__(19)(app);
-	  __webpack_require__(20)(app);
 	}
 
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31915,6 +31930,7 @@
 	        .then(function(res) {
 	          console.log('yooooooo');
 	          user = res.data.username;
+	          console.log(user);
 	          cb(res);
 	        },function(res) {
 	          cb(res);
@@ -31931,7 +31947,7 @@
 
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31955,7 +31971,7 @@
 
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31971,7 +31987,7 @@
 
 
 /***/ },
-/* 20 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
@@ -31988,7 +32004,7 @@
 
 
 /***/ },
-/* 21 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/**
@@ -34836,7 +34852,7 @@
 
 
 /***/ },
-/* 22 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -34960,7 +34976,7 @@
 
 
 /***/ },
-/* 23 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
@@ -35105,12 +35121,12 @@
 
 
 /***/ },
-/* 24 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var ctTemplate = __webpack_require__(25);
-	var tTemplate = __webpack_require__(26);
+	var ctTemplate = __webpack_require__(23);
+	var tTemplate = __webpack_require__(24);
 
 	describe('display directives', () => {
 	  var $compile;
@@ -35162,25 +35178,25 @@
 
 
 /***/ },
-/* 25 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "<li>\n  <span role=\"div\" class=\"div\">\n  {{ctData.name}}\n  </span>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
 
 /***/ },
-/* 26 */
+/* 24 */
 /***/ function(module, exports) {
 
 	module.exports = "<li>\n  <span role=\"div\" class=\"div\">\n  {{tData.name}}\n  </span>\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
 
 /***/ },
-/* 27 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var angular = __webpack_require__(2);
-	var ctTemplate = __webpack_require__(28);
-	var tTemplate = __webpack_require__(29);
-	console.log(ctTemplate);
+	var ctTemplate = __webpack_require__(26);
+	var tTemplate = __webpack_require__(27);
+
 	describe('form directive', () => {
 	  var $compile;
 	  var $rootScope;
@@ -35231,7 +35247,7 @@
 	    $rootScope.$digest();
 	    expect(element.html()).toContain('test button');
 	  });
-	  
+
 	  it('should be able to call a passed save T function', () => {
 	    var scope = $rootScope.$new();
 	    $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
@@ -35258,13 +35274,13 @@
 
 
 /***/ },
-/* 28 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(ct)\">\n  <input data-ng-model=\"ct.name\" nameplaceholder=\"Name\" type=\"text\"/>\n  <input data-ng-model=\"ct.rifle\" placeholder=\"Rifle\" type=\"text\"/>\n  <input data-ng-model=\"ct.pistol\" placeholder=\"Pistol\" type=\"text\"/>\n  <input data-ng-model=\"ct.grenade\" placeholder=\"Grenade\" type=\"text\"/>\n  <input data-ng-model=\"ct.organization\" placeholder=\"Organization\" type=\"text\"/>\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";
 
 /***/ },
-/* 29 */
+/* 27 */
 /***/ function(module, exports) {
 
 	module.exports = "<form data-ng-submit=\"save(t)\">\n  <input data-ng-model=\"t.name\" nameplaceholder=\"Name\" type=\"text\"/>\n  <input data-ng-model=\"t.rifle\" placeholder=\"Rifle\" type=\"text\"/>\n  <input data-ng-model=\"t.pistol\" placeholder=\"Pistol\" type=\"text\"/>\n  <input data-ng-model=\"t.grenade\" placeholder=\"Grenade\" type=\"text\"/>\n  <input data-ng-model=\"t.organization\" placeholder=\"Organization\" type=\"text\"/>\n\n  <ng-transclude></ng-transclude>\n  <button type=\"submit\">{{buttonText}}</button>\n</form>\n";

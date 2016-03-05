@@ -1,7 +1,7 @@
 var angular = require('angular');
 var ctTemplate = require('../app/templates/ct/directives/ct_form_directive.html');
-var tTemplate = require('../app/templates/t/directives/t_form_directive.html');
-console.log(ctTemplate);
+var tTemplate = require('../app/templates/ct/directives/t_form_directive.html');
+
 describe('form directive', () => {
   var $compile;
   var $rootScope;
@@ -52,7 +52,7 @@ describe('form directive', () => {
     $rootScope.$digest();
     expect(element.html()).toContain('test button');
   });
-  
+
   it('should be able to call a passed save T function', () => {
     var scope = $rootScope.$new();
     $httpBackend.when('GET', '/templates/t/directives/t_form_directive.html').respond(200, tTemplate);
