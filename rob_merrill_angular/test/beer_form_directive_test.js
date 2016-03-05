@@ -2,7 +2,7 @@ var angular = require('angular');
 var template = require('../app/templates/beer_form_directive.html');
 
 describe('beer form directive', () => {
-  var $compile:
+  var $compile;
   var $rootScope;
   var $httpBackend;
 
