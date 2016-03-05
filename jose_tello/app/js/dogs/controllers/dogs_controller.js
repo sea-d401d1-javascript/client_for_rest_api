@@ -1,7 +1,12 @@
 module.exports = function(app) {
   app.controller('DogsController', ['$scope', '$http', 'dogResource', function($scope, $http, Resource) {
     $scope.dogs = [];
+    $scope.errors = [];
     var dogsService = Resource('/dogs');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleEdit = function(dog) {
       if (dog.backup) {

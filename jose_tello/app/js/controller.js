@@ -8,12 +8,16 @@ require('./auth')(petsApp);
 
 petsApp.config(['$routeProvider', function(routes) {
   routes
-    .when('/home', {
+    .when('/cats', {
       controller: 'CatsController',
       templateUrl: '/views/cats_view.html'
     })
+    .when('/dogs', {
+      controller: 'DogsController',
+      templateUrl: '/views/dogs_view.html'
+    })
     .when('/', {
-      redirectTo: '/home'
+      redirectTo: '/cats'
     })
     .when('/signup', {
       controller: 'SignupController',

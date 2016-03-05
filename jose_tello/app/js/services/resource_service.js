@@ -1,8 +1,8 @@
 const handleSuccess = require(__dirname + '/handle_success');
 const handleFailure = require(__dirname + '/handle_failure');
 
-module.exports = exports = function(app) {
-  app.factory('dogResource', ['$http', 'petsAuth', function($http, petsAuth) {
+module.exports = exports = function(app, resource) {
+  app.factory(resource, ['$http', 'petsAuth', function($http, petsAuth) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
     };

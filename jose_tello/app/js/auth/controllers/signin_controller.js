@@ -3,7 +3,7 @@ module.exports = function(app) {
     $scope.submit = function(user) {
       auth.signIn(user, function() {
         $scope.updateUsername();
-        $location.path('/home');
+        $location.path('/cats');
       });
     };
   }]);
