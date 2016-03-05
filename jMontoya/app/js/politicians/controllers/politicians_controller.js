@@ -15,6 +15,10 @@ module.exports = function(politiciansApp) {
     $scope.repPoliticians = [];
     var repService = Resource('/repPoliticians');
 
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexIf(err), 1);
+    };
+
     $scope.toggleEdit = function(repPolitician) {
       if (repPolitician.backup) {
         var temp = repPolitician.backup;
@@ -52,25 +56,36 @@ module.exports = function(politiciansApp) {
     $scope.createDemPolitician = function(demPolitician) {
       $scope.demPoliticians.push(demPolitician);
       demService.create(demPolitician, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1);
+          $scope.errors.push('Could not save the politician with the name of ' + demPolitician.name);
+          return console.log(err);
+        }
         $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1, res);
-        $scope.demPolitician = null;
+        $scope.newDemPolitician = null;
       });
     };
 
     $scope.createRepPolitician = function(repPolitician) {
       $scope.repPoliticians.push(repPolitician);
       repService.create(repPolitician, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1);
+          $scope.errors.push('Could not save the politician with the name of ' + repPolitician.name);
+          return console.log(err);
+        }
         $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1, res);
-        $scope.repPolitician = null;
+        $scope.newRepPolitician = null;
       });
     };
 
     $scope.deleteDemPolitician = function(demPolitician) {
       if (!demPolitician._id) return setTimeout(function() {$scope.deleteDemPolitician(demPolitician);}, 1000);
       demService.delete(demPolitician, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('could not delete entry ' + demPolitician.name);
+          return console.log(err);
+        }
         $scope.demPoliticians.splice($scope.demPoliticians.indexOf(demPolitician), 1);
       });
     };
@@ -78,7 +93,10 @@ module.exports = function(politiciansApp) {
     $scope.deleteRepPolitician = function(repPolitician) {
       if (!repPolitician._id) return setTimeout(function() {$scope.deleteRepPolitician(repPolitician);}, 1000);
       repService.delete(repPolitician, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('could not delete entry ' + repPolitician.name);
+          return console.log(err);
+        }
         $scope.repPoliticians.splice($scope.repPoliticians.indexOf(repPolitician), 1);
       });
     };
@@ -87,7 +105,10 @@ module.exports = function(politiciansApp) {
       demService.update(demPolitician, function(err, res) {
         demPolitician.editing = false;
         demPolitician.backup = null;
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('could not update entry ' + demPolitician.name);
+          return console.log(err);
+        }
       });
     };
 
@@ -95,7 +116,10 @@ module.exports = function(politiciansApp) {
       repService.update(repPolitician, function(err, res) {
         repPolitician.editing = false;
         repPolitician.backup = null;
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('could not update entry ' + repPolitician.name);
+          return console.log(err);
+        }
       });
     };
   }]);

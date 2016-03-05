@@ -7,32 +7,37 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-ng-app="politiciansApp">
-   <header>
+  <div class="">
+    <header>
 
-    <input style="float:left;margin: 20px 40px;" type="text" ng-model="color" placeholder="Are you Red or Blue - Type red or blue here!"/>
+     <input style="float:left;margin: 20px 40px;" type="text" ng-model="color" placeholder="Are you Red or Blue - Type red or blue here!"/>
 
-    <logo></logo>
+     <logo></logo>
 
-  </header>
+     <p data-ng-if="username">{{'Hello ' + username}}<a href data-ng-click="logout()">logout</a></p>
 
-  <section class="container">
+   </header>
 
-    <article class="redblue">
+   <section class="container">
 
-    </article>
+     <article class="redblue">
 
-    <main data-ng-view>
-      <p>Stat tuned loading, or you have a JavaScript blocker active</p>
-      <img src="http://www.alternet.org/files/images/managed/Media_bush_confused.jpg" alt="Confused Bush" />
-    </main>
+     </article>
 
-    <aside class="redblue">
+     <main data-ng-view>
+       <p>Stat tuned loading, or you have a JavaScript blocker active</p>
+       <img src="http://www.alternet.org/files/images/managed/Media_bush_confused.jpg" alt="Confused Bush" />
+     </main>
 
-    </aside>
+     <aside class="redblue">
 
-  </section> <!-- END SECTION CONTAINER -->
+     </aside>
 
-  <footer data-copyright></footer>
+   </section> <!-- END SECTION CONTAINER -->
+
+   <footer data-copyright></footer>
+  </div>
+
 
   <script src="bundle.js"></script>
 

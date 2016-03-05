@@ -1,12 +1,12 @@
 const express = require('express');
 const User = require(__dirname + '/../models/user');
-const parser = require('body-parser').json();
+const jsonParser = require('body-parser').json();
 const handleDBError = require(__dirname + '/../lib/db_error_handler');
 const basicHTTP = require(__dirname + '/../lib/basic_http');
 
 var authRouter = module.exports = exports = express.Router();
 
-authRouter.post('/signup', parser, (req, res) => {
+authRouter.post('/signup', jsonParser, (req, res) => {
   var newUser = new User();
   if (!((req.body.email || '').length && (req.body.password || '').length > 7)) {
     return res.status(400).json({msg: 'invalid user or password'});
@@ -31,5 +31,7 @@ authRouter.get('/signin', basicHTTP, (req, res) => {
     if (!user) return res.status(401).json({msg: 'auth says no user'});
 
     if (!user.comparePassword(req.basicHTTP.password)) return res.status(401).json({msg: 'auth says wrong pw'});
+
+    res.json({token: user.generateToken});
   });
 });
