@@ -1,0 +1,37 @@
+<section data-ng-init="getAll()">
+
+  <h2>Activity API:</h2>
+  <section data-ng-if="errors.length">
+    <h2>Errors: </h2>
+    <ul>
+    	<li data-ng-repeat="error in errors">
+        {{error}}
+        <button data-ng-click="dismissError(error)" alt="dismiss">Dismiss</button>
+      </li>
+    </ul>
+  </section>
+	<ul class="left">
+		<myAct data-ng-repeat="myAct in activity" data-myAct-data="myAct">
+			<button data-ng-click="deleteActivity(myAct)">Delete this Activity</button>
+			<button data-ng-if="!myAct.editing" data-ng-click="toggleEdit(myAct)">Update This Activity</button>
+			<myAct-form
+				data-ng-if="myAct.editing"
+				data-save="updateActivity(myAct)"
+				data-button-text="Update Activity"
+				data-myAct="myAct"
+			>
+					<button type="button" data-ng-click="toggleEdit(myAct)">Cancel</button>
+			</myAct-form>
+		</myAct>
+	</ul>
+
+	<myAct data-myAct-data="newAct">
+		<myAct-form class="center" data-ng-submit="createActivity(newAct)">
+      <input data-ng-model="newAct.name" type="text"/>
+      <input data-ng-model="newAct.shoes" type="text"/>
+      <button type="submit">New Activity</button>
+    </myAct-form>
+	</myAct>
+
+  <aside>{{activity}}</aside>
+</section>

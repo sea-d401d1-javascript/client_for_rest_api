@@ -5,60 +5,38 @@
 	<title>Activity API Client</title>
 	<link rel="stylesheet" href="/manifest.css" media="screen" charset="utf-8">
 </head>
-<body>
-	<header>
-		<h1>
-			Activity Main Page!
-		</h1>
-		<h3>
-			Enter, edit, and remove activities from the database.
-		</h3>
-	</header>
+<body data-ng-app="activityApp">
+	<div role="Controller Wrapper" data-ng-controller="authController" data-ng-init="updateUsername()">
+		<header>
+			<h1>
+				Activity Main Page!
+			</h1>
+			<h3>
+				Enter, edit, and remove activities from the database.
+			</h3>
+			<p data-ng-if="username"> {{'Welcome ' + username}}
+				<button href data-ng-click="logout()">Logout from App</button>
+			</p>
+		</header>
 
-  <main>
+	  <main data-ng-view>
+			<p class="loadingText">
+				Loading the Activity App ... <br>
 
-    <h2>Current Activities :</h2>
+				* If the App does not load, check your JavaScript settings *
+			</p>
+	  </main>
 
-    <section data-ng-app="activityApp">
-      <section data-ng-controller="ActivityController" data-ng-init="getAll()">
+		<p>
+			<!-- sub main / top footer could go here -->
+		</p>
 
-        <h2>Activity API:</h2>
-				<ul class="left">
-					<myAct data-ng-repeat="myAct in activity" data-myAct-data="myAct">
-						<button data-ng-click="deleteActivity(myAct)">Delete this Activity</button>
-						<button data-ng-if="!myAct.editing" data-ng-click="toggleEdit(myAct)">Update This Activity</button>
-						<myAct-form
-							data-ng-if="myAct.editing"
-							data-save="updateActivity(myAct)"
-							data-button-text="Update Activity"
-							data-myAct="myAct"
-						>
-								<button type="button" data-ng-click="toggleEdit(myAct)">Cancel</button>
-						</myAct-form>
-					</myAct>
-				</ul>
+		<footer>
+			Remember to make a playlist for the activity.
+		</footer>
 
-				<myAct data-myAct-data="newAct">
-					<myAct-form class="center" data-ng-submit="createActivity(newAct)">
-	          <input data-ng-model="newAct.name" type="text"/>
-	          <input data-ng-model="newAct.shoes" type="text"/>
-	          <button type="submit">New Activity</button>
-	        </myAct-form>
-				</myAct>
+	  <script src="bundle.js"></script>
+	</div>
 
-        <aside>{{activity}}</aside>
-      </section>
-    </section>
-  </main>
-
-	<p>
-
-	</p>
-
-	<footer>
-		Remember to make a playlist for the activity.
-	</footer>
-
-  <script src="bundle.js"></script>
 </body>
 </html>
