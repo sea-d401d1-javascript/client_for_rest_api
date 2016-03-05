@@ -4,7 +4,7 @@ module.exports = function(app) {
       restrict: 'EAC',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/beer_form_directive.html',
+      templateUrl: '/templates/beers/directives/beer_form_directive.html',
       scope: {
         buttonText: '@',
         student: '=',

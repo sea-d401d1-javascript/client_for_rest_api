@@ -3,7 +3,7 @@ var angular = require('angular');
 module.exports = exports = function(app) {
   app.controller('BeersController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
     $scope.beers = [];
-    $scope.flowers = [];
+    // $scope.brewers = [];
     var beerService = Resource('/beers');
     var brewerService = Resource('/brewers');
 

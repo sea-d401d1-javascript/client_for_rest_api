@@ -4,7 +4,7 @@ module.exports = function(app) {
       restrict: 'E',
       replace: true,
       transclude: true,
-      templateUrl: '/templates/beer.html',
+      templateUrl: '/templates/beers/directives/beer.html',
       scope: {
         studentData: '='
       }

@@ -11,6 +11,7 @@ var handleFailure = function(callback) {
 };
 
 module.exports = exports = function(app) {
+  
   app.factory('Resource', ['$http', function($http) {
     var Resource = function(resourceName) {
       this.resourceName = resourceName;
