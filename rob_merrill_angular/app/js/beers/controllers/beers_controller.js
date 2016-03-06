@@ -52,7 +52,7 @@ module.exports = function(app) {
     //   $scope.getBrewers();
     // };
 
-    $scope.postBeer = function(beer) {
+    $scope.createBeer = function(beer) {
       beerService.create(beer, function(err, res) {
         if (err) return console.log(err);
         $scope.beers.push(res);

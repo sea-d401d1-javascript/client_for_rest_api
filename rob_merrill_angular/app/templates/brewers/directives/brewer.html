@@ -1,5 +1,5 @@
 <li>
-  <h2>{{brewerData.name}} is a brewer</h2>
-  <h3>This brewer has an age of {{brewerData.age}}</h3>
+  <h2 data-ng-if="brewerData.name" role="list" class="beer-list">
+    {{brewerData.name}} is a brewer with an age of {{brewerData.age}}</h2>
   <section role="actions" class="actions" data-ng-transclude></section>
 </li>

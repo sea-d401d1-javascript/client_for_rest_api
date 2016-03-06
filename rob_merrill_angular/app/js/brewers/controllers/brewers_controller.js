@@ -23,7 +23,7 @@ module.exports = exports = function(app) {
     //   return console.log(err);
     // };
 
-    $scope.toggleEdit = function(brewer) {
+    $scope.toggleEditBrewer = function(brewer) {
       if (brewer.backup) {
         var temp = beer.backup;
         $scope.brewers.splice($scope.brewers.indexOf(brewer), 1, temp);

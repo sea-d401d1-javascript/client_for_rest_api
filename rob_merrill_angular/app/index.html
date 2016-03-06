@@ -46,22 +46,28 @@
           </section>
 
           <section data-ng-controller="BrewersController" data-ng-init="getAllBrewers()">
+           <h2>Brewers!</h2>
            <ul>
-            <li data-ng-repeat="brewer in brewers">{{brewer.name}}, {{brewer.age}} 
-            <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
-            <button data-ng-click="brewer.editing = !brewer.editing">Update Brewer</button>
-            <form data-ng-if="brewer.editing" data-ng-submit="updateBrewer(brewer)">
-              <input data-ng-model="brewer.name" type="text"/>
-              <input data-ng-model="brewer.age" type="text"/>
-              <button type="submit">Update</button>
-            </form>
-            </li>
-          </ul>
-          <form data-ng-submit="createBrewer(newBrewer)">
-            <input data-ng-model="newBrewer.name" type="text"/>
-            <input data-ng-model="newBrewer.age" type="text"/>
-            <button type="submit">New Brewer</button>
-          </form>
+      <brewer data-ng-repeat="brewer in brewers" data-beer-data="brewer">
+        <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
+        <button data-ng-if="!brewer.editing" data-ng-click="toggleEditBrewer(brewer)">Update Brewer</button>
+        <brewer-form 
+          data-ng-if="brewer.editing" 
+          data-save="updateBrewer(brewer)"
+          data-button-text="Update Brewer"
+          data-beer="brewer"
+        >
+          <button type="button" data-ng-click="toggleEditBrewer(brewer)">Cancel</button>
+        </brewer-form>
+      </brewer>  
+    </ul>
+    <brewer data-brewer-data="newBrewer">
+      <brewer-form 
+        data-button-text="Create new Brewer"
+        data-beer="newBrewer"
+        data-save="createBrewer(newBrewer)"
+      ></brewer-form>
+    </brewer>
           
         </section>
       </main>
