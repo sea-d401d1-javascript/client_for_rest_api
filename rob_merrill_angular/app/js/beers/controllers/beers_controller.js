@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-module.exports = exports = function(app) {
+module.exports = function(app) {
   app.controller('BeersController', ['$scope', '$http', 'Resource', function($scope, $http, Resource) {
     $scope.beers = [];
     // $scope.brewers = [];
@@ -23,9 +23,9 @@ module.exports = exports = function(app) {
     //   return console.log(err);
     // };
 
-    $scope.toggleEdit = function(beer) {
+    $scope.toggleEditBeer = function(beer) {
       if (beer.backup) {
-        var temp = beer.backup;
+        var temp = angular.copy(beer.backup);
         $scope.beers.splice($scope.beers.indexOf(beer), 1, temp);
       } else {
         beer.backup = angular.copy(beer);
@@ -33,8 +33,8 @@ module.exports = exports = function(app) {
       }
     };
 
-    $scope.getAllBeers = function() {
-      beerService.getAll((err, res) => {
+     $scope.getAllBeer = function() {
+      beerService.getAll(function(err, res) {
         if (err) return console.log(err);
         $scope.beers = res;
       });

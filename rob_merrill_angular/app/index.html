@@ -16,29 +16,30 @@
 
     <article></article>
     
-    <main data-ng-controller="BeersController" data-ng-init="getAllBeers()"> 
+    <main>
+    <section data-ng-controller="BeersController" data-ng-init="getAllBeer()"> 
 
-      <section>
+      <!-- <section> -->
 
     <h2>Beers!</h2>     
     <ul>
       <beer data-ng-repeat="beer in beers" data-beer-data="beer">
         <button data-ng-click="deleteBeer(beer)">Delete Beer</button>
-        <button data-ng-if="!beer.editing" data-ng-click="toggleEdit(beer)">Update Beer</button>
+        <button data-ng-if="!beer.editing" data-ng-click="toggleEditBeer(beer)">Update Beer</button>
         <beer-form 
           data-ng-if="beer.editing" 
           data-save="updateBeer(beer)"
           data-button-text="Update Beer"
           data-beer="beer"
         >
-          <button type="button" data-ng-click="toggleEdit(beer)">Cancel</button>
+          <button type="button" data-ng-click="toggleEditBeer(beer)">Cancel</button>
         </beer-form>
       </beer>  
     </ul>
     <beer data-beer-data="newBeer">
       <beer-form 
         data-button-text="Create new Beer"
-        data-resource="newBeer"
+        data-beer="newBeer"
         data-save="createBeer(newBeer)"
       ></beer-form>
     </beer>

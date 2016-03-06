@@ -1,0 +1,13 @@
+<form data-ng-submit="save(resource)">
+  <label for="name">Name:</label>
+  <input type="text" name="name" data-ng-model="resource.name">
+
+  <label for="style">Style:</label>
+  <input type="text" name="style" data-ng-model="resource.style">
+
+  <!-- <label for="ibu">IBU:</label>
+  <input type="number" name="ibu" data-ng-model="beer.ibu"> -->
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{buttonText}}</button>
+</form>

@@ -40,12 +40,12 @@ module.exports = exports = function(app) {
       });
     };
 
-    $scope.getBrewers = function() {
-      brewerService.get((err, res) => {
-        if (err) handleError(err);
-        $scope.brewers = res;
-      });
-    };
+    // $scope.getBrewers = function() {
+    //   brewerService.get((err, res) => {
+    //     if (err) handleError(err);
+    //     $scope.brewers = res;
+    //   });
+    // };
 
     // $scope.getAll = function () {
     //   $scope.getBeers();
