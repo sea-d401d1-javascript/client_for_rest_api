@@ -1,5 +1,5 @@
 var angular = require('angular');
-var template = require('../app/templates/beer.html');
+var template = require('../app/templates/beers/directives/beer.html');
 
 describe('beer display directive', () => {
   var $compile;
@@ -15,7 +15,7 @@ describe('beer display directive', () => {
   }));
 
   it('should load the directive', () => {
-    $httpBackend.expectGET('/templates/beer.html').respond(200, template);
+    $httpBackend.expectGET('/templates/beers/directives/beer.html').respond(200, template);
 
     var element = $compile('<beer data-beer-data="{name: \'test beer\'}"></beer>')($rootScope);
       $httpBackend.flush();
@@ -24,7 +24,7 @@ describe('beer display directive', () => {
   });
 
     it('should pass in a beer off of the scope', () => {
-    $httpBackend.expectGET('/templates/beer.html').respond(200, template);
+    $httpBackend.expectGET('/templates/beers/directives/beer.html').respond(200, template);
     var scope = $rootScope.$new();
     scope.beer = {name: 'test beer 2', style: 'stout'};
 

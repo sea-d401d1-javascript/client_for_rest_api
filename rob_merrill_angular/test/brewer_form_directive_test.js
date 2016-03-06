@@ -1,12 +1,12 @@
 var angular = require('angular');
-var template = require('../app/templates/beers/directives/beer_form_directive.html');
+var template = require('../app/templates/brewers/directives/brewer_form_directive.html');
 
-describe('beer form directive', () => {
+describe('brewer form directive', () => {
   var $compile;
   var $rootScope;
   var $httpBackend;
 
-  beforeEach(angular.mock.module('beer'));
+  beforeEach(angular.mock.module('brewer'));
 
   beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
     $compile = _$compile_;
@@ -15,32 +15,32 @@ describe('beer form directive', () => {
   }));
 
   it('should load the directive', () => {
-    $httpBackend.expectGET('/templates/beers/directives/beer_form_directive.html').respond(200, template);
+    $httpBackend.expectGET('/templates/brewers/directives/brewer_form_directive.html').respond(200, template);
 
-    var element = $compile('<beer-form data-beer="{}" data-button-text="test button"></beer-form>')($rootScope);
+    var element = $compile('<brewer-form data-brewer="{}" data-button-text="test button"></brewer-form>')($rootScope);
       $httpBackend.flush();
       $rootScope.$digest();
-      expect(element.html()).toContain('test beer');
+      expect(element.html()).toContain('test brewer');
   });
 
     it('should be able to call a passed save function', () => {
     var scope = $rootScope.$new();
-    $httpBackend.when('GET', '/templates/beers/directives/beer_form_directive.html').respond(200, template);
+    $httpBackend.when('GET', '/templates/brewers/directives/brewer_form_directive.html').respond(200, template);
     var called = false;
-    scope.beer = {name: 'Ballast Point'};
+    scope.brewer = {name: 'Ballast Point'};
 
     scope.testSave = function(input) {
       expect(input.name).toBe('form directive');
-      scope.beer = input;
+      scope.brewer = input;
       called: true;
     }
 
-    var element = $compile('<beer-form data-beer="{name: \'Ballast Point\'}" data-save="testSave"></beer-form>')(scope);
+    var element = $compile('<brewer-form data-brewer="{name: \'Ballast Point\'}" data-save="testSave"></brewer-form>')(scope);
       $httpBackend.flush();
       $rootScope.$digest();
       expect(typeof element.isolateScope().save).toBe('function');
       element.isolateScope().save(scope)({name: 'form directive'});
       expect(called).toBe(true);
-      expect(scope.beer.name).toBe('form directive')
+      expect(scope.brewer.name).toBe('form directive')
   });
 });

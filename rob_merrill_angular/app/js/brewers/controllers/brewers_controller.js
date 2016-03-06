@@ -33,7 +33,7 @@ module.exports = exports = function(app) {
       }
     };
 
-    $scope.getAllBrewers = function() {
+    $scope.getAllBrewer = function() {
       brewerService.getAll((err, res) => {
         if (err) return console.log(err);
         $scope.brewers = res;
