@@ -7,7 +7,7 @@ describe('resource service', () => {
   var Resource;
 
   beforeEach(angular.mock.module('beersApp'));
-  beforeEach(angular.mock.inject(function(_$httpBackend_, cfResource) {
+  beforeEach(angular.mock.inject(function(_$httpBackend_, Resource) {
     $httpBackend = _$httpBackend_;
     Resource = Resource;
     testService = Resource('/test');
