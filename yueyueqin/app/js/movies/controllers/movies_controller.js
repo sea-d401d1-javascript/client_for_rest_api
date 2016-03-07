@@ -1,10 +1,11 @@
+var angular = require('angular');
 module.exports = function(app) {
   app.controller('MoviesController',['$scope', '$http', 'twoResource',  function($scope, $http, Resource) {
     $scope.movies = [];
 
     var movieService = Resource('/movies');
 
-    $scope.toggleEdit = function(movie) {
+    $scope.toggleEditMovie = function(movie) {
       if(movie.backup){
         var temp = angular.copy(movie.backup);
         movie.backup = null;
@@ -32,29 +33,29 @@ module.exports = function(app) {
     };
 
 
-      $scope.updateMovie = function(movie) {
-        movieService.update(movie, function(err,res) {
-          movie.backup = null;
-          if(err) return console.log(err);
-          $scope.movies = $scope.movies.map(function(item) {
-            if(item._id === movie._id){
-              item = movie;
-              return item;
-            }
+    $scope.updateMovie = function(movie) {
+      movieService.update(movie, function(err,res) {
+        movie.backup = null;
+        if(err) return console.log(err);
+        $scope.movies = $scope.movies.map(function(item) {
+          if(item._id === movie._id){
+            item = movie;
             return item;
-          });
-          movie.editing = false;
+          }
+          return item;
         });
-      };
+        movie.editing = false;
+      });
+    };
 
-      $scope.deleteMovie = function(movie) {
-        movieService.delete(movie,function(err, res) {
-          if(err) return console.log(err);
+    $scope.deleteMovie = function(movie) {
+      movieService.delete(movie,function(err, res) {
+        if(err) return console.log(err);
 
-          $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
+        $scope.movies = $scope.movies.filter((item) => {return item._id !== movie._id;});
 
-        });
-      };
+      });
+    };
 
   }]);
 
