@@ -1,5 +1,6 @@
 var angular = require('angular');
 
+
 describe('movies controller',() => {
   beforeEach(angular.mock.module('twoResourcesApp'));
   var $httpBackend;
