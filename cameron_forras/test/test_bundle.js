@@ -45,192 +45,36 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
+	__webpack_require__(11);
+
+	__webpack_require__(12);
+	__webpack_require__(13);
+	__webpack_require__(14);
+	__webpack_require__(16);
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(2);
-	var angular = __webpack_require__(3);
-	__webpack_require__(5);
+	const angular = __webpack_require__(2);
+	const studentsApp = angular.module('studentsApp', []);
 
-	describe('students controller', () => {
-	  var $httpBackend;
-	  var $scope;
-	  var $ControllerConstructor;
+	__webpack_require__(4)(studentsApp);
+	__webpack_require__(7)(studentsApp);
 
-	  beforeEach(angular.mock.module('studentsApp'));
-
-	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
-	    $ControllerConstructor = $controller; 
-	    $scope = $rootScope.$new();
-	  }));
-
-	  it('should be able to make a controller', () => {
-	    var studentsController = $ControllerConstructor('studentsController', {$scope});
-	    expect(typeof studentsController).toBe('object');
-	    expect(Array.isArray($scope.students)).toBe(true);
-	    expect(typeof $scope.getAllStudents).toBe('function');
-	  });
-
-	  describe('REST requests', () => {
-	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
-	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('studentsController', {$scope});
-	    }));
-
-	    afterEach(() => {
-	      $httpBackend.verifyNoOutstandingExpectation();
-	      $httpBackend.verifyNoOutstandingRequest();
-	    });
-
-	    it('should make a get request to /api/students', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
-	      $scope.getAllStudents();
-	      $httpBackend.flush();
-	      expect($scope.students.length).toBe(1);
-	      expect($scope.students[0].name).toBe('test student');
-	    });
-
-	    it('should create a new student', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/students/', {name: 'the sent student'}).respond(200, {name: 'the response student'});
-	      $scope.newStudent = {name: 'the new student'};
-	      $scope.createStudent({name: 'the sent student'});
-	      $httpBackend.flush();
-	      expect($scope.students.length).toBe(1);
-	      expect($scope.newStudent).toBe(null);
-	      expect($scope.students[0].name).toBe('the response student');
-	    });
-
-	    it('should update a student', () => {
-	      var testStudent = {name: 'inside scope', editing: true, _id: 5};
-	      $scope.students.push(testStudent);
-	      $httpBackend.expectPUT('http://localhost:3000/api/students/5', testStudent).respond(200);
-	      $scope.updateStudent(testStudent);
-	      $httpBackend.flush();
-	      expect(testStudent.editing).toBe(false); 
-	      expect($scope.students[0].editing).toBe(false);
-	    });
-
-	    it('should delete a student', () => {
-	      var testStudent = {name: 'deleted student', _id: 1};
-	      $scope.students.push(testStudent);
-	      expect($scope.students.indexOf(testStudent)).not.toBe(-1);
-	      $httpBackend.expectDELETE('http://localhost:3000/api/students/1').respond(200);
-	      $scope.deleteStudent(testStudent);
-	      $httpBackend.flush();
-	      expect($scope.students.indexOf(testStudent)).toBe(-1);
-	    });
-	  });
-	});
 
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const angular = __webpack_require__(3);
-	const studentsApp = angular.module('studentsApp', []);
-
-	studentsApp.controller('studentsController', ['$scope', '$http', function($scope, $http) {
-	  $scope.students = [];
-	  $scope._classes = [];
-
-	$scope.getAllStudents = function() {
-	  $http.get('http://localhost:3000/api/students')
-	    .then((res) => {
-	      console.log('success!');
-	      $scope.students = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
-	};
-
-	  $scope.createStudent = function(student) {
-	    $http.post('http://localhost:3000/api/students/', student)
-	      .then((res) => {
-	        $scope.students.push(res.data);
-	        $scope.newStudent= null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	    };
-
-	  $scope.deleteStudent = function(student) {
-	    $http.delete('http://localhost:3000/api/students/' + student._id)
-	      .then((res) => {
-	        $scope.students = $scope.students.filter((i) => i !== student);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.updateStudent = function(student) {
-	    $http.put('http://localhost:3000/api/students/' + student._id, student)
-	      .then((res) => {
-	        $scope.students[$scope.students.indexOf(student)] = student;
-	        student.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        student.editing = false;
-	      });
-	  };
-
-	  $scope.getAllClasses = function() {
-	    $http.get('http://localhost:3000/api/classes')
-	      .then((res) => {
-	        console.log('success!');
-	        $scope._classes = res.data;
-	    }, (err) => {
-	        console.log(err);
-	    });
-	  };
-	  
-	  $scope.create_Class = function(_class) {
-	    $http.post('http://localhost:3000/api/classes/', _class)
-	      .then((res) => {
-	        $scope._classes.push(res.data);
-	        $scope.new_Class= null;
-	      }, (err) => {
-	        console.log(err);
-	      });
-	    };
-
-	  $scope.delete_Class = function(_class) {
-	    $http.delete('http://localhost:3000/api/classes/' + _class._id)
-	      .then((res) => {
-	        $scope._classes = $scope._classes.filter((i) => i !== _class);
-	      }, (err) => {
-	        console.log(err);
-	      });
-	  };
-
-	  $scope.update_Class = function(_class) {
-	    $http.put('http://localhost:3000/api/classes/' + _class._id, _class)
-	      .then((res) => {
-	        $scope._classes[$scope._classes.indexOf(_class)] = _class;
-	        _class.editing = false;
-	      }, (err) => {
-	        console.log(err);
-	        _class.editing = false;
-	      });
-	  };
-	}]);
-
-	  
-
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(4);
+	__webpack_require__(3);
 	module.exports = angular;
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/**
@@ -30663,7 +30507,235 @@
 	!window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(5)(app);
+	  __webpack_require__(6)(app);
+	};
+
+
+/***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('cfStore', function() {
+	    var data = {};
+	    return {
+	      get: function(key) {
+	        return data[key];
+	      },
+	      set: function(key, value) {
+	        data[key] = value;
+	        return value;
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	var handleSuccess = function(callback) {
+	  return function(res) {
+	    callback(null, res.data);
+	  };
+	};
+
+	var handleFailure = function(callback) {
+	  return function(res) {
+	    callback(res);
+	  };
+	};
+
+	module.exports = exports = function(app) {
+	  app.factory('cfResource', ['$http', function($http) {
+	    var Resource = function(resourceName) {
+	      this.resourceName = resourceName;
+	    };
+
+	    Resource.prototype.getAll = function(callback) {
+	      $http.get('http://localhost:3000/api' + this.resourceName)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.create = function(data, callback) {
+	      $http.post('http://localhost:3000/api' + this.resourceName, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.update = function(data, callback) {
+	      $http.put('http://localhost:3000/api' + this.resourceName + '/' + data._id, data)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    Resource.prototype.delete = function(data, callback) {
+	      $http.delete('http://localhost:3000/api' + this.resourceName + '/' + data._id)
+	        .then(handleSuccess(callback), handleFailure(callback));
+	    };
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+	  }]);
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function(app) {
+	  __webpack_require__(8)(app);
+	  __webpack_require__(9)(app);
+	  __webpack_require__(10)(app);
+	};
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const angular = __webpack_require__(2);
+
+	module.exports = function(app) {
+	  app.controller('StudentsController', ['$scope', '$http', 'cfResource', 'cfStore', function($scope, $http, Resource, cfStore) {
+	    $scope.greeting = 'Howdy pardner';
+	    cfStore.set('greeting', 'Howdy pardner');
+	    $scope.students = [];
+	    $scope._classes = [];
+	    var studentService = Resource('/students');
+	    var classService = Resource('/classes');
+
+
+	    $scope.toggleEdit = function(student) {
+	      if (student.backup) {
+	        var temp = angular.copy(student.backup);
+	        $scope.students.splice($scope.students.indexOf(student), 1, temp);
+	      } else {
+	        student.backup = angular.copy(student);
+	        student.editing = true;
+	      }
+	    };
+
+	    $scope.getStudents = function() {
+	      studentService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.students = res;
+	      });
+	    };
+
+	    $scope.getClasses = function() {
+	      classService.getAll(function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes = res;
+	      });
+	    };
+
+	    $scope.getAll = function() {
+	      $scope.getStudents();
+	      $scope.getClasses();
+	    };
+
+	    $scope.createStudent = function(student) {
+	      studentService.create(student, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.students.push(res);
+	        $scope.newStudent = null;
+	      });
+	    };
+
+	    $scope.deleteStudent = function(student) {
+	      studentService.delete(student, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope.students.splice($scope.students.indexOf(student), 1);
+	      });
+	    };
+
+	    $scope.updateStudent = function(student) {
+	      studentService.update(student, function(err, res) {
+	        student.editing = false;
+	        student.backup = null;
+	        if (err) return console.log(err);
+	      });
+	    };
+
+	    $scope.createClass = function(_class) {
+	      classService.create(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.push(res);
+	        $scope.newClass = null;
+	      });
+	    };
+
+	    $scope.deleteClass = function(_class) {
+	      classService.delete(_class, function(err, res) {
+	        if (err) return console.log(err);
+	        $scope._classes.splice($scope._classes.indexOf(_class), 1);
+	      });
+	    };
+
+	    $scope.updateClass = function(_class) {
+	      classService.update(_class, function(err, res) {
+	        _class.editing = false;
+	        _class.backup = null;
+	        if (err) return console.log(err);
+	      });
+	    };
+	}]);
+	};
+	  
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('student', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/students/directives/student.html',
+	      scope: {
+	        studentData: '='
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.directive('studentForm', function() {
+	    return {
+	      restrict: 'EAC',
+	      replace: true,
+	      transclude: true,
+	      templateUrl: '/templates/students/directives/student_form_directive.html',
+	      scope: {
+	        buttonText: '@',
+	        student: '=',
+	        save: '&'
+	      },
+	      controller: function($scope) {
+	        $scope.student = $scope.student || {major: 'undecided'};
+	      }
+	    };
+	  });
+	};
+
+
+/***/ },
+/* 11 */
 /***/ function(module, exports) {
 
 	/**
@@ -33509,6 +33581,201 @@
 
 	})(window, window.angular);
 
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('students controller', () => {
+	  var $httpBackend;
+	  var $scope;
+	  var $ControllerConstructor;
+
+	  beforeEach(angular.mock.module('studentsApp'));
+
+	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+	    $ControllerConstructor = $controller; 
+	    $scope = $rootScope.$new();
+	  }));
+
+	  it('should be able to make a controller', () => {
+	    var studentsController = $ControllerConstructor('StudentsController', {$scope});
+	    expect(typeof studentsController).toBe('object');
+	    expect(Array.isArray($scope.students)).toBe(true);
+	    expect(typeof $scope.getAll).toBe('function');
+	  });
+
+	  describe('REST requests', () => {
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	      $ControllerConstructor('StudentsController', {$scope});
+	    }));
+
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    });
+
+	    it('should make a get request to /api/students', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/students').respond(200, [{name: 'test student'}]);
+	      $scope.getStudents();
+	      $httpBackend.flush();
+	      expect($scope.students.length).toBe(1);
+	      expect($scope.students[0].name).toBe('test student');
+	    });
+
+	    it('should create a new student', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/students', {name: 'the sent student'}).respond(200, {name: 'the response student'});
+	      $scope.newStudent = {name: 'the new student'};
+	      $scope.createStudent({name: 'the sent student'});
+	      $httpBackend.flush();
+	      expect($scope.students.length).toBe(1);
+	      expect($scope.newStudent).toBe(null);
+	      expect($scope.students[0].name).toBe('the response student');
+	    });
+
+	    it('should update a student', () => {
+	      var testStudent = {name: 'inside scope', editing: true, _id: 5};
+	      $scope.students.push(testStudent);
+	      $httpBackend.expectPUT('http://localhost:3000/api/students/5', testStudent).respond(200);
+	        $scope.updateStudent(testStudent);
+	        $httpBackend.flush();
+	        expect(testStudent.editing).toBe(false);
+	        expect($scope.students[0].editing).toBe(false);
+	    });
+
+	    it('should delete a student', () => {
+	      var testStudent = {name: 'condemned student', _id: 1};
+	      $scope.students.push(testStudent);
+	      expect($scope.students.indexOf(testStudent)).not.toBe(-1);
+	      $httpBackend.expectDELETE('http://localhost:3000/api/students/1').respond(200);
+	      $scope.deleteStudent(testStudent);
+	      $httpBackend.flush();
+	      expect($scope.students.indexOf(testStudent)).toBe(-1);
+	    });
+	  });
+	});
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+
+	describe('resource service', () => {
+	  beforeEach(angular.mock.module('studentsApp'));
+
+	  var $httpBackend;
+	  var Resource;
+	  beforeEach(angular.mock.inject(function(_$httpBackend_, cfResource){
+	    $httpBackend = _$httpBackend_;
+	    Resource = cfResource;
+	  }));
+
+	  it('should be a service', () => {
+	    expect(typeof Resource).toBe('function');
+	  });
+	});
+
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(15);
+
+	describe('student form directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('studentsApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.when('GET', '/templates/students/directives/student_form_directive.html').respond(200, template);
+	    
+	    var element = $compile('<student-form data-student="{}" data-button-text="test button"></student-form>')
+	    ($rootScope);
+	    $httpBackend.flush();
+	    $rootScope.$digest();
+	    expect(element.html()).toContain('test button');
+	  });
+
+	  it('should be able to call a passed save function', () => {
+	    var scope = $rootScope.$new();
+	    $httpBackend.when('GET', '/templates/students/directives/student_form_directive.html').respond(200, template);
+	    var called = false;
+	    scope.student = {name: 'inside scope'};
+
+	    scope.testSave = function(input) {
+	      expect(input.name).toBe('from directive');
+	      scope.student = input;
+	      called = true;
+	    };
+
+	    var element = $compile('<student-form data-student="{name: \'inside directive\'}" data-save=testSave></student-form')(scope);
+	      $httpBackend.flush();
+	      $rootScope.$digest();
+
+	      element.isolateScope().save(scope)({name: 'from directive'});
+	      expect(called).toBe(true);
+	      expect(scope.student.name).toBe('from directive');
+	  });
+	});
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = "<form data-ng-submit=\"save(student)\">\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" name=\"name\" data-ng-model=\"student.name\">\n\n  <label for=\"major\">Major:</label>\n  <input type=\"text\" name=\"major\" data-ng-model=\"student.major\">\n\n  <button type=\"submit\">{{buttonText}}</button>\n  <ng-transclude></ng-transclude>\n</form>\n";
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var angular = __webpack_require__(2);
+	var template = __webpack_require__(17);
+
+	describe('student display directive', () => {
+	  var $compile;
+	  var $rootScope;
+	  var $httpBackend;
+
+	  beforeEach(angular.mock.module('studentsApp'));
+
+	  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+	    $compile = _$compile_;
+	    $rootScope = _$rootScope_;
+	    $httpBackend = _$httpBackend_;
+	  }));
+
+	  it('should load the directive', () => {
+	    $httpBackend.expectGET('/templates/students/directives/student.html').respond(200, template);
+
+	    var element = $compile('<student data-student-data="{name: \'test student\'}"></student>')($rootScope);
+	      $httpBackend.flush();
+	      $rootScope.$digest();
+	      expect(element.html()).toContain('test student');
+	  });
+	});
+
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<li>\n  <span>\n    {{studentData.name}} is a major in\n    {{studentData.major}}\n  </span>\n\n  <div role=\"actions\" class=\"actions\" data-ng-transclude></div>\n</li>\n";
 
 /***/ }
 /******/ ]);

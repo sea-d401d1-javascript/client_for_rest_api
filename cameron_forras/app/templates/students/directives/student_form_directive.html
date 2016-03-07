@@ -1,0 +1,10 @@
+<form data-ng-submit="save(student)">
+  <label for="name">Name:</label>
+  <input type="text" name="name" data-ng-model="student.name">
+
+  <label for="major">Major:</label>
+  <input type="text" name="major" data-ng-model="student.major">
+
+  <button type="submit">{{buttonText}}</button>
+  <ng-transclude></ng-transclude>
+</form>

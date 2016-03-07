@@ -3,52 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <title>Students and Classes</title>
-  <link rel="stylesheet" type="text/css" href="css/normalize.css">
-  <link rel="stylesheet" type="text/css" href="css/base.css">
-  <link rel="stylesheet" type="text/css" href="css/layout.css">
+  <link rel="stylesheet" type="text/css" href="css/application.css">
 </head>
 <body data-ng-app="studentsApp">
   <header><h1>Students and Classes</h1></header>
-  <main class="left" data-ng-controller="studentsController" data-ng-init="getAllStudents()">
-    <h1>STUDENTS!!!!</h1>
+  <main data-ng-controller="StudentsController" data-ng-init="getAll()">
+    <section class="left">
+    <h2>STUDENTS!!!!</h2>
+      <ul>
+        <student data-ng-repeat="student in students" data-student-data="student">
+          <button data-ng-click="deleteStudent(student)">Delete Student</button>
+          <button data-ng-if="!student.editing" = data-ng-click="toggleEdit(student)">Update Student</button>
+          <student-form 
+          data-ng-if="student.editing" 
+          data-save="updateStudent(student)"
+          data-button-text="Update Student"
+          data-student="student"
+          >
+            <button type="button" data-ng-click="toggleEdit(student)">Cancel</button>
+          </student-form>
+        </student>
+      </ul>
+      <student data-student-data="newStudent">
+        <student-form
+          data-button-text="Create new Student"
+          data-student="newStudent"
+          data-save="createStudent(newStudent)"
+        ></student-form>
+      </student>
+    </section>
+      <img class="center" src="http://washingtontechnology.org/wp-content/uploads/2014/12/Code-fellows-logo-stacked-lettering.png">
+    
+    <section class="right">
+    <h2>CLASSES!!!!</h2>
     <ul>
-      <li data-ng-repeat="student in students">{{student.name}}, {{student.major}}
-        <button data-ng-click="deleteStudent(student)">Delete Student</button>
-        <button data-ng-click="student.editing = !student.editing">Update Student</button>
-        <form data-ng-if="student.editing" data-ng-submit="updateStudent(student)">
-          <input data-ng-model="student.name" type="text"/>
-          <input data-ng-model="student.major" type="text"/>
-          <button type="submit"/>Update</button>
-        </form>
-      </li>
-    </ul>
-    <form class="center" data-ng-submit="createStudent(newStudent)">
-        <input data-ng-model="newStudent.name" type="text"/>
-        <input data-ng-model="newStudent.major" type="text"/>
-        <button type="submit"/>New Student</button>
-    </form>
-
+      <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
+        <button data-ng-click="deleteClass(_class)">Delete Class</button>
+          <button data-ng-click="_class.editing = !_class.editing">Update Class</button>
+          <form data-ng-if="_class.editing" data-ng-submit="updateClass(_class)">
+            <input data-ng-model="class.name" type="text"/>
+            <input data-ng-model="class.level" type="text"/>
+            <button type="submit"/>Update</button>
+          </form>
+        </li>
+      </ul>
+      <form data-ng-submit="createClass(newClass)">
+        Class Name
+          <input data-ng-model="newClass.name" type="text"/>
+          Class Level
+          <input data-ng-model="newClass.level" type="text"/>
+          <button type="submit"/>New Class</button>
+      </form>
+    </section>
   </main>
-  <main class="right" data-ng-controller="studentsController" data-ng-init="getAllClasses()">
-  <h1>CLASSES!!!!</h1>
-  <ul>
-    <li data-ng-repeat="_class in _classes">{{_class.name}}, {{_class.level}}
-      <button data-ng-click="delete_Class(_class)">Delete Class</button>
-        <button data-ng-click="_class.editing = !_class.editing">Update Class</button>
-        <form data-ng-if="_class.editing" data-ng-submit="update_Class(_class)">
-          <input data-ng-model="_class.name" type="text"/>
-          <input data-ng-model="_class.level" type="text"/>
-          <button type="submit"/>Update</button>
-        </form>
-      </li>
-    </ul>
-    <form class="center" data-ng-submit="create_Class(new_Class)">
-        <input data-ng-model="new_Class.name" type="text"/>
-        <input data-ng-model="new_Class.level" type="text"/>
-        <button type="submit"/>New Class</button>
-    </form>
-
-  </main>
+  <footer>This shows student's names, majors, classes, and class level.</footer>
 <!-- data is talking to HTML to not wory about it. ng signifys angular
 specif its part of the angular core. Do not use angular and jquery 
 at the same time. Jquery is not scope aware -->

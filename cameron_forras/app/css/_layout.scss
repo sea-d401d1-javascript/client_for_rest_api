@@ -1,15 +1,23 @@
+main, article {
+  height: 600px;
+}
+article {
+  margin-left: 40px;
+}
 main {
-  overflow: hidden;
+  margin-right: 40px;
 }
 header, section {
   margin: 10px;
   border: 3px solid black;
 }
 footer {
+  font-size: 25px;
   height: 50px;
   width: 100%;
   text-align: center;
   padding: 10px;
+  bottom: 0;
 }
 header h1 {
   text-align: center;
@@ -22,14 +30,17 @@ header h1 {
 }
 .left {
   float: left;
-  width: 33%;
+  width: 32%;
   text-align: center;
 }
 .center {
-  display: inline-block;
+  float: center;
   text-align: center;
-  width: 33%;
+  width: 30%;
+  margin-top: -25px;
 }
 button {
   margin-bottom: 10px;
+  display: center;
 }
+
