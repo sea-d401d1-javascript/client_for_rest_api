@@ -4,6 +4,7 @@ var actorSchema = new mongoose.Schema({
   name:{type:String,default:'no name'},
   country:{type:String,default:'America'},
   age:{type:Number,default:'1'},
+  userid: String
 });
 
 var Actor = module.exports = exports = mongoose.model('Actor',actorSchema);
