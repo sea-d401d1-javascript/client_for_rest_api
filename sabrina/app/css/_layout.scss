@@ -1,0 +1,16 @@
+.column {
+  width: 30.5%;
+  display: inline-block;;
+  height: 330px;
+  float:left;
+  padding: 5px;
+}
+
+.fullWidth {
+  padding: 20px;
+  padding-bottom: 5px;
+  padding-top: 0px;
+  h1 {
+    padding-bottom: 0px;
+  }
+}

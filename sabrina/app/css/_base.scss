@@ -18,35 +18,27 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 
+$font-stack: 'Roboto', sans-serif;
+
 body {
 	line-height: 1;
   margin: 10px;
   padding: 10px;
-  font-family: 'Roboto', sans-serif;
+  font: 85% $font-stack;
 }
 
 header, section {
+	width: 100%;
+}
+
+header, article {
   margin: 10px;
-}
-
-section .column h1, section .column h2 {
-  text-align: center;
-}
-
-section .column p, section .column p {
-  text-align: center;
-	padding: 10px;
-}
-
-footer {
-	text-align: center;
-	padding: 10px;
 }
 
 header h1 {
@@ -55,29 +47,52 @@ header h1 {
   color: #4C4B63;
 }
 
+article {
+	.column {
+		h1, h2 {
+			text-align: center;
+		}
+		p {
+			text-align: center;
+			padding: 10px;
+		}
+	}
+}
+
+footer {
+	text-align: center;
+	padding: 10px;
+}
+
 h1 {
   font-size: 2em;
   color: #90C2E7;
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 h2 {
   font-size: 1.5em;
   color: #90C2E7;
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 ol, ul {
 	list-style: none;
+	padding: 10px;
 }
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
