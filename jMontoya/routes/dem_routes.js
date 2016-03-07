@@ -1,11 +1,12 @@
 const express = require('express');
-const parser = require('body-parser').json();
+const jsonParser = require('body-parser').json();
 const Politician = require(__dirname + '/../models/democraticModel');
 const handleDBError = require(__dirname + '/../lib/db_error_handler');
+const jwtAuth = require(__dirname + '/../lib/jwt_auth');
 
 var politicianRouter = module.exports = exports = express.Router();
 
-politicianRouter.post('/demPoliticians', parser, (req, res) => {
+politicianRouter.post('/demPoliticians', jwtAuth, jsonParser, (req, res) => {
   var newPolitician = new Politician(req.body);
   newPolitician.save((err, data) => {
     if (err) return handleDBError(err, res);
@@ -14,7 +15,7 @@ politicianRouter.post('/demPoliticians', parser, (req, res) => {
   console.log('POSTed!');
 });
 
-politicianRouter.get('/demPoliticians', (req, res) => {
+politicianRouter.get('/demPoliticians', jwtAuth, (req, res) => {
   Politician.find({}, (err, data) => {
     if (err) return handleDBError(err, res);
     res.status(200).json(data);
@@ -22,7 +23,7 @@ politicianRouter.get('/demPoliticians', (req, res) => {
   console.log('GETted!');
 });
 
-politicianRouter.get('/demPoliticians/:id', (req, res) => {
+politicianRouter.get('/demPoliticians/:id', jwtAuth, (req, res) => {
   Politician.find({_id: req.params.id}, (err, data) => {
     if (err) return handleDBError(err, res);
     res.status(200).json(data);
@@ -30,7 +31,7 @@ politicianRouter.get('/demPoliticians/:id', (req, res) => {
   console.log('GETted by ID!');
 });
 
-politicianRouter.put('/demPoliticians/:id', parser, (req, res) => {
+politicianRouter.put('/demPoliticians/:id', jwtAuth, jsonParser, (req, res) => {
   var democratData = req.body;
   delete democratData._id;
   Politician.update({_id: req.params.id}, democratData, (err) => {
@@ -40,7 +41,7 @@ politicianRouter.put('/demPoliticians/:id', parser, (req, res) => {
   console.log('PUTted!');
 });
 
-politicianRouter.delete('/demPoliticians/:id', (req, res) => {
+politicianRouter.delete('/demPoliticians/:id', jwtAuth, (req, res) => {
   Politician.remove({_id: req.params.id}, (err) => {
     if (err) return handleDBError(err, res);
     res.status(200).json({msg: 'you have successfully deleted the file'});

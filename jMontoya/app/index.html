@@ -3,56 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <title>Super Politician Stream Adventure</title>
+  <link href='https://fonts.googleapis.com/css?family=Ovo|Muli|Roboto:900,400,300,100' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-ng-app="politiciansApp">
-  <main data-ng-controller="PoliticiansController" data-ng-init="getDem(); getRep()">
-    <section class="left">
-      <h1>{{ demGreeting }}</h1>
+  <div class="">
+    <header>
 
-      <ul>
-        <li data-ng-repeat="demPolitician in demPoliticians">{{demPolitician.name}}, {{demPolitician.age}}
-          <button data-ng-click="deleteDemPolitician(demPolitician)">Delete This Politician</button>
-          <button data-ng-click="demPolitician.editing = !demPolitician.editing">Update This Politician</button>
-          <form data-ng-if="demPolitician.editing" data-ng-submit="updateDemPolitician(demPolitician)">
-            <input data-ng-model="demPolitician.name" type="text" placeholder="Enter Name to Update"/>
-            <input data-ng-model="demPolitician.age" type="text" placeholder="Update Age Too"/>
-            <button type="submit">Update</button>
-          </form>
-        </li>
-      </ul>
-      <form data-ng-submit="createDemPolitician(newDemPolitician)">
-        <input data-ng-model="newDemPolitician.name" type="text" placeholder="Please Enter Name"/>
-        <input data-ng-model="newDemPolitician.age" type="text" placeholder="Please Enter Age"/>
-        <button type="submit">New Dem Politician</button>
-      </form>
-      <p>{{demPoliticians}}</p>
-    </section>
+     <input style="float:left;margin: 20px 40px;" type="text" ng-model="color" placeholder="Are you Red or Blue - Type red or blue here!"/>
 
-    <section class="right">
-      <h1>{{ repGreeting }}</h1>
+     <logo></logo>
 
-      <ul>
-        <li data-ng-repeat="repPolitician in repPoliticians">{{repPolitician.name}}, {{repPolitician.age}}
-          <button data-ng-click="deleteRepPolitician(repPolitician)">Delete This Politician</button>
-          <button data-ng-click="repPolitician.editing = !repPolitician.editing">Update This Politician</button>
-          <form data-ng-if="repPolitician.editing" data-ng-submit="updateRepPolitician(repPolitician)">
-            <input data-ng-model="repPolitician.name" type="text" placeholder="Enter Name to Update"/>
-            <input data-ng-model="repPolitician.age" type="text" placeholder="Update Age Too"/>
-            <button type="submit">Update</button>
-          </form>
-        </li>
-      </ul>
-      <form data-ng-submit="createRepPolitician(newRepPolitician)">
-        <input data-ng-model="newRepPolitician.name" type="text" placeholder="Please Enter Name"/>
-        <input data-ng-model="newRepPolitician.age" type="text" placeholder="Please Enter Age"/>
-        <button type="submit">New Rep Politician</button>
-      </form>
-      <p>{{repPoliticians}}</p>
-    </section>
+     <p data-ng-if="username">{{'Hello ' + username}}<a href data-ng-click="logout()">logout</a></p>
 
-  </main>
+   </header>
+
+   <section class="container">
+
+     <article class="redblue">
+
+     </article>
+
+     <main data-ng-view>
+       <p>Stat tuned loading, or you have a JavaScript blocker active</p>
+       <img src="http://www.alternet.org/files/images/managed/Media_bush_confused.jpg" alt="Confused Bush" />
+     </main>
+
+     <aside class="redblue">
+
+     </aside>
+
+   </section> <!-- END SECTION CONTAINER -->
+
+   <footer data-copyright></footer>
+  </div>
+
 
   <script src="bundle.js"></script>
+
+  <script type="text/javascript">
+    var slide = false;
+  </script>
+
 </body>
 </html>

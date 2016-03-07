@@ -1,0 +1,71 @@
+<section data-ng-init="getDem(); getRep()">
+  <button ng-click="hideSection = !hideSection" class="showHideButton" >Hide/Show DEMS</button>
+  <button ng-click="hideSection2 = !hideSection2" class="showHideButton" >Hide/Show GOP</button>
+
+  <!-- <section>
+    <h2>Errors: </h2>
+    <ul>
+      <li data-ng-repeat="error in errors">{{error}}<button data-ng-click="dismissError(error)" alt="dismiss">X</button></li>
+    </ul>
+  </section> -->
+
+  <section class="center hide" ng-show="hideSection2">
+    <h1>{{ repGreeting }}</h1>
+
+    <ul>
+      <li data-ng-repeat="repPolitician in repPoliticians">{{repPolitician.name}}, {{repPolitician.age}}, {{repPolitician.voted4}}<br>
+        <button data-ng-click="deleteRepPolitician(repPolitician)">Delete This Entry</button>
+        <button data-ng-if="!repPolitician.editing" data-ng-click="toggleEdit(repPolitician)">Update This Entry</button>
+
+        <repform
+          data-ng-if="repPolitician.editing"
+          data-ng-save="updateRepPolitician(repPolitician)"
+          data-button-text="Update Entry"
+          data-reppolitician="repPolitician"
+        >
+          <button type="button" data-ng-click="toggleEdit(repPolitician)">Cancel</button>
+        </repform>
+      </li>
+    </ul>
+
+    <repPolitician data-repPolitician-data="newRepPolitician" class="repPolitician">
+      <repform
+        data-button-text="Create New Entry"
+        data-reppolitician="newRepPolitician"
+        data-save="createRepPolitician(newRepPolitician)"
+      ></repform>
+    </repPolitician>
+
+    <p class="politicianOutput repPoliticianOutput">{{repPoliticians}}</p>
+  </section>
+
+  <section class="center hide" ng-show="hideSection">
+    <h1>{{ demGreeting }}</h1>
+
+    <ul>
+      <li data-ng-repeat="demPolitician in demPoliticians">{{demPolitician.name}}, {{demPolitician.age}}, {{demPolitician.voted4}}<br>
+        <button data-ng-click="deleteDemPolitician(demPolitician)">Delete This Entry</button>
+        <button data-ng-if="!demPolitician.editing" data-ng-click="toggleEdit(demPolitician)">Update This Entry</button>
+
+        <demform
+          data-ng-if="demPolitician.editing"
+          data-ng-save="updateDemPolitician(demPolitician)"
+          data-button-text="Update Politician"
+          data-dempolitician="demPolitician"
+        >
+          <button type="button" data-ng-click="toggleEdit(demPolitician)">Cancel</button>
+        </demform>
+      </li>
+    </ul>
+
+    <demPolitician data-dempolitician-data="newDemPolitician" class="demPolitician">
+      <demform
+        data-button-text="Create New Entry"
+        data-dempolitician="newDemPolitician"
+        data-save="createDemPolitician(newDemPolitician)"
+      ></demform>
+    </demPolitician>
+
+    <p class="politicianOutput">{{demPoliticians}}</p>
+  </section>
+</section>
