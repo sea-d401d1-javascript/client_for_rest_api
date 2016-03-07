@@ -19,12 +19,21 @@
   "homepage": "https://github.com/cameron4us/rest_api#readme",
   "devDependencies": {
     "angular": "^1.5.0",
+    "angular-mocks": "^1.5.0",
+    "babel-core": "^6.5.1",
+    "babel-loader": "^6.2.2",
     "chai": "^3.4.1",
     "chai-http": "^1.0.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^1.1.1",
     "gulp-mocha": "^2.2.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.7",
+    "karma-phantomjs-launcher": "^1.0.0",
     "mocha": "^2.3.4",
+    "phantomjs-prebuilt": "^2.1.4",
     "webpack-stream": "^3.1.0"
   },
   "dependencies": {

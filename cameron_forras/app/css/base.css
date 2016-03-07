@@ -1,0 +1,11 @@
+body{
+  background-color: teal;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  color: #000;
+  line-height: 1;
+  font-family: "lato";
+  display: block;
+}
+

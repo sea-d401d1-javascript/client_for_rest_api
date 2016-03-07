@@ -1,0 +1,35 @@
+main {
+  overflow: hidden;
+}
+header, section {
+  margin: 10px;
+  border: 3px solid black;
+}
+footer {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+header h1 {
+  text-align: center;
+  font-size: 3em;
+}
+.right {
+  float: right;
+  width: 33%;
+  text-align: center;
+}
+.left {
+  float: left;
+  width: 33%;
+  text-align: center;
+}
+.center {
+  display: inline-block;
+  text-align: center;
+  width: 33%;
+}
+button {
+  margin-bottom: 10px;
+}

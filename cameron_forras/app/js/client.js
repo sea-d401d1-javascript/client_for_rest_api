@@ -1,12 +1,11 @@
 const angular = require('angular');
-
 const studentsApp = angular.module('studentsApp', []);
 
-
-studentsApp.controller('studentsController', ['$scope', '$http', ($scope, $http) => {
+studentsApp.controller('studentsController', ['$scope', '$http', function($scope, $http) {
   $scope.students = [];
   $scope._classes = [];
 
+$scope.getAllStudents = function() {
   $http.get('http://localhost:3000/api/students')
     .then((res) => {
       console.log('success!');
@@ -14,14 +13,7 @@ studentsApp.controller('studentsController', ['$scope', '$http', ($scope, $http)
     }, (err) => {
       console.log(err);
     });
-
-    $http.get('http://localhost:3000/api/classes')
-    .then((res) => {
-      console.log('success!');
-      $scope._classes = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+};
 
   $scope.createStudent = function(student) {
     $http.post('http://localhost:3000/api/students/', student)
@@ -53,6 +45,16 @@ studentsApp.controller('studentsController', ['$scope', '$http', ($scope, $http)
       });
   };
 
+  $scope.getAllClasses = function() {
+    $http.get('http://localhost:3000/api/classes')
+      .then((res) => {
+        console.log('success!');
+        $scope._classes = res.data;
+    }, (err) => {
+        console.log(err);
+    });
+  };
+  
   $scope.create_Class = function(_class) {
     $http.post('http://localhost:3000/api/classes/', _class)
       .then((res) => {
