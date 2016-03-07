@@ -1,0 +1,114 @@
+  <section data-ng-controller="TwoResourcesController">
+    <header>
+      <ul>
+        <li><a href="" data-ng-click="showMovie()">Movies</a></li>
+        <li><a href="" data-ng-click="showActor()">Actors</a></li>
+        <li><a href="#/entry" data-ng-click="logOut()">Logout</a></li>
+      </ul>
+    </header>
+    <section data-ng-if="movie" class="movies" data-ng-init="getAllMovies()">
+      <section class="left-col">
+        <h1>Movies Editing</h1>
+        <ul>
+          <movie-edit data-ng-repeat="movie in movies" data-movie-data="movie">
+            <button data-ng-click="deleteMovie(movie)" type="button">Delete</button>
+            <button data-ng-click="toggleEditMovie(movie)" data-ng-if="!movie.editing">Update</button>
+            <movie-form
+            data-button-text="Save"
+            data-save="updateMovie(movie)"
+            data-movie="movie"
+            data-ng-if="movie.editing"
+            >
+            <button type="button" data-ng-click="toggleEditMovie(movie)">Cancel</button>
+          </movie-form>
+        </movie-edit>
+      </ul>
+    </section>
+    <section class="middle-col">
+      <h1>Create New Movie</h1>
+      <form data-ng-submit="createMovie(newMovie)">
+        <input type="text" data-ng-model="newMovie.name" class="form-control" placeholder="name">
+        <input type="text" data-ng-model="newMovie.type" class="form-control" placeholder="type">
+        <input type="text" data-ng-model="newMovie.actors" class="form-control" placeholder="actors">
+        <input type="text" data-ng-model="newMovie.publish"  class="form-control" placeholder="publish">
+        <button type="submit" class="btn btn-default">New Movie</button>
+      </form>
+    </section>
+
+    <section class="right-col">
+      <h1>Movies List</h1>
+      <table class="movies-table">
+        <tr>
+          <th> name</th>
+          <th> type</th>
+          <th> actors </th>
+          <th> time </th>
+        </tr>
+        <tr data-ng-repeat="movie in movies">
+          <td>
+            {{movie.name}}
+          </td>
+          <td>
+            {{movie.type}}
+          </td>
+          <td>
+            {{movie.actors}}
+          </td>
+          <td>
+            {{movie.publish}}
+          </td>
+        </tr>
+      </table>
+    </section>
+  </section>
+
+
+  <section data-ng-if="actor" class="actors" data-ng-init="getAllActors()">
+    <section class="left-col">
+      <h1>Actors</h1>
+      <ul>
+        <actor-edit data-ng-repeat="actor in actors" data-actor-data="actor">
+          <button data-ng-click="deleteActor(actor)" type="button">Delete</button>
+          <button data-ng-click="toggleEditActor(actor)" data-ng-if="!actor.editing" >Update</button>
+          <form data-ng-if="actor.editing" data-ng-submit="updateActor(actor)">
+            <input type="text" data-ng-model="actor.name" class="form-control" placeholder="name">
+            <input type="text" data-ng-model="actor.country" class="form-control" placeholder="country">
+            <input type="text" data-ng-model="actor.age" class="form-control" placeholder="age">
+            <button type="button" data-ng-click="toggleEditActor(actor)">Cancel</button>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </actor-edit>
+      </ul>
+    </section>
+    <section class="middle-col">
+      <h1>Create New Actor</h1>
+      <form data-ng-submit="createActor(newActor)">
+        <input type="text" data-ng-model="newActor.name" class="form-control" placeholder="name">
+        <input type="text" data-ng-model="newActor.country" class="form-control" placeholder="country">
+        <input type="text" data-ng-model="newActor.age" class="form-control" placeholder="age">
+        <button type="submit" class="btn btn-default">New Actor</button>
+      </form>
+    </section>
+    <section class="left-col">
+      <h1>Actors List</h1>
+      <table class="actors-table">
+        <tr>
+          <th>name</th>
+          <th>country</th>
+          <th>age</th>
+        </tr>
+        <tr data-ng-repeat="actor in actors">
+          <td>
+            {{actor.name}}
+          </td>
+          <td>
+            {{actor.country}}
+          </td>
+          <td>
+            {{actor.age}}
+          </td>
+        </tr>
+      </table>
+    </section>
+  </section>
+</section>
