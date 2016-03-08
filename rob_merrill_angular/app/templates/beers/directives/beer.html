@@ -1,5 +1,6 @@
 <li>
-  <h2 data-ng-if="beerData.name" role="list" class="beer-list">
-    {{beerData.name}} is a beer with a style of {{beerData.style}}</h2>
+  <h2 data-ng-if="beerData.name">
+    {{beerData.name}} is a beer with a style of {{beerData.style}}
+  </h2>
   <section role="actions" class="actions" data-ng-transclude></section>
 </li>

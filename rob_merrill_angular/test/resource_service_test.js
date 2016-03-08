@@ -40,7 +40,7 @@ describe('resource service', () => {
     var successBeer = {name: 'success beer!'};
     $httpBackend.expectGET('http://localhost:3000/api/test').respond(404, 'incorrect address?');
     testService.getAll((err, res) => {
-      expect(err.data).toBe('incorrect address');
+      expect(err.data).toBe('incorrect address?');
       expect(err.status).not.toBe(undefined);
       expect(res).toBe(undefined);
     });

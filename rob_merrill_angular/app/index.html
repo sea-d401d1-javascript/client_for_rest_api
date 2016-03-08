@@ -48,14 +48,14 @@
           <section data-ng-controller="BrewersController" data-ng-init="getAllBrewer()">
            <h2>Brewers!</h2>
            <ul>
-      <brewer data-ng-repeat="brewer in brewers" data-beer-data="brewer">
+      <brewer data-ng-repeat="brewer in brewers" data-brewer-data="brewer">
         <button data-ng-click="deleteBrewer(brewer)">Delete Brewer</button>
         <button data-ng-if="!brewer.editing" data-ng-click="toggleEditBrewer(brewer)">Update Brewer</button>
         <brewer-form 
           data-ng-if="brewer.editing" 
           data-save="updateBrewer(brewer)"
           data-button-text="Update Brewer"
-          data-beer="brewer"
+          data-brewer="brewer"
         >
           <button type="button" data-ng-click="toggleEditBrewer(brewer)">Cancel</button>
         </brewer-form>
@@ -64,7 +64,7 @@
     <brewer data-brewer-data="newBrewer">
       <brewer-form 
         data-button-text="Create new Brewer"
-        data-beer="newBrewer"
+        data-brewer="newBrewer"
         data-save="createBrewer(newBrewer)"
       ></brewer-form>
     </brewer>
