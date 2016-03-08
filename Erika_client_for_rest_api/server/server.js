@@ -13,5 +13,12 @@ app.use('/api', dogsRouter);
 app.use('/api', humansRouter);
 app.use(authRouter);
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, token, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+});
+
 var PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server up on party port: ' + PORT));

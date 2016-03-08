@@ -15,8 +15,8 @@ wapApp.config(['$routeProvider', function(routes) {
       templateUrl: '/views/dogs_view.html'
     })
     .when('/home', {
-      controller:'HumansController',
-      templateURL: '/views/humans_view.html'
+      controller:'humanController',
+      templateUrl: '/views/humans_view.html'
     })
     .when('/', {
       redirectTo: '/home'
