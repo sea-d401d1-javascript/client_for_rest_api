@@ -19,7 +19,6 @@ describe('actor edit directive', () => {
     var element = $compile('<actor-edit data-actor-data="{name:\'inside directive\'}"></actor-edit>')($rootScope);
     $httpBackend.flush();
     $rootScope.$digest();
-    debugger;
     expect(element.html()).toContain('inside directive');
   });
 
