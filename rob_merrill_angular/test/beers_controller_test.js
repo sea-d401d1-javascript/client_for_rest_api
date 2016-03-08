@@ -23,13 +23,6 @@ describe('beers controller', () => {
     expect(typeof $scope.getAllBeer).toBe('function');
   });
 
-   it('should be able to make a controller', () => {
-    var beersController = $ControllerConstructor('BeersController', {$scope});
-    expect(typeof beersController).toBe('object');
-    expect(Array.isArray($scope.brewers)).toBe(true);
-    expect(typeof $scope.getAllBrewers).toBe('function');
-  });
-
   describe('REST requests', () => {
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
       $httpBackend = _$httpBackend_;

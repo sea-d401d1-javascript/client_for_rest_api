@@ -19,8 +19,8 @@ describe('resource service', () => {
    });
  
    it('should be a service', () => {
-     expect(typeof Resource).toBe('function');
-   });
+    expect(typeof Resource).toBe('function');
+  });
  
    it('should let service have prop of resourceName', () => {
      expect(testService.resourceName).toBe('/test');
