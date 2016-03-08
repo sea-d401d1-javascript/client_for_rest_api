@@ -20,7 +20,7 @@ describe('beers controller', () => {
     var beersController = $ControllerConstructor('BeersController', {$scope});
     expect(typeof beersController).toBe('object');
     expect(Array.isArray($scope.beers)).toBe(true);
-    expect(typeof $scope.getAllBeers).toBe('function');
+    expect(typeof $scope.getAllBeer).toBe('function');
   });
 
    it('should be able to make a controller', () => {
@@ -43,7 +43,7 @@ describe('beers controller', () => {
 
     it('should make a get request to /api/beers', () => {
       $httpBackend.expectGET('http://localhost:3000/api/beers').respond(200, [{name: 'test beer'}]);
-      $scope.getAllBeers();
+      $scope.getAllBeer();
       $httpBackend.flush();
       expect($scope.beers.length).toBe(1);
       expect($scope.beers[0].name).toBe('test beer');
