@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Super Shark</title>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+	<link rel="stylesheet" href="/css/style.css">
+	<!-- <link rel="stylesheet" href="/css/layout.css"> -->
+</head>
+<body>
+<div class="wrapper" data-ng-app="myApp">
+
+<header id="header">Sharks vs People</header>
+<section id="leftcolumn">
+	<p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends. </p>
+	<p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.  </p>
+	<p>You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man. </p>
+</section>
+
+<section id="content">
+  <section class="center" data-ng-controller="SharksController" data-ng-init="getAll()">
+    <h1 class="name">Sharks</h1>
+		<section>
+					<ul>
+						<shark data-ng-repeat="shark in sharks" data-shark-data="shark">
+							<button data-ng-click="deleteShark(shark)">Delete</button>
+							<button data-ng-if="!shark.editing" data-ng-click="toggleEdit(shark)">Edit</button>
+							<shark-form data-ng-if="shark.editing" data-save="updateShark(shark)" data-button-text="Update Shark" data-shark="shark">
+							<button type="button" data-ng-click="toggleEdit(shark)">Cancel</button>
+						</shark-form>
+						</shark>
+					</ul>
+					<shark data-shark-data="newShark">
+						<shark-form data-button-text="Create new shark" data-shark="newShark" data-save="createShark(newShark)"></shark-form>
+					</shark>
+		</section>
+	</section>
+<hr />
+  <section class="center main" data-ng-controller="PeoplesController" data-ng-init="getAllPeople()">
+    <h1 class="name">People</h1>
+		<section>
+				<ul>
+					<people data-ng-repeat="people in peoples" data-people-data="people">
+						<button data-ng-click="deletePeople(people)">Delete</button>
+						<button data-ng-if="!people.editing" data-ng-click="toggleEdit(people)">Edit</button>
+						<people-form data-ng-if="people.editing" data-save="updatePeople(people)" data-button-text="Update People" data-people="people">
+						<button type="button" data-ng-click="toggleEdit(people)">Cancel</button>
+						</people-form>
+					</people>
+				</ul>
+				<people data-people-data="newPeople">
+					<people-form data-button-text="Create new people" data-people="newPeople" data-save="createPeople(newPeople)"></people-form>
+				</people>
+		</section>
+  </section>
+</section>
+<section id="rightcolumn">
+	<p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends. </p>
+	<p>Now that there is the Tec-9, a crappy spray gun from South Miami. This gun is advertised as the most popular gun in American crime. Do you believe that shit? It actually says that in the little book that comes with it: the most popular gun in American crime. Like they're actually proud of that shit.  </p>
+	<p>You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man. </p>
+</section>
+	<footer id="footer">Copyright &copy; 2016</footer>
+</div>
+  <script src="bundle.js"></script>
+</body>
+</html>
