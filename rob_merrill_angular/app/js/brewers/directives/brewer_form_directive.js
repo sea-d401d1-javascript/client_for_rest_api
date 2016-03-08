@@ -11,7 +11,7 @@ module.exports = function(app) {
         save: '&'
       },
       controller: function($scope) {
-        $scope.brewer = $scope.brewer || {name: 'Spiderman', age: 24};
+        $scope.brewer = $scope.brewer || {name: 'name', age: 24};
       }
     };
   });
