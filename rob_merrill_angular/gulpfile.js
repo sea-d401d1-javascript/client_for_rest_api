@@ -4,6 +4,7 @@ const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const files = ['test/*.js', '!node_modules//**'];
 const babel = require('babel-loader');
+const html = require('html-loader');
 
 gulp.task('html:dev', () => {
   gulp.src(__dirname + '/app/**/*.html')
