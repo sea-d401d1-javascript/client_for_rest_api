@@ -1,23 +1,21 @@
-#REST API
+#Brewing Adventures
+
+In this exciting app you will be able to keep track of who brewed beer. You will also be able to keep track of what beer was made. Future functionality will involved connecting the specific brewer to the specific beer that they brewed.
 
 To Use:
 
 -clone respository
+-npm install
 -run server side "node server.js"
 -run client side "node server.js"
 -open browser to localhost:5000
 
-How to Use Authentication:
+Grading for Refactor: 
 
-To access end w authentication:
-superagent localhost:3000/api/democrats post '{"name":"testDem"}' -H "token:gibberish"
+Use of a service: 5 pts
 
-- use token to auth route
-- -H saves to header
+Use of a directive: 5 pts
 
-To signin:
-superagent localhost:3000/api/signin -u username:password
+Tests: 5 pts
 
-To signup:
-superagent localhost:3000/api/signup post '{"email":"test@gmail.com", "password":"foobar12345"}'
-
+Project organization: 5 pts
