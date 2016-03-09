@@ -11,28 +11,54 @@ var handleFailure = function(callback) {
 };
 
 module.exports = exports = function(app) {
-  app.factory('Resource', ['$http', function($http){
+  app.factory('Resource', ['$http', 'flowerAuth', function($http, flowerAuth){
     var Resource = function(resourceName){
       this.resourceName = resourceName;
     };
 
     Resource.prototype.get = function(callback) {
-      $http.get('http://localhost:3000/' + this.resourceName)
+      $http({
+        url: 'http://localhost:3000/' + this.resourceName,
+        method: 'GET',
+        headers: {
+          token: flowerAuth.getToken()
+        }
+      })
         .then(handleSuccess(callback), handleFailure(callback));
     };
 
     Resource.prototype.create = function(data, callback) {
-      $http.post('http://localhost:3000/' + this.resourceName, data)
+      $http({
+        url: 'http://localhost:3000/' + this.resourceName,
+        method: 'POST',
+        data: data,
+        headers: {
+          token: flowerAuth.getToken()
+        }
+      })
         .then(handleSuccess(callback), handleFailure(callback));
     };
 
     Resource.prototype.delete = function(data, callback) {
-      $http.delete('http://localhost:3000/' + this.resourceName + '/' + data._id)
+      $http({
+        method: 'DELETE',
+        url: 'http://localhost:3000/' + this.resourceName + '/' + data._id,
+        headers: {
+          token: flowerAuth.getToken()
+        }
+      })
         .then(handleSuccess(callback), handleFailure(callback));
     };
 
     Resource.prototype.update = function(data, callback) {
-      $http.put('http://localhost:3000/' + this.resourceName + '/' + data._id, data)
+      $http({
+        method: 'PUT',
+        url: 'http://localhost:3000/' + this.resourceName + '/' + data._id, 
+        data: data,
+        headers: {
+          token: flowerAuth.getToken()
+        }
+      })
         .then(handleSuccess(callback), handleFailure(callback));
     };
 

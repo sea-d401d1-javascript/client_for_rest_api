@@ -15,10 +15,19 @@ gardenerRouter.get('/gardeners', (req, res) => {
   });
 });
 
-gardenerRouter.get('/mygardeners', jwtAuth, (req, res) => {
-  Gardener.find({ boss: req.user._id }, (err, data) => {
+gardenerRouter.delete('/gardeners/:id', (req, res) => {
+  Gardener.remove({_id: req.params.id}, (err) => {
     if (err) return handleError(err, res);
-    res.status(200).json(data);
+    res.status(200).json({msg: 'success'});
+  });
+});
+
+gardenerRouter.put('/gardeners/:id', jsonParser, (req, res) => {
+  var updateGardenerData = req.body;
+  delete updateGardenerData._id;
+  Gardener.update({_id: req.params.id}, updateGardenerData, err => {
+    if (err) return handleError(err, res);
+    res.status(200).json(updateGardenerData);
   });
 });
 
@@ -30,6 +39,12 @@ gardenerRouter.post('/gardeners', jsonParser, (req, res) => {
   });
 });
 
+gardenerRouter.get('/mygardeners', jwtAuth, jsonParser, (req, res) => {
+  Gardener.find({ boss: req.user._id }, (err, data) => {
+    if (err) return handleError(err, res);
+    res.status(200).json(data);
+  });
+});
 gardenerRouter.post('/mygardeners', jwtAuth, jsonParser, (req, res) => {
   var newGardener = new Gardener(req.body);
   newGardener.boss = req.user._id;
@@ -39,14 +54,14 @@ gardenerRouter.post('/mygardeners', jwtAuth, jsonParser, (req, res) => {
   });
 });
 
-gardenerRouter.delete('/gardeners/:id', (req, res) => {
+gardenerRouter.delete('/mygardeners/:id', jwtAuth, (req, res) => {
   Gardener.remove({_id: req.params.id}, (err) => {
     if (err) return handleError(err, res);
     res.status(200).json({msg: 'success'});
   });
 });
 
-gardenerRouter.put('/gardeners/:id', jsonParser, (req, res) => {
+gardenerRouter.put('/gardeners/:id', jwtAuth, jsonParser, (req, res) => {
   var updateGardenerData = req.body;
   delete updateGardenerData._id;
   Gardener.update({_id: req.params.id}, updateGardenerData, err => {

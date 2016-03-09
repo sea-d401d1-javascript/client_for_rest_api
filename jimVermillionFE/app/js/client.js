@@ -8,7 +8,6 @@ require('./services/resource_services')(flowerApp);
 require('./flowers')(flowerApp);
 require('./auth')(flowerApp);
 
-
 flowerApp.config(['$routeProvider', function(routes) {
   routes
     .when('/home', {

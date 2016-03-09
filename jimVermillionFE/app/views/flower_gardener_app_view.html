@@ -1,4 +1,10 @@
 <section data-ng-init="getAll()">
+  <section data-ng-if="errors.length">
+    <h2>Errors: </h2>
+    <ul>
+      <li data-ng-repeat="error in errors">{{error}}<button data-ng-click="dismissError(error)" alt="dismiss">X</button></li>
+    </ul>
+  </section>
   <section class="right">
     <!-- show all the flowers -->
     <h2>flowers!</h2>
@@ -25,23 +31,23 @@
             >
           <button type="button" data-ng-click="toggleEdit(flower, $index)">Cancel</button>
         </resource-form>
-
       </resource> 
     </ul>
     <!-- post a new flower -->
     <article>
       <h4>NEW FLOWER</h4>
-      <flower-form
+      <resource-form
         data-button-text="New Flower"
         data-resource="newFlower"
         data-save="post(newFlower, flowers)"
-      ></flower-form>
+        data-attr="newFlower.difficulty_to_grow"
+        data-attr-name="difficulty to grow"
+      ></resource-form>
     </article>
   </section>
 
   <section class="left">
     <!-- show all the gardeners -->
-
     <h2>gardeners!</h2>
     <ul>
       <resource data-ng-repeat="gardener in gardeners" 
@@ -49,12 +55,12 @@
           data-attr-name="favorite flower"
           data-attr="gardener.favFlower"
           data-resource="gardener"
-          data-list="gardeners"
           >
-
+        <!-- delete the gardener -->
         <button data-ng-click="delete(gardener, $index, gardeners)">DELETE {{gardener.name}} </button>
+        <!-- edit the gardener -->
         <button data-ng-if="!gardener.editing" data-ng-click="toggleEdit(gardener, $index)">edit</button>
-       
+        <!-- form -->
         <resource-form 
             data-ng-if="gardener.editing" 
             data-save="update(gardener, gardeners)"
@@ -67,17 +73,17 @@
         </resource-form>
       </resource>
     </ul>
-
     <!-- post a new gardener -->
     <article>
       <h4>NEW GARDENER</h4>
-      <form data-ng-submit="post(newGardener, gardeners)">
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" data-ng-model="newGardener.name">
-        <label for="favFlower">Favorite Flower:</label>
-        <input type="text" name="favFlower" id="favorite flower" data-ng-model="newGardener.favFlower">
-        <button type="submit">New Gardener</button>
-      </form>
+      <resource-form  
+          data-save="post(newGardener, gardeners)"
+          data-button-text="New Gardener"
+          data-resource="newGardener"
+          data-attr="newGardener.favFlower"
+          data-attr-name="favorite flower"
+          >
+      </resource-form>
     </article>
   </section>
   

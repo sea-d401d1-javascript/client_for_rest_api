@@ -8,14 +8,22 @@
   <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body data-ng-app="flower">
-  <header><h1>flowers and gardeners</h1></header>
-  
-  <main data-ng-view>
-    <p>Stay tuned loading, or you have a javascript blocker active</p>
-    <img src="http://warrensburg.k12.mo.us/iadventure/holes/movingshovel.gif" alt="standby or activate js">
-  </main>
-  
-  <footer>Get your landscaping business running with this terrible app!</footer>
+   <section data-ng-controller="authController" data-ng-init="updateaUsername()"> 
+    <header>
+      <section data-ng-if="username">
+        <p>{{'Hello' + username}}</p>
+        <a href data-ng-click="logout()">logout</a>
+      </section>
+      <h1>flowers and gardeners</h1>
+    </header>
+    
+    <main data-ng-view>
+      <p>Stay tuned loading, or you have a javascript blocker active</p>
+      <img src="http://warrensburg.k12.mo.us/iadventure/holes/movingshovel.gif" alt="standby or activate js">
+    </main>
+    
+    <footer>Get your landscaping business running with this terrible app!</footer>
+  </section>
   <script src="bundle.js"></script>
 </body>
 </html>
