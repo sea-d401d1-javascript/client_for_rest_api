@@ -5,7 +5,7 @@ describe('resource service' , () => {
 
   var $httpBackend;
   var Resource;
-  
+
   beforeEach(angular.mock.inject(function( _$httpBackend_ , cfResource) {
     $httpBackend = _$httpBackend_;
     Resource = cfResource;

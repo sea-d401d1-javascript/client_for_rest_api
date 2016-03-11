@@ -12,8 +12,7 @@ module.exports = function(app) {
         $scope.data.enemies = res;
       });
     };
-    $scope.post = function(person) {
-      console.log(person + ' the new friend');
+    $scope.post = function(person, index) {
       $scope.data.enemies.push(person);
       enemyService.post(person , function(err , res) {
         if (err) return console.log(err);
