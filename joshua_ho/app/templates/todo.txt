@@ -1,0 +1,34 @@
+To-Do - SMACSS
+
+base.css
+
+layout.css
+
+modules.css
+
+state.css
+  ????
+
+HTML
+  Add
+
+
+Display all parts of the website at all times?
+
+  re-write directives to have different function names
+  (not that hard)
+
+  OR
+
+Create 3 panel structure for friend AND enemy
+
+  Left Panel:
+    Select Add Friend or Add Enemy
+
+  Center Panel:
+    Display friend information in a card-type structure.
+
+  Right Panel:
+    Add Friend/Enemy box
+
+  > Which is less work?

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Angular Friends Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="base/base.css">
+    <link rel="stylesheet" type="text/css" href="layout/layout.css" charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="modules/modules.css">
+    <link rel="stylesheet" type="text/css" href="state/state.css">
+  </head>
+  <main data-ng-app="friendsApp" data-ng-controller="MainController">
+    <header id="header">
+      <div class="header-title">
+        Two-Resource Angular App
+      </div>
+    </header>
+    <content id="secondary">
+      <div class="navi">
+        <h3 class='navi-title'>Select View</h3>
+        <div class='navi-btn' onclick="location.href='#/friends';">Friends</div><br>
+        <div class='navi-btn' onclick="location.href='#/enemies';">Enemies</div>
+      </div>
+    </content>
+    <content id="primary">
+      <section data-ng-controller="FriendController" data-ng-init="getAll()">
+        {{message}}
+        <ul>
+          <friend-display data-ng-repeat="person in data.friends track by $index">
+            <button ng-click="delete(person , $index)" class="btn btn-danger glyphicon glyphicon-remove"></button>
+            <button ng-click="put(person)" class="btn btn-basic glyphicon glyphicon-pencil"></button>
+          </friend-display>
+        </ul>
+      </section>
+      <section data-ng-controller="EnemyController" data-ng-init="getAll()">
+        {{message}}
+        <ul>
+          <enemy-display data-ng-repeat="person in data.enemies track by $index">
+            <button ng-click="delete(person , $index)" class="btn btn-danger glyphicon glyphicon-remove"></button>
+            <button ng-click="put(person)" class="btn btn-basic glyphicon glyphicon-pencil"></button>
+          </enemy-display>
+        </ul>
+      </section>
+    </content>
+    <content id="tertiary" class="container">
+      <section data-ng-controller="FriendController">
+        <friend-post-form></friend-post-form>
+      </section>
+      <section data-ng-controller="EnemyController">
+        <enemy-post-form></enemy-post-form>
+      </section>
+      <!-- <content data-ng-controller="EnemyController"></content> -->
+    </content>
+
+
+
+    <footer id="footer">
+      <div class='footer-body'>
+        Created by Joshua Ho - 2/15/2016 <br />
+        Javascript Assignment 3 Week 6
+      </div>
+      <script type="text/javascript" src="bundle.js"></script>
+    </footer>
+  </main>
+</html>
