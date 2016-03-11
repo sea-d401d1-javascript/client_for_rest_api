@@ -1,5 +1,5 @@
 var angular = require('angular');
-var template = require('../app/templates/enemy/directives/enemy_post_form.html');
+var template = require('../../app/templates/enemy/directives/enemy_post_form.html');
 
 describe('Enemy Post Directive' , () => {
   var $rootScope;

@@ -1,7 +1,7 @@
 var angular = require('angular');
-var template = require('../app/templates/enemy/directives/enemy.html');
+var template = require( __dirname + '/../../app/templates/friend/directives/friends.html');
 
-describe('Enemy Display Directive' , () => {
+describe('Friend Display Directive' , () => {
   var $rootScope;
   var $compile;
   var $scope;
@@ -13,14 +13,14 @@ describe('Enemy Display Directive' , () => {
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     $scope = $rootScope.$new();
-    $rootScope.data = {enemies: []};
+    $rootScope.data = {friends: []};
   }));
 
   it('should load the directive' , () => {
 
-    $httpBackend.when('GET' , '/templates/enemy/directives/enemy.html').respond(200 , template);
-    $scope.data.enemies = {name: 'test name'};
-    var element = $compile('<enemy-display>{{data.enemies.name}}</enemy-display>')($rootScope);
+    $httpBackend.when('GET' , '/templates/friend/directives/friends.html').respond(200 , template);
+    $scope.data.friends = {name: 'test name'};
+    var element = $compile('<friend-display>{{data.friends.name}}</friend-display>')($rootScope);
     $httpBackend.flush();
     $rootScope.$digest();
 

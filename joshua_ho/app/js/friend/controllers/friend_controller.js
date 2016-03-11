@@ -13,9 +13,9 @@ module.exports = function(app) {
 
       });
     };
-    $scope.post = function(person) {
+    $scope.post = function(person, index) {
       console.log(person + ' the new friend');
-      $scope.data.friends.push(person);
+      $scope.data.friends.push(person); 
       friendService.post(person , function(err , res) {
         if (err) return console.log(err);
         $scope.data.newPerson = null;

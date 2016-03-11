@@ -1,6 +1,6 @@
 var angular = require('angular');
 
-describe('The enemey controller', () => {
+describe('The enemy controller', () => {
   var $httpBackend;
   var $rootScope;
   var $scope;
