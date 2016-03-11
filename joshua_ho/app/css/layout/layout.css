@@ -1,0 +1,45 @@
+#header {
+  height: 70px;
+  padding: 20px 10px;
+  background-color: white;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+
+  .header-title{
+    font-size: 24px;
+  }
+
+#primary {
+  padding: 20px 10px;
+  width: 62%;
+  float: left;
+  background-color: white;
+}
+#secondary {
+  padding: 20px 10px;
+  width: 17.8%;
+  float: left;
+  background-color: white;
+  margin-right: 0.2%;
+}
+#tertiary {
+  padding: 20px 10px;
+  width: 19.8%;
+  float: left;
+  background-color: white;
+  margin-left: 0.2%;
+}
+
+#footer {
+  height: 100px;
+  width: 100%;
+  padding: 30px 10px;
+  float: left;
+  display: block;
+  margin-top: 3px;
+  background-color: white;
+}
+  .footer-body {
+    font-style: italic;
+  }

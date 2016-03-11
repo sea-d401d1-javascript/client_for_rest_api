@@ -1,0 +1,66 @@
+
+.navi {
+
+}
+
+  .navi-title {
+    padding: 0px 0px 10px 0px;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .navi-btn {
+    width: 100%;
+    padding: 10px 0px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: blue;
+    border: 1px solid blue;
+  }
+
+  .navi-body{
+    text-align: center;
+    padding:
+  }
+
+.side-div {
+  width: 100%;
+  padding: 0px 0px 70px 0px;
+}
+  .side-title {
+    font-size: 20px;
+  }
+
+  .side-body {
+  }
+    .side-form {
+      padding-bottom: 20px;
+    }
+      .side-form-input {
+        padding-bottom: 5px;
+      }
+    .side-btn-area {
+
+    }
+      .side-btn {
+
+      }
+
+<div class='side'>
+  <div class='side-title'></div>
+  <div class='side-body'>
+    <div class='side-form'>
+      <input class='side-form-input'></input>
+    </div>
+    <div class='side-buttons-area'>
+      <button class='side-buttons'></button>
+    </div>
+  </div>
+
+
+
+  </div>
+</div>

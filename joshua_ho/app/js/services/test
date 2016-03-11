@@ -1,0 +1,43 @@
+
+1.
+data-ng-init="getAll()"
+
+2. controller
+$scope.getAll = function() {
+  friendService.getAll( function(err , res) {
+    if (err) return console.log(err);
+    $scope.friends = res;
+    $scope.message = res.msg;
+    console.log("Friends getAll'd");
+    console.log($scope.friends);
+  });
+};
+
+3. service
+Resource.prototype.getAll = function(callback) {
+  $http.get('http://localhost:5000/api' + this.name)
+    .then( handleSuccess(callback) , handleFailure(callback) );
+};
+
+4.service method
+var handleSuccess = function(callback) {
+  return function(res) {
+    callback(null, res.data);
+  };
+};
+
+$http.get('http://localhost:5000/api' + this.name)
+  .then(
+    (null, res) => {
+      function(err , res) {
+        if (err) return console.log(err);
+        $scope.friends = res;
+        $scope.message = res.msg;
+        console.log("Friends getAll'd");
+        console.log($scope.friends);
+      }
+    },
+    (res) => {
+      function(err , res)
+    }
+  )
