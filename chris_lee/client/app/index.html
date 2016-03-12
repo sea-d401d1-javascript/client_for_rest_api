@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Counter-Strike Stream Adventure</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  </head>
+  <body data-ng-app="CSApp">
+    <div class="span" role="div" data-ng-controller="AuthController" data-ng-init="updateUsername()">
+      <header>
+        <h1>Super Awesome Counter-Strike App</h1>
+        <p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
+      </header>
+      <main data-ng-view></main>
+    </div>
+    <footer>
+      <p>© Copyright 2016, Chris Lee</p>
+    </footer>
+    <script src="js/bundle.js"></script>
+  </body>
+</html>
