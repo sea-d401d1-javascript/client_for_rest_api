@@ -1,0 +1,24 @@
+<section class="col-sm-4" data-ng-init="getDogs()">
+  <h2 class="col-xs-12">Create a New Dog</h2>
+  <dog class="row resource" data-dog-data="newDog">
+    <dog-form class="row"
+      data-button-text="CREATE"
+      data-dog="newDog"
+      data-save="createDog(newDog)"
+    ></dog-form>
+  </dog>
+  <dog class="row resource" data-ng-repeat="dog in dogs" data-dog-data="dog">
+    <div class="box-container col-xs-12">
+      <button class="col-xs-12" data-ng-click="deleteDog(dog)">DELETE</button>
+      <button class="col-xs-12" data-ng-if="!dog.editing" data-ng-click="toggleEdit(dog)">UPDATE</button>
+    </div>
+    <dog-form
+      class="row"
+      data-button-text="SUBMIT"
+      data-ng-if="dog.editing"
+      data-ng-save="updateDog(dog)"
+      data-dog="dog"
+    ></dog-form>
+    <button type="button" data-ng-click="toggleEdit(dog)">CANCEL</button>
+  </dog>
+</section>

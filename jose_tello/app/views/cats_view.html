@@ -1,0 +1,24 @@
+<section class="col-sm-4" data-ng-init="getCats()">
+  <h2 class="col-xs-12">Create a New Cat</h2>
+  <cat class="row resource" data-cat-data="newCat">
+    <cat-form class="row"
+      data-button-text="CREATE"
+      data-cat="newCat"
+      data-save="createCat(newCat)"
+    ></cat-form>
+  </cat>
+  <cat class="row resource" data-ng-repeat="cat in cats" data-cat-data="cat">
+    <div class="box-container col-xs-12">
+      <button class="col-xs-12" data-ng-click="deleteCat(cat)">DELETE</button>
+      <button class="col-xs-12" data-ng-if="!cat.editing" data-ng-click="toggleEdit(cat)">UPDATE</button>
+    </div>
+    <cat-form
+      class="row"
+      data-button-text="SUBMIT"
+      data-ng-if="cat.editing"
+      data-ng-save="updateCat(cat)"
+      data-cat="cat"
+    ></cat-form>
+    <button type="button" data-ng-click="toggleEdit(cat)">CANCEL</button>
+  </cat>
+</section>

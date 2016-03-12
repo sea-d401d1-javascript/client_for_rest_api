@@ -1,0 +1,13 @@
+<form data-ng-submit="save(cat)">
+  <label for="name">NAME:</label>
+  <input class="col-xs-12" data-ng-model="cat.name" type="text" placeholder="Name">
+
+  <label for="color">COLOR:</label>
+  <input class="col-xs-12" data-ng-model="cat.color" type="text" placeholder="Color">
+
+  <label for="lives">LIVES:</label>
+  <input class="col-xs-12" data-ng-model="cat.lives" type="text" placeholder="Lives (default: 9)">
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{ buttonText }}</button>
+</form>

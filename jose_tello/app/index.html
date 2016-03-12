@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cats & Dogs</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.min.css">
+</head>
+<body data-ng-app="petsApp">
+  <main class="row" data-ng-controller="authController" data-ng-init="updateUsername()">
+    <header class="col-xs-12">
+      <h1>Cats & Dogs</h1>
+      <p data-ng-if="username">{{'Hello ' + username}} <a href data-ng-click="logout()">logout</a></p>
+    </header>
+    <!-- Views -->
+    <main data-ng-view></main>
+    <section class="col-sm-4"></section>
+  </main>
+  <script src="bundle.js"></script>
+</body>
+</html>
