@@ -3,45 +3,72 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Super Jedi Stream Adventure</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/sass/styles.css">
 </head>
 <body data-ng-app="jedisApp">
 	<div data-ng-controller="authController" data-ng-init="updateUsername()">
-		<header class="container">
-			<!-- Main container -->
-			<nav class="navbar">
-			  <!-- Left side -->
-			  <section class="navbar-left">
-			    <section class="navbar-item">
-			      <p class="control is-grouped">
-			        <input class="input" type="text" placeholder="Choose a side">
-			        <button class="button">
-			          Search
-			        </button>
-			      </p>
-			    </section>
-			  </section>
+		<section class="hero is-medium is-danger is-bold">
+			<!-- <section class="hero-video is-transparent">
+				<video src="http://i.imgur.com/RCIbx2d.webm" autoplay muted loop></video>
+			</section> -->
+			<section class="hero-header">
+				<header class="header">
+					<!-- Main container -->
+					<nav class="container">
+					  <!-- Left side -->
+					  <section class="header-left">
+					    <section class="header-item">
+					      <p class="control is-grouped">
+					        <input class="input" type="text" placeholder="Choose a side">
+					        <button class="button">
+					          Search
+					        </button>
+					      </p>
+					    </section>
+					  </section>
 
-			  <!-- Right side -->
-			  <section class="navbar-right">
-					<p class="navbar-item" data-ng-if="username">
-						Hello {{username}} <a href data-ng-click="signOut()">logout</a>
-					</p>
-			    <p class="navbar-item"><strong>All</strong></p>
-			    <p class="navbar-item"><a href="#">Jedis</a></p>
-			    <p class="navbar-item"><a href="#">Sith</a></p>
-			    <p class="navbar-item"><a class="button is-success">New</a></p>
-			  </section>
-			</nav>
-		</header>
+					  <!-- Right side -->
+					  <section class="header-right">
+							<p class="header-item" data-ng-if="username">
+								Hello {{username}}
+							</p>
+							<p class="header-item">
+								<a href data-ng-click="logout()">logout</a>
+							</p>
+					    <p class="header-item"><a href="#/">All</a></p>
+					    <p class="header-item"><a href="#/jedi">Jedis</a></p>
+					    <p class="header-item"><a href="#/sith">Sith</a></p>
+					    <p class="header-item"><a class="button is-success">New</a></p>
+					  </section>
+					</nav>
+				</header>
+				<section class="hero-content">
+					<section class="container">
+						<p class="title">Jedi vs Sith</p>
+						<p class="subtitle">An app created by Jesse Thach</p>
+					</section>
+				</section>
+			</section>
+		</section>
 
-		<main data-ng-view class="container">
-
+		<!-- Angular view content -->
+		<main class="section">
+			<section data-ng-view class="container">
+			</section>
 		</main>
 
 	</div>
 
-	<footer>End of Fates</footer>
+	<footer class="footer">
+		<section class="container">
+			<section class="is-text-centered">
+				<p>
+					End of Fates
+				</p>
+			</section>
+		</section>
+	</footer>
 
   <script src="bundle.js"></script>
 </body>

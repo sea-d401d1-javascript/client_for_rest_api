@@ -7,3 +7,7 @@ require(__dirname + '/jedi_form_directive_test');
 require(__dirname + '/jedi_display_directive_test');
 require(__dirname + '/sith_display_directive_test');
 require(__dirname + '/sith_form_directive_test');
+require(__dirname + '/jedi_auth_test');
+require(__dirname + '/signup_controller_test');
+require(__dirname + '/signin_controller_test');
+require(__dirname + '/user_auth_services_test');

@@ -1,0 +1,33 @@
+<section class="columns" data-ng-controller="JedisController">
+
+  <section class="column is-half is-offset-quarter" data-ng-init="getAllJedi()">
+    <h1>Jedis:</h1>
+    <ul>
+      <jedi data-ng-repeat="jedi in jedis" data-jedi-data="jedi">
+        <button class="button is-small is-danger" data-ng-click="deleteJedi(jedi)">Delete</button>
+        <button class="button is-small is-info" data-ng-if="!jedi.editing" data-ng-click="toggleEditJedi(jedi)">Update</button>
+
+        <jedi-form
+            data-ng-if="jedi.editing"
+            data-save="updateJedi(jedi)"
+            data-button-text="Update Jedi"
+            data-jedi="jedi"
+          ><button class="button is-small" type="button" data-ng-click="toggleEditJedi(jedi)">Cancel</button>
+        </jedi-form>
+
+      </jedi>
+    </ul>
+
+    <jedi data-jedi-data="newJedi">
+
+      <jedi-form
+        data-button-text="Create new Jedi"
+        data-jedi="newJedi"
+        data-save="createJedi(newJedi)"
+      ></jedi-form>
+
+    </jedi>
+
+  </section>
+
+</section>

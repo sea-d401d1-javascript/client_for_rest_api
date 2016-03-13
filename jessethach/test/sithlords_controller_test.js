@@ -20,9 +20,9 @@ describe('sithlords controller', () => {
   }));
 
   it('should be able to make a controller', () => {
-    var sithlordsController = $ControllerConstructor('SithlordsController', {$scope});
-      expect(typeof sithlordsController).toBe('object');
-      expect(Array.isArray($scope.sithlords)).toBe(true);
+    var jedisController = $ControllerConstructor('JedisController', {$scope});
+      expect(typeof jedisController).toBe('object');
+      expect(Array.isArray($scope.jedis)).toBe(true);
       expect(typeof $scope.getAllSith).toBe('function');
 
   });
@@ -30,7 +30,7 @@ describe('sithlords controller', () => {
   describe('REST requests', () => {
     beforeEach(angular.mock.inject(function(_$httpBackend_) {
       $httpBackend = _$httpBackend_;
-      $ControllerConstructor('SithlordsController', {$scope});
+      $ControllerConstructor('JedisController', {$scope});
     }));
 
     afterEach(() => {

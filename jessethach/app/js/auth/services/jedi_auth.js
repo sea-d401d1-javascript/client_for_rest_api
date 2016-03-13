@@ -2,63 +2,65 @@ module.exports = function(app) {
   app.factory('jediAuth', ['$http', '$window', function($http, $window) {
     var token;
     var user;
+    var baseURL = function() {
+      if (window.location.href.indexOf('/', 9) !== -1) return window.location.href.substr(0, window.location.href.indexOf('/', 9));
+      return window.location.href;
+    }();
     var auth = {
-      createUser: function(user, cb) {
-        cb = cb || function(){};
-        $http.post('http://localhost:3000/api/signup', user)
-          .then(function(res) {
-            token = $window.localStorage.token = res.data.token;
-            cb(null);
-          }, function(res) {
-            console.log(res);
-            cb(res.err);
-          });
+      createUser: function(user, callback) {
+        callback = callback || function() {};
+        $http.post((baseURL + '/api/signup').toString(), user)
+        .then(function(res) {
+          token = $window.localStorage.token = res.data.token;
+          callback(null, res);
+        }, function(res) {
+          callback(res)
+        });
       },
-      signIn: function(user, cb) {
-        cb = cb || function(){};
+      signIn: function(user, callback) {
+        callback = callback || function() {};
         $http({
           method: 'GET',
-          url: 'http://localhost:3000/api/signin',
+          url: (baseURL + '/api/signin').toString(),
           headers: {
             'Authorization': 'Basic ' + btoa((user.email + ':' + user.password))
           }
         })
-          .then(function(res) {
-            token = $window.localStorage.token = res.data.token;
-            cb(null);
-          }, function(res) {
-            console.log(res);
-            cb(res);
-          });
+        .then(function(res) {
+          token = $window.localStorage.token = res.data.token;
+          callback(null, res);
+        }, function(res) {
+          callback(res);
+        });
       },
       getToken: function() {
         token = token || $window.localStorage.token;
         return token;
       },
-      signOut: function(cb) {
+      signOut: function(callback) {
         $window.localStorage.token = null;
         token = null;
         user = null;
-        if (cb) cb();
+        if(callback) callback();
       },
-      getUsername: function(cb) {
-        cb = cb || function(){};
+      getUsername: function(callback) {
+        callback = callback || function() {};
         $http({
           method: 'GET',
-          url: 'http://localhost:3000/api/currentuser',
+          url: (baseURL + '/api/currentuser').toString(),
           headers: {
             token: auth.getToken()
           }
         })
         .then(function(res) {
           user = res.data.username;
-          cb(res);
-        },function(res) {
-          cb(res);
+          callback(res);
+        }, function(res) {
+          callback(res);
         });
       },
       username: function() {
-        if (!user) auth.getUsername();
+        if(!user) auth.getUsername();
         return user;
       }
     };

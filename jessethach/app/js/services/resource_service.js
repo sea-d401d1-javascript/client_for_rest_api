@@ -51,7 +51,7 @@ module.exports = exports = function(app) {
         method: 'DELETE',
         url: 'http://localhost:3000/api' + this.resourceName + '/' + data._id,
         headers: {
-          token: bearAuth.getToken()
+          token: jediAuth.getToken()
         }
       })
         .then(handleSuccess(callback), handleFailure(callback));

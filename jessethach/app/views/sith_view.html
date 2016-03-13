@@ -1,0 +1,32 @@
+<section class="columns" data-ng-controller="JedisController">
+
+  <section class="column is-half is-offset-quarter" data-ng-init="getAllSith()">
+    <h1>Sith Lords:</h1>
+    <ul>
+      <sith data-ng-repeat="sith in sithlords" data-sith-data="sith">
+        <button class="button is-small is-danger" data-ng-click="deleteSith(sith)">Delete</button>
+        <button class="button is-small is-info" data-ng-if="!sith.editing" data-ng-click="toggleEditSith(sith)">Update</button>
+
+        <sith-form
+            data-ng-if="sith.editing"
+            data-save="updateSith(sith)"
+            data-button-text="Update Sith"
+            data-sith="sith"
+          ><button type="button is-small" data-ng-click="toggleEditSith(sith)">Cancel</button>
+        </sith-form>
+
+      </sith>
+    </ul>
+
+    <sith data-sith-data="newSith">
+
+      <sith-form
+        data-button-text="Create new Sith"
+        data-sith="newSith"
+        data-save="createSith(newSith)"
+      ></sith-form>
+
+    </sith>
+  </section>
+
+</section>

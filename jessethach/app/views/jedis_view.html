@@ -2,14 +2,17 @@
 
   <aside class="column is-third">
     <h3>Empty space for now</h3>
+    <!-- <video src="http://i.imgur.com/RCIbx2d.webm" autoplay muted loop>
+
+    </video> -->
   </aside>
 
   <section class="column is-third" data-ng-init="getAllJedi()">
     <h1>Jedis:</h1>
     <ul>
       <jedi data-ng-repeat="jedi in jedis" data-jedi-data="jedi">
-        <button class="button is-small is-info" data-ng-click="deleteJedi(jedi)">Delete Jedi</button>
-        <button class="button is-small is-info" data-ng-if="!jedi.editing" data-ng-click="toggleEditJedi(jedi)">Update Jedi</button>
+        <button class="button is-small is-danger" data-ng-click="deleteJedi(jedi)">Delete</button>
+        <button class="button is-small is-info" data-ng-if="!jedi.editing" data-ng-click="toggleEditJedi(jedi)">Update</button>
 
         <jedi-form
             data-ng-if="jedi.editing"
@@ -38,8 +41,8 @@
     <h1>Sith Lords:</h1>
     <ul>
       <sith data-ng-repeat="sith in sithlords" data-sith-data="sith">
-        <button class="button is-small is-info" data-ng-click="deleteSith(sith)">Delete Sith</button>
-        <button class="button is-small is-info" data-ng-if="!sith.editing" data-ng-click="toggleEditSith(sith)">Update Sith</button>
+        <button class="button is-small is-danger" data-ng-click="deleteSith(sith)">Delete</button>
+        <button class="button is-small is-info" data-ng-if="!sith.editing" data-ng-click="toggleEditSith(sith)">Update</button>
 
         <sith-form
             data-ng-if="sith.editing"

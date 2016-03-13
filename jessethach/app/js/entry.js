@@ -16,6 +16,14 @@ jedisApp.config(['$routeProvider', function(routes) {
     .when('/', {
       redirectTo: '/home'
     })
+    .when('/sith', {
+      controller: 'JedisController',
+      templateUrl: '/views/sith_view.html'
+    })
+    .when('/jedi', {
+      controller: 'JedisController',
+      templateUrl: '/views/jedi_view.html'
+    })
     .when('/signup', {
       controller: 'SignupController',
       templateUrl: '/views/sign_up_in_view.html'
