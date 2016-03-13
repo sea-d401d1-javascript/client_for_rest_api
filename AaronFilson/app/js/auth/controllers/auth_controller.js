@@ -3,6 +3,7 @@ module.exports = function(app) {
     $scope.username = null;
 
     $scope.updateUsername = function() {
+      if ($location.path() == '/signin' || $location.path() == '/signup') return null;
       mixAuth.getUsername(function(res) {
         $scope.username = res.data.user;
       });
