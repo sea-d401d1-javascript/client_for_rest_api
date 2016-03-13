@@ -9,13 +9,12 @@
 	<div role="Controller Wrapper" data-ng-controller="authController" data-ng-init="updateUsername()">
 		<header>
 			<h1>
-				Activity Main Page!
+				Activity Main Page
 			</h1>
-			<h3>
-				Enter, edit, and remove activities from the database.
-			</h3>
+			
 			<p data-ng-if="username"> {{'Welcome ' + username}}
-				<button href data-ng-click="logout()">Logout from App</button>
+				<br>
+				<button href data-ng-click="logout()">Logout</button>
 			</p>
 		</header>
 

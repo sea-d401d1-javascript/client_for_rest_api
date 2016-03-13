@@ -3,21 +3,23 @@ module.exports = function(app) {
     var token;
     var user;
     var auth = {
-      createUser: function(user, cb) {
+      createUser: function(userNew, cb) {
         cb = cb || function(){};
-        $http.post('http://localhost:3050/api/signup', user)
-          .then(function(res) {
+        $http({
+          method: 'POST',
+          url: 'http://localhost:3050/api/signup',
+          data: userNew
+        }).then(function(res) {
             token = $window.localStorage.token = res.data.token;
             cb(null);
           }, function(res) {
-            console.log(res);
             cb(res.err);
           });
       },
       signIn: function(user, cb) {
         cb = cb || function(){};
         $http({
-          method: 'GET',
+          method: 'POST',
           url: 'http://localhost:3050/api/signin',
           headers: {
             'Authorization': 'Basic ' + btoa((user.email + ':' + user.password))
@@ -27,7 +29,6 @@ module.exports = function(app) {
             token = $window.localStorage.token = res.data.token;
             cb(null);
           }, function(res) {
-            console.log(res);
             cb(res);
           });
       },
@@ -51,7 +52,7 @@ module.exports = function(app) {
           }
         })
         .then(function(res) {
-          user = res.data.username;
+          user = res.data.user;
           cb(res);
         },function(res) {
           cb(res);

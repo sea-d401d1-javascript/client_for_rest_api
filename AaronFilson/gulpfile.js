@@ -1,11 +1,17 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
-const babel = require('babel-loader');
+// const babel = require('babel-loader');
 const html = require('html-loader');
 
 var sass = require('gulp-sass');
 var maps = require('gulp-sourcemaps');
 var minifyCss = require('gulp-minify-css');
+
+gulp.task('favicon:dev', function(){
+  gulp.src(__dirname + '/app/favicon.ico')
+    .pipe(gulp.dest('./build'));
+});
+
 
 gulp.task('sass:dev', function(){
   gulp.src(__dirname + '/app/scss/manifest.scss')
@@ -41,11 +47,11 @@ gulp.task('css:dev', () => {
 gulp.task('webpack:dev', () => {
   gulp.src(__dirname + '/app/js/client.js')
     .pipe(webpack({
-      module: {
-        loaders: [{
-          loader: 'babel?presets[]=es2015'
-        }]
-      },
+      // module: {
+      //   loaders: [{
+      //     loader: 'babel?presets[]=es2015'
+      //   }]
+      // },
       output: {
         filename: 'bundle.js'
       }
@@ -72,5 +78,5 @@ gulp.task('webpack:test', () => {
 });
 
 
-gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev', 'sass:dev']);
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'css:dev', 'sass:dev', 'favicon:dev']);
 gulp.task('default', ['build:dev']);
