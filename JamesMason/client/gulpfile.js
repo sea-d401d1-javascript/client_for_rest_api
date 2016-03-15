@@ -11,7 +11,7 @@ gulp.task('webpack:dev', () => {
       }
     }))
     .pipe(plugins.concat('bundle.min.js'))
-    // .pipe(plugins.uglify())
+    .pipe(plugins.uglify())
     .pipe(gulp.dest('build/js'));
 });
 gulp.task('html:dev', () => {
@@ -24,9 +24,23 @@ gulp.task('css:dev', () => {
     .pipe(plugins.cssnano())
     .pipe(gulp.dest(__dirname + '/build/css'));
 });
+gulp.task('fonts:dev', () => {
+  return gulp.src(__dirname + '/app/css/fonts/*')
+    .pipe(gulp.dest(__dirname + '/build/css/fonts'));
+});
+gulp.task('webpack:test', () => {
+  return gulp.src(__dirname + '/test/testEntry.js', { read: true })
+    .pipe(webpack({
+      output: {
+        filename: 'testBundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test'));
+});
 gulp.task('build:dev', [
   'webpack:dev',
   'html:dev',
-  'css:dev'
+  'css:dev',
+  'fonts:dev'
 ]);
 gulp.task('default', ['build:dev']);
