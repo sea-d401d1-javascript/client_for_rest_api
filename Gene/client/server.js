@@ -4,5 +4,5 @@ var app = express();
 app.use(express.static(__dirname + '/build'));
 
 app.listen(process.env.PORT || 3000, function() {
-  console.log('server up');
+  console.log('server up on port 3000');
 });

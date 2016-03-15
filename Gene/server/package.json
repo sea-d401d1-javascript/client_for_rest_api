@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Gene Troy",
   "license": "ISC",
   "dependencies": {
      "body-parser": "^1.14.2",

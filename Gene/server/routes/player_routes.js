@@ -23,6 +23,7 @@ playersRouter.get('/players', (req, res) => {
 
 //POST
  playersRouter.post('/players', jsonParser, (req, res) => {
+   console.log(req.body);
    var newplayer = new Player(req.body);
    newplayer.save((err, data) => {
      if (err) return dbErrorHandler(err, res);

@@ -1,120 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Team Builder</title>
+    <meta charset="UTF-8">
+    <title>Team Builder</title>
 </head>
+
 <body data-ng-app="TeamApp">
-  <h1>Build A Team!</h1>
-  <section data-ng-controller="TeamsController" data-ng-init="getAll()">
-    <ul id="errorslist">
-    	<li data-ng-repeat="error in errors">{{error}}</li>
-    </ul>
+ <h1>Build A Team!</h1>
+ <section data-ng-controller="TeamsController" data-ng-init="getAll()">
+	 <section>
+			<team-form data-save="create(newTeam)" data-button-text="Create Team" data-new-team="newTeam"></team-form>
+	 </section>
+	 <ul id="teamlist">
+     <team-display data-ng-repeat="team in teams" data-team-data="team">
+       <team-form data-save="update(team)" data-button-text="Update Team" data-new-team="team">
+         <button data-ng-click="remove(team)">Delete Team</button>
+       </team-form>
+     </team-display>
+   </ul>
+ </section>
 
-    <form name="newTeamForm" data-ng-submit="create(newTeam)">
-      <h2>New Team:</h2>
-
-      <label for="newTeamName">Name:</label>
-      <input type="text" id="newTeamName" required data-ng-model="newTeam.name">
-
-      <label for="newTeamCity">City: </label>
-      <input type="text" id="newTeamCity" data-ng-model="newTeam.city" placeholder="Newark">
-
-      <label for="newTeamMascot">Mascot:</label>
-      <input type="text" id="newTeamMascot" data-ng-model="newTeam.mascot" placeholder="Wallabies">
-
-      <label for="newTeamAge">Age:</label>
-      <input type="text" id="newTeamAge" data-ng-model="newTeam.age" placeholder="0">
-
-      <button type="submit" data-ng-disabled="newTeamForm.$invalid">Create New Team</button>
-    </form>
-
-    <ul id="teamlist">
-    	<li data-ng-repeat="team in teams">
-        {{team.name}}
-        <form name="teamForm{{team._id}}" data-ng-submit="update(team)" data-ng-if="team.editing">
-          <h2>Change Info for {{team.name}}</h2>
-
-          <label for="teamName{{team._id}}">Name:</label>
-          <input type="text" id="teamName{{team._id}}" required data-ng-model="team.name">
-
-          <label for="teamCity{{team._id}}">City: </label>
-          <input type="text" id="teamCity{{team._id}}" data-ng-model="team.city" placeholder="Newark">
-
-          <label for="teamMascot{{team._id}}">Mascot:</label>
-          <input type="text" id="teamMascot{{team._id}}" data-ng-model="team.mascot" placeholder="Wallabies">
-
-          <label for="teamAge{{team._id}}">Age:</label>
-          <input type="text" id="teamAge{{team._id}}" data-ng-model="team.age" placeholder="0">
-
-          <button type="submit">Change Team Details</button>
-          <button data-ng-click="team.editing = false">Nevermind, Keep As Is</button>
-        </form>
-        <button data-ng-if="!team.editing" data-ng-click="team.editing = true">Edit Team Details</button>
-
-        <button data-ng-if="!team.editing" data-ng-click="remove(team)">Kill Off This Team</button>
-      </li>
-    </ul>
-  </section>
-
-  <h1>Build A Player!</h1>
-  <section data-ng-controller="PlayersController" data-ng-init="getAll()">
-    <ul id="errorslist">
-      <li data-ng-repeat="error in errors">{{error}}</li>
-    </ul>
-
-    <form name="newPlayerForm" data-ng-submit="create(newPlayer)">
-      <h2>New Player:</h2>
-
-      <label for="newPlayerName">Name:</label>
-      <input type="text" id="newPlayerName" required data-ng-model="newPlayer.name">
-
-      <label for="newPlayerAge">Age:</label>
-      <input type="text" id="newPlayerAge" data-ng-model="newPlayer.age" placeholder="0">
-
-      <label for="newPlayerPosition">Position: </label>
-      <input type="text" id="newPlayerPosition" data-ng-model="newPlayer.position" placeholder="Defensive Back">
-
-      <label for="newPlayerHeight">Height:</label>
-      <input type="text" id="newPlayerHeight" data-ng-model="newPlayer.height" placeholder="72">
-
-      <label for="newPlayerWeight">Weight:</label>
-      <input type="text" id="newPlayerWeight" data-ng-model="newPlayer.weight" placeholder="200">
-
-      <button type="submit" data-ng-disabled="newPlayerForm.$invalid">Create New Player</button>
-    </form>
-
-    <ul id="playerlist">
-      <li data-ng-repeat="player in players">
-        {{player.name}}
-        <form name="playerForm{{player._id}}" data-ng-submit="update(player)" data-ng-if="player.editing">
-          <h2>Change Info for {{player.name}}</h2>
-
-          <label for="playerName{{player._id}}">Name:</label>
-          <input type="text" id="playerName{{player._id}}" required data-ng-model="player.name">
-
-          <label for="playerAge{{player._id}}">Age:</label>
-          <input type="text" id="playerAge{{player._id}}" data-ng-model="player.age" placeholder="25">
-
-          <label for="playerPosition{{player._id}}">Position: </label>
-          <input type="text" id="playerPosition{{player._id}}" data-ng-model="player.position" placeholder="Defensive Back">
-
-          <label for="playerHeight{{player._id}}">Height:</label>
-          <input type="text" id="playerHeight{{player._id}}" data-ng-model="player.height" placeholder="72">
-
-          <label for="playerWeight{{player._id}}">Weight:</label>
-          <input type="text" id="playerWeight{{player._id}}" data-ng-model="player.weight" placeholder="200">
-
-          <button type="submit">Change Player Details</button>
-          <button data-ng-click="player.editing = false">Nevermind, Keep As Is</button>
-        </form>
-        <button data-ng-if="!player.editing" data-ng-click="player.editing = true">Edit Player Details</button>
-
-        <button data-ng-if="!player.editing" data-ng-click="remove(player)">Kill Off This Player</button>
-      </li>
-    </ul>
-  </section>
-
-  <script src="/bundle.js"></script>
+ <h1>Build A Player!</h1>
+ <section data-ng-controller="PlayersController" data-ng-init="getAll()">
+   <section>
+			<player-form data-save="create(newPlayer)" data-button-text="Create Player" data-new-player="newPlayer"></player-form>
+	 </section>
+	 <ul id="playerlist">
+     <player-display data-ng-repeat="player in players" data-player-data="player">
+       <player-form data-save="update(player)" data-button-text="Update Player" data-new-player="player">
+         <button data-ng-click="remove(player)">Delete Player</button>
+       </player-form>
+     </player-display>
+   </ul>
+ </section>
+ <script src="/bundle.js"></script>
 </body>
 </html>

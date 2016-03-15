@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:3005/');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/localdb');
 
 const teamsRouter = require(__dirname + '/routes/team_routes');
 const playersRouter = require(__dirname + '/routes/player_routes');

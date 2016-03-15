@@ -1,24 +1,28 @@
 {
-  "name": "bear_stream_adventures",
+  "name": "two_resource_app_refactored_client_side",
   "version": "0.1.0",
-  "description": "a stream for bears to catch salmon in aslo node things",
+  "description": "an app to create new teams and players",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Gene Troy",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.14.1",
-    "express": "^4.13.3",
-    "mongoose": "^4.2.5"
+    "express": "3.2.4"
   },
   "devDependencies": {
     "angular": "^1.4.8",
-    "chai": "^3.4.1",
-    "chai-http": "^1.0.0",
+    "angular-mocks": "^1.5.0",
+    "babel-core": "^6.7.2",
+    "babel-loader": "^6.2.4",
     "gulp": "^3.9.0",
-    "mocha": "^2.3.3",
+    "html-loader": "^0.4.3",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.7",
+    "webpack": "^1.12.14",
     "webpack-stream": "^2.2.0"
   }
 }
