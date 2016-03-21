@@ -8,8 +8,8 @@
 		<title>Force Balancer</title>
 		<link rel="stylesheet" href="css/style.css" media="all" type="text/css" title="Client Application Stylesheet">
 	</head>
-	<body data-ng-app="forceApp">
-	  <main data-ng-controller="forceController">
+	<body data-ng-app="ForceApp" data-ng-init="getAllJedi()">
+	  <main data-ng-controller="ForceController">
 	    <h1>Create Jedi:</h1>
 			<h2>Light Jedi</h2>
 	    <form data-ng-submit="createLightJedi(newLightJedi)">
