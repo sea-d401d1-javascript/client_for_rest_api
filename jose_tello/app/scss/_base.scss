@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  &:focus {
+    outline: none;
+  }
+}
+
+body {
+  background-color: #28AADC;
+}
+
+main {
+  padding: 2em 0;
+  text-align: center;
+  min-height: 250px;
+  h1 {
+    color: white;
+    font-family: 'Roboto Slab', sans-serif;
+    font-weight: 700;
+    font-size: 2em;
+    margin: 1.5em 0;
+  }
+}
+
+button {
+  color: white;
+  background-color: #28AADC;
+  border: 2px solid darken(#28AADC, 20%);
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  padding: 1em 0;
+  &:hover {
+    background-color: lighten(#28AADC, 20%);
+  }
+}
