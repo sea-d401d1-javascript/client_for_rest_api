@@ -1,0 +1,26 @@
+<form name="authForm" data-ng-submit="submit(auth)">
+
+  <label for="email">The email to use with the Mix: Activity and Playlist App (required) : </label>
+  <input type="text" required name="email" data-ng-model="auth.email">
+
+  <label data-ng-if="signup" for="signupname">Enter your preferred username : </label>
+  <input data-ng-if="signup" type="text" name="signupname" data-ng-model="auth.signupname">
+
+  <label for="password">Password : </label>
+  <input type="password" required name="password" data-ng-model="auth.password">
+
+  <label data-ng-if="signup" for="confirmation">Confirm your password : </label>
+  <input data-ng-if="signup" type="password" name="confirmation" data-ng-model="auth.confirmation">
+
+  <button type="submit"
+    data-ng-disabled="(signup && (auth.confirmation !== auth.password)) || authForm.$invalid">
+    {{signup ? 'Create a new account' : 'Sign In'}}
+  </button>
+</form>
+
+<p data-ng-if="signup">
+  Already have an account? Go <a href="#/signin">here</a> .
+</p>
+<p data-ng-if="!signup">
+  Need an account? Go <a href="#/signup">here</a> .
+</p>

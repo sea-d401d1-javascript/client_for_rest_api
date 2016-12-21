@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Activity API Client</title>
+	<link rel="stylesheet" href="/manifest.css" media="screen" charset="utf-8">
+</head>
+<body data-ng-app="activityApp">
+	<div role="Controller Wrapper" data-ng-controller="authController" data-ng-init="updateUsername()">
+		<header>
+			<h1>
+				Activity Main Page
+			</h1>
+			
+			<p data-ng-if="username"> {{'Welcome ' + username}}
+				<br>
+				<button href data-ng-click="logout()">Logout</button>
+			</p>
+		</header>
+
+	  <main data-ng-view>
+			<p class="loadingText">
+				Loading the Activity App ... <br>
+
+				* If the App does not load, check your JavaScript settings *
+			</p>
+	  </main>
+
+		<p>
+			<!-- sub main / top footer could go here -->
+		</p>
+
+		<footer>
+			Remember to make a playlist for the activity.
+		</footer>
+
+	  <script src="bundle.js"></script>
+	</div>
+
+</body>
+</html>
