@@ -3,7 +3,12 @@ var angular = require('angular');
 module.exports = function(app) {
   app.controller('RequestsController', ['$scope', '$http', 'cfResource', 'cfStore', function($scope, $http, Resource, cfStore) {
     $scope.requests = [];
+    $scope.errors = [];
     var requestService = Resource('/requests');
+
+    $scope.dismissError = function(err) {
+      $scope.errors.splice($scope.errors.indexOf(err), 1);
+    };
 
     $scope.toggleEdit = function(request) {
       if (request.backup) {
@@ -35,7 +40,11 @@ module.exports = function(app) {
     $scope.createRequest = function(request) {
       $scope.requests.push(request);
       requestService.create(request, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.requests.splice($scope.requests.indexOf(request), 1);
+          $scope.errors.push('Could not save request for ' + request.firstName + ' ' + request.lastName);
+          return console.log(err);
+        }
         $scope.requests.splice($scope.requests.indexOf(request), 1, res);
         $scope.newRequest = null;
       });
@@ -45,7 +54,10 @@ module.exports = function(app) {
       requestService.update(request, function(err, res) {
         request.editing = false;
         request.backup = null;
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('Could not update request for ' + request.firstName + ' ' + request.lastName);
+          return console.log(err);
+        }
       });
     };
 
@@ -55,6 +67,7 @@ module.exports = function(app) {
           console.log('success claiming request!');
           req.editing = false;
         }, (err) => {
+          $scope.errors.push('Could not claim request for ' + request.firstName + ' ' + request.lastName);
           console.log(err);
           req.editing = false;
         });
@@ -63,7 +76,10 @@ module.exports = function(app) {
     $scope.deleteRequest = function(request) {
       if (!request._id) return setTimeout(function() {$scope.deleteRequest(request);}, 1000);
       requestService.delete(request, function(err, res) {
-        if (err) return console.log(err);
+        if (err) {
+          $scope.errors.push('Could not delete request for ' + request.firstName + ' ' + request.lastName);
+          return console.log(err);
+        }
         $scope.requests.splice($scope.requests.indexOf(request), 1);
       });
     };
