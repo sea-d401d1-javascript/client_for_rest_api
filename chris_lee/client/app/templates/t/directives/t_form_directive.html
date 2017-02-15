@@ -1,0 +1,10 @@
+<form data-ng-submit="save(t)">
+  <input data-ng-model="t.name" nameplaceholder="Name" type="text"/>
+  <input data-ng-model="t.rifle" placeholder="Rifle" type="text"/>
+  <input data-ng-model="t.pistol" placeholder="Pistol" type="text"/>
+  <input data-ng-model="t.grenade" placeholder="Grenade" type="text"/>
+  <input data-ng-model="t.organization" placeholder="Organization" type="text"/>
+
+  <ng-transclude></ng-transclude>
+  <button type="submit">{{buttonText}}</button>
+</form>
