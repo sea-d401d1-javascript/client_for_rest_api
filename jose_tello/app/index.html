@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cats & Dogs</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-ng-app="petsApp">
+  <main class="row">
+    <header class="col-xs-12">
+      <h1>Cats & Dogs</h1>
+    </header>
+    <!-- Cats Resource -->
+    <section class="col-sm-4" data-ng-controller="CatsController" data-ng-init="getCats()">
+      <bdi class="row">
+        <form class="row" data-ng-submit="createCat(newCat)">
+          <h2 class="col-xs-12">Create a New Cat</h2>
+          <input class="col-xs-12" data-ng-model="newCat.name" type="text" placeholder="Name">
+          <input class="col-xs-12" data-ng-model="newCat.color" type="text" placeholder="Color">
+          <input class="col-xs-12" data-ng-model="newCat.lives" type="text" placeholder="Lives (default: 9)">
+          <button class="col-xs-12" type="submit">CREATE</button>
+        </form>
+      </bdi>
+      <bdi class="row" data-ng-repeat="cat in cats">
+        <span class="col-xs-12">NAME:&nbsp;&nbsp; {{ cat.name }}</span>
+        <span class="col-xs-12">COLOR:&nbsp;&nbsp; {{ cat.color }}</span>
+        <span class="col-xs-12">LIVES:&nbsp;&nbsp; {{ cat.lives }}</span>
+        <div class="box-container col-xs-12">
+          <button class="col-xs-6" data-ng-click="deleteCat(cat)">DELETE</button>
+          <button class="col-xs-6" data-ng-click="cat.editing = !cat.editing">UPDATE</button>
+        </div>
+        <form class="row" data-ng-if="cat.editing" data-ng-submit="updateCat(cat)">
+          <input class="col-xs-12" data-ng-model="cat.name" type="text">
+          <input class="col-xs-12" data-ng-model="cat.color" type="text">
+          <input class="col-xs-12" data-ng-model="cat.lives" type="text">
+          <button class="col-xs-12" type="submit">SUBMIT</button>
+        </form>
+      </bdi>
+    </section>
+    <!-- Dogs Resource -->
+    <section class="col-sm-4" data-ng-controller="DogsController" data-ng-init="getDogs()">
+      <bdi class="row">
+        <form class="row" data-ng-submit="createDog(newDog)">
+          <h2 class="col-xs-12">Create a New Dog</h2>
+          <input class="col-xs-12" data-ng-model="newDog.name" type="text" placeholder="Name">
+          <input class="col-xs-12" data-ng-model="newDog.color" type="text" placeholder="Color">
+          <input class="col-xs-12" data-ng-model="newDog.lives" type="text" placeholder="Lives (default: 1)">
+          <button class="col-xs-12" type="submit">CREATE</button>
+        </form>
+      </bdi>
+      <bdi class="row" data-ng-repeat="dog in dogs">
+        <span class="col-xs-12">Name: &nbsp;&nbsp;{{ dog.name }}</span>
+        <span class="col-xs-12">Color: &nbsp;&nbsp;{{ dog.color }}</span>
+        <span class="col-xs-12">Lives: &nbsp;&nbsp;{{ dog.lives }}</span>
+        <div class="box-container col-xs-12">
+          <button class="col-xs-12" data-ng-click="deleteDog(dog)">DELETE</button>
+          <button class="col-xs-12" data-ng-click="dog.editing = !dog.editing">UPDATE</button>
+        </div>
+        <form class="row" data-ng-if="dog.editing" data-ng-submit="updateDog(dog)">
+          <input class="col-xs-12" data-ng-model="dog.name" type="text">
+          <input class="col-xs-12" data-ng-model="dog.color" type="text">
+          <input class="col-xs-12" data-ng-model="dog.lives" type="text">
+          <button class="col-xs-12" type="submit">SUBMIT</button>
+        </form>
+      </bdi>
+    </section>
+    <!-- Non-REST Feature -->
+    <section class="col-sm-4"></section>
+
+  </main>
+  <script src="bundle.js"></script>
+</body>
+</html>

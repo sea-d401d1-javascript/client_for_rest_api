@@ -1,0 +1,41 @@
+const gulp = require('gulp');
+const webpack = require('webpack-stream');
+const babel = require('babel-loader');
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
+
+gulp.task('html:dev', () => {
+  gulp.src(__dirname + '/app/**/*.html')
+    .pipe(gulp.dest(__dirname + '/build'));
+});
+
+gulp.task('sass:dev', () => {
+  gulp.src(__dirname + '/app/scss/manifest.scss')
+    .pipe(sass())
+    .pipe(rename('style.css'))
+    .pipe(gulp.dest('build/css'));
+});
+
+gulp.task('webpack:dev', () => {
+  gulp.src(__dirname + '/app/js/controller.js')
+    .pipe(webpack({
+      output: {
+        filename: 'bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('build/'));
+});
+
+gulp.task('webpack:test', () => {
+  gulp.src(__dirname + '/test/test_entry.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test/'));
+});
+
+
+gulp.task('build:dev', ['webpack:dev', 'html:dev', 'sass:dev']);
+gulp.task('default', ['build:dev']);
