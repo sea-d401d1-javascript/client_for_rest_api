@@ -1,13 +1,8 @@
-main, article {
+section {
   height: 600px;
 }
-article {
-  margin-left: 40px;
-}
-main {
-  margin-right: 40px;
-}
-header, section {
+
+header {
   margin: 10px;
   border: 3px solid black;
 }
@@ -16,7 +11,6 @@ footer {
   height: 50px;
   width: 100%;
   text-align: center;
-  padding: 10px;
   bottom: 0;
 }
 header h1 {
@@ -30,13 +24,13 @@ header h1 {
 }
 .left {
   float: left;
-  width: 32%;
+  width: 31%;
   text-align: center;
 }
 .center {
   float: center;
   text-align: center;
-  width: 30%;
+  width: 31%;
   margin-top: -25px;
 }
 button {
